@@ -18,7 +18,7 @@ class Position:
         self.y = y
         self.z = z
 
-    def getDistance(self, position: Position) -> float:
+    def get_distance(self, position) -> float:
         """
         Calculate the distance between this position and another position in meters.
 
