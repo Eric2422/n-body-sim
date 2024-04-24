@@ -19,12 +19,11 @@ class Position:
         self.z = z
 
     def get_distance(self, position) -> float:
-        """
-        Calculate the distance between this position and another position in meters.
+        """Calculate the distance between this position and another position in meters.
 
         Parameters
         ----------
-        position : Position
+        position : Position, optional
             The other position to measure the distance to.
 
         Returns
@@ -35,6 +34,7 @@ class Position:
         y_distance = position.y - self.y
         z_distance = position.z - self.z
 
+        # Use Pythagorean's theorem to calculate the distance
         return math.sqrt(x_distance ** 2 
                          + y_distance ** 2 
                          + z_distance ** 2)

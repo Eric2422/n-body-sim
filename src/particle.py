@@ -4,13 +4,11 @@ from scipy import constants
 from position import Position
 
 class Particle:
-    """
-    Represent a single charged particle with a specified position, charge, and mass
+    """Represent a single charged particle with a specified position, charge, and mass
     """
     
     def __init__(self, position: Position, charge: float = 0.0, mass: float = 1) -> None:
-        """
-        Initialize a single particle with a position, charge, and mass.
+        """Initialize a single particle with a position, charge, and mass.
 
         Parameters
         ----------
@@ -27,8 +25,7 @@ class Particle:
         self.mass = mass
 
     def coulumbs_law(self, particle) -> float:
-        """
-        Calculate the force between this particle and another particle using Coulumb's law.
+        """Calculate the force between this particle and another particle using Coulumb's law.
 
         Parameters
         ----------
@@ -41,6 +38,6 @@ class Particle:
             The force between this charge and another
         """
         distance = self.position.get_distance(particle.position)
-        k = 4 * constants.pi * constants.epsilon_0
+        k = 1 / (4 * constants.pi * constants.epsilon_0)
 
-        return (self.charge * particle.charge) / (k * distance ** 2)
+        return (k * self.charge * particle.charge) / distance ** 2
