@@ -1,14 +1,17 @@
-import math
 from scipy import constants
+import numpy as np
 
 from position import Position
 
+
 class Particle:
-    """Represent a single charged particle with a specified position, charge, and mass
+    """
+    Represent a single charged particle with a specified position, charge, and mass
     """
     
     def __init__(self, position: Position, charge: float = 0.0, mass: float = 1) -> None:
-        """Initialize a single particle with a position, charge, and mass.
+        """
+        Initialize a single particle with a position, charge, and mass.
 
         Parameters
         ----------
@@ -21,11 +24,16 @@ class Particle:
             The mass of the charged paritcle in kilograms, by default 1
         """
         self.position = position
+
         self.charge = charge
         self.mass = mass
 
+        self.velocity = np.array(0, 0, 0)
+        self.acceleration = np.array(0, 0, 0)
+
     def coulumbs_law(self, particle) -> float:
-        """Calculate the force between this particle and another particle using Coulumb's law.
+        """
+        Calculate the force between this particle and another particle using Coulumb's law.
 
         Parameters
         ----------
@@ -41,3 +49,6 @@ class Particle:
         k = 1 / (4 * constants.pi * constants.epsilon_0)
 
         return (k * self.charge * particle.charge) / distance ** 2
+    
+    def __str__(self) -> str:
+        return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'

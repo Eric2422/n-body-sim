@@ -1,10 +1,14 @@
 import csv
 import sys
 
+import numpy as np
+
+
 class Files:
     @staticmethod
-    def read_config_file(file_name: str = 'sample.csv') -> list:
-        """Read a given config file, extract the data, and return it as a 2D list.
+    def read_config_file(file_name: str = 'sample.csv') -> np.array:
+        """
+        Read a given CSV file, extract the data, and return it.
 
         Parameters
         ----------
@@ -15,8 +19,8 @@ class Files:
 
         Returns
         -------
-        list
-            A 2D list of floats containing data about the particles.
+        np.array
+            A 2D NumPy array of floats containing data about the particles.
             Each inner list is a particle.
 
         Raises
@@ -28,8 +32,8 @@ class Files:
 
         try:
             with open(config_dir + file_name, newline='') as config_file:
-                # Return the CSV values as a 2D list of floats
-                return [[float(field) for field in row] for row in csv.reader(config_file, delimiter=',')]
+                # Return the CSV values as a 2D array of floats
+                return np.genfromtxt(config_file, delimiter=',', dtype=float)
 
         except FileNotFoundError:
             print('Please enter a valid config file.')
