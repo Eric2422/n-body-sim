@@ -8,7 +8,19 @@ from position import Position
 
 
 class Simulation():
-    def __init__(self, particles) -> None:
+    def __init__(self, particles: list, delta_time: float = 1.0) -> None:
+        """
+        Creates one simulation.
+
+        Parameters
+        ----------
+        particles : list
+            A list of particles that are interacting with each other
+        delta_time : float, optional
+            The amount of time between each tick in seconds, by default 1.0
+        """
+
+        
         pass
 
 
