@@ -33,11 +33,14 @@ if __name__ == '__main__':
     file_data = Files.read_config_file(sys.argv[1])
     particles = [
         Particle(
-            Position(line[0], line[1], line[2]), 
+            np.array((line[0], line[1], line[2])), 
             line[3],
             line[4]         
         )
         for line in file_data
     ]
 
-    
+    for i in range(len(particles)):
+
+        for j in range(i, len(particles)):
+            
