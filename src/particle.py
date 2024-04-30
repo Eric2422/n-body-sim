@@ -78,7 +78,7 @@ class Particle:
         force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
 
         # Decompose it into X, Y, and Z components
-        
+        angle = math.acos
 
         return 
     
