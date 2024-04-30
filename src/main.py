@@ -4,8 +4,6 @@ import numpy as np
 
 from files import Files
 from particle import Particle
-from position import Position
-
 
 class Simulation():
     def __init__(self, particles: list, delta_time: float = 1.0) -> None:
@@ -19,7 +17,9 @@ class Simulation():
         delta_time : float, optional
             The amount of time between each tick in seconds, by default 1.0
         """
+        self.particles = particles
 
+        self.delta_time = delta_time
         
         pass
 
@@ -40,7 +40,4 @@ if __name__ == '__main__':
         for line in file_data
     ]
 
-    for i in range(len(particles)):
-
-        for j in range(i, len(particles)):
-            
+    [print(particle) for particle in particles]

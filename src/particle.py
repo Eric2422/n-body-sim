@@ -22,39 +22,15 @@ class Particle:
         charge : float, optional
             The charge of the particle in coulombs, by default 0.0
         mass : float, optional
-            The mass of the charged paritcle in kilograms, by default 1
+            The mass of the charged particle in kilograms, by default 1.0
         """
-        # Represented by arrays of (x, y, z).
+        # Represented by arrays of (X, Y, Z).
         self.position = position
         self.velocity = np.array((0, 0, 0))
         self.acceleration = np.array((0, 0, 0))
 
         self.charge = charge
         self.mass = mass
-
-    def get_distance(self, particle: Particle) -> float:
-        """
-        Calculate the distance between this particle and another particle in meters.
-
-        Parameters
-        ----------
-        particle : Particle, optional
-            The other particle to measure the distance to.
-
-        Returns
-        -------
-        A float representing the distance to the other particle
-        """
-        x_distance = self.position[0] - particle.position[0]
-        y_distance = self.position[1] - particle.position[1]
-        z_distance = self.position[2] - particle.position[2]
-
-        # Use Pythagorean's theorem to calculate the distance
-        return math.sqrt(
-            x_distance ** 2 
-            + y_distance ** 2 
-            + z_distance ** 2
-        )
 
     def coulumbs_law(self, particle: Particle) -> np.array:
         """
@@ -68,19 +44,15 @@ class Particle:
         Returns
         -------
         np.array
-            The force componenets between this charge and another one.
-            Represented in the format (x, y, z)
+            The force components between this charge and another one.
+            Negative values are attractive. Positive values are repulsive.
         """
-        distance = self.get_distance(particle)
+        distance = math.dist(self.position, particle.position)
+
         k = 1 / (4 * constants.pi * constants.epsilon_0)
 
-        # The magnitute of the force
-        force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
-
-        # Decompose it into X, Y, and Z components
-        angle = math.acos
-
-        return 
+        # The force between the particles
+        return (k * self.charge * particle.charge) / (distance ** 2)
     
     def __str__(self) -> str:
         return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'
