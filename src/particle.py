@@ -34,7 +34,7 @@ class Particle:
 
     def coulumbs_law(self, particle: Particle) -> np.array:
         """
-        Calculate the force components between this particle and another particle using Coulumb's law.
+        Calculate the force between this particle and another particle using Coulumb's law.
 
         Parameters
         ----------
@@ -44,15 +44,21 @@ class Particle:
         Returns
         -------
         np.array
-            The force components between this charge and another one.
-            Negative values are attractive. Positive values are repulsive.
+            The force vector between this charge and another one.
         """
         distance = math.dist(self.position, particle.position)
 
         k = 1 / (4 * constants.pi * constants.epsilon_0)
 
-        # The force between the particles
-        return (k * self.charge * particle.charge) / (distance ** 2)
+        force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
+
+        x_distance = particle.position[0] - self.position[0]
+        y_distance = particle.position[1] - self.position[1]
+        z_distance = particle.position[2] - self.position[2]
+
+        horizontal_angle = math.atan2()
+
+        return 
     
     def __str__(self) -> str:
         return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'
