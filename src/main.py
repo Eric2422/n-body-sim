@@ -20,7 +20,6 @@ class Simulation():
         self.particles = particles
 
         self.delta_time = delta_time
-        
         pass
 
 
@@ -40,4 +39,4 @@ if __name__ == '__main__':
         for line in file_data
     ]
 
-    [print(particle) for particle in particles]
+    print(particles[0].coulumbs_law(particles[1]))

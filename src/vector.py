@@ -17,16 +17,4 @@ class Vector:
         self.magnitude = magnitude
         self.direction = (horizontal_direction, vertical_direction)
 
-
-    def get_components(self) -> np.array:
-        """
-        Calculate the components of this vector.
-
-        Returns
-        -------
-        np.array
-            _description_
-        """
-        x_component = self.magnitude * math.cos(self.direction)
-
         
