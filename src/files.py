@@ -30,6 +30,7 @@ class Files:
         """
         config_dir = './config/'
 
+        # Check if the file exists
         try:
             with open(config_dir + file_name, newline='') as config_file:
                 # Return the CSV values as a 2D array of floats

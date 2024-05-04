@@ -4,8 +4,6 @@ import math
 import numpy as np
 from scipy import constants
 
-from vector import Vector
-
 class Particle:
     """
     Represent a single charged particle with a specified position, charge, and mass
@@ -55,18 +53,13 @@ class Particle:
         # The magnitude of the electric force. 
         force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
 
-        # The differnce in X, Y, and Z coordinates respectively
-        x_distance = particle.position[0] - self.position[0]
-        y_distance = particle.position[1] - self.position[1]
-        z_distance = particle.position[2] - self.position[2]
+        vectorBetweenPoints = particle.position - self.position
+        vectorMagnitude = np.linalg.norm(distance)
 
-        # Calculate the angle on the XY plane
-        horizontal_angle = math.atan2(y_distance, x_distance)
-
-        # Calculate the angle on the XZ
-        vertical_angle = math.asin(z_distance / distance)
-
-        return Vector(force_magnitude, horizontal_angle, vertical_angle)
+        # Break the electric force into X, Y, and Z components
+        force_vector = np.array([force_magnitude * (coordinate / vectorMagnitude) for coordinate in vectorBetweenPoints])
+        
+        return force_vector
     
     def __str__(self) -> str:
         return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'
