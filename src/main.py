@@ -5,6 +5,7 @@ import numpy as np
 from files import Files
 from particle import Particle
 
+
 class Simulation():
     def __init__(self, particles: list, delta_time: float = 1.0) -> None:
         """
@@ -20,9 +21,16 @@ class Simulation():
         self.particles = particles
         self.delta_time = delta_time
 
-    # Runs one tick of the simulation(i.e. the time specified by delta_time)
-    def tick():
-        pass
+    def tick(self):
+        """Run one tick of the simulation(i.e. the time specified by delta_time).
+        """
+        for i in range(len(particles)):
+            for j in range(len):
+                pass
+
+        for particle in self.particles:
+            particle.velocity += particle.acceleration
+            particle.position += particle.velocity
 
 
 if __name__ == '__main__':
