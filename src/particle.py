@@ -35,7 +35,7 @@ class Particle:
 
     def coulumbs_law(self, particle: Particle) -> np.array:
         """
-        Calculate the force between this particle and another particle using Coulumb's law.
+        Calculate the force exerted on this particle by another particle.
 
         Parameters
         ----------
@@ -45,7 +45,7 @@ class Particle:
         Returns
         -------
         np.array
-            The force vector between this charge and another one.
+            The force vector exerted on this charge by another one.
         """
         distance = math.dist(list(self.position), list(particle.position))
 
@@ -58,7 +58,7 @@ class Particle:
         vectorMagnitude = np.linalg.norm(distance)
 
         # Break the electric force into X, Y, and Z components
-        force_vector = np.array((force_magnitude * (coordinate / vectorMagnitude) for coordinate in vectorBetweenPoints))
+        force_vector = -np.array([force_magnitude * (coordinate / vectorMagnitude) for coordinate in vectorBetweenPoints])
         
         return force_vector
     
