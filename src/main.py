@@ -24,14 +24,9 @@ class Simulation():
     def tick(self):
         """Run one tick of the simulation(i.e. the time specified by delta_time).
         """
-        # Loop through the particles being simulated
-        for i in range(len(particles)):
-
-            # Calculate the electrostatic forces with other particles
-            for j in range(0, len(particles)):
-                # Apply the acceleration of the electrostatic force.
-                particles[i].acceleration += particles[i].coulumbs_law(particles[j]) / particles[i].mass
-                particles[j].acceleration += -particles[i].coulumbs_law(particles[j]) / particles[i].mass
+            # Apply the acceleration of the electrostatic force.
+            # particles[i].acceleration += particles[i].coulumbs_law(particles[j]) / particles[i].mass
+            # particles[j].acceleration += -particles[i].coulumbs_law(particles[j]) / particles[i].mass
 
         for particle in self.particles:
             particle.velocity += particle.acceleration
