@@ -27,13 +27,13 @@ class Particle:
         """
         # Represented by arrays of (X, Y, Z).
         self.position = position
-        self.velocity = np.array((0, 0, 0))
-        self.acceleration = np.array((0, 0, 0))
+        self.velocity = np.array((0.0, 0.0, 0.0))
+        self.acceleration = np.array((0.0, 0.0, 0.0))
 
         self.charge = charge
         self.mass = mass
 
-    def coulumbs_law(self, particle: Particle) -> np.array:
+    def coulombs_law(self, particle: Particle) -> np.array:
         """
         Calculate the force exerted on this particle by another particle.
 
