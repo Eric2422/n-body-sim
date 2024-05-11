@@ -14,7 +14,7 @@ class Files:
         ----------
         file_name : str, optional
             The name of the input file, which is a CSV file.
-            Does not contain the directory(i.e. /config/)
+            Does not contain the directory(i.e. ./config/)
             By default 'sample.csv'.
 
         Returns
@@ -36,6 +36,28 @@ class Files:
                 # Return the CSV values as a 2D array of floats
                 return np.genfromtxt(config_file, delimiter=',', dtype=float)
 
-        except FileNotFoundError:
+        except OSError or FileNotFoundError:
             print('Please enter a valid config file.')
             sys.exit()
+
+    @staticmethod
+    def append_output_file(file_name: str = 'sample.csv', output_string: str = 'sample.csv') -> None:
+        """
+        Append the given string into the output file.
+
+        Parameters
+        ----------
+        file_name : str, optional
+            The name of the file to write to, 
+            excluding the directory(i.e. ./output/), by default 'sample.csv'
+        output_string: str, optional
+            The string to be appended to the given file, by default 'sample.csv'
+        """
+        output_dir = './output/'
+
+        try:
+            with open(output_dir + file_name, 'a') as csv_file:
+                csv_writer = csv.writer(csv_file, delimiter=', ')
+        
+        except OSError:
+            print('The output file could not be opened.')
