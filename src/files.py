@@ -7,8 +7,7 @@ import numpy as np
 class Files:
     @staticmethod
     def read_config_file(file_name: str = 'sample.csv') -> np.array:
-        """
-        Read a given CSV file, extract the data, and return it.
+        """Read a given CSV file, extract the data, and return it.
 
         Parameters
         ----------
@@ -42,8 +41,7 @@ class Files:
 
     @staticmethod
     def append_output_file(file_name: str = 'sample.csv', output_string: str = 'sample.csv') -> None:
-        """
-        Append the given string into the output file.
+        """Append the given string into the output file.
 
         Parameters
         ----------

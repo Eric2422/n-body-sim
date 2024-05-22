@@ -8,8 +8,7 @@ from particle import Particle
 
 class Simulation():
     def __init__(self, particles: list, delta_time: float = 1.0) -> None:
-        """
-        Create one simulation.
+        """Initiate one simulation.
 
         Parameters
         ----------

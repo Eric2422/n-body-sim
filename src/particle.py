@@ -6,13 +6,11 @@ from scipy import constants
 
 
 class Particle:
-    """
-    Represent a single charged particle with a specified position, charge, and mass
+    """Represent a single charged particle with a specified position, charge, and mass
     """
     
     def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0) -> None:
-        """
-        Initialize a single particle with a position, charge, and mass.
+        """Initialize a single particle with a position, charge, and mass.
 
         Parameters
         ----------
@@ -34,8 +32,7 @@ class Particle:
         self.mass = mass
 
     def coulombs_law(self, particle: Particle) -> np.array:
-        """
-        Calculate the force exerted on this particle by another particle.
+        """Calculate the force exerted on this particle by another particle.
 
         Parameters
         ----------
