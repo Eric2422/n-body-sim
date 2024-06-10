@@ -20,35 +20,16 @@ class Simulation():
         self.particles = particles
         self.delta_time = delta_time
 
+    def calculate_electromagnetic_force(self, particle: Particle):
+        pass
+
     def tick(self):
         """Run one tick of the simulation(i.e. the time specified by delta_time).
         """
-        # Loop through all the particles
-        # for particle1 in self.particles:
-        #     force = 0
+        for particle in self.particles:
+            net_force = self.calculate_electromagnetic_force(particle)
+
             
-        #     # Calculate the force of the other particles on this particle
-        #     for particle2 in self.particles:
-        #         force += particle1.coulombs_law(particle2) if particle1 != particle2 else 0
-            
-        #     # Apply the force by calculating the acceleration on the particle
-        #     particle1.acceleration = force / particle1.mass
-
-        #     particle1.velocity += particle1.acceleration
-        #     particle1.position += particle1.velocity
-        num_particles = len(self.particles)
-        for i in range(num_particles):
-            particle1 = self.particles[i]
-
-            for j in range(i, num_particles):
-                particle2 = self.particles[j]
-                force = particle1.coulombs_law(particle2)
-
-                particle1.acceleration += force / particle1.mass
-                particle2.acceleration -= force / particle2.mass
-
-            particle1.velocity += particle1.acceleration
-            particle1.position += particle1.velocity
             
 
 if __name__ == '__main__':
