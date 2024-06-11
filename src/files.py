@@ -40,7 +40,7 @@ class Files:
             sys.exit()
 
     @staticmethod
-    def output_to_file(file_name: str = 'sample.csv', output_string: str = 'sample.csv') -> None:
+    def output_to_file(file_name: str = 'sample.csv', output_string: str = '') -> None:
         """Append the given string into the output file.
 
         Parameters
@@ -49,13 +49,14 @@ class Files:
             The name of the file to write to, 
             excluding the directory(i.e. ./output/), by default 'sample.csv'
         output_string: str, optional
-            The string to be appended to the given file, by default 'sample.csv'
+            The string to be appended to the given file, by default ''
         """
         output_dir = './output/'
 
         try:
             with open(output_dir + file_name, 'a') as csv_file:
                 csv_writer = csv.writer(csv_file, delimiter=', ')
+                csv_writer.writerow(output_string)
         
         except OSError:
             print('The output file could not be opened.')
