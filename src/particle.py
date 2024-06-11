@@ -31,6 +31,18 @@ class Particle:
         self.charge = charge
         self.mass = mass
 
+
+    def apply_force(self, force: float):
+        """
+        Update the particle's acceleration by adding a force.
+
+        Parameters
+        ----------
+        force : float
+            The force that is being applied to the particle
+        """
+        self.acceleration += force / self.mass
+
     def coulombs_law(self, particle: Particle) -> np.array:
         """Calculate the force exerted on this particle by another particle.
 
@@ -60,4 +72,5 @@ class Particle:
         return force_vector
     
     def __str__(self) -> str:
-        return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'
+        coordinates = ", ".join([str(num) for num in self.position])
+        return f'Particle with {self.charge} C and {self.mass} kg at ({coordinates})'

@@ -40,7 +40,7 @@ class Files:
             sys.exit()
 
     @staticmethod
-    def append_output_file(file_name: str = 'sample.csv', output_string: str = 'sample.csv') -> None:
+    def output_to_file(file_name: str = 'sample.csv', output_string: str = 'sample.csv') -> None:
         """Append the given string into the output file.
 
         Parameters
