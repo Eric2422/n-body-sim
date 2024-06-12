@@ -1,5 +1,6 @@
 import sys
 
+import matplotlib.pyplot
 import numpy as np
 
 from files import Files
@@ -8,8 +9,7 @@ from particle import Particle
 
 class Simulation():
     def __init__(self, particles: list, delta_time: float = 1.0) -> None:
-        """
-        Create one simulation.
+        """Initiate one simulation.
 
         Parameters
         ----------
@@ -21,16 +21,24 @@ class Simulation():
         self.particles = particles
         self.delta_time = delta_time
 
-    def calculate_electrostatic_force(self, particle: Particle):
+    def calculate_electromagnetic_force(self, particle1: Particle):
         net_force = 0
 
-        for particle1 in self.particles:
-
+        # Find the net force on the given particle
+        for particle2 in self.particles:
+            if particle1 != particle2:
+                net_force += particle1.coulombs_law(particle2)
+        
+        return net_force
 
     def tick(self):
         """Run one tick of the simulation(i.e. the time specified by delta_time).
         """
         for particle in self.particles:
+            net_force = self.calculate_electromagnetic_force(particle)
+            particle.apply_force(net_force)
+            particle.velocity += particle.acceleration * self.delta_time
+            particle.position += particle.velocity * self.delta_time
 
 
 if __name__ == '__main__':
@@ -41,6 +49,7 @@ if __name__ == '__main__':
 
     # Read the config file data and create particles based on that data
     file_data = Files.read_config_file(sys.argv[1])
+
     particles = [
         Particle(
             np.array((line[0], line[1], line[2])), 
@@ -51,6 +60,10 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, delta_time=0.1)
-
-    for i in range(100):
+    for i in range(25):
         simulation.tick()
+
+        for particle in simulation.particles:
+            print(particle)
+
+        print()
