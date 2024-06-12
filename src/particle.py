@@ -63,4 +63,5 @@ class Particle:
         return force_vector
     
     def __str__(self) -> str:
-        return f'Particle with {self.charge} C and {self.mass} kg at {self.position}'
+        coordinates = f'({", ".join([str(num) for num in self.position])})'
+        return f'Particle with {self.charge} C and {self.mass} kg at {coordinates}'

@@ -21,22 +21,16 @@ class Simulation():
         self.particles = particles
         self.delta_time = delta_time
 
+    def calculate_electrostatic_force(self, particle: Particle):
+        net_force = 0
+
+        for particle1 in self.particles:
+
+
     def tick(self):
         """Run one tick of the simulation(i.e. the time specified by delta_time).
         """
-        # Loop through all the particles
-        for particle1 in self.particles:
-            force = 0
-            
-            # Calculate the force of the other particles on this particle
-            for particle2 in self.particles:
-                force += particle1.coulombs_law(particle2) if particle1 != particle2 else 0
-            
-            # Apply the force by calculating the acceleration on the particle
-            particle1.acceleration = force / particle1.mass
-
-            particle1.velocity += particle1.acceleration
-            particle1.position += particle1.velocity
+        for particle in self.particles:
 
 
 if __name__ == '__main__':
@@ -56,12 +50,7 @@ if __name__ == '__main__':
         for line in file_data
     ]
 
-    force = particles[0].coulombs_law(particles[1])
-    print(f'<{force[0]}, {force[1]}, {force[2]}>')
+    simulation = Simulation(particles, delta_time=0.1)
 
-    simulation = Simulation(particles)
-    for i in range(10):
+    for i in range(100):
         simulation.tick()
-
-        for particle in simulation.particles:
-            print(particle)
