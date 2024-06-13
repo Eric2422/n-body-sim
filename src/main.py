@@ -67,4 +67,5 @@ if __name__ == '__main__':
 
         for particle in simulation.particles:
             print(particle)
+
         print()
