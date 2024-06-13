@@ -21,7 +21,7 @@ class Simulation():
         self.particles = particles
         self.delta_time = delta_time
 
-    def calculate_electromagnetic_force(self, particle1: Particle):
+    def calculate_electromagnetic_force(self, particle1: Particle) -> np.array:
         net_force = 0
 
         # Find the net force on the given particle
@@ -31,13 +31,15 @@ class Simulation():
         
         return net_force
 
-    def tick(self):
+    def tick(self) -> None:
         """Run one tick of the simulation(i.e. the time specified by delta_time).
         """
         for particle in self.particles:
             net_force = self.calculate_electromagnetic_force(particle)
             particle.apply_force(net_force)
             particle.velocity += particle.acceleration * self.delta_time
+        
+        for particle in self.particles:
             particle.position += particle.velocity * self.delta_time
 
 
@@ -60,10 +62,9 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, delta_time=0.1)
-    for i in range(25):
+    for i in range(100):
         simulation.tick()
 
         for particle in simulation.particles:
             print(particle)
-
         print()

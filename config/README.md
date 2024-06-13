@@ -1,1 +1,0 @@
-Config files for running the simluation are to placed in this directory.
