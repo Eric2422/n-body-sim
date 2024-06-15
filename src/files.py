@@ -1,11 +1,11 @@
+import csv
 import sys
 
-import csv
 import numpy as np
 
 
 class Files:
-    CONFIG_DIR = '../config/'
+    CONFIG_DIR = './config/'
 
     @classmethod
     def read_config_file(cls, file_name: str = 'sample.csv') -> np.array:
@@ -16,8 +16,8 @@ class Files:
         ----------
         file_name : str, optional
             The name of the input file, which is a CSV file.
-            Does not contain the directory(i.e. ./config/)
-            By default 'sample.csv'.
+            Does not contain the directory(i.e. `config/`)
+            By default `sample.csv`.
 
         Returns
         -------
@@ -41,23 +41,22 @@ class Files:
             sys.exit()
 
     @staticmethod
-    def output_to_file(file_name: str = 'sample.csv', output_string: str = '') -> None:
+    def output_to_file(file_name: str = 'sample.txt', output_string: str = '') -> None:
         """Append the given string into the output file.
 
         Parameters
         ----------
         file_name : str, optional
             The name of the file to write to, 
-            excluding the directory(i.e. ./output/), by default 'sample.csv'
+            excluding the directory(i.e. `output/`), by default `sample.txt`
         output_string: str, optional
-            The string to be appended to the given file, by default ''
+            The string to be appended to the given file, by default ""
         """
         output_dir = './output/'
 
         try:
-            with open(output_dir + file_name, 'a') as csv_file:
-                csv_writer = csv.writer(csv_file, delimiter=', ')
-                csv_writer.writerow(output_string)
+            with open(output_dir + file_name, 'a') as output_file:
+                output_file.write(output_string)
         
         except OSError:
             print('The output file could not be opened.')

@@ -8,7 +8,7 @@ from scipy import constants
 class Particle:
     """Represent a single charged particle with a specified position, charge, and mass
     """
-    
+
     def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0) -> None:
         """Initialize a single particle with a position, charge, and mass.
 
@@ -30,7 +30,6 @@ class Particle:
 
         self.charge = charge
         self.mass = mass
-
 
     def apply_force(self, force: float):
         """
@@ -60,17 +59,18 @@ class Particle:
 
         k = 1 / (4 * constants.pi * constants.epsilon_0)
 
-        # The magnitude of the electric force. 
+        # The magnitude of the electric force.
         force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
 
         vectorBetweenPoints = particle.position - self.position
         vectorMagnitude = np.linalg.norm(distance)
 
         # Break the electric force into X, Y, and Z components
-        force_vector = np.array([-force_magnitude * (coordinate / vectorMagnitude) for coordinate in vectorBetweenPoints])
-        
+        force_vector = np.array([-force_magnitude * (coordinate / vectorMagnitude)
+                                for coordinate in vectorBetweenPoints])
+
         return force_vector
-    
+
     def __str__(self) -> str:
         coordinates = f'({", ".join([str(num) for num in self.position])})'
         return f'Particle with {self.charge} C and {self.mass} kg at {coordinates}'

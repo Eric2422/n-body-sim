@@ -8,7 +8,7 @@ from particle import Particle
 
 
 class Simulation():
-    def __init__(self, particles: list, delta_time: float = 1.0) -> None:
+    def __init__(self, particles: list, tick_size: float = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
@@ -19,28 +19,43 @@ class Simulation():
             The amount of time between each tick in seconds, by default 1.0
         """
         self.particles = particles
-        self.delta_time = delta_time
+        self.tick_size = tick_size
 
     def calculate_electromagnetic_force(self, particle1: Particle) -> np.array:
+        """Calculate the electrostatitc force exerted on given particle in `self.particles`.
+
+        Parameters
+        ----------
+        particle1 : Particle
+            The particle to calculate the electrostatic force exerted on. 
+
+        Returns
+        -------
+        np.array
+            The net force vector exerted on `particle1`
+        """
         net_force = 0
 
         # Find the net force on the given particle
         for particle2 in self.particles:
             if particle1 != particle2:
                 net_force += particle1.coulombs_law(particle2)
-        
+
         return net_force
 
     def tick(self) -> None:
-        """Run one tick of the simulation(i.e. the time specified by delta_time).
+        """Run one tick of the simulation(i.e. the time specified by `tick_size`).
         """
+        # Calculate the electrostatic force that the particles exert on each other
+        # Update the particle's acceleration and and velocity, but not the position
         for particle in self.particles:
             net_force = self.calculate_electromagnetic_force(particle)
             particle.apply_force(net_force)
-            particle.velocity += particle.acceleration * self.delta_time
-        
+            particle.velocity += particle.acceleration * self.tick_size
+
+        # Update position after calculating the force, so it doesn't affect the force
         for particle in self.particles:
-            particle.position += particle.velocity * self.delta_time
+            particle.position += particle.velocity * self.tick_size
 
 
 if __name__ == '__main__':
@@ -54,14 +69,14 @@ if __name__ == '__main__':
 
     particles = [
         Particle(
-            np.array((line[0], line[1], line[2])), 
+            np.array((line[0], line[1], line[2])),
             line[3],
             line[4]
         )
         for line in file_data
     ]
 
-    simulation = Simulation(particles, delta_time=0.1)
+    simulation = Simulation(particles, tick_size=0.1)
     for i in range(100):
         simulation.tick()
 
