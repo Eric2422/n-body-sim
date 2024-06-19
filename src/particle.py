@@ -66,8 +66,10 @@ class Particle:
         vectorMagnitude = np.linalg.norm(distance)
 
         # Break the electric force into X, Y, and Z components
-        force_vector = np.array([-force_magnitude * (coordinate / vectorMagnitude)
-                                for coordinate in vectorBetweenPoints])
+        force_vector = np.array(
+            [-force_magnitude * (coordinate / vectorMagnitude)
+             for coordinate in vectorBetweenPoints]
+        )
 
         return force_vector
 

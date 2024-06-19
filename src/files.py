@@ -57,6 +57,6 @@ class Files:
         try:
             with open(output_dir + file_name, 'a') as output_file:
                 output_file.write(output_string)
-        
+
         except OSError:
             print('The output file could not be opened.')

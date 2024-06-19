@@ -1,11 +1,11 @@
 import sys
 
-import matplotlib.pyplot
+from matplotlib import pyplot as plt
 import numpy as np
 
 from files import Files
 from particle import Particle
-
+from plot import Plot
 
 class Simulation():
     def __init__(self, particles: list, tick_size: float = 1.0) -> None:
@@ -77,6 +77,8 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, tick_size=0.1)
+    plot = Plot()
+
     for i in range(100):
         simulation.tick()
 
@@ -84,3 +86,5 @@ if __name__ == '__main__':
             print(particle)
 
         print()
+
+        plot.add_data_point(simulation.particles[0].position)
