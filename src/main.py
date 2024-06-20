@@ -21,6 +21,8 @@ class Simulation():
         self.particles = particles
         self.tick_size = tick_size
 
+        self.particle_positions = np.array([[] for particle in self.particles])
+
     def calculate_electromagnetic_force(self, particle1: Particle) -> np.array:
         """Calculate the electrostatitc force exerted on given particle in `self.particles`.
 
@@ -86,5 +88,3 @@ if __name__ == '__main__':
             print(particle)
 
         print()
-
-        plot.add_data_point(simulation.particles[0].position)
