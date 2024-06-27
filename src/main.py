@@ -27,37 +27,22 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
-    def calculate_electromagnetic_force(self, particle1: Particle) -> np.array:
-        """Calculate the electrostatic force exerted on given particle in `self.particles`.
-
-        Parameters
-        ----------
-        particle1 : Particle
-            The particle to calculate the electrostatic force exerted on. 
-
-        Returns
-        -------
-        np.array
-            The net force vector exerted on `particle1`
-        """
-        net_force = 0
-
-        # Find the net force on the given particle
-        for particle2 in self.particles:
-            if particle1 != particle2:
-                net_force += particle1.coulombs_law(particle2)
-
-        return net_force
-
     def tick(self) -> None:
         """Run one tick of the simulation(i.e. the time specified by `tick_size`).
         """
         # Calculate the electrostatic force that the particles exert on each other
         # Update the particle's acceleration and and velocity, but not the position
-        for particle in self.particles:
-            net_force = self.calculate_electromagnetic_force(particle)
-            particle.apply_force(net_force)
-            particle.velocity += particle.acceleration * self.tick_size
+        for particle1 in self.particles:
+            net_force = 0
+
+            # Calculate the electrostatic 
+            for particle2 in self.particles:
+                if particle1 != particle2:
+                    net_force += particle1.coulombs_law(particle2)
+                    # net_force += particle1.biot_savart_law(particle2)
+
+            particle1.apply_force(net_force)
+            particle1.velocity += particle1.acceleration * self.tick_size
 
         # Update position after calculating the force, so it doesn't affect the force calculations
         for i in range(len(self.particles)):

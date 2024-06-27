@@ -55,22 +55,17 @@ class Particle:
         np.array
             The force vector exerted on this charge by another one.
         """
-        distance = math.dist(list(self.position), list(particle.position))
+        vector_between_particles = particle.position - self.position
+        distance = np.linalg.norm(vector_between_particles)
+        unit_vector = vector_between_particles / distance
 
+        # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
         # The magnitude of the electric force.
         force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
 
-        vector_between_particles = particle.position - self.position
-
-        # Break the electric force into X, Y, and Z components
-        force_vector = np.array(
-            [-force_magnitude * (coordinate / distance)
-             for coordinate in vector_between_particles]
-        )
-
-        return force_vector
+        return -force_magnitude * unit_vector
 
     def biot_savart_law(self, particle: Particle) -> np.array:
         """Calculate the magnetic force exerted on this particle by another particle. 
@@ -91,11 +86,8 @@ class Particle:
         r = particle.position - self.position
         r_hat = r / np.linalg.norm(r)
 
-        magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity * r_hat) 
+        magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity, r_hat) 
                           / (4 * np.pi * r ** 2))
-        
-        print(f'B field: {magnetic_field}')
-
         magnetic_force = self.charge * np.cross(self.velocity, magnetic_field)
 
         return magnetic_force
