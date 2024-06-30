@@ -9,7 +9,7 @@ class Particle:
     """Represent a single charged particle with a specified position, charge, and mass
     """
 
-    def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0) -> None:
+    def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0, fixed: bool = False) -> None:
         """Initialize a single particle with a position, charge, and mass.
 
         Parameters
@@ -22,6 +22,8 @@ class Particle:
             The charge of the particle in coulombs, by default 0.0
         mass : float, optional
             The mass of the charged particle in kilograms, by default 1.0
+        fixed : bool, optional
+            Whether this particle can move, by default False
         """
         # Represented by arrays of (X, Y, Z).
         self.position = position
@@ -30,6 +32,8 @@ class Particle:
 
         self.charge = charge
         self.mass = mass
+
+        self.fixed = fixed
 
     def apply_force(self, force: float):
         """
@@ -40,7 +44,8 @@ class Particle:
         force : float
             The force that is being applied to the particle
         """
-        self.acceleration += force / self.mass
+        if not self.fixed:
+            self.acceleration += force / self.mass
 
     def coulombs_law(self, particle: Particle) -> np.array:
         """Calculate the force exerted on this particle by another particle.
@@ -62,10 +67,10 @@ class Particle:
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        # The magnitude of the electric force.
-        force_magnitude = (k * self.charge * particle.charge) / (distance ** 2)
+        # The electric force between the particles
+        electric_force = (k * self.charge * particle.charge) / (distance ** 2)
 
-        return -force_magnitude * unit_vector
+        return -electric_force * unit_vector
 
     def biot_savart_law(self, particle: Particle) -> np.array:
         """Calculate the magnetic force exerted on this particle by another particle. 
@@ -84,9 +89,10 @@ class Particle:
         """
         # The vector between the positions of the particles
         r = particle.position - self.position
+        # The unit vector of `r`
         r_hat = r / np.linalg.norm(r)
 
-        magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity, r_hat) 
+        magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity, r_hat)
                           / (4 * np.pi * r ** 2))
         magnetic_force = self.charge * np.cross(self.velocity, magnetic_field)
 

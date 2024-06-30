@@ -23,6 +23,11 @@ class Simulation():
         self.particles = particles
         self.particle_positions = np.empty((len(self.particles), num_ticks, 3))
 
+        # Constant, universal fields
+        self.electric_field = np.zeros(3)
+        self.magnetic_field = np.zeros(3)
+        self.gravitational_field = np.zeros(3)
+
         self.num_ticks = num_ticks
         self.current_tick = 0
         self.tick_size = tick_size
@@ -33,14 +38,23 @@ class Simulation():
         # Calculate the electrostatic force that the particles exert on each other
         # Update the particle's acceleration and and velocity, but not the position
         for particle1 in self.particles:
+            print(particle1.position)
             net_force = 0
 
-            # Calculate the electrostatic 
+            # Calculate the electrostatic and magnetic forces from the other particles
             for particle2 in self.particles:
                 if particle1 != particle2:
                     net_force += particle1.coulombs_law(particle2)
-                    # net_force += particle1.biot_savart_law(particle2)
+                    magnetic_force = particle1.biot_savart_law(particle2)
+                    # print(f'B = {magnetic_force}')
+                    net_force += magnetic_force
 
+            # Add the constant fields
+            net_force += particle1.charge * self.electric_field
+            net_force += particle1.charge * np.cross(particle1.velocity, self.magnetic_field)
+            net_force += particle1.mass * self.gravitational_field
+
+            # Apply the force to the particle's acceleration and update its velocity
             particle1.apply_force(net_force)
             particle1.velocity += particle1.acceleration * self.tick_size
 
@@ -52,6 +66,7 @@ class Simulation():
             particle.position += particle.velocity * self.tick_size
 
         self.current_tick += 1
+        print()
 
     def run(self, ticks_to_run: int = None) -> None:
         """Run the simulation for a given number of ticks. 
@@ -85,6 +100,7 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
+    simulation.gravitational_field = np.array((0, 0, -9.80665))
     simulation.run()
     
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
