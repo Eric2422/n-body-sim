@@ -2,6 +2,7 @@ import sys
 
 from matplotlib import pyplot as plt
 import numpy as np
+import scipy.constants
 
 from files import Files
 from particle import Particle
@@ -41,13 +42,12 @@ class Simulation():
             print(particle1.position)
             net_force = 0
 
-            # Calculate the electrostatic and magnetic forces from the other particles
+            # Calculate the forces from the other particles
             for particle2 in self.particles:
                 if particle1 != particle2:
                     net_force += particle1.coulombs_law(particle2)
-                    magnetic_force = particle1.biot_savart_law(particle2)
-                    # print(f'B = {magnetic_force}')
-                    net_force += magnetic_force
+                    net_force += particle1.biot_savart_law(particle2)
+                    net_force += particle1.gravity(particle2)
 
             # Add the constant fields
             net_force += particle1.charge * self.electric_field
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
-    simulation.gravitational_field = np.array((0, 0, -9.80665))
+    simulation.gravitational_field = np.array((0, 0, -scipy.constants.g))
     simulation.run()
     
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)

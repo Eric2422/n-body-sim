@@ -98,6 +98,14 @@ class Particle:
 
         return magnetic_force
 
+    def gravity(self, particle: Particle) -> np.array:
+        distance = particle.position - self.position
+        unit_vector = distance / np.linalg.norm(distance)
+
+        force = scipy.constants.G * self.mass * particle.mass / distance ** 2
+
+        return force * unit_vector
+
     def __str__(self) -> str:
         coordinates = f'({", ".join([str(num) for num in self.position])})'
         return f'Particle with {self.charge} C and {self.mass} kg at {coordinates}'
