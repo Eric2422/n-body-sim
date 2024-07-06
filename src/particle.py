@@ -6,7 +6,7 @@ import scipy.constants
 
 
 class Particle:
-    """Represent a single charged particle with a specified position, charge, and mass
+    """Represent a ideal particle with a specified position, charge, and mass, but no volume.
     """
 
     def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0, fixed: bool = False) -> None:
@@ -23,10 +23,10 @@ class Particle:
         mass : float, optional
             The mass of the charged particle in kilograms, by default 1.0
         fixed : bool, optional
-            Whether this particle can move, by default False
+            Whether this particle's position is constant, by default False
         """
         # Represented by arrays of (X, Y, Z).
-        self.position = position
+        self.position = position.astype(np.float64)
         self.velocity = np.array((0.0, 0.0, 0.0))
         self.acceleration = np.array((0.0, 0.0, 0.0))
 
@@ -93,18 +93,32 @@ class Particle:
         r_hat = r / np.linalg.norm(r)
 
         magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity, r_hat)
-                          / (4 * np.pi * r ** 2))
+                          / (4 * np.pi * np.linalg.norm(r) ** 2))
         magnetic_force = self.charge * np.cross(self.velocity, magnetic_field)
 
         return magnetic_force
 
     def gravity(self, particle: Particle) -> np.array:
-        distance = particle.position - self.position
-        unit_vector = distance / np.linalg.norm(distance)
+        """Calculate the gravitational attraction between this particle and another. 
 
-        force = scipy.constants.G * self.mass * particle.mass / distance ** 2
+        Parameters
+        ----------
+        particle : Particle
+            The other particle that is exerting a gravitational force on this particle
 
-        return force * unit_vector
+        Returns
+        -------
+        np.array
+            A vector of the gravitational force exerted on this particle.
+        """
+        vector_between_points = particle.position - self.position
+        distance = np.linalg.norm(vector_between_points)
+        unit_vector = vector_between_points / distance
+
+        force_magnitude = scipy.constants.G * self.mass * particle.mass / distance ** 2
+        gravitational_force = force_magnitude * unit_vector
+
+        return gravitational_force
 
     def __str__(self) -> str:
         coordinates = f'({", ".join([str(num) for num in self.position])})'

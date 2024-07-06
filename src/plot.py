@@ -21,10 +21,12 @@ class Plot():
         self.figure = plt.figure()
         self.ax = self.figure.add_subplot(111, projection='3d')
 
-        lines = [self.ax.plot(datum[0, 0:1], datum[1, 0:1], datum[2, 0:1])[0] for datum in data]
+        lines = [self.ax.plot(datum[0, :1], datum[1, :1], datum[2, :1])[0]
+                 for datum in data]
         self.ax.margins(1, 1, 1)
 
-        plot_animation = animation.FuncAnimation(self.figure, self.update, fargs=(data, lines), interval=tick_size/1000)
+        plot_animation = animation.FuncAnimation(
+            self.figure, self.update, fargs=(data, lines), interval=tick_size/1000)
         plt.show()
 
     def update(self, num, positions, lines):

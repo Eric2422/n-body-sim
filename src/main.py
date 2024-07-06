@@ -39,7 +39,6 @@ class Simulation():
         # Calculate the electrostatic force that the particles exert on each other
         # Update the particle's acceleration and and velocity, but not the position
         for particle1 in self.particles:
-            print(particle1.position)
             net_force = 0
 
             # Calculate the forces from the other particles
@@ -59,14 +58,11 @@ class Simulation():
             particle1.velocity += particle1.acceleration * self.tick_size
 
         # Update position after calculating the force, so it doesn't affect the force calculations
-        for i in range(len(self.particles)):
-            particle = self.particles[i]
-            
-            self.particle_positions[i][self.current_tick] = particle.position
+        for index, particle in zip(range(len(self.particles)), self.particles):
+            self.particle_positions[index][self.current_tick] = particle.position
             particle.position += particle.velocity * self.tick_size
 
         self.current_tick += 1
-        print()
 
     def run(self, ticks_to_run: int = None) -> None:
         """Run the simulation for a given number of ticks. 
@@ -80,7 +76,7 @@ class Simulation():
             ticks_to_run = self.num_ticks
 
         for i in range(ticks_to_run):
-            simulation.tick()
+            self.tick()
 
 if __name__ == '__main__':
     # Check if the user supplied a config file
@@ -102,5 +98,5 @@ if __name__ == '__main__':
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
     simulation.gravitational_field = np.array((0, 0, -scipy.constants.g))
     simulation.run()
-    
+
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
