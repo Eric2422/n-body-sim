@@ -4,9 +4,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 import scipy.constants
 
-from files import Files
+from files import FileHandler
 from particle import Particle
 from plot import Plot
+
 
 class Simulation():
     def __init__(self, particles: list, num_ticks: int, tick_size: float = 1.0) -> None:
@@ -22,6 +23,7 @@ class Simulation():
             The amount of time between each tick in seconds, by default 1.0
         """
         self.particles = particles
+        # Keep a log of all the particles' positions over the course of the simulation
         self.particle_positions = np.empty((len(self.particles), num_ticks, 3))
 
         # Constant, universal fields
@@ -50,7 +52,8 @@ class Simulation():
 
             # Add the constant fields
             net_force += particle1.charge * self.electric_field
-            net_force += particle1.charge * np.cross(particle1.velocity, self.magnetic_field)
+            net_force += particle1.charge * \
+                np.cross(particle1.velocity, self.magnetic_field)
             net_force += particle1.mass * self.gravitational_field
 
             # Apply the force to the particle's acceleration and update its velocity
@@ -78,13 +81,15 @@ class Simulation():
         for i in range(ticks_to_run):
             self.tick()
 
+
 if __name__ == '__main__':
     # Check if the user supplied a config file
     if len(sys.argv) < 2:
         raise ValueError('Please enter the name of the config file.')
 
     # Read the config file data and create particles based on that data
-    file_data = Files.read_config_file(sys.argv[1])
+    file_handler = FileHandler(sys.argv[1])
+    file_data = file_handler.read_config_file()
 
     particles = [
         Particle(
@@ -96,7 +101,17 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
-    simulation.gravitational_field = np.array((0, 0, -scipy.constants.g))
     simulation.run()
+
+    # Clear the output file and begin writing to it
+    file_handler.clear_output_file()
+    elapsed_time = simulation.num_ticks * simulation.tick_size
+    for i in np.linspace(0, elapsed_time):
+        file_handler.append_to_file(f'Time: {i} s')
+
+        for particle in simulation.particles:
+            file_handler.append_to_file(particle.__str__())
+
+        file_handler.append_to_file()
 
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)

@@ -121,5 +121,5 @@ class Particle:
         return gravitational_force
 
     def __str__(self) -> str:
-        coordinates = f'({", ".join([str(num) for num in self.position])})'
+        coordinates = f'({" m, ".join([str(num) for num in self.position])} m)'
         return f'Particle with {self.charge} C and {self.mass} kg at {coordinates}'
