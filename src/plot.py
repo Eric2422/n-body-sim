@@ -6,7 +6,7 @@ from particle import Particle
 
 
 class Plot():
-    def __init__(self, data: np.array, tick_size: float = 1.0) -> None:
+    def __init__(self, data: np.array, tick_size: np.float64 = 1.0) -> None:
         """Create a 3D NumPy plot
 
         Parameters
@@ -15,7 +15,7 @@ class Plot():
             The data to be plotted. 
             A 2D array of floats. 
             Each row is a particle and each column is a position at a given point in time.
-        tick_size : float, optional
+        tick_size : np.float64, optional
             The amount of time between each frame, by default 1.0
         """
         self.figure = plt.figure()

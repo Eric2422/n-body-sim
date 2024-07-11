@@ -10,7 +10,7 @@ from plot import Plot
 
 
 class Simulation():
-    def __init__(self, particles: list, num_ticks: int, tick_size: float = 1.0) -> None:
+    def __init__(self, particles: list, num_ticks: int, tick_size: np.float64 = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
@@ -19,7 +19,7 @@ class Simulation():
             A list of particles that are interacting with each other
         num_ticks: int
             The number of ticks that the simulation runs for
-        tick_size : float, optional
+        tick_size : np.float64, optional
             The amount of time between each tick in seconds, by default 1.0
         """
         self.particles = particles

@@ -9,7 +9,7 @@ class Particle:
     """Represent a ideal particle with a specified position, charge, and mass, but no volume.
     """
 
-    def __init__(self, position: np.array, charge: float = 0.0, mass: float = 1.0, fixed: bool = False) -> None:
+    def __init__(self, position: np.array, charge: np.float64 = 0.0, mass: np.float64 = 1.0, fixed: bool = False) -> None:
         """Initialize a single particle with a position, charge, and mass.
 
         Parameters
@@ -18,9 +18,9 @@ class Particle:
             The position that the particle is at.
             X is left/right, Y is forward/backward, Z is up/down.
             Specified in meters. 
-        charge : float, optional
+        charge : np.float64, optional
             The charge of the particle in coulombs, by default 0.0
-        mass : float, optional
+        mass : np.float64, optional
             The mass of the charged particle in kilograms, by default 1.0
         fixed : bool, optional
             Whether this particle's position is constant, by default False
@@ -35,13 +35,13 @@ class Particle:
 
         self.fixed = fixed
 
-    def apply_force(self, force: float):
+    def apply_force(self, force: np.float64):
         """
         Update the particle's acceleration by adding a force.
 
         Parameters
         ----------
-        force : float
+        force : np.float64
             The force that is being applied to the particle
         """
         if not self.fixed:
