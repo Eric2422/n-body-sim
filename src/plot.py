@@ -2,8 +2,6 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 
-from particle import Particle
-
 
 class Plot():
     def __init__(self, data: np.array, tick_size: np.float64 = 1.0) -> None:
@@ -25,10 +23,26 @@ class Plot():
                  for datum in data]
         self.ax.margins(1, 1, 1)
 
-        plot_animation = animation.FuncAnimation(
+        self.plot_animation = animation.FuncAnimation(
             self.figure, self.update, fargs=(data, lines), interval=tick_size/1000)
-        plt.show()
 
-    def update(self, num, positions, lines):
-        for line, position in zip(lines, positions):
-            line.set_data_3d(position[:num, :].T)
+    def update(self, num: int, data, lines):
+        """Update the plot points of the plot. 
+
+        Parameters
+        ----------
+        num : int
+            The number of intervals that have elapsed.
+        positions : np.array
+            The data of the 
+        lines : list
+            A list containing the lines of the plot. 
+        """
+        print(type(lines))
+        for line, datum in zip(lines, data):
+            line.set_data_3d(datum[:num, :].T)
+
+    def show(self):
+        """Display this plot and run the animation
+        """
+        plt.show()

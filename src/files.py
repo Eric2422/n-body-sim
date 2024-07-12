@@ -47,8 +47,7 @@ class FileHandler:
             print('The output file could not be opened.')
 
     def read_config_file(self) -> np.array:
-        """
-        Read a given CSV file, extract the data, and return it.
+        """Read a given CSV file, extract the data, and return it.
 
         Returns
         -------

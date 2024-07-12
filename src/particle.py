@@ -36,8 +36,7 @@ class Particle:
         self.fixed = fixed
 
     def apply_force(self, force: np.float64):
-        """
-        Update the particle's acceleration by adding a force.
+        """Update the particle's acceleration by adding a force.
 
         Parameters
         ----------

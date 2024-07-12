@@ -1,8 +1,6 @@
 import sys
 
-from matplotlib import pyplot as plt
 import numpy as np
-import scipy.constants
 
 from files import FileHandler
 from particle import Particle
@@ -10,7 +8,7 @@ from plot import Plot
 
 
 class Simulation():
-    def __init__(self, particles: list, num_ticks: int, tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, particles: list, num_ticks: int, tick_size: float = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
@@ -19,7 +17,7 @@ class Simulation():
             A list of particles that are interacting with each other
         num_ticks: int
             The number of ticks that the simulation runs for
-        tick_size : np.float64, optional
+        tick_size : float, optional
             The amount of time between each tick in seconds, by default 1.0
         """
         self.particles = particles
@@ -52,8 +50,7 @@ class Simulation():
 
             # Add the constant fields
             net_force += particle1.charge * self.electric_field
-            net_force += particle1.charge * \
-                np.cross(particle1.velocity, self.magnetic_field)
+            net_force += particle1.charge * np.cross(particle1.velocity, self.magnetic_field)
             net_force += particle1.mass * self.gravitational_field
 
             # Apply the force to the particle's acceleration and update its velocity
@@ -67,7 +64,7 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, ticks_to_run: int = None) -> None:
+    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, plot: Plot = None) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
@@ -78,8 +75,17 @@ class Simulation():
         if ticks_to_run == None:
             ticks_to_run = self.num_ticks
 
+        # If a file handler is passed, output the results to a file
         for i in range(ticks_to_run):
             self.tick()
+
+            if file_handler != None:
+                file_handler.append_to_file(f'Time: {self.current_tick * self.tick_size} s')
+
+                for particle in self.particles:
+                    file_handler.append_to_file(particle.__str__())
+
+                file_handler.append_to_file()
 
 
 if __name__ == '__main__':
@@ -103,15 +109,5 @@ if __name__ == '__main__':
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
     simulation.run()
 
-    # Clear the output file and begin writing to it
-    file_handler.clear_output_file()
-    elapsed_time = simulation.num_ticks * simulation.tick_size
-    for i in np.linspace(0, elapsed_time):
-        file_handler.append_to_file(f'Time: {i} s')
-
-        for particle in simulation.particles:
-            file_handler.append_to_file(particle.__str__())
-
-        file_handler.append_to_file()
-
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
+    plot.show()
