@@ -3,7 +3,7 @@ import sys
 import numpy as np
 
 from files import FileHandler
-from particle import Particle
+from particle import PointParticle
 from plot import Plot
 
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     file_data = file_handler.read_config_file()
 
     particles = [
-        Particle(
+        PointParticle(
             np.array((line[0], line[1], line[2])),
             line[3],
             line[4]

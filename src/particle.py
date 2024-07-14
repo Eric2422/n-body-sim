@@ -5,12 +5,12 @@ import numpy as np
 import scipy.constants
 
 
-class Particle:
-    """Represent a ideal particle with a specified position, charge, and mass, but no volume.
+class PointParticle:
+    """Represent a point particle with a specified position, charge, and mass.
     """
 
     def __init__(self, position: np.array, charge: np.float64 = 0.0, mass: np.float64 = 1.0, fixed: bool = False) -> None:
-        """Initialize a single particle with a position, charge, and mass.
+        """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
         ----------
@@ -35,7 +35,7 @@ class Particle:
 
         self.fixed = fixed
 
-    def apply_force(self, force: np.float64):
+    def apply_force(self, force: np.float64) -> None:
         """Update the particle's acceleration by adding a force.
 
         Parameters
@@ -46,7 +46,54 @@ class Particle:
         if not self.fixed:
             self.acceleration += force / self.mass
 
-    def coulombs_law(self, particle: Particle) -> np.array:
+    def gravity(self, particle: PointParticle) -> np.array:
+        """Calculate the gravitational attraction between this particle and another. 
+
+        Parameters
+        ----------
+        particle : Particle
+            The other particle that is exerting a gravitational force on this particle
+
+        Returns
+        -------
+        np.array
+            A vector of the gravitational force exerted on this particle.
+        """
+        vector_between_points = particle.position - self.position
+        distance = np.linalg.norm(vector_between_points)
+        unit_vector = vector_between_points / distance
+
+        force_magnitude = scipy.constants.G * self.mass * particle.mass / distance ** 2
+        gravitational_force = force_magnitude * unit_vector
+
+        return gravitational_force
+
+    def electric_field(self, position: np.array) -> np.array:
+        """Calculate the electric field at a position due to this particle.
+
+        Parameters
+        ----------
+        position : np.array
+            A 3D vector representing a coordinate
+        
+        Returns
+        -------
+        np.array
+            The vector of the electric field that this particle creates at the point
+        """
+        vector_between_particles = position - self.position
+        distance = np.linalg.norm(vector_between_particles)
+        unit_vector = vector_between_particles / distance
+
+        # The Coulomb constant
+        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+
+        # The electric force between the particles
+        electric_field = (k * self.charge) / (distance ** 2)
+
+        return -electric_field * unit_vector
+
+    def coulombs_law(self, particle: PointParticle) -> np.array:
         """Calculate the force exerted on this particle by another particle.
 
         Parameters
@@ -59,19 +106,9 @@ class Particle:
         np.array
             The force vector exerted on this charge by another one.
         """
-        vector_between_particles = particle.position - self.position
-        distance = np.linalg.norm(vector_between_particles)
-        unit_vector = vector_between_particles / distance
+        return self.electric_field(particle.position) * particle.charge
 
-        # The Coulomb constant
-        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
-
-        # The electric force between the particles
-        electric_force = (k * self.charge * particle.charge) / (distance ** 2)
-
-        return -electric_force * unit_vector
-
-    def biot_savart_law(self, particle: Particle) -> np.array:
+    def biot_savart_law(self, particle: PointParticle) -> np.array:
         """Calculate the magnetic force exerted on this particle by another particle. 
         It uses the "Biot-Savart Law for point charges," technically a misnomer,
         which only approximates magnetic fields for particles with a velocity << c.
@@ -96,28 +133,6 @@ class Particle:
         magnetic_force = self.charge * np.cross(self.velocity, magnetic_field)
 
         return magnetic_force
-
-    def gravity(self, particle: Particle) -> np.array:
-        """Calculate the gravitational attraction between this particle and another. 
-
-        Parameters
-        ----------
-        particle : Particle
-            The other particle that is exerting a gravitational force on this particle
-
-        Returns
-        -------
-        np.array
-            A vector of the gravitational force exerted on this particle.
-        """
-        vector_between_points = particle.position - self.position
-        distance = np.linalg.norm(vector_between_points)
-        unit_vector = vector_between_points / distance
-
-        force_magnitude = scipy.constants.G * self.mass * particle.mass / distance ** 2
-        gravitational_force = force_magnitude * unit_vector
-
-        return gravitational_force
 
     def __str__(self) -> str:
         coordinates = f'({" m, ".join([str(num) for num in self.position])} m)'

@@ -38,7 +38,6 @@ class Plot():
         lines : list
             A list containing the lines of the plot. 
         """
-        print(type(lines))
         for line, datum in zip(lines, data):
             line.set_data_3d(datum[:num, :].T)
 
