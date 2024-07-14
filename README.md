@@ -3,7 +3,8 @@ It also simulates the effects of electromagnetic and gravitational fields.
 All numbers are in SI units. 
 
 # Running the Simulation
-To run the simulaiton, type `python src/main.py {config file name}`
+To run the simulaiton, type `python src/main.py {config file name}`.
+The file should contain the file extension(i.e. ".csv")
 
 # Config Files
 The config files are used to set up the simulation and are located in [config/](./config/).

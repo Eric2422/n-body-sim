@@ -107,7 +107,7 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(particles, num_ticks=100, tick_size=0.1)
-    simulation.run()
+    simulation.run(file_handler=file_handler)
 
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
     plot.show()

@@ -16,8 +16,9 @@ class FileHandler:
         file_name : str, optional
             The name of the config and output file without the file extension, by default 'sample'
         """
-        self.config_file = f'{FileHandler.CONFIG_DIR}/{file_name}.csv'
-        self.output_file = f'{FileHandler.OUTPUT_DIR}/{file_name}.txt'
+        self.config_file = f'{FileHandler.CONFIG_DIR}/{file_name}'
+        # The output file will have the same name but with the ".txt" file extension instead
+        self.output_file = f'{FileHandler.OUTPUT_DIR}/{file_name.split(".")[0]}.txt'
 
     def append_to_file(self, output_string: str = '') -> None:
         """Append the given string into the output file and create a newline.
