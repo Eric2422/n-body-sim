@@ -5,6 +5,7 @@ import numpy as np
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
+from wire import Wire
 
 
 class Simulation():
@@ -44,13 +45,22 @@ class Simulation():
             # Calculate the forces from the other particles
             for particle2 in self.particles:
                 if particle1 != particle2:
-                    net_force += particle1.coulombs_law(particle2)
-                    net_force += particle1.biot_savart_law(particle2)
+                    # Lorentz force law
+                    net_force += particle1.charge * (
+                        particle2.electric_field(particle1.position)
+                        + np.cross(
+                            particle1.velocity,
+                            particle2.magnetic_field(particle1.position)
+                        )
+                    )
+
                     net_force += particle1.gravity(particle2)
 
             # Add the constant fields
-            net_force += particle1.charge * self.electric_field
-            net_force += particle1.charge * np.cross(particle1.velocity, self.magnetic_field)
+            net_force += particle1.charge * \
+                (self.electric_field
+                 + np.cross(particle1.velocity, self.magnetic_field)
+                )
             net_force += particle1.mass * self.gravitational_field
 
             # Apply the force to the particle's acceleration and update its velocity
@@ -79,8 +89,9 @@ class Simulation():
         for i in range(ticks_to_run):
             self.tick()
 
-            if file_handler != None:
-                file_handler.append_to_file(f'Time: {self.current_tick * self.tick_size} s')
+            if file_handler is not None:
+                file_handler.append_to_file(
+                    f'Time: {self.current_tick * self.tick_size} s')
 
                 for particle in self.particles:
                     file_handler.append_to_file(particle.__str__())

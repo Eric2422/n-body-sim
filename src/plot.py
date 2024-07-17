@@ -26,7 +26,7 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             self.figure, self.update, fargs=(data, lines), interval=tick_size/1000)
 
-    def update(self, num: int, data, lines):
+    def update(self, num: int, data, lines) -> None:
         """Update the plot points of the plot. 
 
         Parameters
@@ -41,7 +41,7 @@ class Plot():
         for line, datum in zip(lines, data):
             line.set_data_3d(datum[:num, :].T)
 
-    def show(self):
+    def show(self) -> None:
         """Display this plot and run the animation
         """
         plt.show()

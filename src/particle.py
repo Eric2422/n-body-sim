@@ -47,12 +47,13 @@ class PointParticle:
             self.acceleration += force / self.mass
 
     def gravity(self, particle: PointParticle) -> np.array:
-        """Calculate the gravitational attraction between this particle and another. 
+        """Calculate the gravitational field created by this particle at a position. 
 
         Parameters
         ----------
-        particle : Particle
-            The other particle that is exerting a gravitational force on this particle
+        position : np.array
+            The position that the particle is exerting a gravitational field is exerting.
+            A 3D vector of type np.float64. 
 
         Returns
         -------
@@ -68,20 +69,20 @@ class PointParticle:
 
         return gravitational_force
 
-    def electric_field(self, position: np.array) -> np.array:
-        """Calculate the electric field at a position due to this particle.
+    def electric_field(self, point: np.array) -> np.array:
+        """Calculate the electric field at a point due to this particle.
 
         Parameters
         ----------
-        position : np.array
-            A 3D vector representing a coordinate
+        point : np.array
+            A 3D vector representing a coordinate.
         
         Returns
         -------
         np.array
             The vector of the electric field that this particle creates at the point
         """
-        vector_between_particles = position - self.position
+        vector_between_particles = point - self.position
         distance = np.linalg.norm(vector_between_particles)
         unit_vector = vector_between_particles / distance
 
@@ -93,46 +94,30 @@ class PointParticle:
 
         return -electric_field * unit_vector
 
-    def coulombs_law(self, particle: PointParticle) -> np.array:
-        """Calculate the force exerted on this particle by another particle.
-
-        Parameters
-        ----------
-        particle : Particle
-            The other charged particle that is interacting with this one.
-
-        Returns
-        -------
-        np.array
-            The force vector exerted on this charge by another one.
-        """
-        return self.electric_field(particle.position) * particle.charge
-
-    def biot_savart_law(self, particle: PointParticle) -> np.array:
-        """Calculate the magnetic force exerted on this particle by another particle. 
+    def magnetic_field(self, point: np.array) -> np.array:
+        """Calculate the magnetic field exerted by by this particle at a point. 
         It uses the "Biot-Savart Law for point charges," technically a misnomer,
         which only approximates magnetic fields for particles with a velocity << c.
 
         Parameters
         ----------
-        particle : Particle
-            Another particle which is exerting a magnetic field on this particle
+        point : np.array
+            The point at which to calculate the magnetic field
 
         Returns
         -------
         np.array
-            A vector the magnetic force that this particle experiences due to `particle`
+            The vector of the magnetic field exerted by this particle at the position.
         """
         # The vector between the positions of the particles
-        r = particle.position - self.position
+        r = point - self.position
         # The unit vector of `r`
         r_hat = r / np.linalg.norm(r)
 
-        magnetic_field = (scipy.constants.mu_0 * particle.charge * np.cross(particle.velocity, r_hat)
+        magnetic_field = (scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r_hat)
                           / (4 * np.pi * np.linalg.norm(r) ** 2))
-        magnetic_force = self.charge * np.cross(self.velocity, magnetic_field)
 
-        return magnetic_force
+        return magnetic_field
 
     def __str__(self) -> str:
         coordinates = f'({" m, ".join([str(num) for num in self.position])} m)'
