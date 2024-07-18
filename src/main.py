@@ -40,31 +40,27 @@ class Simulation():
         # Calculate the electrostatic force that the particles exert on each other
         # Update the particle's acceleration and and velocity, but not the position
         for particle1 in self.particles:
-            net_force = 0
-
             # Calculate the forces from the other particles
             for particle2 in self.particles:
                 if particle1 != particle2:
                     # Lorentz force law
-                    net_force += particle1.charge * (
-                        particle2.electric_field(particle1.position)
-                        + np.cross(
-                            particle1.velocity,
-                            particle2.magnetic_field(particle1.position)
-                        )
+                    particle1.apply_lorentz_force_law(
+                        particle2.calculate_electric_field(particle1.position),
+                        particle2.calculate_magnetic_field(particle1.position)
                     )
 
-                    net_force += particle1.gravity(particle2)
+                    particle1.apply_gravitational_field(
+                        particle2.calculate_gravitational_field(
+                            particle1.position)
+                    )
 
             # Add the constant fields
-            net_force += particle1.charge * \
-                (self.electric_field
-                 + np.cross(particle1.velocity, self.magnetic_field)
-                )
-            net_force += particle1.mass * self.gravitational_field
+            particle1.apply_lorentz_force_law(
+                self.electric_field, self.magnetic_field
+            )
+            particle1.apply_gravitational_field(self.gravitational_field)
 
-            # Apply the force to the particle's acceleration and update its velocity
-            particle1.apply_force(net_force)
+            # Update the particle's velocity
             particle1.velocity += particle1.acceleration * self.tick_size
 
         # Update position after calculating the force, so it doesn't affect the force calculations

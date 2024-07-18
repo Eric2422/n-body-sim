@@ -46,37 +46,79 @@ class PointParticle:
         if not self.fixed:
             self.acceleration += force / self.mass
 
-    def gravity(self, particle: PointParticle) -> np.array:
-        """Calculate the gravitational field created by this particle at a position. 
+    def apply_gravitational_field(self, gravitational_field: np.array) -> None:
+        """Calculate and apply the effects of a gravitational field upon this particle.
 
         Parameters
         ----------
-        position : np.array
-            The position that the particle is exerting a gravitational field is exerting.
-            A 3D vector of type np.float64. 
+        gravitational_field : np.array
+            A 3D vector measured in N/kg representing the gravitational field acting upon this particle.
+        """
+        self.apply_force(self.mass * gravitational_field)
+
+    def apply_electric_field(self, electric_field: np.array) -> None:
+        """Calculate and apply the effects of a electric field upon this particle.
+
+        Parameters
+        ----------
+        electric_field : np.array
+            A 3D vector measured in N/C representing the electric field acting upon this particle.
+        """
+        self.apply_force(self.charge * electric_field)
+
+    def apply_magnetic_field(self, magnetic_field: np.array) -> None:
+        """Calculate and apply the effects of a magnetic field upon this particle.
+
+        Parameters
+        ----------
+        magnetic_field : np.array
+            A 3D vector measured in teslas representing the magnetic field acting upon this particle.
+        """
+        self.apply_force(
+            self.charge
+            * np.cross(self.velocity, magnetic_field)
+        )
+
+    def apply_lorentz_force_law(self, electric_field: np.array, magnetic_field: np.array) -> None:
+        """Calculate and apply the effects of an electromagnetic field on upon this particle
+
+        Parameters
+        ----------
+        electric_field : np.array
+            A 3D vector measured in N/C representing the electric field acting upon this particle.
+        magnetic_field : np.array
+            A 3D vector measured in teslas representing the magnetic field acting upon this particle.
+        """
+        self.apply_electric_field(electric_field)
+        self.apply_magnetic_field(magnetic_field)
+
+    def calculate_gravitational_field(self, point: np.array) -> np.array:
+        """Calculate the gravitational force between this particle and another. 
+
+        Parameters
+        ----------
+        point : np.array
+            A 3D vector representing the coordinates of the point that this particle is exerting a gravitational field upon.
 
         Returns
         -------
         np.array
-            A vector of the gravitational force exerted on this particle.
+            A vector of the gravitational force exerted upon this particle.
         """
-        vector_between_points = particle.position - self.position
+        vector_between_points = point - self.position
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 
-        force_magnitude = scipy.constants.G * self.mass * particle.mass / distance ** 2
-        gravitational_force = force_magnitude * unit_vector
+        return unit_vector * scipy.constants.G * self.mass / distance ** 2
 
-        return gravitational_force
-
-    def electric_field(self, point: np.array) -> np.array:
+    def calculate_electric_field(self, point: np.array) -> np.array:
         """Calculate the electric field at a point due to this particle.
 
         Parameters
         ----------
         point : np.array
             A 3D vector representing a coordinate.
-        
+
         Returns
         -------
         np.array
@@ -94,7 +136,7 @@ class PointParticle:
 
         return -electric_field * unit_vector
 
-    def magnetic_field(self, point: np.array) -> np.array:
+    def calculate_magnetic_field(self, point: np.array) -> np.array:
         """Calculate the magnetic field exerted by by this particle at a point. 
         It uses the "Biot-Savart Law for point charges," technically a misnomer,
         which only approximates magnetic fields for particles with a velocity << c.
