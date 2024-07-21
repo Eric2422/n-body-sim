@@ -4,12 +4,12 @@ import numpy as np
 
 
 class Plot():
-    def __init__(self, data: np.array, tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, data: np.ndarray, tick_size: np.float64 = 1.0) -> None:
         """Create a 3D NumPy plot
 
         Parameters
         ----------
-        data : np.array
+        data : np.ndarray
             The data to be plotted. 
             A 2D array of floats. 
             Each row is a particle and each column is a position at a given point in time.
@@ -33,7 +33,7 @@ class Plot():
         ----------
         num : int
             The number of intervals that have elapsed.
-        positions : np.array
+        positions : np.ndarray
             The data of the 
         lines : list
             A list containing the lines of the plot. 

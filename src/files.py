@@ -47,12 +47,12 @@ class FileHandler:
         except OSError:
             print('The output file could not be opened.')
 
-    def read_config_file(self) -> np.array:
+    def read_config_file(self) -> np.ndarray:
         """Read a given CSV file, extract the data, and return it.
 
         Returns
         -------
-        np.array
+        np.ndarray
             A 2D NumPy array of floats containing data about the particles.
             Each inner list is a particle.
 
