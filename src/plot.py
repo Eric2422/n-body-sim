@@ -5,7 +5,7 @@ import numpy as np
 
 class Plot():
     def __init__(self, data: np.ndarray, tick_size: np.float64 = 1.0) -> None:
-        """Create a 3D NumPy plot
+        """Create a 3D NumPy plot.
 
         Parameters
         ----------
@@ -42,6 +42,6 @@ class Plot():
             line.set_data_3d(datum[:num, :].T)
 
     def show(self) -> None:
-        """Display this plot and run the animation
+        """Display this plot and run the animation.
         """
         plt.show()

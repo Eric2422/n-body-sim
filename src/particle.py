@@ -80,7 +80,7 @@ class PointParticle:
         )
 
     def apply_lorentz_force_law(self, electric_field: np.ndarray, magnetic_field: np.ndarray) -> None:
-        """Calculate and apply the effects of an electromagnetic field on upon this particle
+        """Calculate and apply the effects of an electromagnetic field on upon this particle.
 
         Parameters
         ----------
@@ -93,7 +93,7 @@ class PointParticle:
         self.apply_magnetic_field(magnetic_field)
 
     def calculate_gravitational_field(self, point: np.ndarray) -> np.ndarray:
-        """Calculate the gravitational force between this particle and another. 
+        """Calculate the gravitational field created by this particle at `point`. 
 
         Parameters
         ----------
@@ -103,7 +103,7 @@ class PointParticle:
         Returns
         -------
         np.ndarray
-            A vector of the gravitational force exerted upon this particle.
+            A vector of the gravitational field generated at `point`.
         """
         vector_between_points = point - self.position
         distance = np.linalg.norm(vector_between_points)
@@ -112,7 +112,7 @@ class PointParticle:
         return unit_vector * scipy.constants.G * self.mass / distance ** 2
 
     def calculate_electric_field(self, point: np.ndarray) -> np.ndarray:
-        """Calculate the electric field at a point due to this particle.
+        """Calculate the electric field at `point` due to this particle.
 
         Parameters
         ----------
@@ -137,10 +137,8 @@ class PointParticle:
         return -electric_field * unit_vector
 
     def calculate_magnetic_field(self, point: np.ndarray) -> np.ndarray:
-        """Calculate the magnetic field exerted by by this particle at a point. 
-        It uses the "Biot-Savart Law for point charges," technically a misnomer,
-        which only approximates magnetic fields for particles with a velocity << c.
-
+        """Calculate the magnetic field exerted by by this particle at `point`. 
+        
         Parameters
         ----------
         point : np.ndarray
@@ -149,7 +147,12 @@ class PointParticle:
         Returns
         -------
         np.ndarray
-            The vector of the magnetic field exerted by this particle at the position.
+            The vector of the magnetic field exerted by this particle at `point`.
+
+        Notes
+        -----
+        It uses the "Biot-Savart Law for point charges," technically a misnomer,
+        which only approximates magnetic fields for particles with a velocity << c.
         """
         # The vector between the positions of the particles
         r = point - self.position

@@ -39,7 +39,7 @@ class FileHandler:
             print('The output file could not be opened.')
 
     def clear_output_file(self) -> None:
-        """Clear the output file
+        """Clear the output file.
         """
         try:
             open(self.output_file, 'w').close()
