@@ -34,6 +34,29 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
+    def apply_force_from_particle(self, particle1: PointParticle, particle2: PointParticle):
+        """Calculate and apply the force form `particle2` on `particle1`.
+
+        Parameters
+        ----------
+        particle1 : PointParticle
+            The particle that is being being moved by `particle2`.
+        particle2 : PointParticle
+            The particle that is exerting a force upon `particle1`.
+        """
+        # If the particles are not the same
+        if particle1 != particle2:
+                # Lorentz force law
+                particle1.apply_lorentz_force_law(
+                    particle2.calculate_electric_field(particle1.position),
+                    particle2.calculate_magnetic_field(particle1.position)
+                )
+                
+                particle1.apply_gravitational_field(
+                    particle2.calculate_gravitational_field(
+                        particle1.position)
+                )
+
     def tick(self) -> None:
         """Run one tick of the simulation(i.e. the time specified by `tick_size`).
         """
@@ -42,17 +65,7 @@ class Simulation():
         for particle1 in self.particles:
             # Calculate the forces from the other particles
             for particle2 in self.particles:
-                if particle1 != particle2:
-                    # Lorentz force law
-                    particle1.apply_lorentz_force_law(
-                        particle2.calculate_electric_field(particle1.position),
-                        particle2.calculate_magnetic_field(particle1.position)
-                    )
-
-                    particle1.apply_gravitational_field(
-                        particle2.calculate_gravitational_field(
-                            particle1.position)
-                    )
+                self.apply_force_from_particle(particle1, particle2)
 
             # Add the constant fields
             particle1.apply_lorentz_force_law(
