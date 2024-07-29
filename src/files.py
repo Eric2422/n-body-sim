@@ -1,26 +1,36 @@
-import csv
+import json
 import sys
 
 import numpy as np
+import jsonschema
 
 
 class FileHandler:
     CONFIG_DIR = './config'
     OUTPUT_DIR = './output'
 
-    def __init__(self, file_name='sample') -> None:
+    def __init__(self, schema_file: str = 'schema.json', file_name: str = 'sample.csv') -> None:
         """Initiate a file handler for reading and creating files. 
 
         Parameters
         ----------
+        schema_file: str, optional
+            The name of the JSON schema file used for the config files, by default 'schema.json'
+            Found in the `./config` directory but does not contain the directory.
         file_name : str, optional
-            The name of the config and output file without the file extension, by default 'sample'
+            The name of the config file with the file extension, by default 'sample.csv'
+            The output file will have the same name but with the ".txt" file extension instead.
         """
         self.config_file = f'{FileHandler.CONFIG_DIR}/{file_name}'
-        # The output file will have the same name but with the ".txt" file extension instead
-        self.output_file = f'{FileHandler.OUTPUT_DIR}/{file_name.split(".")[0]}.txt'
+        self.output_file = f'{
+            FileHandler.OUTPUT_DIR}/{file_name.split(".")[0]}.txt'
 
-    def append_to_file(self, output_string: str = '') -> None:
+        # Open the schema file and read
+        self.json_schema = json.load(
+            open(f'{FileHandler.CONFIG_DIR}/{schema_file}')
+        )
+
+    def append_to_output_file(self, output_string: str = '') -> None:
         """Append the given string into the output file and create a newline.
 
         Parameters
@@ -29,7 +39,7 @@ class FileHandler:
             The name of the file to write to, 
             excluding the directory(i.e. `output/`), by default `sample.txt`
         output_string: str, optional
-            The string to be appended to the given file, by default ""
+            The string to be appended to the given file, by default ''
         """
         try:
             with open(self.output_file, 'a') as output_file:
@@ -70,3 +80,50 @@ class FileHandler:
         except OSError or FileNotFoundError:
             print('Please enter a valid config file.')
             sys.exit()
+
+    def write_config_file(self, file_name: str = "config.json", input_dict: object = None) -> None:
+        """Write a schema-valid config JSON file based on a Python dictionary.
+
+        Extended Summary
+        ----------------
+        The file must be in the `./config` directory.
+        If the file does not exist, a new file will be created.
+        Any pre-existing content will be overwritten.
+        The `input_dict` must conform to the JSON schema in `self.schema_file`.
+
+        Parameters
+        ----------
+        file_name : str, optional
+            The name of the config file to be 
+        input_dict : str, optional
+            An object to write into the file as a JSON, by default `None`.
+
+        Raises
+        ------
+        ValidationError
+            If the given input object does not conform to the JSON schema.
+        """
+        if not jsonschema.validate(input_dict, self.json_schema):
+            return
+
+        # Write the object as a JSON into the config file
+        json.dump(input_dict, f'./config/{file_name}')
+
+    def generate_json_from_schema(self, schema: dict) -> dict:
+        if schema['type'] == 'object':
+            for property in self.json_schema['properties']:
+                
+        return None
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        raise ValueError("Please pass in the name of the configuration file to write to.")
+
+    # Create a file handler using the given JSON schema
+    file_handler = FileHandler()
+
+    print(file_handler.json_schema)
+    
+
+    file_handler.write_config_file(file_name=sys.argv[1])

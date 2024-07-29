@@ -46,16 +46,16 @@ class Simulation():
         """
         # If the particles are not the same
         if particle1 != particle2:
-                # Lorentz force law
-                particle1.apply_lorentz_force_law(
-                    particle2.calculate_electric_field(particle1.position),
-                    particle2.calculate_magnetic_field(particle1.position)
-                )
-                
-                particle1.apply_gravitational_field(
-                    particle2.calculate_gravitational_field(
-                        particle1.position)
-                )
+            # Lorentz force law
+            particle1.apply_lorentz_force_law(
+                particle2.calculate_electric_field(particle1.position),
+                particle2.calculate_magnetic_field(particle1.position)
+            )
+
+            particle1.apply_gravitational_field(
+                particle2.calculate_gravitational_field(
+                    particle1.position)
+            )
 
     def tick(self) -> None:
         """Run one tick of the simulation(i.e. the time specified by `tick_size`).
@@ -99,13 +99,13 @@ class Simulation():
             self.tick()
 
             if file_handler is not None:
-                file_handler.append_to_file(
+                file_handler.append_to_output_file(
                     f'Time: {self.current_tick * self.tick_size} s')
 
                 for particle in self.particles:
-                    file_handler.append_to_file(particle.__str__())
+                    file_handler.append_to_output_file(particle.__str__())
 
-                file_handler.append_to_file()
+                file_handler.append_to_output_file()
 
 
 if __name__ == '__main__':

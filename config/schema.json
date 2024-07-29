@@ -39,7 +39,7 @@
             }
         },
         "wires": {
-            "description": "The current-carrying wires used in the simulatoin.",
+            "description": "The current-carrying wires used in the simulation.",
             "type": "array",
             "items": {
                 "type": "array"
