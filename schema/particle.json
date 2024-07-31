@@ -1,0 +1,28 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Point particle",
+    "description": "A point particle with a specified position, charge, and mass.",
+    "type": "object",
+    "properties": {
+        "position": {
+            "description": "The position of the particle as a 3D vector. Measured in meters(m).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
+        "mass": {
+            "description": "The mass of the particle in kilograms(kg).",
+            "type": "number",
+            "exclusiveMinimum": 0
+        },
+        "charge": {
+            "description": "The charge of the particle in coulombs(C).",
+            "type": "number"
+        },
+        "fixed": {
+            "description": "Whether the particle can move.",
+            "type": "boolean"
+        }
+    }
+}

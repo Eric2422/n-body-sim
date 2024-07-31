@@ -1,0 +1,10 @@
+{
+    "title": "Point",
+    "description": "A 3D vector measured in meters represnting a point in 3D space",
+    "type": "array",
+    "items": {
+        "type": "number"
+    },
+    "minItems": 3,
+    "maxItems": 3
+}

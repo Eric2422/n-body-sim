@@ -1,0 +1,51 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Physics simulation configuration file",
+    "description": "The initial setup for the force fields, particles, and wires used by the physics simulation.",
+    "type": "object",
+    "properties": {
+        "electric field": {
+            "description": "The constant electric field as a 3D vector. Measured in newtons per coulomb(N/C).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
+        "magnetic field": {
+            "description": "The constant magnetic field as 3D vector. Measured in teslas(T).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
+        "gravitational field": {
+            "description": "The constant gravitational field as 3D vector. Measured in netwons per kilogram(N/kg).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
+        "particles": {
+            "description": "The point particles used in the simulation.",
+            "type": "array",
+            "items": {
+                "description": "A point particle with a specified position, charge, and mass.",
+                "$ref": "./particle_schema.json"
+            }
+        },
+        "wires": {
+            "description": "The current-carrying wires used in the simulation.",
+            "type": "array",
+            "items": {
+                "description": "A straight current-carrying wire with a specified position, length, and resistance.",
+                "$ref": "./wire_schema.json"
+            }
+        }
+    }
+}

@@ -7,9 +7,10 @@ import jsonschema
 
 class FileHandler:
     CONFIG_DIR = './config'
+    SCHEMA_DIR = './schema'
     OUTPUT_DIR = './output'
 
-    def __init__(self, schema_file: str = 'schema.json', file_name: str = 'sample.csv') -> None:
+    def __init__(self, schema_file: str = 'main.json', file_name: str = 'sample.csv') -> None:
         """Initiate a file handler for reading and creating files. 
 
         Parameters
@@ -27,7 +28,7 @@ class FileHandler:
 
         # Open the schema file and read
         self.json_schema = json.load(
-            open(f'{FileHandler.CONFIG_DIR}/{schema_file}')
+            open(f'{FileHandler.SCHEMA_DIR}/{schema_file}')
         )
 
     def append_to_output_file(self, output_string: str = '') -> None:
@@ -81,7 +82,7 @@ class FileHandler:
             print('Please enter a valid config file.')
             sys.exit()
 
-    def write_config_file(self, file_name: str = "config.json", input_dict: object = None) -> None:
+    def write_config_file(self, file_name: str = "config=.json", input_dict: object = None) -> None:
         """Write a schema-valid config JSON file based on a Python dictionary.
 
         Extended Summary
@@ -109,21 +110,53 @@ class FileHandler:
         # Write the object as a JSON into the config file
         json.dump(input_dict, f'./config/{file_name}')
 
-    def generate_json_from_schema(self, schema: dict) -> dict:
-        if schema['type'] == 'object':
-            for property in self.json_schema['properties']:
-                
-        return None
+    def create_json_template(self, schema: dict = None) -> dict:
+        """Recursively loop through the provided schema 
+        and generate a dictionary of blank values that conforms to the schema.
+
+        Parameters
+        ----------
+        schema : dict, optional
+            _description_, by default None
+
+        Returns
+        -------
+        dict
+            A dictionary of blank values that conforms to the schema.
+        """
+
+        if schema is None:
+            schema = self.json_schema
+
+        match schema['type']:
+            case 'object':
+                return {property: self.create_json_template(schema['properties'][property])
+                        for property in schema['properties']
+                        }
+
+            case 'array':
+                if 'minItems' in schema:
+                    return [self.create_json_template(schema['items']) for i in range(schema['minItems'])]
+
+            case 'string':
+                return ''
+
+            case 'number':
+                return 0
+
+            case 'boolean':
+                return False
+
+            case _:
+                return None
 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        raise ValueError("Please pass in the name of the configuration file to write to.")
+        raise ValueError(
+            "Please pass in the name of the configuration file to write to.")
 
     # Create a file handler using the given JSON schema
     file_handler = FileHandler()
 
-    print(file_handler.json_schema)
-    
-
-    file_handler.write_config_file(file_name=sys.argv[1])
+    print(file_handler.create_json_template())

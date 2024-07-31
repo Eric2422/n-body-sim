@@ -6,7 +6,7 @@ import scipy.constants
 
 
 class PointParticle:
-    """Represent a point particle with a specified position, charge, and mass.
+    """A point particle with a specified position, charge, and mass.
     """
 
     def __init__(self, position: np.ndarray, charge: np.float64 = 0.0, mass: np.float64 = 1.0, fixed: bool = False) -> None:
