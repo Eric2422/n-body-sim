@@ -8,9 +8,9 @@
             "description": "The points that the electric wire passes through.",
             "type": "array",
             "items": {
-                "type": "object",
-                "$ref": "./point.json"
-            }
+                "$ref": "./schema/point.json"
+            },
+            "minItems": 2
         },
         "resistance": {
             "description": "The resistance of the wire in ohms(Ω).",

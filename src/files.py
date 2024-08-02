@@ -128,10 +128,14 @@ class FileHandler:
         if schema is None:
             schema = self.json_schema
 
+        if '$ref' in schema:
+            ref_schema = json.load(
+                open(schema['$ref'])
+            )
+            return self.create_json_template(ref_schema)
+
         match schema['type']:
             case 'object':
-                if '$ref' in schema:
-                    pass
 
                 # Recurse through the properties of the object
                 return {property: self.create_json_template(schema['properties'][property])
@@ -145,7 +149,7 @@ class FileHandler:
                 # Add the mininum number of elements necessary.
                 if 'minItems' in schema:
                     return [array_element for i in range(schema['minItems'])]
-                
+
                 else:
                     return [array_element]
 
@@ -155,7 +159,7 @@ class FileHandler:
             case 'number':
                 if 'mininum' in schema:
                     return schema['mininum']
-                
+
                 elif 'exclusiveMininum' in schema:
                     return schema['exclusiveMininum'] + 1.0
 
