@@ -83,7 +83,7 @@ class FileHandler:
             sys.exit()
 
     def write_config_file(self, file_name: str = "config=.json", input_dict: object = None) -> None:
-        """Write a schema-valid config JSON file based on a Python dictionary.
+        """Write a Python dictionary into a schema-valid config JSON file .
 
         Extended Summary
         ----------------
@@ -111,37 +111,63 @@ class FileHandler:
         json.dump(input_dict, f'./config/{file_name}')
 
     def create_json_template(self, schema: dict = None) -> dict:
-        """Recursively loop through the provided schema 
-        and generate a dictionary of blank values that conforms to the schema.
+        """Recursively loop through the provided schema and generate a schema-valid dictionary of blank values.
 
         Parameters
         ----------
         schema : dict, optional
-            _description_, by default None
+            The JSON schema or schema property to generate a dictionary with, by default `self.json_schema`.
 
         Returns
         -------
         dict
             A dictionary of blank values that conforms to the schema.
         """
-
+        # If no schema is passed in,
+        # default to `self.json_schema`
         if schema is None:
             schema = self.json_schema
 
         match schema['type']:
             case 'object':
+                if '$ref' in schema:
+                    pass
+
+                # Recurse through the properties of the object
                 return {property: self.create_json_template(schema['properties'][property])
                         for property in schema['properties']
                         }
 
             case 'array':
+                # Create the array element to be copied
+                array_element = self.create_json_template(schema['items'])
+
+                # Add the mininum number of elements necessary.
                 if 'minItems' in schema:
-                    return [self.create_json_template(schema['items']) for i in range(schema['minItems'])]
+                    return [array_element for i in range(schema['minItems'])]
+                
+                else:
+                    return [array_element]
 
             case 'string':
                 return ''
 
             case 'number':
+                if 'mininum' in schema:
+                    return schema['mininum']
+                
+                elif 'exclusiveMininum' in schema:
+                    return schema['exclusiveMininum'] + 1.0
+
+                return 0.0
+
+            case 'integer':
+                if 'mininum' in schema:
+                    return schema['mininum']
+
+                elif 'exclusiveMininum' in schema:
+                    return schema['exclusiveMininum'] + 1
+
                 return 0
 
             case 'boolean':

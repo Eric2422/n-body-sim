@@ -5,11 +5,9 @@
     "type": "object",
     "properties": {
         "position": {
-            "description": "The position of the particle as a 3D vector. Measured in meters(m).",
-            "type": "array",
-            "items": {
-                "type": "number"
-            }
+            "description": "The position of the particle as a 3D vector, measured in meters(m).",
+            "type": "object",
+            "$ref": "./point.json"
         },
         "mass": {
             "description": "The mass of the particle in kilograms(kg).",

@@ -1,6 +1,6 @@
 {
     "title": "Point",
-    "description": "A 3D vector measured in meters represnting a point in 3D space",
+    "description": "A 3D vector representing a point in 3D space, measured in meters(m)",
     "type": "array",
     "items": {
         "type": "number"
