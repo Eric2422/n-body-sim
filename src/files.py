@@ -84,7 +84,38 @@ class FileHandler:
             print('Please enter a valid config file.')
             sys.exit()
 
-    def write_config_file(self, file_name: str = "config=.json", config_dict: object = None) -> None:
+    def validate_config_dict(self, config_dict: dict) -> bool:
+        """Determine whether or not the given Python dict is valid by the schema.
+
+        Parameters
+        ----------
+        config_dict : dict
+            The dict that is being validated.
+
+        Returns
+        -------
+        bool
+            Whether the dict is valid. 
+        """
+        # Load all the schemas in './schema'2
+        resources = [
+            (
+                f'urn:{file_name}', json.load(
+                    open(f'{self.SCHEMA_DIR}/{file_name}'))
+            )
+            for file_name in os.listdir(self.SCHEMA_DIR)
+        ]
+        registry = referencing.Registry().with_resources(resources)
+
+        # Create a validator using the registry
+        validator = jsonschema.Draft202012Validator(
+            self.schema_dict,
+            registry=registry
+        )
+        validator.validate(config_dict)
+             
+
+    def write_config_file(self, file_name: str = "config=.json", config_dict: dict = None) -> None:
         """Write a Python dictionary into a schema-valid config JSON file .
 
         Extended Summary
@@ -106,23 +137,7 @@ class FileHandler:
         ValidationError
             If the given input object does not conform to the JSON schema.
         """
-        # Load all the schemas in './schema'2
-        resources = [
-            (
-                f'urn:{file_name}', json.load(
-                    open(f'{self.SCHEMA_DIR}/{file_name}'))
-            )
-            for file_name in os.listdir(self.SCHEMA_DIR)
-        ]
-        registry = referencing.Registry().with_resources(resources)
-
-        # Create a validator using the registry
-        validator = jsonschema.Draft202012Validator(
-            self.schema_dict,
-            registry=registry
-        )
-        validator.validate(config_dict)
-
+        pass
         # Write the object as a JSON into the config file
         # json.dump(config_dict, f'./config/{file_name}')
 
