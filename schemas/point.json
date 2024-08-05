@@ -1,4 +1,6 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "point.json",
     "title": "Point",
     "description": "A 3D vector representing a point in 3D space, measured in meters(m)",
     "type": "array",

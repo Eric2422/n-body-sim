@@ -1,5 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "wire.json",
     "title": "Wire",
     "description": "A straight current-carrying wire with a specified position, length, and resistance.",
     "type": "object",
@@ -8,7 +9,7 @@
             "description": "The points that the electric wire passes through.",
             "type": "array",
             "items": {
-                "$ref": "./schema/point.json"
+                "$ref": "/point.json"
             },
             "minItems": 2
         },

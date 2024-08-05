@@ -1,13 +1,15 @@
 import json
+import os
 import sys
 
 import numpy as np
 import jsonschema
+import referencing
 
 
 class FileHandler:
     CONFIG_DIR = './config'
-    SCHEMA_DIR = './schema'
+    SCHEMA_DIR = './schemas'
     OUTPUT_DIR = './output'
 
     def __init__(self, schema_file: str = 'main.json', file_name: str = 'sample.csv') -> None:
@@ -27,7 +29,7 @@ class FileHandler:
             FileHandler.OUTPUT_DIR}/{file_name.split(".")[0]}.txt'
 
         # Open the schema file and read
-        self.json_schema = json.load(
+        self.schema_dict = json.load(
             open(f'{FileHandler.SCHEMA_DIR}/{schema_file}')
         )
 
@@ -82,7 +84,7 @@ class FileHandler:
             print('Please enter a valid config file.')
             sys.exit()
 
-    def write_config_file(self, file_name: str = "config=.json", input_dict: object = None) -> None:
+    def write_config_file(self, file_name: str = "config=.json", config_dict: object = None) -> None:
         """Write a Python dictionary into a schema-valid config JSON file .
 
         Extended Summary
@@ -104,11 +106,25 @@ class FileHandler:
         ValidationError
             If the given input object does not conform to the JSON schema.
         """
-        if not jsonschema.validate(input_dict, self.json_schema):
-            return
+        # Load all the schemas in './schema'2
+        resources = [
+            (
+                f'urn:{file_name}', json.load(
+                    open(f'{self.SCHEMA_DIR}/{file_name}'))
+            )
+            for file_name in os.listdir(self.SCHEMA_DIR)
+        ]
+        registry = referencing.Registry().with_resources(resources)
+
+        # Create a validator using the registry
+        validator = jsonschema.Draft202012Validator(
+            self.schema_dict,
+            registry=registry
+        )
+        validator.validate(config_dict)
 
         # Write the object as a JSON into the config file
-        json.dump(input_dict, f'./config/{file_name}')
+        # json.dump(config_dict, f'./config/{file_name}')
 
     def create_json_template(self, schema: dict = None) -> dict:
         """Recursively loop through the provided schema and generate a schema-valid dictionary of blank values.
@@ -126,14 +142,17 @@ class FileHandler:
         # If no schema is passed in,
         # default to `self.json_schema`
         if schema is None:
-            schema = self.json_schema
+            schema = self.schema_dict
 
+        # If the schema contains a subschema,
+        # open and read it
         if '$ref' in schema:
             ref_schema = json.load(
-                open(schema['$ref'])
+                open(f"{self.SCHEMA_DIR}/{schema['$ref']}")
             )
             return self.create_json_template(ref_schema)
 
+        # Else, generate a value of the appropriate type
         match schema['type']:
             case 'object':
 
@@ -189,4 +208,6 @@ if __name__ == '__main__':
     # Create a file handler using the given JSON schema
     file_handler = FileHandler()
 
-    print(file_handler.create_json_template())
+    blank_dict = file_handler.create_json_template()
+    # print(blank_dict)
+    file_handler.write_config_file(config_dict=blank_dict)

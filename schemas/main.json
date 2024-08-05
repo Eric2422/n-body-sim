@@ -1,5 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "main.json",
     "title": "Physics simulation configuration file",
     "description": "The initial setup for the force fields, particles, and wires used by the physics simulation.",
     "type": "object",
@@ -36,7 +37,7 @@
             "type": "array",
             "items": {
                 "description": "A point particle with a specified position, charge, and mass.",
-                "$ref": "./schema/particle.json"
+                "$ref": "/particle.json"
             }
         },
         "wires": {
@@ -44,7 +45,7 @@
             "type": "array",
             "items": {
                 "description": "A straight current-carrying wire with a specified position, length, and resistance.",
-                "$ref": "./schema/wire.json"
+                "$ref": "/wire.json"
             }
         }
     }

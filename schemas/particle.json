@@ -1,12 +1,13 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "particle.json",
     "title": "Point particle",
     "description": "A point particle with a specified position, charge, and mass.",
     "type": "object",
     "properties": {
         "position": {
             "description": "The position of the particle as a 3D vector, measured in meters(m).",
-            "$ref": "./schema/point.json"
+            "$ref": "point.json"
         },
         "mass": {
             "description": "The mass of the particle in kilograms(kg).",
