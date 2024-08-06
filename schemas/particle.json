@@ -7,7 +7,7 @@
     "properties": {
         "position": {
             "description": "The position of the particle as a 3D vector, measured in meters(m).",
-            "$ref": "point.json"
+            "$ref": "/point.json"
         },
         "mass": {
             "description": "The mass of the particle in kilograms(kg).",

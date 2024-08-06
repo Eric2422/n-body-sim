@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "main.json",
+    "$id": "/schemas/main.json",
     "title": "Physics simulation configuration file",
     "description": "The initial setup for the force fields, particles, and wires used by the physics simulation.",
     "type": "object",
@@ -44,7 +44,7 @@
             "description": "The current-carrying wires used in the simulation.",
             "type": "array",
             "items": {
-                "description": "A straight current-carrying wire with a specified position, length, and resistance.",
+                "description": "A current-carrying wire with a specified position, length, and resistance.",
                 "$ref": "/wire.json"
             }
         }

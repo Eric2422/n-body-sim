@@ -1,16 +1,17 @@
 import json
-import os
+import pathlib
 import sys
 
 import numpy as np
 import jsonschema
 import referencing
+import referencing.exceptions
 
 
 class FileHandler:
     CONFIG_DIR = './config'
-    SCHEMA_DIR = './schemas'
-    OUTPUT_DIR = './output'
+    SCHEMA_DIR = pathlib.Path('./schemas')
+    OUTPUT_DIR = pathlib.Path('./output')
 
     def __init__(self, schema_file: str = 'main.json', file_name: str = 'sample.csv') -> None:
         """Initiate a file handler for reading and creating files. 
@@ -25,8 +26,7 @@ class FileHandler:
             The output file will have the same name but with the ".txt" file extension instead.
         """
         self.config_file = f'{FileHandler.CONFIG_DIR}/{file_name}'
-        self.output_file = f'{
-            FileHandler.OUTPUT_DIR}/{file_name.split(".")[0]}.txt'
+        self.output_file = FileHandler.OUTPUT_DIR / f'{file_name.split(".")[0]}.txt'
 
         # Open the schema file and read
         self.schema_dict = json.load(
@@ -84,6 +84,24 @@ class FileHandler:
             print('Please enter a valid config file.')
             sys.exit()
 
+    def retrieve_schema_file(self, uri: str):
+        """Retrieve a 
+
+        Parameters
+        ----------
+        uri : str
+            _description_
+
+        Returns
+        -------
+        _type_
+            _description_
+        """
+        path = self.SCHEMA_DIR / pathlib.Path(uri)
+        print(f'path: {path}')
+        contents = json.loads(path.read_text())
+        return referencing.Resource.from_contents(contents)
+
     def validate_config_dict(self, config_dict: dict) -> bool:
         """Determine whether or not the given Python dict is valid by the schema.
 
@@ -97,23 +115,13 @@ class FileHandler:
         bool
             Whether the dict is valid. 
         """
-        # Load all the schemas in './schema'2
-        resources = [
-            (
-                f'urn:{file_name}', json.load(
-                    open(f'{self.SCHEMA_DIR}/{file_name}'))
-            )
-            for file_name in os.listdir(self.SCHEMA_DIR)
-        ]
-        registry = referencing.Registry().with_resources(resources)
+        # self.retrieve_schema_file('main.json')
+        print(config_dict)
 
-        # Create a validator using the registry
-        validator = jsonschema.Draft202012Validator(
-            self.schema_dict,
-            registry=registry
-        )
+        registry = referencing.Registry(retrieve=self.retrieve_schema_file)
+        
+        validator = jsonschema.Draft202012Validator(self.schema_dict, registry=registry)
         validator.validate(config_dict)
-             
 
     def write_config_file(self, file_name: str = "config=.json", config_dict: dict = None) -> None:
         """Write a Python dictionary into a schema-valid config JSON file .
@@ -137,7 +145,9 @@ class FileHandler:
         ValidationError
             If the given input object does not conform to the JSON schema.
         """
-        pass
+        if not self.validate_config_dict(config_dict):
+            print()
+
         # Write the object as a JSON into the config file
         # json.dump(config_dict, f'./config/{file_name}')
 
@@ -163,7 +173,7 @@ class FileHandler:
         # open and read it
         if '$ref' in schema:
             ref_schema = json.load(
-                open(f"{self.SCHEMA_DIR}/{schema['$ref']}")
+                open(FileHandler.SCHEMA_DIR / schema['$ref'])
             )
             return self.create_json_template(ref_schema)
 
