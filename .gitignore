@@ -162,4 +162,7 @@ cython_debug/
 config/*.csv
 !sample.csv
 
+config/*.json
+!sample.json
+
 .vscode

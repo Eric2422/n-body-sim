@@ -9,7 +9,7 @@ import referencing.exceptions
 
 
 class FileHandler:
-    CONFIG_DIR = './config'
+    CONFIG_DIR = pathlib.Path('./config')
     SCHEMA_DIR = pathlib.Path('./schemas')
     OUTPUT_DIR = pathlib.Path('./output')
 
@@ -25,8 +25,10 @@ class FileHandler:
             The name of the config file with the file extension, by default 'sample.csv'
             The output file will have the same name but with the ".txt" file extension instead.
         """
-        self.config_file = f'{FileHandler.CONFIG_DIR}/{file_name}'
-        self.output_file = FileHandler.OUTPUT_DIR / f'{file_name.split(".")[0]}.txt'
+        self.config_file = FileHandler.CONFIG_DIR / file_name
+        # The output file has the same name as file_name but with the .txt extension.
+        self.output_file = FileHandler.OUTPUT_DIR / \
+            (pathlib.Path(file_name).stem + ".txt")
 
         # Open the schema file and read
         self.schema_dict = json.load(
@@ -98,7 +100,6 @@ class FileHandler:
             The Resource created from the contents of the file. 
         """
         path = self.SCHEMA_DIR / pathlib.Path(uri)
-        print(f'path: {path}')
         contents = json.loads(path.read_text())
         return referencing.Resource.from_contents(contents)
 
@@ -114,16 +115,21 @@ class FileHandler:
         -------
         bool
             Whether the dict is valid. 
-        """
-        # self.retrieve_schema_file('main.json')
-        print(config_dict)
 
+        Raises
+        ------
+        ValidationError
+            If the given config dict does not conform to the JSON schema.
+        """
+        # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
         
-        validator = jsonschema.Draft202012Validator(self.schema_dict, registry=registry)
+        # Validate the config dict using the schema and registry
+        validator = jsonschema.Draft202012Validator(
+            self.schema_dict, registry=registry)
         validator.validate(config_dict)
 
-    def write_config_file(self, file_name: str = "config=.json", config_dict: dict = None) -> None:
+    def write_config_file(self, file_name: str = "config.json", config_dict: dict = None) -> None:
         """Write a Python dictionary into a schema-valid config JSON file .
 
         Extended Summary
@@ -143,13 +149,18 @@ class FileHandler:
         Raises
         ------
         ValidationError
-            If the given input object does not conform to the JSON schema.
+            If the given config dict does not conform to the JSON schema.
         """
-        if not self.validate_config_dict(config_dict):
-            print()
+        self.validate_config_dict(config_dict)
+
+        print(config_dict)
 
         # Write the object as a JSON into the config file
-        # json.dump(config_dict, f'./config/{file_name}')
+        json.dump(
+            config_dict,
+            (self.CONFIG_DIR / pathlib.Path(file_name)).open('w+'),
+            indent=4
+        )
 
     def create_json_template(self, schema: dict = None) -> dict:
         """Recursively loop through the provided schema and generate a schema-valid dictionary of blank values.
@@ -173,7 +184,7 @@ class FileHandler:
         # open and read it
         if '$ref' in schema:
             ref_schema = json.load(
-                open(FileHandler.SCHEMA_DIR / schema['$ref'])
+                (FileHandler.SCHEMA_DIR / schema['$ref']).open()
             )
             return self.create_json_template(ref_schema)
 
@@ -190,7 +201,7 @@ class FileHandler:
                 # Create the array element to be copied
                 array_element = self.create_json_template(schema['items'])
 
-                # Add the mininum number of elements necessary.
+                # Add the minimum number of elements necessary.
                 if 'minItems' in schema:
                     return [array_element for i in range(schema['minItems'])]
 
@@ -201,20 +212,20 @@ class FileHandler:
                 return ''
 
             case 'number':
-                if 'mininum' in schema:
-                    return schema['mininum']
+                if 'minimum' in schema:
+                    return schema['minimum']
 
-                elif 'exclusiveMininum' in schema:
-                    return schema['exclusiveMininum'] + 1.0
+                if 'exclusiveMinimum' in schema:
+                    return schema['exclusiveMinimum'] + 1.0
 
                 return 0.0
 
             case 'integer':
-                if 'mininum' in schema:
-                    return schema['mininum']
+                if 'minimum' in schema:
+                    return schema['minimum']
 
-                elif 'exclusiveMininum' in schema:
-                    return schema['exclusiveMininum'] + 1
+                if 'exclusiveMinimum' in schema:
+                    return schema['exclusiveMinimum'] + 1
 
                 return 0
 
@@ -234,5 +245,4 @@ if __name__ == '__main__':
     file_handler = FileHandler()
 
     blank_dict = file_handler.create_json_template()
-    # print(blank_dict)
-    file_handler.write_config_file(config_dict=blank_dict)
+    file_handler.write_config_file(file_name=sys.argv[1], config_dict=blank_dict)

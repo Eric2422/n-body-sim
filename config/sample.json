@@ -1,5 +1,46 @@
 {
+    "electric field": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "magnetic field": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "gravitational field": [
+        0.0,
+        0.0,
+        0.0
+    ],
     "particles": [
-
+        {
+            "position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "mass": 1.0,
+            "charge": 0.0,
+            "fixed": false
+        }
+    ],
+    "wires": [
+        {
+            "points": [
+                [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            ],
+            "resistance": 1.0
+        }
     ]
 }

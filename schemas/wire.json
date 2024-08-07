@@ -9,7 +9,7 @@
             "description": "The points that the electric wire passes through.",
             "type": "array",
             "items": {
-                "$ref": "/point.json"
+                "$ref": "point.json"
             },
             "minItems": 2
         },
