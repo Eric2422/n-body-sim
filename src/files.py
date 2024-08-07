@@ -84,18 +84,18 @@ class FileHandler:
             print('Please enter a valid config file.')
             sys.exit()
 
-    def retrieve_schema_file(self, uri: str):
-        """Retrieve a 
+    def retrieve_schema_file(self, uri: str) -> referencing.Resource:
+        """Retrieve a referencing Resource from the given URI.
 
         Parameters
         ----------
         uri : str
-            _description_
+            The URI of the file.
 
         Returns
         -------
-        _type_
-            _description_
+        referencing.Resource
+            The Resource created from the contents of the file. 
         """
         path = self.SCHEMA_DIR / pathlib.Path(uri)
         print(f'path: {path}')
