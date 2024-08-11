@@ -25,6 +25,10 @@ class Wire():
         """
         self.end1 = end1
         self.end2 = end2
+
+        self.points = np.array(ndmin=2)
+        print(self.points)
+
         self.resistance = resistance
 
     def calculate_length(self) -> np.float64:
