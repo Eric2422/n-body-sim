@@ -5,7 +5,6 @@ import sys
 import numpy as np
 import jsonschema
 import referencing
-import referencing.exceptions
 
 
 class FileHandler:
@@ -13,30 +12,31 @@ class FileHandler:
     SCHEMA_DIR = pathlib.Path('./schemas')
     OUTPUT_DIR = pathlib.Path('./output')
 
-    def __init__(self, schema_file: str = 'main.json', file_name: str = 'sample.csv') -> None:
+    def __init__(self, schema_file: str = 'main.json', config_file: str = 'sample.json') -> None:
         """Initiate a file handler for reading and creating files. 
 
         Parameters
         ----------
         schema_file: str, optional
             The name of the JSON schema file used for the config files, by default 'schema.json'
-            Found in the `./config` directory but does not contain the directory.
-        file_name : str, optional
+            Found in the './config.' directory but does not contain the directory.
+        config_file : str, optional
             The name of the config file with the file extension, by default 'sample.csv'
-            The output file will have the same name but with the ".txt" file extension instead.
+            The output file will have the same name but with the '.txt' file extension instead.
         """
-        self.config_file = FileHandler.CONFIG_DIR / file_name
-        # The output file has the same name as file_name but with the .txt extension.
-        self.output_file = FileHandler.OUTPUT_DIR / \
-            (pathlib.Path(file_name).stem + ".txt")
-
-        # Open the schema file and read
-        self.schema_dict = json.load(
-            open(f'{FileHandler.SCHEMA_DIR}/{schema_file}')
+        self.config_file = pathlib.Path(FileHandler.CONFIG_DIR / config_file)
+        # The output file has the same name as config_file but with the '.txt' extension.
+        self.output_file = pathlib.Path(
+            FileHandler.OUTPUT_DIR /
+            (pathlib.Path(config_file).stem + '.txt')
         )
 
+        # Open the schema file and read it.
+        self.schema_dict = json.load(
+            (FileHandler.SCHEMA_DIR / schema_file).open())
+
     def append_to_output_file(self, output_string: str = '') -> None:
-        """Append the given string into the output file and create a newline.
+        """Append the given string into the output file.
 
         Parameters
         ----------
@@ -47,8 +47,8 @@ class FileHandler:
             The string to be appended to the given file, by default ''
         """
         try:
-            with open(self.output_file, 'a') as output_file:
-                output_file.write(f'{output_string}\n')
+            with self.output_file.open('a') as file:
+                file.write(output_string)
 
         except OSError:
             print('The output file could not be opened.')
@@ -57,13 +57,13 @@ class FileHandler:
         """Clear the output file.
         """
         try:
-            open(self.output_file, 'w').close()
+            self.output_file.write_text('')
 
         except OSError:
             print('The output file could not be opened.')
 
-    def read_config_file(self) -> np.ndarray:
-        """Read a given CSV file, extract the data, and return it.
+    def read_config_file(self) -> dict:
+        """Read a the configuration JSON file, extract the data, and return it as dict.
 
         Returns
         -------
@@ -76,11 +76,9 @@ class FileHandler:
         FileNotFoundError
             When the config file can not be found.
         """
-        # Check if the config file exists
+        # Try to open the config file
         try:
-            with open(self.config_file, newline='') as config_file:
-                # Return the CSV values as a 2D array of floats
-                return np.genfromtxt(config_file, delimiter=',', dtype=float)
+            return json.load(self.config_file.open())
 
         except OSError or FileNotFoundError:
             print('Please enter a valid config file.')
@@ -101,6 +99,7 @@ class FileHandler:
         """
         path = self.SCHEMA_DIR / pathlib.Path(uri)
         contents = json.loads(path.read_text())
+
         return referencing.Resource.from_contents(contents)
 
     def validate_config_dict(self, config_dict: dict) -> bool:
@@ -123,7 +122,7 @@ class FileHandler:
         """
         # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
-        
+
         # Validate the config dict using the schema and registry
         validator = jsonschema.Draft202012Validator(
             self.schema_dict, registry=registry)
@@ -152,8 +151,6 @@ class FileHandler:
             If the given config dict does not conform to the JSON schema.
         """
         self.validate_config_dict(config_dict)
-
-        print(config_dict)
 
         # Write the object as a JSON into the config file
         json.dump(
@@ -245,4 +242,6 @@ if __name__ == '__main__':
     file_handler = FileHandler()
 
     blank_dict = file_handler.create_json_template()
-    file_handler.write_config_file(file_name=sys.argv[1], config_dict=blank_dict)
+    file_handler.write_config_file(
+        file_name=sys.argv[1], config_dict=blank_dict
+    )

@@ -1,44 +1,34 @@
 {
-    "electric field": [
-        0.0,
-        0.0,
-        0.0
-    ],
-    "magnetic field": [
-        0.0,
-        0.0,
-        0.0
-    ],
-    "gravitational field": [
-        0.0,
-        0.0,
-        0.0
-    ],
+    "tick size": 0.1,
+    "num ticks": 2,
+    "electric field": [0.0, 0.0, 0.0],
+    "magnetic field": [0.0, 0.0, 0.0],
+    "gravitational field": [0.0, 0.0, 0.0],
     "particles": [
         {
-            "position": [
-                0.0,
-                0.0,
-                0.0
-            ],
-            "mass": 1.0,
-            "charge": 0.0,
+            "position": [0.0, 0.0, 0.0],
+            "mass": 1.67262192369e-27,
+            "charge": -1.602176634e-19,
+            "fixed": false
+        },
+        {
+            "position": [1.0, 1.0, 1.0],
+            "mass": 1.67262192369e-27,
+            "charge": 1.602176634e-19,
+            "fixed": false
+        },
+        {
+            "position": [0.0, 1.0, 1.0],
+            "mass": 1.67262192369e-27,
+            "charge": 1.602176634e-19,
             "fixed": false
         }
     ],
     "wires": [
         {
             "points": [
-                [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0]
             ],
             "resistance": 1.0
         }

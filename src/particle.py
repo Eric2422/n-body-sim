@@ -9,7 +9,7 @@ class PointParticle:
     """A point particle with a specified position, charge, and mass.
     """
 
-    def __init__(self, position: np.ndarray, charge: np.float64 = 0.0, mass: np.float64 = 1.0, fixed: bool = False) -> None:
+    def __init__(self, position: np.ndarray[np.float64], mass: np.float64 = 1.0, charge: np.float64 = 0.0, fixed: bool = False) -> None:
         """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
@@ -18,10 +18,10 @@ class PointParticle:
             The position that the particle is at.
             X is left/right, Y is forward/backward, Z is up/down.
             Specified in meters. 
-        charge : np.float64, optional
-            The charge of the particle in coulombs, by default 0.0
         mass : np.float64, optional
             The mass of the charged particle in kilograms, by default 1.0
+        charge : np.float64, optional
+            The charge of the particle in coulombs, by default 0.0
         fixed : bool, optional
             Whether this particle's position is constant, by default False
         """
@@ -30,8 +30,8 @@ class PointParticle:
         self.velocity = np.array((0.0, 0.0, 0.0))
         self.acceleration = np.array((0.0, 0.0, 0.0))
 
-        self.charge = charge
         self.mass = mass
+        self.charge = charge
 
         self.fixed = fixed
 
@@ -46,7 +46,7 @@ class PointParticle:
         if not self.fixed:
             self.acceleration += force / self.mass
 
-    def apply_gravitational_field(self, gravitational_field: np.ndarray) -> None:
+    def apply_gravitational_field(self, gravitational_field: np.ndarray[np.float64]) -> None:
         """Calculate and apply the effects of a gravitational field upon this particle.
 
         Parameters
@@ -56,7 +56,7 @@ class PointParticle:
         """
         self.apply_force(self.mass * gravitational_field)
 
-    def apply_electric_field(self, electric_field: np.ndarray) -> None:
+    def apply_electric_field(self, electric_field: np.ndarray[np.float64]) -> None:
         """Calculate and apply the effects of a electric field upon this particle.
 
         Parameters
@@ -66,7 +66,7 @@ class PointParticle:
         """
         self.apply_force(self.charge * electric_field)
 
-    def apply_magnetic_field(self, magnetic_field: np.ndarray) -> None:
+    def apply_magnetic_field(self, magnetic_field: np.ndarray[np.float64]) -> None:
         """Calculate and apply the effects of a magnetic field upon this particle.
 
         Parameters
@@ -75,11 +75,10 @@ class PointParticle:
             A 3D vector measured in teslas representing the magnetic field acting upon this particle.
         """
         self.apply_force(
-            self.charge
-            * np.cross(self.velocity, magnetic_field)
+            self.charge * np.cross(self.velocity, magnetic_field)
         )
 
-    def apply_lorentz_force_law(self, electric_field: np.ndarray, magnetic_field: np.ndarray) -> None:
+    def apply_lorentz_force_law(self, electric_field: np.ndarray[np.float64], magnetic_field: np.ndarray[np.float64]) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
 
         Parameters
@@ -92,7 +91,7 @@ class PointParticle:
         self.apply_electric_field(electric_field)
         self.apply_magnetic_field(magnetic_field)
 
-    def calculate_gravitational_field(self, point: np.ndarray) -> np.ndarray:
+    def calculate_gravitational_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the gravitational field created by this particle at `point`. 
 
         Parameters
@@ -111,7 +110,7 @@ class PointParticle:
 
         return unit_vector * scipy.constants.G * self.mass / distance ** 2
 
-    def calculate_electric_field(self, point: np.ndarray) -> np.ndarray:
+    def calculate_electric_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the electric field at `point` due to this particle.
 
         Parameters
@@ -136,9 +135,9 @@ class PointParticle:
 
         return -electric_field * unit_vector
 
-    def calculate_magnetic_field(self, point: np.ndarray) -> np.ndarray:
+    def calculate_magnetic_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the magnetic field exerted by by this particle at `point`. 
-        
+
         Parameters
         ----------
         point : np.ndarray
