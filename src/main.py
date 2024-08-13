@@ -97,6 +97,8 @@ class Simulation():
         if ticks_to_run == None:
             ticks_to_run = self.num_ticks
 
+        file_handler.clear_output_file()
+
         # If a file handler is passed, output the results to a file
         output_string = ''
         for i in range(ticks_to_run):
@@ -123,10 +125,6 @@ if __name__ == '__main__':
     file_handler = FileHandler(config_file=sys.argv[1])
     file_data = file_handler.read_config_file()
 
-    # for particle in file_data['particles']:
-    #     print(np.array(particle['position']))
-
-    # print(file_data['particles'])
     particles = [
         PointParticle(
             np.array(particle['position']),
