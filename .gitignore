@@ -159,10 +159,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-config/*.csv
-!sample.csv
-
 config/*.json
-!sample.json
+!/config/sample.json
+
+/output/
+!output/sample.txt
 
 .vscode

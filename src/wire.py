@@ -25,7 +25,6 @@ class Wire():
         self.end2 = end2
 
         self.points = np.array(ndmin=2)
-        print(self.points)
 
         self.resistance = resistance
 
@@ -37,6 +36,10 @@ class Wire():
         np.float64
             A scalar value representing the length of this wire. 
         """
+        length = 0
+        for i in range(1, len(self.points) - 1):
+            length += np.linalg.norm(self.points[i] - self.points[i-1])
+
         return np.linalg.norm(self.end2 - self.end1)
 
     def calculate_electromotive_force(self, particles: list[PointParticle]) -> np.float64:

@@ -128,8 +128,8 @@ class FileHandler:
             self.schema_dict, registry=registry)
         validator.validate(config_dict)
 
-    def write_config_file(self, file_name: str = "config.json", config_dict: dict = None) -> None:
-        """Write a Python dictionary into a schema-valid config JSON file .
+    def write_config_file(self, config_dict: dict = None) -> None:
+        """Write a schema-valid Python dictionary into a config JSON file .
 
         Extended Summary
         ----------------
@@ -155,7 +155,7 @@ class FileHandler:
         # Write the object as a JSON into the config file
         json.dump(
             config_dict,
-            (self.CONFIG_DIR / pathlib.Path(file_name)).open('w+'),
+            self.config_file.open('w+'),
             indent=4
         )
 
@@ -239,9 +239,7 @@ if __name__ == '__main__':
             "Please pass in the name of the configuration file to write to.")
 
     # Create a file handler using the given JSON schema
-    file_handler = FileHandler()
+    file_handler = FileHandler(config_file=sys.argv[1])
 
     blank_dict = file_handler.create_json_template()
-    file_handler.write_config_file(
-        file_name=sys.argv[1], config_dict=blank_dict
-    )
+    file_handler.write_config_file(blank_dict)
