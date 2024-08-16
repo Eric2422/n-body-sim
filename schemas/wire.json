@@ -6,7 +6,7 @@
     "type": "object",
     "properties": {
         "points": {
-            "description": "The points that the electric wire passes through.",
+            "description": "The points that the electric wire connects.",
             "type": "array",
             "items": {
                 "$ref": "point.json"

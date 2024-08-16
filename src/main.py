@@ -48,12 +48,12 @@ class Simulation():
         if particle1 != particle2:
             # Lorentz force law
             particle1.apply_lorentz_force_law(
-                particle2.calculate_electric_field(particle1.position),
-                particle2.calculate_magnetic_field(particle1.position)
+                particle2.get_electric_field(particle1.position),
+                particle2.get_magnetic_field(particle1.position)
             )
 
             particle1.apply_gravitational_field(
-                particle2.calculate_gravitational_field(
+                particle2.get_gravitational_field(
                     particle1.position
                 )
             )

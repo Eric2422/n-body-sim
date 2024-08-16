@@ -2,7 +2,6 @@ import json
 import pathlib
 import sys
 
-import numpy as np
 import jsonschema
 import referencing
 

@@ -1,5 +1,4 @@
 from __future__ import annotations
-import math
 
 import numpy as np
 import scipy.constants
@@ -91,7 +90,7 @@ class PointParticle:
         self.apply_electric_field(electric_field)
         self.apply_magnetic_field(magnetic_field)
 
-    def calculate_gravitational_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
+    def get_gravitational_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the gravitational field created by this particle at `point`. 
 
         Parameters
@@ -110,7 +109,7 @@ class PointParticle:
 
         return unit_vector * scipy.constants.G * self.mass / distance ** 2
 
-    def calculate_electric_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
+    def get_electric_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the electric field at `point` due to this particle.
 
         Parameters
@@ -135,7 +134,7 @@ class PointParticle:
 
         return -electric_field * unit_vector
 
-    def calculate_magnetic_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
+    def get_magnetic_field(self, point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
         """Calculate the magnetic field exerted by by this particle at `point`. 
 
         Parameters
