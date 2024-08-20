@@ -35,6 +35,26 @@ class Wire():
 
         return length
 
+    def sum_wire_segments(self, func: function):
+        """Perform a calculation on each segment of the wire and sum them.
+
+        Parameters
+        ----------
+        func : function
+            A function with a calculation to perform on each segment of the wire
+        """
+        total = 0
+
+        # Loop through each segment of the wire
+        for i in range(len(self.points) - 2):
+            # The vector of the space between the points
+            wire_vector = self.points[i+1] - self.end1[i]
+            unit_vector = wire_vector / np.linalg.norm(wire_vector)
+
+            total += func()
+
+        return total
+
     def get_electromotive_force(self, particles: list[PointParticle], electric_field: np.ndarray[np.float64]) -> np.float64:
         """Calculate the electromotive force(emf) generated across the wire.
 
@@ -74,7 +94,7 @@ class Wire():
         # Loop through each segment of the wire
         for i in range(len(self.points) - 2):
             # The vector of the space between the points
-            wire_vector = self.points[i+1] - self.end1[i]
+            wire_vector = self.points[i+1] - self.points[i]
             unit_vector = wire_vector / np.linalg.norm(wire_vector)
 
             # Negative integral of the electric field across the wire.
