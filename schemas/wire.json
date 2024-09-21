@@ -11,7 +11,8 @@
             "items": {
                 "$ref": "point.json"
             },
-            "minItems": 2
+            "minItems": 2,
+            "maxItems": 2
         },
         "resistance": {
             "description": "The resistance of the wire in ohms(Ω).",

@@ -84,22 +84,24 @@ class Wire():
             """
             # Find the electric field due to each particle
             electric_fields = map(
-                lambda particle: particle.electric_field(field_point), particles
+                lambda particle: particle.electric_field(
+                    field_point), particles
             )
 
             return sum(electric_fields) + electric_field
-        
+
         emf = 0
 
         # Loop through each segment of the wire
         for i in range(len(self.points) - 2):
             # The vector of the space between the points
             wire_vector = self.points[i+1] - self.points[i]
-            unit_vector = wire_vector / np.linalg.norm(wire_vector)
+            wire_vector_hat = wire_vector / np.linalg.norm(wire_vector)
 
             # Negative integral of the electric field across the wire.
             emf += -scipy.integrate.quad_vec(
-                lambda l: sum_electric_fields(self.points[i] + unit_vector * l),
+                lambda l: sum_electric_fields(
+                    self.points[i] + wire_vector_hat * l),
                 0,
                 self.get_total_length()
             )
@@ -144,12 +146,12 @@ class Wire():
             np.ndarray
                 A 3D vector from the point of integration to `field_point`.
             """
-            return field_point - (start_point + l * unit_vector)
+            return field_point - (start_point + l * wire_vector_hat)
 
         # Loop through each segment of the wire
         for i in range(len(self.points) - 2):
             wire_vector = self.points[i+1] - self.points[i]
-            unit_vector = wire_vector / np.linalg.norm(wire_vector)
+            wire_vector_hat = wire_vector / np.linalg.norm(wire_vector)
 
             # Biot-Savart law
             return scipy.constants.mu_0 * np.cross(
@@ -161,6 +163,7 @@ class Wire():
                     args=(self.points[i])
                 )
             ) / 4 * scipy.constants.pi
+
 
 if __name__ == '__main__':
     points = np.array(

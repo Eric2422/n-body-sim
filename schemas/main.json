@@ -5,7 +5,7 @@
     "description": "The initial setup for the force fields, particles, and wires used by the physics simulation.",
     "type": "object",
     "properties": {
-        "tick size" : {
+        "tick size": {
             "description": "The time increment of the simulation, measured in seconds(s).",
             "type": "number",
             "exclusiveMinimum": 0.0
