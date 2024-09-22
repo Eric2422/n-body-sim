@@ -121,6 +121,9 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         raise ValueError('Please enter the name of the config file.')
 
+    wire_points = np.array(((0, 0, 0), (1, 1, 1)))
+    wire = Wire(wire_points, 1)
+
     # Read the config file data and create particles based on that data
     file_handler = FileHandler(config_file=sys.argv[1])
     file_data = file_handler.read_config_file()

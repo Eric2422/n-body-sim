@@ -35,7 +35,7 @@ class Wire():
 
         return length
 
-    def sum_wire_segments(self, func: function):
+    def sum_wire_segments(self, func):
         """Perform a calculation on each segment of the wire and sum them.
 
         Parameters
@@ -46,7 +46,7 @@ class Wire():
         total = 0
 
         # Loop through each segment of the wire
-        for i in range(len(self.points) - 2):
+        for i in range(len(self.points) - 1):
             # The vector of the space between the points
             wire_vector = self.points[i+1] - self.end1[i]
             unit_vector = wire_vector / np.linalg.norm(wire_vector)
@@ -93,18 +93,21 @@ class Wire():
         emf = 0
 
         # Loop through each segment of the wire
-        for i in range(len(self.points) - 2):
+        for i in range(len(self.points) - 1):
+            print(i)
             # The vector of the space between the points
             wire_vector = self.points[i+1] - self.points[i]
             wire_vector_hat = wire_vector / np.linalg.norm(wire_vector)
 
             # Negative integral of the electric field across the wire.
-            emf += -scipy.integrate.quad_vec(
-                lambda l: sum_electric_fields(
-                    self.points[i] + wire_vector_hat * l),
+            emf += -scipy.integrate.quad(
+                lambda l: np.dot(
+                        sum_electric_fields(self.points[i] + wire_vector_hat * l), 
+                        wire_vector_hat
+                    ),
                 0,
                 self.get_total_length()
-            )
+            )[0]
 
         return emf
 
@@ -149,7 +152,7 @@ class Wire():
             return field_point - (start_point + l * wire_vector_hat)
 
         # Loop through each segment of the wire
-        for i in range(len(self.points) - 2):
+        for i in range(len(self.points) - 1):
             wire_vector = self.points[i+1] - self.points[i]
             wire_vector_hat = wire_vector / np.linalg.norm(wire_vector)
 
@@ -169,9 +172,10 @@ if __name__ == '__main__':
     points = np.array(
         (
             (0, 0, 0),
-            (1, 1, 1),
-            (4, 4, 4)
+            (1, 0, 0)
         )
     )
+
     wire = Wire(points, 1.0)
     print(wire.get_total_length())
+    print(wire.get_electromotive_force((), np.array((1, 0, 0))))
