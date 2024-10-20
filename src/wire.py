@@ -3,6 +3,7 @@ from enum import auto, Enum, unique
 import numpy as np
 import scipy
 import scipy.integrate
+from typing import Self
 
 from particle import PointParticle
 
@@ -136,7 +137,7 @@ class Wire():
             length += np.linalg.norm(self.points[i+1] - self.points[i])
 
         return length
-    
+
     def get_electromotive_force(self, particles: list[PointParticle], electric_field: np.ndarray[np.float64]) -> np.float64:
         """Calculate the electromotive force(emf) generated across the wire.
 
@@ -226,7 +227,7 @@ class Wire():
                 A 3D vector from the point of integration to `field_point`.
             """
             return field_point - self.get_wire_point(l)
-                
+
         # Biot-Savart law
         biot_savart_constant = scipy.constants.mu_0 / (4 * scipy.constants.pi)
         return biot_savart_constant \
@@ -243,17 +244,28 @@ class Wire():
     def apply_force(self, force):
         pass
 
-    def apply_magnetic_fields(self, particles: list[PointParticle], magnetic_field: np.ndarray[np.float64]) -> None:
-        """Applies the force from particles and electric fields upon this wire. 
+    def apply_magnetic_fields(self, particles: list[PointParticle], wires: list[Self], magnetic_field: np.ndarray[np.float64]) -> None:
+        """Applies the force from particles and electric fields upon this wire.
 
         Parameters
         ----------
         particles : list[PointParticle]
-            The particles that surround this wire. 
+            The particles that surround this wire.
+        wires
         magnetic_field : np.ndarray[np.float64]
             The constant magnetic field that this wire is located in. 
         """
-        magnetic_force = scipy.integrate.quad()
+        magnetic_force = scipy.integrate.quad(
+            lambda l:
+                np.cross(
+                    # Sum the magnetic fields from the particles
+                    sum([particle.get_magnetic_field(self.get_wire_point(l))
+                        for particle in particles])
+                        + sum([wire.get_magnetic_field(self.get_wire_point(l)) for wire in wires])
+                        + magnetic_field,
+                    self.get_unit_vector
+                )
+        )
 
 
 if __name__ == '__main__':
@@ -269,4 +281,5 @@ if __name__ == '__main__':
     particles = ()
     print(wire.get_current(particles, electric_field))
     print()
-    print(wire.get_magnetic_field(np.array((0.0, 0.0, 0.001)), particles, electric_field))
+    print(wire.get_magnetic_field(
+        np.array((0.0, 0.0, 0.001)), particles, electric_field))
