@@ -3,10 +3,9 @@ from enum import auto, Enum, unique
 import numpy as np
 import scipy
 import scipy.integrate
-from typing import Self
+from typing import Callable
 
-from particle import PointParticle
-
+from vectors import *
 
 @unique
 class WireMaterial(Enum):
@@ -49,7 +48,7 @@ MATERIAL_RESISTIVITIES = {
 class Wire():
     """A straight current-carrying wire with a specified position, length, and resistance."""
 
-    def __init__(self, points: np.ndarray[np.float64],
+    def __init__(self, points: np.ndarray[PositionVector],
                  mass: np.float64 = 1.0,
                  resistance: np.float64 = 1.0,
                  material: WireMaterial = None,
@@ -74,8 +73,8 @@ class Wire():
             The cross sectional area of the wire in meters squared(m^2), by default -1.0.
         """
         self.points = points
-        self.velocity = np.zeros(shape=3)
-        self.acceleration = np.zeros(shape=3)
+        self.velocity = np.zeros(shape=(len(points), 3))
+        self.acceleration = np.zeros(shape=(len(points), 3))
 
         if material == None and cross_sectional_area == -1.0:
             self.mass = mass
@@ -88,27 +87,50 @@ class Wire():
             self.resistance = MATERIAL_RESISTIVITIES[material] * \
                 length / cross_sectional_area
 
-    def get_unit_vector(self):
+    def get_unit_vector(self) -> np.ndarray[np.float64]:
+        """Get the unit vector in the direction of the wire from the first to last point.
+
+        Returns
+        -------
+        np.ndarray[np.float64]
+            A 3D vector representing the unit vector in the direction of the wire. 
+        """
         wire_vector = self.points[1] - self.points[0]
         return wire_vector / np.linalg.norm(wire_vector)
 
-    def get_wire_point(self, distance: np.float64) -> np.ndarray[np.float64]:
+    def get_wire_point(self, distance: np.float64) -> PositionVector:
         """Returns a point along the wire given a distance from the first point.
 
-        Args:
-            distance (np.float64): _description_
+        Parameters
+        ----------
+        distance : np.float64
+            The distance from the start of the wire. 
 
-        Returns:
-            np.array[np.float64]: _description_
+        Returns
+        -------
+        np.ndarray[np.float64]
+            A 3D vector representing a point along the wire. 
         """
         return self.points[0] + self.get_unit_vector() * distance
 
-    def integrate_wire_segments(self, func) -> np.float64:
+    def get_center_of_mass(self) -> PositionVector:
+        """Get the center of mass of this wire.
+        
+        Since the wire is uniform in linear density, the center of mass is in the middle.
+
+        Returns
+        -------
+        PositionVector
+            A 3D vector representing the position of the center of mass.
+        """
+        return (self.points[0] + self.points[1]) / 2.0
+
+    def integrate_wire_segments(self, func: Callable) -> np.float64:
         """Perform a calculation on each segment of the wire and sum them.
 
         Parameters
         ----------
-        func : function
+        func : Callable
             A function with a calculation to perform on each segment of the wire
         """
         total = 0
@@ -138,75 +160,57 @@ class Wire():
 
         return length
 
-    def get_electromotive_force(self, particles: list[PointParticle], electric_field: np.ndarray[np.float64]) -> np.float64:
+    def get_electromotive_force(self, electric_field: Callable[[PositionVector], FieldVector]) -> np.float64:
         """Calculate the electromotive force(emf) generated across the wire.
 
         Parameters
         ----------
-        particle : PointParticle
-            The particle that is exerting a electric field across the wire.
-        electric_field : np.ndarray[float64]
-            A constant electric field that is being applied to the wire. 
+        electric_field : Callable
+            A function that returns the electric field at any given point.
 
         Returns
         -------
-            The difference in electric potential between the ends of the wires.
+        np.float64
+            The electromotive force across this wire, measured in volts(V).
         """
-        def sum_electric_fields(field_point: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
-            """Calculate the net electric field at a given point.
-
-            Parameters
-            ----------
-            field_point : np.ndarray
-                A 3D vector representing the point to calculate the electric field at.
-
-            Returns
-            -------
-            np.ndarray
-                A 3D vector representing the net electric field in V/m or N/C.
-            """
-            # Find the electric field due to each particle
-            electric_fields = map(
-                lambda particle:
-                    particle.electric_field(field_point),
-                    particles
-            )
-
-            return sum(electric_fields) + electric_field
-
         # Negative integral of the electric field across the wire.
-        emf = -scipy.integrate.quad(
+        return -scipy.integrate.quad(
             lambda l: np.dot(
-                sum_electric_fields(self.get_wire_point(l)),
+                electric_field(self.get_wire_point(l)),
                 self.get_unit_vector()
             ),
             0,
             self.get_length()
         )[0]
 
-        return emf
-
-    def get_current(self, particles: list[PointParticle], electric_field: np.ndarray[np.float64]) -> np.float64:
+    def get_current(self, electric_field: Callable) -> np.float64:
         """Calculate the current flowing through this wire.
+
+        Parameters
+        ----------
+        electric_field : Callable
+            A function that returns the electric field at any given point.
 
         Returns
         -------
         np.float64
-            The current flowing through the wire in amps.
+            The current flowing through this wire, measured in amps(A).
         """
-        return self.get_electromotive_force(particles, electric_field) / self.resistance
+        return self.get_electromotive_force(electric_field) / self.resistance
 
-    def get_magnetic_field(self, field_point: np.ndarray[np.float64], particles: list[PointParticle], electric_field: np.ndarray[np.float64]) -> np.ndarray[np.float64]:
+    def get_magnetic_field(self, field_point: PositionVector, electric_field: Callable[[PositionVector], FieldVector]) -> FieldVector:
         """Calculate the magnetic field generated by this wire at a point.
 
         Parameters
         ----------
-        field_point : np.ndarray
+        field_point : np.ndarray[np.float64]
             A 3D vector of np.float64 representing a point to calculate the magnetic field at.
+        electric_field : Callable
+            A function that returns the electric field at any given point.
 
         Returns
         -------
-        np.ndarray
+        np.ndarray[np.float64]
             A 3D vector representing the strength of the magnetic field at the point in teslas. 
         """
         self.b_field = np.zeros(shape=3)
@@ -218,12 +222,10 @@ class Wire():
             ----------
             l : np.float64
                 The distance along this wire from `start_point` in meters.
-            start_point : np.ndarray
-                The point that the wire segment starts from.
 
             Returns
             -------
-            np.ndarray
+            np.ndarray[np.float64]
                 A 3D vector from the point of integration to `field_point`.
             """
             return field_point - self.get_wire_point(l)
@@ -231,7 +233,7 @@ class Wire():
         # Biot-Savart law
         biot_savart_constant = scipy.constants.mu_0 / (4 * scipy.constants.pi)
         return biot_savart_constant \
-            * self.get_current(particles, electric_field) \
+            * self.get_current(electric_field) \
             * scipy.integrate.quad_vec(
                 lambda l: np.cross(
                     self.get_unit_vector(),
@@ -241,31 +243,31 @@ class Wire():
                 self.get_length()
             )[0]
 
-    def apply_force(self, force):
-        pass
-
-    def apply_magnetic_fields(self, particles: list[PointParticle], wires: list[Self], magnetic_field: np.ndarray[np.float64]) -> None:
-        """Applies the force from particles and electric fields upon this wire.
+    def apply_force(self, force: ForceVector) -> None:
+        """Apply a force to this wire. 
 
         Parameters
         ----------
-        particles : list[PointParticle]
-            The particles that surround this wire.
-        wires
-        magnetic_field : np.ndarray[np.float64]
-            The constant magnetic field that this wire is located in. 
+        force : np.ndarray[np.float64]
+            The force that is applied upon this wire.
         """
-        magnetic_force = scipy.integrate.quad(
-            lambda l:
-                np.cross(
-                    # Sum the magnetic fields from the particles
-                    sum([particle.get_magnetic_field(self.get_wire_point(l))
-                        for particle in particles])
-                    + sum([wire.get_magnetic_field(self.get_wire_point(l))
-                          for wire in wires])
-                    + magnetic_field,
-                    self.get_unit_vector
+        
+
+    def apply_magnetic_field(self, magnetic_field: Callable[[PositionVector], FieldVector]) -> None:
+        """Apply a magnetic force to the wire based on a magnetic field.
+
+        Parameters
+        ----------
+        magnetic_field : function
+            A function that returns the magnetic field at any given point.
+        """
+        self.apply_force(
+            scipy.integrate.quad_vec(
+                lambda l: np.cross(
+                    magnetic_field(l),
+                    self.get_unit_vector()
                 )
+            )
         )
 
 
@@ -278,9 +280,14 @@ if __name__ == '__main__':
     )
 
     wire = Wire(points, 1.0)
-    electric_field = np.array((100, 0.0, 0.0))
+    constatnt_electric_field = np.array((100, 0.0, 0.0))
     particles = ()
-    print(wire.get_current(particles, electric_field))
+
+    def electric_field(l: np.float64):
+        return sum([particle.get_electric_field(
+        wire.get_wire_point(l)) for particle in particles]) + constatnt_electric_field
+
+    print(wire.get_current(electric_field))
     print()
     print(wire.get_magnetic_field(
-        np.array((0.0, 0.0, 0.001)), particles, electric_field))
+        np.array((0.0, 0.0, 0.001)), electric_field))

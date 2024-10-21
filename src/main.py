@@ -34,7 +34,7 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
-    def apply_force_from_particle(self, particle1: PointParticle, particle2: PointParticle):
+    def apply_force_from_particle(self, particle1: PointParticle, particle2: PointParticle) -> None:
         """Calculate and apply the force from one particle upon another.
 
         Parameters
