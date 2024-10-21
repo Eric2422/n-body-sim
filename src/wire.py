@@ -261,8 +261,9 @@ class Wire():
                     # Sum the magnetic fields from the particles
                     sum([particle.get_magnetic_field(self.get_wire_point(l))
                         for particle in particles])
-                        + sum([wire.get_magnetic_field(self.get_wire_point(l)) for wire in wires])
-                        + magnetic_field,
+                    + sum([wire.get_magnetic_field(self.get_wire_point(l))
+                          for wire in wires])
+                    + magnetic_field,
                     self.get_unit_vector
                 )
         )
