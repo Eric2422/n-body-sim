@@ -165,7 +165,7 @@ class Wire():
 
         Parameters
         ----------
-        electric_field : Callable
+        electric_field : Callable[PositionVector], FieldVector]
             A function that returns the electric field at any given point.
 
         Returns
@@ -183,12 +183,12 @@ class Wire():
             self.get_length()
         )[0]
 
-    def get_current(self, electric_field: Callable) -> np.float64:
+    def get_current(self, electric_field: Callable[[PositionVector]], FieldVector) -> np.float64:
         """Calculate the current flowing through this wire.
 
         Parameters
         ----------
-        electric_field : Callable
+        electric_field : Callable[[PositionVector]]
             A function that returns the electric field at any given point.
 
         Returns
@@ -203,14 +203,14 @@ class Wire():
 
         Parameters
         ----------
-        field_point : np.ndarray[np.float64]
+        PositionVector
             A 3D vector of np.float64 representing a point to calculate the magnetic field at.
-        electric_field : Callable
+        electric_field : Callable[[PositionVector], FieldVector]
             A function that returns the electric field at any given point.
 
         Returns
         -------
-        np.ndarray[np.float64]
+        FieldVector
             A 3D vector representing the strength of the magnetic field at the point in teslas. 
         """
         self.b_field = np.zeros(shape=3)
@@ -248,7 +248,7 @@ class Wire():
 
         Parameters
         ----------
-        force : np.ndarray[np.float64]
+        force : ForceVector
             The force that is applied upon this wire.
         """
         
@@ -258,7 +258,7 @@ class Wire():
 
         Parameters
         ----------
-        magnetic_field : function
+        magnetic_field : Callable[[PositionVector], FieldVector]
             A function that returns the magnetic field at any given point.
         """
         self.apply_force(
