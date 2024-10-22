@@ -213,8 +213,6 @@ class Wire():
         np.ndarray[np.float64]
             A 3D vector representing the strength of the magnetic field at the point in teslas. 
         """
-        self.b_field = np.zeros(shape=3)
-
         def r(l: np.float64) -> np.ndarray[np.float64]:
             """Calculate r, the 3D vector between the magnetic field point and the point of integration.
 
