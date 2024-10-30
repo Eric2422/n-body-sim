@@ -113,7 +113,7 @@ class Wire():
         """
         return self.points[0] + self.get_unit_vector() * distance
 
-    def get_closest_wire_point(self, point: PositionVector) -> PositionVector:
+    def get_closest_point(self, point: PositionVector) -> PositionVector:
         """Given any point, find the wire point closest to it.
 
         Parameters
@@ -126,7 +126,9 @@ class Wire():
         PositionVector
             The wire point that is closest to the given point.
         """
-        
+        # Get the vector from `point` to one end of the wire
+        vector = point - self.points[0]
+        return points[0] + (np.dot(vector, self.get_unit_vector()));
 
     def get_center_of_mass(self) -> PositionVector:
         """Get the center of mass of this wire.
@@ -231,6 +233,11 @@ class Wire():
             A 3D vector representing the strength of the magnetic field at the point in teslas. 
         """
         # Ampère-Maxwell Law with a circular path around the wire
+        # Find the center and radius of the Amperian loop
+        closest_point = self.get_closest_point(field_point)
+        radius = np.linalg.norm(closest_point - field_point)
+
+        # Surface integral of the Amperian loop
         
 
         return 
