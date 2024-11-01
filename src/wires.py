@@ -46,6 +46,10 @@ MATERIAL_RESISTIVITIES = {
 
 
 class Wire():
+    pass
+
+
+class FiniteWire():
     """A straight current-carrying wire with a specified position, length, and resistance."""
 
     def __init__(self, points: np.ndarray[PositionVector],
@@ -268,6 +272,7 @@ class Wire():
                 )
             )
         )
+
 
 
 if __name__ == '__main__':
