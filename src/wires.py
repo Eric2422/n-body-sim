@@ -7,6 +7,7 @@ from typing import Callable
 
 from vectors import *
 
+
 @unique
 class WireMaterial(Enum):
     COPPER = auto()
@@ -45,18 +46,15 @@ MATERIAL_RESISTIVITIES = {
 }
 
 
-class Wire():
-    pass
-
-
 class FiniteWire():
     """A straight current-carrying wire with a specified position, length, and resistance."""
 
-    def __init__(self, points: np.ndarray[PositionVector],
+    def __init__(self,
+                 points: np.ndarray[PositionVector],
                  mass: np.float64 = 1.0,
-                 resistance: np.float64 = 1.0,
-                 material: WireMaterial = None,
-                 cross_sectional_area: np.float64 = -1.0
+                 density: np.float64 = -1.0,
+                 resistivity: np.float64 = 1.0,
+                 cross_sectional_area: np.float64 = 1.0
                  ) -> None:
         """Initiate a straight current-carrying wire.
 
@@ -68,28 +66,21 @@ class FiniteWire():
         points : np.ndarray[np.float64]
             A 2D array of the points that the wire connects.
         mass : np.float64
-            The total mass of the wire in kilograms(kg). Greater than 0, by default 1.0.
-        resistance : np.float64
-            The total resistance of the wire in ohms(Ω). Greater than 0, by default 1.0.
-        material : WireMaterial
-            The material that the wire is composed of(e.g. copper, silver, and aluminum), by default `None`
+            The total mass of the wire in kilograms(kg). Greater than 0, by default 1.0
+            Overrides density.
+        density : np.float64
+            The uniform density of the wire in kilograms per cubic meter(kg/m^3). By default -1.0
+        resistivity : np.float64
+            The resistivity of the wire in ohms per meter(Ω/m). Greater than 0, by default 1.0
         cross_sectional_area : np.float64
-            The cross sectional area of the wire in meters squared(m^2), by default -1.0.
+            The cross sectional area of the wire in meters squared(m^2), by default 1.0
         """
         self.points = points
         self.velocity = np.zeros(shape=(len(points), 3))
         self.acceleration = np.zeros(shape=(len(points), 3))
 
-        if material == None and cross_sectional_area == -1.0:
-            self.mass = mass
-            self.resistance = resistance
-
-        else:
-            length = self.get_length()
-            self.mass = length * cross_sectional_area * \
-                MATERIAL_DENSITIES[material]
-            self.resistance = MATERIAL_RESISTIVITIES[material] * \
-                length / cross_sectional_area
+        length = self.get_length()
+        self.resistance = resistivity * length / cross_sectional_area
 
     def get_unit_vector(self) -> np.ndarray[np.float64]:
         """Get the unit vector in the direction of the wire from the first to last point.
@@ -132,11 +123,11 @@ class FiniteWire():
         """
         # Get the vector from `point` to one end of the wire
         vector = point - self.points[0]
-        return points[0] + (np.dot(vector, self.get_unit_vector()));
+        return points[0] + (np.dot(vector, self.get_unit_vector()))
 
     def get_center_of_mass(self) -> PositionVector:
         """Get the center of mass of this wire.
-        
+
         Since the wire is uniform in linear density, the center of mass is in the middle.
 
         Returns
@@ -242,9 +233,8 @@ class FiniteWire():
         radius = np.linalg.norm(closest_point - field_point)
 
         # Surface integral of the Amperian loop
-        
 
-        return 
+        return
 
     def apply_force(self, force: ForceVector) -> None:
         """Apply a force to this wire. 
@@ -274,7 +264,6 @@ class FiniteWire():
         )
 
 
-
 if __name__ == '__main__':
     points = np.array(
         (
@@ -289,7 +278,7 @@ if __name__ == '__main__':
 
     def electric_field(l: np.float64):
         return sum([particle.get_electric_field(
-        wire.get_wire_point(l)) for particle in particles]) + constatnt_electric_field
+            wire.get_wire_point(l)) for particle in particles]) + constatnt_electric_field
 
     print(wire.get_current(electric_field))
     print()
