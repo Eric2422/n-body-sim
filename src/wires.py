@@ -46,7 +46,7 @@ MATERIAL_RESISTIVITIES = {
 }
 
 
-class FiniteWire():
+class Wire():
     """A straight current-carrying wire with a specified position, length, and resistance."""
 
     def __init__(self,
@@ -195,7 +195,7 @@ class FiniteWire():
             self.get_length()
         )[0]
 
-    def get_current(self, electric_field: Callable[[PositionVector]], FieldVector) -> np.float64:
+    def get_current(self, electric_field: Callable[[PositionVector], FieldVector]) -> np.float64:
         """Calculate the current flowing through this wire.
 
         Parameters

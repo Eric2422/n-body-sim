@@ -5,7 +5,7 @@ import numpy as np
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
-from wire import Wire
+from wires import Wire
 
 
 class Simulation():
