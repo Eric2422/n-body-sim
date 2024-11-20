@@ -227,12 +227,34 @@ class FiniteWire():
         FieldVector
             A 3D vector representing the strength of the magnetic field at the point in teslas. 
         """
-        # Ampère-Maxwell Law with a circular path around the wire
-        # Find the center and radius of the Amperian loop
-        closest_point = self.get_closest_point(field_point)
-        radius = np.linalg.norm(closest_point - field_point)
+        def r(l: np.float64) -> np.ndarray[np.float64]:
+            """Calculate r, the 3D vector between the magnetic field point and the point of integration.
 
-        # Surface integral of the Amperian loop
+            Parameters
+            ----------
+            l : np.float64
+                The distance along this wire from `start_point` in meters.
+            start_point : np.ndarray
+                The point that the wire segment starts from.
+
+            Returns
+            -------
+            np.ndarray
+                A 3D vector from the point of integration to `field_point`.
+            """
+            return field_point - self.get_wire_point(l)
+
+        biot_savart_constant = scipy.constants.mu_0 / (4 * scipy.constants.pi)
+        return biot_savart_constant \
+            * self.get_current(particles, electric_field) \
+            * scipy.integrate.quad_vec(
+                lambda l: np.cross(
+                    self.get_unit_vector(),
+                    r(l) / np.linalg.norm(r(l)) ** 3
+                ),
+                0,
+                self.get_length()
+            )[0]
 
         return
 
