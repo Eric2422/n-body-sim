@@ -27,8 +27,6 @@ class Plot():
             for particle in data
         ]
 
-        for row in data:
-
         self.ax.margins(1, 1, 1)
 
         # The animation runs at real speed.
