@@ -127,12 +127,15 @@ if __name__ == '__main__':
     # Read the config file data and create particles based on that data
     file_handler = FileHandler(config_file=sys.argv[1])
     file_data = file_handler.read_config_file()
+    print(file_data)
 
     particles = [
         PointParticle(
-            np.array(particle['position']),
-            particle['mass'],
-            particle['charge']
+            position=np.array(particle['position']),
+            velocity=np.array(particle['velocity']),
+            acceleration=np.array(particle['acceleration']),
+            mass=particle['mass'],
+            charge=particle['charge']
         )
         for particle in file_data['particles']
     ]

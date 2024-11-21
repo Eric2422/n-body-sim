@@ -5,19 +5,28 @@ import scipy.constants
 
 from vectors import *
 
+
 class PointParticle:
     """A point particle with a specified position, charge, and mass.
     """
 
-    def __init__(self, position: PositionVector, mass: np.float64 = 1.0, charge: np.float64 = 0.0, fixed: bool = False) -> None:
+    def __init__(self, position: PositionVector = np.array([0, 0, 0]), velocity: VelocityVector = np.array([0, 0, 0]), acceleration: AccelerationVector = np.array([0, 0, 0]), mass: np.float64 = 1.0, charge: np.float64 = 0.0, fixed: bool = False) -> None:
         """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
         ----------
-        position : np.ndarray
-            The position that the particle is at.
+        position : PositionVector
+            The initial position of the particle.
             X is left/right, Y is forward/backward, Z is up/down.
-            Specified in meters. 
+            Specified in meters(m). 
+        velocity : VelocityVector
+            The initial velocity of the particle.
+            X is left/right, Y is forward/backward, Z is up/down.
+            Specified in meters per second(m/s). 
+        acceleration : AccelerationVector
+            The initial acceleration of the particle.
+            X is left/right, Y is forward/backward, Z is up/down.
+            Specified in meters per second squared(m/s^2). 
         mass : np.float64, optional
             The mass of the charged particle in kilograms, by default 1.0
         charge : np.float64, optional
@@ -77,7 +86,7 @@ class PointParticle:
         self.apply_force(
             self.charge * np.cross(self.velocity, magnetic_field)
         )
-    
+
     def apply_lorentz_force_law(self, electric_field: FieldVector, magnetic_field: FieldVector) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
 

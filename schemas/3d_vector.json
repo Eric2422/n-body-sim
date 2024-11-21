@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "point.json",
+    "$id": "3d_vector.json",
     "title": "Point",
-    "description": "A 3D vector representing a point in 3D space, measured in meters(m)",
+    "description": "A 3D vector for representing position, velocity, acceleration, jerk, etc.",
     "type": "array",
     "items": {
         "type": "number"

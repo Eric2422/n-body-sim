@@ -9,7 +9,7 @@
             "description": "The points that the electric wire connects.",
             "type": "array",
             "items": {
-                "$ref": "point.json"
+                "$ref": "3d_vector.json"
             },
             "minItems": 2,
             "maxItems": 2
