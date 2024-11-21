@@ -1,6 +1,7 @@
 import sys
 
 import numpy as np
+import pandas as pd
 
 from files import FileHandler
 from particle import PointParticle
@@ -140,10 +141,22 @@ if __name__ == '__main__':
     ]
 
     simulation = Simulation(
-        particles, num_ticks=file_data['num ticks'],
+        particles,
+        num_ticks=file_data['num ticks'],
         tick_size=file_data['tick size']
     )
     simulation.run(file_handler=file_handler)
+
+    print(
+        simulation.particle_positions[:, :, 0]
+    )
+    data_frame = df = pd.DataFrame({
+        "time": np.linspace(0, int(file_data['num ticks']), int(file_data['tick size'])),
+        "x": simulation.particle_positions[:, :, 0], 
+        "y": simulation.particle_positions[:, :, 1], 
+        "z": simulation.particle_positions[:, :, 2]
+    })
+    print(data=df[df['time']==0])
 
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
     plot.show()
