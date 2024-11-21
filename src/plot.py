@@ -19,15 +19,23 @@ class Plot():
         self.figure = plt.figure()
         self.ax = self.figure.add_subplot(111, projection='3d')
 
+        # print(f'data: {data[0]}')
+        # print()
         # Plot 2D lines, one for each particle.
-        points = [
-            self.ax.plot(
-                *[particle[i, :1] for i in range(data.shape[1])]
-            )[0]
-            for particle in data
-        ]
+        x_values = [particle[0][0] for particle in data]
+        y_values = [particle[0][1] for particle in data]
+        z_values = [particle[0][2] for particle in data]
+        scatter = self.ax.scatter(
+            x_values,
+            y_values,
+            z_values
+        )
 
-        for row in data:
+        # print(points)
+
+        # for particle in data:
+        #     print(particle)
+        #     print()
 
         self.ax.margins(1, 1, 1)
 
@@ -35,12 +43,12 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             self.figure,
             self.update,
-            fargs=(data, points),
+            fargs=(data, scatter),
             interval=tick_size / 1000
         )
 
-    def update(self, num: int, data, points) -> None:
-        """Update the plot points of the plot. 
+    def update(self, num: int, data, scatter) -> None:
+        """Update the plot points of the scatter. 
 
         Parameters
         ----------
@@ -48,12 +56,13 @@ class Plot():
             The number of intervals that have elapsed.
         data : np.ndarray
             The position of the particles in the simulation.
-        point : list
+        scatter : list
             A list containing the points of the plot. 
         """
-        # For each line, add the corresponding position data
-        for point, datum in zip(points, data):
-            point.set_data_3d(datum[:num, :].T)
+        # For each point, set the corresponding position data
+        for point, datum in zip(scatter, data):
+            # print(f'datum[num]: {datum[num]}')
+            scatter.set_offsets(datum[num])
 
     def show(self) -> None:
         """Display this plot and run the animation. """
