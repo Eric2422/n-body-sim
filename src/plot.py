@@ -25,11 +25,12 @@ class Plot():
         x_values = [particle[0][0] for particle in data]
         y_values = [particle[0][1] for particle in data]
         z_values = [particle[0][2] for particle in data]
-        scatter = self.ax.scatter(
+        self.scatter = self.ax.scatter(
             x_values,
             y_values,
             z_values
         )
+        print(data)
 
         # print(points)
 
@@ -43,11 +44,11 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             self.figure,
             self.update,
-            fargs=(data, scatter),
-            interval=tick_size / 1000
+            interval=tick_size / 1000, # Convert from seconds to milliseconds.
+            fargs=(data)
         )
 
-    def update(self, num: int, data, scatter) -> None:
+    def update(self, num: int, data):
         """Update the plot points of the scatter. 
 
         Parameters
@@ -56,13 +57,13 @@ class Plot():
             The number of intervals that have elapsed.
         data : np.ndarray
             The position of the particles in the simulation.
-        scatter : list
-            A list containing the points of the plot. 
         """
-        # For each point, set the corresponding position data
-        for point, datum in zip(scatter, data):
-            # print(f'datum[num]: {datum[num]}')
-            scatter.set_offsets(datum[num])
+        x_values = [particle[num][0] for particle in data]
+        y_values = [particle[num][1] for particle in data]
+        z_values = [particle[num][2] for particle in data]
+        self.scatter.set_offsets([x_values, y_values, z_values])
+
+        return self.scatter,
 
     def show(self) -> None:
         """Display this plot and run the animation. """
