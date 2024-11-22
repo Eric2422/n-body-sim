@@ -140,23 +140,27 @@ if __name__ == '__main__':
         for particle in file_data['particles']
     ]
 
+    num_ticks = file_data['num ticks']
+    tick_size = file_data['tick size']
+
     simulation = Simulation(
         particles,
-        num_ticks=file_data['num ticks'],
-        tick_size=file_data['tick size']
+        num_ticks=num_ticks,
+        tick_size=tick_size
     )
     simulation.run(file_handler=file_handler)
 
-    print(
-        simulation.particle_positions[:, :, 0]
-    )
-    data_frame = df = pd.DataFrame({
-        "time": np.linspace(0, int(file_data['num ticks']), int(file_data['tick size'])),
-        "x": simulation.particle_positions[:, :, 0], 
-        "y": simulation.particle_positions[:, :, 1], 
-        "z": simulation.particle_positions[:, :, 2]
+    num_particles = len(simulation.particle_positions)
+    data_frame = pd.DataFrame({
+        # Generates the time values from 0 to the end.
+        # Each t value is repeated for each particle
+        "t": np.linspace(0, num_ticks*tick_size, num_ticks).repeat(num_particles),
+        "x": simulation.particle_positions[:, :, 0].flatten(),
+        "y": simulation.particle_positions[:, :, 1].flatten(),
+        "z": simulation.particle_positions[:, :, 2].flatten()
     })
-    print(data=df[df['time']==0])
+
+    sys.exit()
 
     plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
     plot.show()

@@ -5,15 +5,14 @@ import pandas as pd
 
 
 class Plot():
-    def __init__(self, data: list[pd.DataFrame], tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, data: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
         ----------
-        data : np.ndarray
-            The data to be plotted. 
-            A 2D array of floats. 
-            Each row is a particle and each column is a position at a given point in time.
+        data : pd.DataFrame
+            A data frame with four columns: t, x, y, z
+            Contains the time and position of particles.
         tick_size : np.float64, optional
             The amount of time between each frame, by default 1.0
         """
@@ -25,11 +24,8 @@ class Plot():
         print()
 
         # Plot scatter points, one for each particle.
-        x_values = self.data[:, 0, 0]
-        y_values = self.data[:, 0, 1]
-        z_values = self.data[:, 0, 2]
         self.scatter = self.ax.scatter(
-            x_values,
+            data.,
             y_values,
             z_values
         )
