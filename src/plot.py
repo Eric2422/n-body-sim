@@ -20,7 +20,7 @@ class Plot():
         self.ax = self.figure.add_subplot(111, projection='3d')
 
         # Plot 2D lines, one for each particle.
-        points = [
+        lines = [
             self.ax.plot(
                 *[particle[i, :1] for i in range(data.shape[1])]
             )[0]
@@ -33,12 +33,12 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             self.figure,
             self.update,
-            fargs=(data, points),
+            fargs=(data, lines),
             interval=tick_size / 1000
         )
 
-    def update(self, num: int, data, points) -> None:
-        """Update the plot points of the plot. 
+    def update(self, num: int, data, lines) -> None:
+        """Update the lines of the plot. 
 
         Parameters
         ----------
@@ -46,12 +46,12 @@ class Plot():
             The number of intervals that have elapsed.
         data : np.ndarray
             The position of the particles in the simulation.
-        point : list
-            A list containing the points of the plot. 
+        lines : list
+            A list containing the lines of the plot. 
         """
         # For each line, add the corresponding position data
-        for point, datum in zip(points, data):
-            point.set_data_3d(datum[:num, :].T)
+        for line, datum in zip(lines, data):
+            line.set_data_3d(datum[:num, :].T)
 
     def show(self) -> None:
         """Display this plot and run the animation. """
