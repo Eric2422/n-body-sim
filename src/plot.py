@@ -5,12 +5,12 @@ import pandas as pd
 
 
 class Plot():
-    def __init__(self, data: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
         ----------
-        data : pd.DataFrame
+        data_frame : pd.DataFrame
             A data frame with four columns: t, x, y, z
             Contains the time and position of particles.
         tick_size : np.float64, optional
@@ -19,15 +19,17 @@ class Plot():
         self.figure = plt.figure()
         self.ax = self.figure.add_subplot(111, projection='3d')
 
-        self.data = data
-        print(self.data[:, 0, 0])
-        print()
+        self.data = data_frame
+        print(data_frame)
+
+        print(data_frame[data_frame['t'] == 0])
+        print('\n\n\n')
 
         # Plot scatter points, one for each particle.
         self.scatter = self.ax.scatter(
-            data.,
-            y_values,
-            z_values
+            data_frame[data_frame['t'] == 0].x,
+            data_frame[data_frame['t'] == 0].y,
+            data_frame[data_frame['t'] == 0].z
         )
 
         self.ax.margins(1, 1, 1)
