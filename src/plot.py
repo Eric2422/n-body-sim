@@ -25,9 +25,9 @@ class Plot():
 
         # Plot scatter points, one for each particle.
         self.scatter = self.ax.scatter(
-            data.,
-            y_values,
-            z_values
+            data.x,
+            data.y,
+            data.z
         )
 
         self.ax.margins(1, 1, 1)
