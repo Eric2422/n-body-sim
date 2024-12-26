@@ -153,14 +153,15 @@ if __name__ == '__main__':
     num_particles = len(simulation.particle_positions)
     data_frame = pd.DataFrame({
         # Generates the time values from 0 to the end.
-        # Each t value is repeated for each particle
+        # Each t value is repeated for each particle.
         "t": np.linspace(0, num_ticks*tick_size, num_ticks).repeat(num_particles),
+        # Flatten the paritcle position values into a single array.
         "x": simulation.particle_positions[:, :, 0].flatten(),
         "y": simulation.particle_positions[:, :, 1].flatten(),
         "z": simulation.particle_positions[:, :, 2].flatten()
     })
 
-    sys.exit()
+    # print(data_frame[data_frame['t'] == 0].x)
 
-    plot = Plot(simulation.particle_positions, tick_size=simulation.tick_size)
+    plot = Plot(data_frame=data_frame, tick_size=simulation.tick_size)
     plot.show()
