@@ -56,8 +56,7 @@ class Plot():
         data = self.data_frame[self.data_frame['t'] == num]
         # print(f'data: {data}')
 
-        self.plot.set_data(data.x, data.y)
-        self.plot.set_3d_properties(data.z)
+        self.plot.set_3d_data(data.x, data.y, data.z)
 
         return self.plot,
 
