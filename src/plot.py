@@ -32,14 +32,13 @@ class Plot():
         )
 
         self.ax.margins(1, 1, 1)
-        # plt.xlim(left=-100, right=100)
-        # plt.ylim(bottom=-100, top=100)
+        plt.xlim(left=-10, right=10)
+        plt.ylim(bottom=-10, top=10)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
             self.figure,
             self.update,
-            len(data_frame),
             interval=tick_size / 1000,  # Convert from seconds to milliseconds.
             blit=True
         )
