@@ -34,6 +34,7 @@ class Plot():
         self.ax.margins(1, 1, 1)
         plt.xlim(left=-10, right=10)
         plt.ylim(bottom=-10, top=10)
+        self.ax.set_zlim(-10, 10)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
@@ -56,8 +57,7 @@ class Plot():
         data = self.data_frame[self.data_frame['t'] == num]
         # print(f'data: {data}')
 
-        self.plot.set_data(data.x, data.y)
-        self.plot.set_3d_properties(data.z)
+        self.plot.set_data_3d(data.x, data.y, data.z)
 
         return self.plot,
 
