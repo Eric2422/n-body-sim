@@ -1,5 +1,5 @@
 {
-    "tick size": 0.1,
+    "tick size": 0.001,
     "num ticks": 100,
     "electric field": [0.0, 0.0, 0.0],
     "magnetic field": [0.0, 0.0, 0.0],

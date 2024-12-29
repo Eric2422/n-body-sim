@@ -19,27 +19,27 @@ class Plot():
         self.figure = plt.figure()
         self.ax = self.figure.add_subplot(111, projection='3d')
 
-        self.data = data_frame
-        print(data_frame)
-
-        print(data_frame[data_frame['t'] == 0])
-        print('\n\n\n')
+        self.data_frame = data_frame
+        print(len(data_frame))
 
         # Plot scatter points, one for each particle.
-        self.scatter = self.ax.scatter(
+        self.plot, = self.ax.plot(
             data_frame[data_frame['t'] == 0].x,
             data_frame[data_frame['t'] == 0].y,
-            data_frame[data_frame['t'] == 0].z
+            data_frame[data_frame['t'] == 0].z, 
+            linestyle="", 
+            marker="o"
         )
 
         self.ax.margins(1, 1, 1)
-        plt.xlim(left=-100, right=100)
-        plt.ylim(bottom=-100, top=100)
+        # plt.xlim(left=-100, right=100)
+        # plt.ylim(bottom=-100, top=100)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
             self.figure,
             self.update,
+            len(data_frame),
             interval=tick_size / 1000,  # Convert from seconds to milliseconds.
             blit=True
         )
@@ -52,18 +52,15 @@ class Plot():
         num : int
             The number of intervals that have elapsed.
         """
-        print(num)
-        if num > len(self.data[0] - 2):
-            return
 
-        # print(self.data[:, num, 0])
-        # print('\n\n')
-        x_values = self.data[:, num, 0]
-        y_values = self.data[:, num, 1]
-        z_values = self.data[:, num, 2]
-        self.scatter.set_offsets([x_values, y_values, z_values])
+        # print(f'num: {num}')
+        data = self.data_frame[self.data_frame['t'] == num]
+        # print(f'data: {data}')
 
-        return self.scatter,
+        self.plot.set_data(data.x, data.y)
+        self.plot.set_3d_properties(data.z)
+
+        return self.plot,
 
     def show(self) -> None:
         """Display this plot and run the animation. """
