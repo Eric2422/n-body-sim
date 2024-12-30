@@ -20,7 +20,8 @@ class Plot():
         self.ax = self.figure.add_subplot(111, projection='3d')
 
         self.data_frame = data_frame
-        print(len(data_frame))
+        print(data_frame)
+        print()
 
         # Plot scatter points, one for each particle.
         self.plot, = self.ax.plot(
@@ -36,6 +37,7 @@ class Plot():
         plt.ylim(bottom=-10, top=10)
         self.ax.set_zlim(-10, 10)
 
+        self.tick_size = tick_size
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
             self.figure,
@@ -52,10 +54,13 @@ class Plot():
         num : int
             The number of intervals that have elapsed.
         """
+        if num >= len(self.data_frame):
+            return self.plot,
 
-        # print(f'num: {num}')
-        data = self.data_frame[self.data_frame['t'] == num]
-        # print(f'data: {data}')
+        print(f'num: {num}')
+        data = self.data_frame[self.data_frame['t'] == num * self.tick_size]
+        print(f'data: {data}')
+        print()
 
         self.plot.set_data_3d(data.x, data.y, data.z)
 
