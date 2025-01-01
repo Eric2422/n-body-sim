@@ -57,7 +57,8 @@ class Plot():
         if num >= len(self.data_frame):
             return self.plot,
 
-        print(f'num: {num}')
+        print(self.data_frame[])
+        print(f't: {num * self.tick_size}')
         data = self.data_frame[self.data_frame['t'] == num * self.tick_size]
         print(f'data: {data}')
         print()
