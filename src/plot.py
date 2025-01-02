@@ -23,6 +23,7 @@ class Plot():
         print(data_frame)
         print()
 
+        print(len(data_frame[data_frame['t'] == 0].x))
         # Plot scatter points, one for each particle.
         self.plot, = self.ax.plot(
             data_frame[data_frame['t'] == 0].x,
@@ -57,11 +58,10 @@ class Plot():
         if num >= len(self.data_frame):
             return self.plot,
 
-        print(self.data_frame[])
-        print(f't: {num * self.tick_size}')
+        # print(f't: {num * self.tick_size}')
         data = self.data_frame[self.data_frame['t'] == num * self.tick_size]
-        print(f'data: {data}')
-        print()
+        # print(f'data: {data}')
+        # print()
 
         self.plot.set_data_3d(data.x, data.y, data.z)
 
