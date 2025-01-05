@@ -16,16 +16,19 @@ class Plot():
         tick_size : np.float64, optional
             The amount of time between each frame, by default 1.0
         """
-        self.figure = plt.figure()
-        self.ax = self.figure.add_subplot(111, projection='3d')
+        figure = plt.figure()
+        ax = figure.add_subplot(111, projection='3d')
 
         self.data_frame = data_frame
         print(data_frame)
         print()
 
-        print(len(data_frame[data_frame['t'] == 0].x))
-        # Plot scatter points, one for each particle.
-        self.plot, = self.ax.plot(
+        
+        self.num_particles = len(data_frame[data_frame['t'] == 0])
+        print(self.num_particles)
+
+        # Plot points, one for each particle.
+        self.plot, = ax.plot(
             data_frame[data_frame['t'] == 0].x,
             data_frame[data_frame['t'] == 0].y,
             data_frame[data_frame['t'] == 0].z, 
@@ -33,15 +36,14 @@ class Plot():
             marker="o"
         )
 
-        self.ax.margins(1, 1, 1)
+        ax.margins(1, 1, 1)
         plt.xlim(left=-10, right=10)
         plt.ylim(bottom=-10, top=10)
-        self.ax.set_zlim(-10, 10)
+        ax.set_zlim(-10, 10)
 
-        self.tick_size = tick_size
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
-            self.figure,
+            figure,
             self.update,
             interval=tick_size / 1000,  # Convert from seconds to milliseconds.
             blit=True
@@ -55,13 +57,17 @@ class Plot():
         num : int
             The number of intervals that have elapsed.
         """
-        if num >= len(self.data_frame):
-            return self.plot,
+        # The particles are flattened into a single data frame,
+        # so `start_index` is the index of the first particle,
+        # and `end_index` is the index of the last particle
+        start_index = num * self.num_particles
+        end_index = start_index + 3
 
-        # print(f't: {num * self.tick_size}')
-        data = self.data_frame[self.data_frame['t'] == num * self.tick_size]
-        # print(f'data: {data}')
-        # print()
+        if end_index > len(self.data_frame):
+            return self.plot,
+        
+        data = self.data_frame.loc[start_index : start_index + 3]
+        print(f'data: {data}', end ='\n' * 2)
 
         self.plot.set_data_3d(data.x, data.y, data.z)
 
