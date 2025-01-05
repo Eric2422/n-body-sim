@@ -61,12 +61,12 @@ class Plot():
         # so `start_index` is the index of the first particle,
         # and `end_index` is the index of the last particle
         start_index = num * self.num_particles
-        end_index = start_index + 3
+        end_index = start_index + 2
 
         if end_index > len(self.data_frame):
             return self.plot,
         
-        data = self.data_frame.loc[start_index : start_index + 3]
+        data = self.data_frame.loc[start_index : end_index]
         print(f'data: {data}', end ='\n' * 2)
 
         self.plot.set_data_3d(data.x, data.y, data.z)
