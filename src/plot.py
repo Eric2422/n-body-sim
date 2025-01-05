@@ -16,8 +16,8 @@ class Plot():
         tick_size : np.float64, optional
             The amount of time between each frame, by default 1.0
         """
-        figure = plt.figure()
-        ax = figure.add_subplot(111, projection='3d')
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
 
         self.data_frame = data_frame
         print(data_frame)
@@ -27,11 +27,12 @@ class Plot():
         self.num_particles = len(data_frame[data_frame['t'] == 0])
         print(self.num_particles)
 
+        data = data_frame[data_frame['t'] == 0]
         # Plot points, one for each particle.
         self.plot, = ax.plot(
-            data_frame[data_frame['t'] == 0].x,
-            data_frame[data_frame['t'] == 0].y,
-            data_frame[data_frame['t'] == 0].z, 
+            data.x,
+            data.y,
+            data.z, 
             linestyle="", 
             marker="o"
         )
@@ -43,7 +44,7 @@ class Plot():
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
-            figure,
+            fig,
             self.update,
             interval=tick_size / 1000,  # Convert from seconds to milliseconds.
             blit=True
