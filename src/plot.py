@@ -21,19 +21,16 @@ class Plot():
 
         self.data_frame = data_frame
         print(data_frame)
-        print()
 
-        
         self.num_particles = len(data_frame[data_frame['t'] == 0])
-        print(self.num_particles)
 
         data = data_frame[data_frame['t'] == 0]
         # Plot points, one for each particle.
         self.plot, = ax.plot(
             data.x,
             data.y,
-            data.z, 
-            linestyle="", 
+            data.z,
+            linestyle="",
             marker="o"
         )
 
@@ -66,11 +63,13 @@ class Plot():
 
         if end_index > len(self.data_frame):
             return self.plot,
-        
-        data = self.data_frame.loc[start_index : end_index]
-        print(f'data: {data}', end ='\n' * 2)
 
-        self.plot.set_data_3d(data.x, data.y, data.z)
+        data = self.data_frame.loc[start_index: end_index]
+        # print(num)
+        # print(f'data: {data}', end ='\n' * 2)
+
+        self.plot.set_data(data.x, data.y)
+        self.plot.set_3d_properties(data.z)
 
         return self.plot,
 

@@ -26,6 +26,13 @@ class Simulation():
         # A log of all the particles' positions over the course of the simulation
         self.particle_positions = np.empty((len(self.particles), num_ticks, 3))
 
+        self.data_frame = pd.DataFrame({
+            't': np.empty((num_ticks)),
+            'x': np.empty((num_ticks)), 
+            'y': np.empty((num_ticks)),
+            'z': np.empty((num_ticks))
+        })
+
         # Constant, universal fields
         self.electric_field = np.zeros(3)
         self.magnetic_field = np.zeros(3)
@@ -64,6 +71,7 @@ class Simulation():
         """
         # Calculate the electrostatic force that the particles exert on each other
         # Update the particle's acceleration and and velocity, but not the position
+        index = 0
         for particle1 in self.particles:
             # Calculate the forces from the other particles
             for particle2 in self.particles:
@@ -78,11 +86,13 @@ class Simulation():
             # Update the particle's velocity
             particle1.velocity += particle1.acceleration * self.tick_size
 
-        # Update particle positions after calculating the forces, so it doesn't affect force calculations
-        for index, particle in zip(range(len(self.particles)), self.particles):
-            self.particle_positions[index][self.current_tick] = particle.position
-            particle.position += particle.velocity * self.tick_size
+            # Save particle position data
+            self.particle_positions[index][self.current_tick] = particle1.position
+            index += 1
 
+            # Update particle positions after calculating the forces, so it doesn't affect force calculations
+            particle1.position += particle1.velocity * self.tick_size
+        
         self.current_tick += 1
 
     def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, plot: Plot = None) -> None:
@@ -129,6 +139,7 @@ if __name__ == '__main__':
     file_handler = FileHandler(config_file=sys.argv[1])
     file_data = file_handler.read_config_file()
 
+    # Create a list of particles as described by the file data.
     particles = [
         PointParticle(
             position=np.array(particle['position']),
@@ -143,6 +154,7 @@ if __name__ == '__main__':
     num_ticks = file_data['num ticks']
     tick_size = file_data['tick size']
 
+    # Create and run the simulation
     simulation = Simulation(
         particles,
         num_ticks=num_ticks,
@@ -150,15 +162,16 @@ if __name__ == '__main__':
     )
     simulation.run(file_handler=file_handler)
 
+    # Process the data and flatten into a Panda DataFrame.
     num_particles = len(simulation.particle_positions)
     data_frame = pd.DataFrame({
         # Generates the time values from 0 to the end.
         # Each t value is repeated for each particle.
-        "t": np.linspace(0, num_ticks*tick_size, num_ticks).repeat(num_particles),
+        't': np.linspace(0, num_ticks*tick_size, num_ticks).repeat(num_particles),
         # Flatten the paritcle position values into a single array.
-        "x": simulation.particle_positions[:, :, 0].flatten(),
-        "y": simulation.particle_positions[:, :, 1].flatten(),
-        "z": simulation.particle_positions[:, :, 2].flatten()
+        'x': simulation.particle_positions[:, :, 0].flatten(),
+        'y': simulation.particle_positions[:, :, 1].flatten(),
+        'z': simulation.particle_positions[:, :, 2].flatten()
     })
 
     # print(data_frame[data_frame['t'] == 0].x)

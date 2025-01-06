@@ -11,6 +11,7 @@ print(df)
 
 def update_graph(num):
     data = df[df['time'] == num]
+    print(data)
     graph.set_data(data.x, data.y)
     graph.set_3d_properties(data.z)
     title.set_text('3D Test, time={}'.format(num))
