@@ -1,6 +1,6 @@
 {
     "tick size": 0.001,
-    "num ticks": 1000,
+    "num ticks": 100,
     "electric field": [0.0, 0.0, 0.0],
     "magnetic field": [0.0, 0.0, 0.0],
     "gravitational field": [0.0, 0.0, 0.0],

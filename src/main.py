@@ -42,7 +42,7 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
-    def apply_force_from_particle(self, particle1: PointParticle, particle2: PointParticle) -> None:
+    def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
         """Calculate and apply the force from one particle upon another.
 
         Parameters
@@ -66,16 +66,32 @@ class Simulation():
                 )
             )
 
+            # Lorentz force law
+            particle2.apply_lorentz_force_law(
+                particle1.get_electric_field(particle2.position),
+                particle1.get_magnetic_field(particle2.position)
+            )
+
+            particle2.apply_gravitational_field(
+                particle1.get_gravitational_field(
+                    particle2.position
+                )
+            )
+
     def tick(self) -> None:
         """Run one tick of the simulation.
         """
-        # Calculate the electrostatic force that the particles exert on each other
-        # Update the particle's acceleration and and velocity, but not the position
+        # Calculate the forces that the particles exert on each other
+        # Update the particle's acceleration and, but not the velocity and position
         index = 0
-        for particle1 in self.particles:
-            # Calculate the forces from the other particles
-            for particle2 in self.particles:
-                self.apply_force_from_particle(particle1, particle2)
+
+        for i in range(len(self.particles)):
+            particle1 = self.particles[i]
+
+            for j in range(i + 1, len(self.particles)):
+                print(f'i, j: {i}, {j}')
+                particle2 = self.particles[j]
+                self.apply_force_between_particles(particle1, particle2)
 
             # Add the constant fields
             particle1.apply_lorentz_force_law(
@@ -83,15 +99,22 @@ class Simulation():
             )
             particle1.apply_gravitational_field(self.gravitational_field)
 
-            # Update the particle's velocity
-            particle1.velocity += particle1.acceleration * self.tick_size
+            print()
 
+        # Update particle positions and velocities after calculating the forces, 
+        # so it doesn't affect force calculations.
+        index = 0
+        for particle in particles:
             # Save particle position data
-            self.particle_positions[index][self.current_tick] = particle1.position
+            self.particle_positions[index][self.current_tick] = particle.position
+
             index += 1
 
-            # Update particle positions after calculating the forces, so it doesn't affect force calculations
-            particle1.position += particle1.velocity * self.tick_size
+            # Update the particle's velocity
+            particle.velocity += particle.acceleration * self.tick_size
+
+            # Update particle positions.
+            particle.position += particle.velocity * self.tick_size
         
         self.current_tick += 1
 
