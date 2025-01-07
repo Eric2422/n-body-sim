@@ -1,59 +1,76 @@
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 class Plot():
-    def __init__(self, data: np.ndarray, tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
         ----------
-        data : np.ndarray
-            The data to be plotted. 
-            A 2D array of floats. 
-            Each row is a particle and each column is a position at a given point in time.
+        data_frame : pd.DataFrame
+            A data frame with four columns: t, x, y, z
+            Contains the time and position of particles.
         tick_size : np.float64, optional
             The amount of time between each frame, by default 1.0
         """
-        self.figure = plt.figure()
-        self.ax = self.figure.add_subplot(111, projection='3d')
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
 
-        # Plot 2D lines, one for each particle.
-        lines = [
-            self.ax.plot(
-                *[particle[i, :1] for i in range(data.shape[1])]
-            )[0]
-            for particle in data
-        ]
+        self.data_frame = data_frame
 
-        self.ax.margins(1, 1, 1)
-        plt.xlim(left=-10, right=10)
-        plt.ylim(bottom=-10, top=10)
+        self.num_particles = len(data_frame[data_frame['t'] == 0])
+
+        data = data_frame[data_frame['t'] == 0]
+        # Plot points, one for each particle.
+        self.plot, = ax.plot(
+            data.x,
+            data.y,
+            data.z,
+            linestyle="",
+            marker="o"
+        )
+
+        ax.margins(1, 1, 1)
+        plt.xlim(left=-25, right=25)
+        plt.ylim(bottom=-25, top=25)
+        ax.set_zlim(-25, 25)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
-            self.figure,
+            fig,
             self.update,
-            fargs=(data, lines),
-            interval=tick_size / 1000
+            interval=tick_size / 1000,  # Convert from seconds to milliseconds.
+            blit=True
         )
 
-    def update(self, num: int, data, lines) -> None:
-        """Update the lines of the plot. 
+    def update(self, num: int):
+        """Update the plot points of the scatter. 
 
         Parameters
         ----------
         num : int
             The number of intervals that have elapsed.
-        data : np.ndarray
-            The position of the particles in the simulation.
-        lines : list
-            A list containing the lines of the plot. 
         """
-        # For each line, add the corresponding position data
-        for line, datum in zip(lines, data):
-            line.set_data_3d(datum[:num, :].T)
+        # The particles are flattened into a single data frame,
+        # so `start_index` is the index of the first particle,
+        # and `end_index` is the index of the last particle
+        start_index = num * self.num_particles
+        end_index = start_index + 2
+
+        if end_index > len(self.data_frame):
+            return self.plot,
+
+        data = self.data_frame.loc[start_index: end_index]
+        # print(num)
+        # print(f'data: {data}', end ='\n' * 2)
+
+        self.plot.set_data(data.x, data.y)
+        self.plot.set_3d_properties(data.z)
+
+        return self.plot,
 
     def show(self) -> None:
         """Display this plot and run the animation. """
