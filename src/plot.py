@@ -23,12 +23,12 @@ class Plot():
 
         self.num_particles = len(data_frame[data_frame['t'] == 0])
 
-        data = data_frame[data_frame['t'] == 0]
+        initial_data = data_frame[data_frame['t'] == 0]
         # Plot points, one for each particle.
         self.plot, = ax.plot(
-            data.x,
-            data.y,
-            data.z,
+            initial_data.x,
+            initial_data.y,
+            initial_data.z,
             linestyle="",
             marker="o"
         )
@@ -60,12 +60,11 @@ class Plot():
         start_index = num * self.num_particles
         end_index = start_index + 2
 
+        # Stop the function from going out of bounds
         if end_index > len(self.data_frame):
             return self.plot,
 
         data = self.data_frame.loc[start_index: end_index]
-        # print(num)
-        # print(f'data: {data}', end ='\n' * 2)
 
         self.plot.set_data(data.x, data.y)
         self.plot.set_3d_properties(data.z)

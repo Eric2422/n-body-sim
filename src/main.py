@@ -24,10 +24,7 @@ class Simulation():
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
-        self.particle_positions = np.empty(
-            (len(self.particles), total_ticks, 3))
-
-        self.data_frame = pd.DataFrame({
+        self.particle_positions_log = pd.DataFrame({
             't': np.empty(0),
             'x': np.empty(0),
             'y': np.empty(0),
@@ -114,17 +111,14 @@ class Simulation():
         index = 0
         for particle in particles:
             # Save particle position data
-            self.particle_positions[index][self.current_tick] = particle.position
-
             new_data = pd.DataFrame([{
                 't': self.current_tick * self.tick_size,
                 'x': np.array((particle.position[0])),
                 'y': np.array((particle.position[1])),
                 'z': np.array((particle.position[2]))
             }])
-
-            self.data_frame = pd.concat(
-                [self.data_frame, new_data], ignore_index=True)
+            self.particle_positions_log = pd.concat(
+                [self.particle_positions_log, new_data], ignore_index=True)
 
             index += 1
 
@@ -160,19 +154,23 @@ class Simulation():
 
         file_handler.clear_output_file()
 
-        # If a file handler is passed, output the results to a file
+        # Run the necessary number of ticks
         output_string = ''
         for i in range(ticks_to_run):
             progress = self.tick()
 
             if print_progress:
+                # Clear the previous line.
                 sys.stdout.write('\033[K')
-                print(f'Progesss: {round(progress * 100, 1)}%', end='\r')
+                # Print the current progress and then return to the beginning of the line.
+                print(f'Progess: {round(progress * 100, 1)}%', end='\r')
 
+            # If a `FileHandler` object is passed, output the results to a file.
             if file_handler is not None:
-                output_string += f'Time: {self.current_tick *
-                                          self.tick_size} s\n'
-
+                # Add the current time and particle data to the file
+                output_string += f'''Time: {self.current_tick *
+                                            self.tick_size} s\n'''
+                
                 for particle in self.particles:
                     output_string += particle.__str__() + '\n'
 
@@ -180,6 +178,8 @@ class Simulation():
 
         file_handler.append_to_output_file(output_string)
 
+        # If printing progress reports,
+        # add an extra line to account for the carriage returns.
         if print_progress:
             print()
 
@@ -188,9 +188,6 @@ if __name__ == '__main__':
     # Check if the user supplied a config file
     if len(sys.argv) < 2:
         raise ValueError('Please enter the name of the config file.')
-
-    wire_points = np.array(((0, 0, 0), (1, 1, 1)))
-    wire = Wire(wire_points, 1)
 
     # Read the config file data and create particles based on that data
     file_handler = FileHandler(config_file=sys.argv[1])
@@ -208,10 +205,9 @@ if __name__ == '__main__':
         for particle in file_data['particles']
     ]
 
+    # Create and run the simulation
     total_ticks = file_data['total ticks']
     tick_size = file_data['tick size']
-
-    # Create and run the simulation
     simulation = Simulation(
         particles,
         total_ticks=total_ticks,
@@ -219,6 +215,9 @@ if __name__ == '__main__':
     )
     simulation.run(file_handler=file_handler, print_progress=True)
 
-    plot = Plot(data_frame=simulation.data_frame,
-                tick_size=simulation.tick_size)
+    # Plot the simulation
+    plot = Plot(
+        data_frame=simulation.particle_positions_log,
+        tick_size=simulation.tick_size
+    )
     plot.show()
