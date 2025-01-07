@@ -20,7 +20,6 @@ class Plot():
         ax = fig.add_subplot(111, projection='3d')
 
         self.data_frame = data_frame
-        print(data_frame)
 
         self.num_particles = len(data_frame[data_frame['t'] == 0])
 
@@ -35,9 +34,9 @@ class Plot():
         )
 
         ax.margins(1, 1, 1)
-        plt.xlim(left=-10, right=10)
-        plt.ylim(bottom=-10, top=10)
-        ax.set_zlim(-10, 10)
+        plt.xlim(left=-25, right=25)
+        plt.ylim(bottom=-25, top=25)
+        ax.set_zlim(-25, 25)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(

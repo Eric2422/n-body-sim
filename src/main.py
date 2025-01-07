@@ -10,27 +10,28 @@ from wires import Wire
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], num_ticks: int, tick_size: float = 1.0) -> None:
+    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: float = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
         ----------
         particles : list
             A list of particles that are interacting with each other.
-        num_ticks: int
+        total_ticks: int
             The duration of the simulation, measured in ticks.
         tick_size : float, optional
             The time increment of the simulation in seconds, by default 1.0
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
-        self.particle_positions = np.empty((len(self.particles), num_ticks, 3))
+        self.particle_positions = np.empty(
+            (len(self.particles), total_ticks, 3))
 
         self.data_frame = pd.DataFrame({
-            't': np.empty((num_ticks)),
-            'x': np.empty((num_ticks)), 
-            'y': np.empty((num_ticks)),
-            'z': np.empty((num_ticks))
+            't': np.empty(0),
+            'x': np.empty(0),
+            'y': np.empty(0),
+            'z': np.empty(0)
         })
 
         # Constant, universal fields
@@ -38,7 +39,7 @@ class Simulation():
         self.magnetic_field = np.zeros(3)
         self.gravitational_field = np.zeros(3)
 
-        self.num_ticks = num_ticks
+        self.total_ticks = total_ticks
         self.current_tick = 0
         self.tick_size = tick_size
 
@@ -78,8 +79,15 @@ class Simulation():
                 )
             )
 
-    def tick(self) -> None:
+    def tick(self) -> float:
         """Run one tick of the simulation.
+
+        Returns
+        -------
+        float
+            Returns the progress of the simulator as a decimal, `p`,
+            where 0 < `p` <= 1. 
+            Progress is measured as how many ticks out of `self.total_ticks` have been completed.
         """
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -89,7 +97,7 @@ class Simulation():
             particle1 = self.particles[i]
 
             for j in range(i + 1, len(self.particles)):
-                print(f'i, j: {i}, {j}')
+                # print(f'i, j: {i}, {j}')
                 particle2 = self.particles[j]
                 self.apply_force_between_particles(particle1, particle2)
 
@@ -99,14 +107,24 @@ class Simulation():
             )
             particle1.apply_gravitational_field(self.gravitational_field)
 
-            print()
+            # print()
 
-        # Update particle positions and velocities after calculating the forces, 
+        # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
         index = 0
         for particle in particles:
             # Save particle position data
             self.particle_positions[index][self.current_tick] = particle.position
+
+            new_data = pd.DataFrame([{
+                't': self.current_tick * self.tick_size,
+                'x': np.array((particle.position[0])),
+                'y': np.array((particle.position[1])),
+                'z': np.array((particle.position[2]))
+            }])
+
+            self.data_frame = pd.concat(
+                [self.data_frame, new_data], ignore_index=True)
 
             index += 1
 
@@ -115,28 +133,41 @@ class Simulation():
 
             # Update particle positions.
             particle.position += particle.velocity * self.tick_size
-        
+
         self.current_tick += 1
 
-    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, plot: Plot = None) -> None:
+        return self.current_tick / self.total_ticks
+
+    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
         ----------
         ticks_to_run : int, optional
-            The number of ticks that the simulation runs by, by default `self.num_ticks`
+            The number of ticks that the simulation runs by, by default `self.total_ticks`
         file_handler : FileHandler, optional
-            A file handler to pass into 
+            A `FileHandler` object to pass data into as the simulation runs.
+            Writes the data into a file, 
+            so the data does not need to be looped through again afterward.
+            By default None
+        print_progress : bool, optional
+            Whether to print a progress report on how much of the simulation has been completed, by default False
         """
+
+        # By default, run the entire simulation
         if ticks_to_run == None:
-            ticks_to_run = self.num_ticks
+            ticks_to_run = self.total_ticks
 
         file_handler.clear_output_file()
 
         # If a file handler is passed, output the results to a file
         output_string = ''
         for i in range(ticks_to_run):
-            self.tick()
+            progress = self.tick()
+
+            if print_progress:
+                sys.stdout.write('\033[K')
+                print(f'Progesss: {round(progress * 100, 1)}%', end='\r')
 
             if file_handler is not None:
                 output_string += f'Time: {self.current_tick *
@@ -148,6 +179,9 @@ class Simulation():
                 output_string += '\n'
 
         file_handler.append_to_output_file(output_string)
+
+        if print_progress:
+            print()
 
 
 if __name__ == '__main__':
@@ -174,30 +208,17 @@ if __name__ == '__main__':
         for particle in file_data['particles']
     ]
 
-    num_ticks = file_data['num ticks']
+    total_ticks = file_data['total ticks']
     tick_size = file_data['tick size']
 
     # Create and run the simulation
     simulation = Simulation(
         particles,
-        num_ticks=num_ticks,
+        total_ticks=total_ticks,
         tick_size=tick_size
     )
-    simulation.run(file_handler=file_handler)
+    simulation.run(file_handler=file_handler, print_progress=True)
 
-    # Process the data and flatten into a Panda DataFrame.
-    num_particles = len(simulation.particle_positions)
-    data_frame = pd.DataFrame({
-        # Generates the time values from 0 to the end.
-        # Each t value is repeated for each particle.
-        't': np.linspace(0, num_ticks*tick_size, num_ticks).repeat(num_particles),
-        # Flatten the paritcle position values into a single array.
-        'x': simulation.particle_positions[:, :, 0].flatten(),
-        'y': simulation.particle_positions[:, :, 1].flatten(),
-        'z': simulation.particle_positions[:, :, 2].flatten()
-    })
-
-    # print(data_frame[data_frame['t'] == 0].x)
-
-    plot = Plot(data_frame=data_frame, tick_size=simulation.tick_size)
+    plot = Plot(data_frame=simulation.data_frame,
+                tick_size=simulation.tick_size)
     plot.show()

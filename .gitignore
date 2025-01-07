@@ -162,7 +162,7 @@ cython_debug/
 config/*.json
 !/config/sample.json
 
-/output/
-!output/README.md
+/output/*
+!output/sample.txt
 
 .vscode
