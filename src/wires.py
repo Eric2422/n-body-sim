@@ -47,19 +47,16 @@ MATERIAL_RESISTIVITIES = {
 
 
 class Wire():
-    """A straight current-carrying wire with a specified position, length, and resistance."""
+    """A straight, rigid, thin, circular, current-carrying wire with a specified position and length.
+        Has uniform density and resistivity.
+    """
 
     def __init__(self,
                  points: np.ndarray[PositionVector],
                  mass: np.float64 = 1.0,
-                 density: np.float64 = -1.0,
-                 resistivity: np.float64 = 1.0,
-                 cross_sectional_area: np.float64 = 1.0
+                 resistance: np.float64 = 1.0,
                  ) -> None:
         """Initiate a straight current-carrying wire.
-
-        `resistance` and `mass` are meant to be mutually exclusive with `material` and `cross_sectional_area`.
-        If all are specified, `resistance` and `mass` take precedence.
 
         Parameters
         ----------
@@ -67,20 +64,15 @@ class Wire():
             A 2D array of the points that the wire connects.
         mass : np.float64
             The total mass of the wire in kilograms(kg). Greater than 0, by default 1.0
-            Overrides density.
-        density : np.float64
-            The uniform density of the wire in kilograms per cubic meter(kg/m^3). By default -1.0
-        resistivity : np.float64
-            The resistivity of the wire in ohms per meter(Ω/m). Greater than 0, by default 1.0
-        cross_sectional_area : np.float64
-            The cross sectional area of the wire in meters squared(m^2), by default 1.0
+        resistance : np.float64
+            The resistance of the wire in ohms(Ω). Greater than 0, by default 1.0
         """
         self.points = points
         self.velocity = np.zeros(shape=(len(points), 3))
         self.acceleration = np.zeros(shape=(len(points), 3))
 
-        length = self.get_length()
-        self.resistance = resistivity * length / cross_sectional_area
+        self.mass = mass
+        self.resistance = resistance
 
     def get_unit_vector(self) -> np.ndarray[np.float64]:
         """Get the unit vector in the direction of the wire from the first to last point.
