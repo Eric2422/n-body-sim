@@ -68,8 +68,16 @@ class Wire():
             The resistance of the wire in ohms(Ω). Greater than 0, by default 1.0
         """
         self.points = points
-        self.velocity = np.zeros(shape=(len(points), 3))
-        self.acceleration = np.zeros(shape=(len(points), 3))
+        # The velocity of the center of mass
+        # 3D vector
+        self.velocity = np.zeros(shape=(3))
+        # The acceleration of the center of mass
+        # 3D vector
+        self.acceleration = np.zeros(shape=(3))
+        
+        # Torque is a 3D vector consisting of pitch, yaw, and roll.
+        # TODO: Type may change.
+        self.torque = np.zeros(shape=(3))
 
         self.mass = mass
         self.resistance = resistance
@@ -118,9 +126,9 @@ class Wire():
         return points[0] + (np.dot(vector, self.get_unit_vector()))
 
     def get_center_of_mass(self) -> PositionVector:
-        """Get the center of mass of this wire.
+        """Get the position of the center of mass of this wire.
 
-        Since the wire is uniform in linear density, the center of mass is in the middle.
+        Since the wire is of uniform linear density, the center of mass is in the middle.
 
         Returns
         -------
@@ -128,26 +136,6 @@ class Wire():
             A 3D vector representing the position of the center of mass.
         """
         return (self.points[0] + self.points[1]) / 2.0
-
-    def integrate_wire_segments(self, func: Callable) -> np.float64:
-        """Perform a calculation on each segment of the wire and sum them.
-
-        Parameters
-        ----------
-        func : Callable
-            A function with a calculation to perform on each segment of the wire
-        """
-        total = 0
-
-        # Loop through each segment of the wire
-        for i in range(len(self.points) - 1):
-            # The vector of the space between the points
-            wire_vector = self.points[i+1] - self.points[i]
-            unit_vector = wire_vector / np.linalg.norm(wire_vector)
-
-            total += func()
-
-        return total
 
     def get_length(self) -> np.float64:
         """Calculate the total length of the wire.
@@ -247,13 +235,16 @@ class Wire():
             )[0]
 
     def apply_force(self, force: ForceVector) -> None:
-        """Apply a force to this wire. 
+        """Apply a net force to this wire. 
 
         Parameters
         ----------
         force : ForceVector
             The force that is applied upon this wire.
         """
+        pass
+
+    def apply_torque(self, torque) -> None:
         pass
 
     def apply_magnetic_field(self, magnetic_field: Callable[[PositionVector], FieldVector]) -> None:
@@ -271,6 +262,10 @@ class Wire():
                     self.get_unit_vector()
                 )
             )
+        )
+
+        self.apply_torque(
+            scipy.integrate
         )
 
 
