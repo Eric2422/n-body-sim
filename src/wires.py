@@ -242,10 +242,10 @@ class Wire():
         force : ForceVector
             The force that is applied upon this wire.
         """
-        pass
+        self.acceleration += force / self.mass
 
     def apply_torque(self, torque) -> None:
-        pass
+        self.torque += torque
 
     def apply_magnetic_field(self, magnetic_field: Callable[[PositionVector], FieldVector]) -> None:
         """Apply a magnetic force to the wire based on a magnetic field.
@@ -265,7 +265,11 @@ class Wire():
         )
 
         self.apply_torque(
-            scipy.integrate
+            scipy.integrate.quadvdec(
+                lambda l: np.cross(
+                        magnetic_field(l)
+                    )
+            )
         )
 
 
