@@ -40,6 +40,14 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
+    def create_barnes_hut_nodes(
+            particles: list[PointParticle],
+            x_bounds: np.array,
+            y_bounds: np.array,
+            z_bounds: np.array) -> list[PointParticle]:
+
+        pass
+
     def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
         """Calculate and apply the force from one particle upon another.
 
@@ -170,7 +178,7 @@ class Simulation():
                 # Add the current time and particle data to the file
                 output_string += f'''Time: {self.current_tick *
                                             self.tick_size} s\n'''
-                
+
                 for particle in self.particles:
                     output_string += particle.__str__() + '\n'
 
