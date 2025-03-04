@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode
 
 # Spyder project settings
 .spyderproject
@@ -159,10 +160,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# User-input files
 config/*.json
 !/config/sample.json
 
+# User-output files
 /output/*
 !output/sample.txt
 
-.vscode
+# Weird system-dependent files
+.DS_Store
