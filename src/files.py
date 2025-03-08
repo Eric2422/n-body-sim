@@ -66,9 +66,9 @@ class FileHandler:
 
         Returns
         -------
-        np.ndarray
-            A 2D NumPy array of floats containing data about the particles.
-            Each inner list is a particle.
+        dict
+            A dict containing data about the particles.
+            List is a particle.
 
         Raises
         ------
