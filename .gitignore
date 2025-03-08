@@ -168,5 +168,5 @@ config/*.json
 /output/*
 !output/sample.txt
 
-# Weird system-dependent files
+.vscode
 .DS_Store
