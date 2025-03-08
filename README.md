@@ -7,7 +7,7 @@ All numbers are in SI units.
 ## Schemas
 
 The [./schemas](./schemas/) directory contains the JSON schemas used to validate and generate configuration files.
-> [Caution]
+> [!Caution]
 > It is recommended that you do not edit the schemas.
 > Doing so may prevent the program from properly running.
 
