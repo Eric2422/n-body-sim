@@ -166,3 +166,5 @@ config/*.json
 !output/sample.txt
 
 .vscode
+
+.DS_Store
