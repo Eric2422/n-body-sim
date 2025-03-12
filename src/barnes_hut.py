@@ -1,5 +1,6 @@
 import numpy as np
 
+from particle import PointParticle
 import vectors
 
 class BarnesHutCell():
@@ -11,5 +12,12 @@ class BarnesHutCell():
         self.children_particles = []
         self.children_cells = []
 
-    def getCenterofMass() -> vectors.PositionVector:
-        pass
+    def getCenterofMass(self) -> vectors.PositionVector:
+        moments = np.zeros(shape=(3))
+        total_mass = 0
+
+        for particle in self.children_particles:
+            moments += (particle.mass * particle.position)
+            total_mass += particle.mass
+        
+        return moments / total_mass

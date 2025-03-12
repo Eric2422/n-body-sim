@@ -43,8 +43,8 @@ class PointParticle:
         """
         # Represented by arrays of (X, Y, Z).
         self.position = position.astype(np.float64)
-        self.velocity = np.array((0.0, 0.0, 0.0))
-        self.acceleration = np.array((0.0, 0.0, 0.0))
+        self.velocity = velocity
+        self.acceleration = acceleration
 
         self.mass = mass
         self.charge = charge
