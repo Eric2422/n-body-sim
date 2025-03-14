@@ -3,13 +3,22 @@ import numpy as np
 from particle import PointParticle
 import vectors
 
+
 class BarnesHutCell():
-    def __init__(self, x_bounds: np.ndarray[np.float64], y_bounds: np.ndarray[np.float64], z_bounds: np.ndarray[np.float64], parent_particles: list = [PointParticle]):
+    def __init__(
+            self,
+            x_bounds: np.ndarray[np.float64],
+            y_bounds: np.ndarray[np.float64],
+            z_bounds: np.ndarray[np.float64],
+            parent_particles: list = [PointParticle]
+    ):
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
 
-        self.children_particles = []
+        self.children_particles = [
+            particle for particle in parent_particles
+        ]
         self.children_cells = []
 
     def create_child_cells(self):
@@ -22,5 +31,5 @@ class BarnesHutCell():
         for particle in self.children_particles:
             moments += (particle.mass * particle.position)
             total_mass += particle.mass
-        
+
         return moments / total_mass

@@ -51,11 +51,12 @@ class Wire():
         Has uniform density and resistivity.
     """
 
-    def __init__(self,
-                 points: np.ndarray[vectors.PositionVector],
-                 mass: np.float64 = 1.0,
-                 resistance: np.float64 = 1.0,
-                 ) -> None:
+    def __init__(
+        self,
+        points: np.ndarray[vectors.PositionVector],
+        mass: np.float64 = 1.0,
+        resistance: np.float64 = 1.0,
+    ) -> None:
         """Initiate a straight current-carrying wire.
 
         Parameters

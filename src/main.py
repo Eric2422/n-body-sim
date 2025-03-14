@@ -41,11 +41,11 @@ class Simulation():
         self.tick_size = tick_size
 
     def create_barnes_hut_nodes(
-            particles: list[PointParticle],
-            x_bounds: np.array,
-            y_bounds: np.array,
-            z_bounds: np.array) -> list[PointParticle]:
-
+        particles: list[PointParticle],
+        x_bounds: np.array,
+        y_bounds: np.array,
+        z_bounds: np.array
+    ) -> list[PointParticle]:
         pass
 
     def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
@@ -140,7 +140,7 @@ class Simulation():
 
         return self.current_tick / self.total_ticks
 
-    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
+    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress = False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters

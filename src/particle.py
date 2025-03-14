@@ -11,13 +11,14 @@ class PointParticle:
     """
 
     def __init__(
-            self,
-            position: vectors.PositionVector = np.array([0, 0, 0]),
-            velocity: vectors.VelocityVector = np.array([0, 0, 0]),
-            acceleration: vectors.AccelerationVector = np.array([0, 0, 0]),
-            mass: np.float64 = 1.0,
-            charge: np.float64 = 0.0,
-            fixed: bool = False) -> None:
+        self,
+        position: vectors.PositionVector = np.array([0, 0, 0]),
+        velocity: vectors.VelocityVector = np.array([0, 0, 0]),
+        acceleration: vectors.AccelerationVector = np.array([0, 0, 0]),
+        mass: np.float64 = 1.0,
+        charge: np.float64 = 0.0,
+        fixed: bool = False
+    ) -> None:
         """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
