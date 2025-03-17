@@ -16,10 +16,21 @@ class BarnesHutCell():
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
 
-        self.children_particles = [
+        # Search through parent cell for all particles that are within this child cell
+        self.particles = [
             particle for particle in parent_particles
+            if particle.position[0] > x_bounds[0] and particle.position[0] < x_bounds[1]
+                and particle.position[1] > y_bounds[0] and particle.position[1] < y_bounds[1]
+                and particle.position[2] > z_bounds[0] and particle.position[2] < z_bounds[1]
         ]
-        self.children_cells = []
+
+        if len(self.particles <= 1): 
+            self.child_cells = []
+        
+        else:
+            self.child_cells = [
+                
+            ]
 
     def create_child_cells(self):
         pass
