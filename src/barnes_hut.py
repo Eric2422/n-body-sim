@@ -15,9 +15,6 @@ class BarnesHutCell():
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
-        print(f'x: {self.x_bounds}')
-        print(f'y: {self.y_bounds}')
-        print(f'z: {self.z_bounds}')
 
         # Search through parent cell for all particles that are within this child cell
         self.particles = [
@@ -51,7 +48,8 @@ class BarnesHutCell():
         return child_cells
 
     def get_total_mass(self):
-        pass
+        if len(self.child_cells > 1):
+            pass
 
     def get_center_of_mass(self) -> vectors.PositionVector:
         """Return the center of mass of this Barnes-Hut cell.
@@ -65,10 +63,12 @@ class BarnesHutCell():
         total_mass = 0
         
         # If there are child cells, loop through them.
-        if len(self.child_cells > 0):
+        if len(self.child_cells) > 0:
             for child_cell in self.child_cells:
+                print(child_cell)
                 child_cell_mass = child_cell.get_total_mass()
-                moments += (child_cell_mass * particle.get_center_of_mass())
+                print(child_cell_mass)
+                moments += (child_cell_mass * child_cell.get_center_of_mass())
                 total_mass += child_cell_mass
 
         # If there are no child cells, loop through the particles of this cell.
@@ -80,8 +80,6 @@ class BarnesHutCell():
         return moments / total_mass
 
     def __str__(self):
-        return f'''({self.x_bounds[0]}, {self.x_bounds[1]})
-({self.y_bounds[0]}, {self.y_bounds[1]})
-({self.z_bounds[0]}, {self.z_bounds[1]})
-{len(self.child_cells)} child cell(s)
-{len(self.particles)} particle(s)'''
+        return f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[0]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+Center of Mass: {self.get_center_of_mass()}
+{len(self.child_cells)} child cell(s), {len(self.particles)} particle(s)'''
