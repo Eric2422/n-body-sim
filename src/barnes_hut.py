@@ -15,9 +15,6 @@ class BarnesHutCell():
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
-        print(f'x: {self.x_bounds}')
-        print(f'y: {self.y_bounds}')
-        print(f'z: {self.z_bounds}')
 
         # Search through parent cell for all particles that are within this child cell
         self.particles = [
@@ -40,11 +37,15 @@ class BarnesHutCell():
         for x in range(2):
             for y in range(2):
                 for z in range(2):
+                    lower_x = self.x_bounds[0] + (x * width)
+                    lower_y = self.y_bounds[0] + (y * width)
+                    lower_z = self.z_bounds[0] + (z * width)
+
                     child_cells.append(
                         BarnesHutCell(
-                            np.array((self.x_bounds[0] + (x * width), self.x_bounds[0] + (2 * x * width))),
-                            np.array((self.y_bounds[0] + (y * width), self.y_bounds[0] + (2 * y * width))),
-                            np.array((self.z_bounds[0] + (z * width), self.z_bounds[0] + (2 * z * width)))
+                            np.array((lower_x, lower_x + width)),
+                            np.array((lower_y, lower_y + width)),
+                            np.array((lower_z, lower_z + width))
                         )
                     )
         
