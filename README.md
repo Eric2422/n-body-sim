@@ -7,6 +7,7 @@ All numbers are in SI units.
 ## Schemas
 
 The [./schemas](./schemas/) directory contains the JSON schemas used to validate and generate configuration files.
+
 > [!Caution]
 > It is recommended that you do not edit the schemas.
 > Doing so may prevent the program from properly running.
@@ -27,3 +28,18 @@ The file name should contain the file extension(i.e. '.json').
 The output files, located in [output/](./output/), store records of the state of the particles over time.
 The output file will have the same base name as the configuration file but will have a file extension of '.txt' instead.
 A sample output file named [sample.txt](./output/sample.txt) is provided.
+
+# Citations
+
+## Barnes-Hut algorithm
+
+## Metal resistivities
+
+- [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
+
+## Metal densities
+
+- [https://www.rsc.org/periodic-table/element/29/copper](https://www.rsc.org/periodic-table/element/29/copper)
+- [https://www.rsc.org/periodic-table/element/47/silver](https://www.rsc.org/periodic-table/element/47/silver)
+- [https://www.rsc.org/periodic-table/element/79/gold](https://www.rsc.org/periodic-table/element/79/gold)
+- [https://www.rsc.org/periodic-table/element/13/aluminium](https://www.rsc.org/periodic-table/element/13/aluminium)

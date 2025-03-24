@@ -16,13 +16,24 @@ class BarnesHutCell():
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
 
+        self.particles = []
+        self.center_of_mass = np.array()
+        self.mass = 0
+
+        moments = np.zeros(shape=(3))
+
         # Search through parent cell for all particles that are within this child cell
-        self.particles = [
-            particle for particle in parent_particles
-            if particle.position[0] >= x_bounds[0] and particle.position[0] <= x_bounds[1]
-            and particle.position[1] >= y_bounds[0] and particle.position[1] <= y_bounds[1]
-            and particle.position[2] >= z_bounds[0] and particle.position[2] <= z_bounds[1]
-        ]
+        for particle in parent_particles:
+            # If the particle is within the bounds of this Barnes-Hut cell
+            if (particle.position[0] >= x_bounds[0] and particle.position[0] <= x_bounds[1]
+                    and particle.position[1] >= y_bounds[0] and particle.position[1] <= y_bounds[1] 
+                    and particle.position[2] >= z_bounds[0] and particle.position[2] <= z_bounds[1]):
+
+                self.particles.append(particle)
+
+                self.mass += particle.mass
+                moments += particle
+                
 
         self.child_cells = self.create_child_cells()
 
@@ -93,6 +104,9 @@ class BarnesHutCell():
         # If mass is not zero, return the center of mass.
         # Else return the centroid
         return moments / total_mass if total_mass != 0 else np.array(((np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds))))
+
+    def get_gravitationl_field(self, position: vectors.PositionVector) -> vectors.FieldVector:
+        pass
 
     def __str__(self):
         return f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[0]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
