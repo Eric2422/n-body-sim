@@ -65,7 +65,6 @@ class BarnesHutCell():
                 total_mass += particle.mass
 
         return total_mass
-            
 
     def get_center_of_mass(self) -> vectors.PositionVector:
         """Return the center of mass of this Barnes-Hut cell.
