@@ -18,7 +18,7 @@ barnes_hut_cell = BarnesHutCell(
     np.array((0, 100)),
     np.array((0, 100)),
     np.array((0, 100)),
-    parent_particles=particles
+    particles=particles
 )
 
 print(barnes_hut_cell)

@@ -10,30 +10,23 @@ class BarnesHutCell():
             x_bounds: np.ndarray[np.float64],
             y_bounds: np.ndarray[np.float64],
             z_bounds: np.ndarray[np.float64],
-            parent_particles: list[PointParticle] = []
+            particles: list[PointParticle] = []
     ):
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
-
-        self.particles = []
-        self.center_of_mass = np.array()
+        
         self.mass = 0
+        self.center_of_mass = np.empty(3)
 
-        moments = np.zeros(shape=(3))
-
-        # Search through parent cell for all particles that are within this child cell
-        for particle in parent_particles:
-            # If the particle is within the bounds of this Barnes-Hut cell
-            if (particle.position[0] >= x_bounds[0] and particle.position[0] <= x_bounds[1]
-                    and particle.position[1] >= y_bounds[0] and particle.position[1] <= y_bounds[1] 
-                    and particle.position[2] >= z_bounds[0] and particle.position[2] <= z_bounds[1]):
-
-                self.particles.append(particle)
-
-                self.mass += particle.mass
-                moments += particle
-                
+        # If there is more than one particle
+        if len(particles) > 1:
+            pass
+    
+        # If this is an external node(i.e. it has only 0 or 1 particles)
+        else:
+            for particle in particles:
+                pass
 
         self.child_cells = self.create_child_cells()
 
