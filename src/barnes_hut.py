@@ -15,18 +15,24 @@ class BarnesHutCell():
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
-        
+
         self.mass = 0
         self.center_of_mass = np.empty(3)
 
         # If there is more than one particle
         if len(particles) > 1:
-            pass
-    
+            for particle in particles:
+                if particle.position:
+                    pass
+
         # If this is an external node(i.e. it has only 0 or 1 particles)
         else:
             for particle in particles:
-                pass
+                self.mass += particle.mass
+                self.center_of_mass += particle.mass * particle.position
+
+            self.center_of_mass /= self.mass if self.mass != 0 else np.array(
+                np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds))
 
         self.child_cells = self.create_child_cells()
 
