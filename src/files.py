@@ -184,6 +184,9 @@ class FileHandler:
             )
             return self.create_json_template(ref_schema)
 
+        if 'default' in schema:
+            return schema['default']
+
         # Else, generate a value of the appropriate type
         match schema['type']:
             case 'object':

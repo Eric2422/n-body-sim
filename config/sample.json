@@ -1,6 +1,7 @@
 {
-    "tick size": 0.001,
-    "total ticks": 1000,
+    "theta": 0.5,
+    "tick size": 0.1,
+    "total ticks": 60,
     "electric field": [0.0, 0.0, 0.0],
     "magnetic field": [0.0, 0.0, 0.0],
     "gravitational field": [0.0, 0.0, 0.0],
