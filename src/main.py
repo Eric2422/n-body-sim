@@ -3,10 +3,10 @@ import sys
 import numpy as np
 import pandas as pd
 
+from barnes_hut import BarnesHutCell
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
-from wires import Wire
 
 
 class Simulation():
@@ -40,13 +40,23 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
-    def create_barnes_hut_nodes(
-        particles: list[PointParticle],
-        x_bounds: np.array,
-        y_bounds: np.array,
-        z_bounds: np.array
-    ) -> list[PointParticle]:
-        pass
+    def create_barnes_hut_nodes(self) -> BarnesHutCell:
+        x_bounds = np.array((
+            min(self.particles, key=lambda ele: ele.position[0]),
+            max(self.particles, key=lambda ele: ele.position[0])
+        ))
+
+        y_bounds = np.array((
+            min(self.particles, key=lambda ele: ele.position[0]),
+            max(self.particles, key=lambda ele: ele.position[0])
+        ))
+
+        z_bounds = np.array((
+            min(self.particles, key=lambda ele: ele.position[0]),
+            max(self.particles, key=lambda ele: ele.position[0])
+        ))
+
+        return BarnesHutCell(x_bounds, y_bounds, z_bounds, self.particles)
 
     def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
         """Calculate and apply the force from one particle upon another.
@@ -91,9 +101,12 @@ class Simulation():
         -------
         float
             Returns the progress of the simulator as a decimal, `p`,
-            where 0 < `p` <= 1. 
+            where 0 < `p` <= 1.
             Progress is measured as how many ticks out of `self.total_ticks` have been completed.
         """
+        # Get the root node of the octree
+        barnes_hut_tree = self.create_barnes_hut_nodes()
+
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
         index = 0
@@ -140,8 +153,8 @@ class Simulation():
 
         return self.current_tick / self.total_ticks
 
-    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress = False) -> None:
-        """Run the simulation for a given number of ticks. 
+    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
+        """Run the simulation for a given number of ticks.
 
         Parameters
         ----------
@@ -149,7 +162,7 @@ class Simulation():
             The number of ticks that the simulation runs by, by default `self.total_ticks`
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
-            Writes the data into a file, 
+            Writes the data into a file,
             so the data does not need to be looped through again afterward.
             By default None
         print_progress : bool, optional
