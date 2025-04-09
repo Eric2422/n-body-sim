@@ -154,6 +154,11 @@ class BarnesHutCell():
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
     def __str__(self):
-        return f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[1]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+        string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[1]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
 Center of Mass: {self.center_of_mass}
-{len(self.child_cells)} child cell(s)'''
+{len(self.child_cells)} child cell(s):'''
+        
+        for child_node in self.child_cells:
+            string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
+
+        return string

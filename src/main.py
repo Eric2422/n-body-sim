@@ -42,18 +42,18 @@ class Simulation():
 
     def create_barnes_hut_nodes(self) -> BarnesHutCell:
         x_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]),
-            max(self.particles, key=lambda ele: ele.position[0])
+            min(self.particles, key=lambda ele: ele.position[0]).position[0],
+            max(self.particles, key=lambda ele: ele.position[0]).position[0]
         ))
 
         y_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]),
-            max(self.particles, key=lambda ele: ele.position[0])
+            min(self.particles, key=lambda ele: ele.position[0]).position[1],
+            max(self.particles, key=lambda ele: ele.position[0]).position[1]
         ))
 
         z_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]),
-            max(self.particles, key=lambda ele: ele.position[0])
+            min(self.particles, key=lambda ele: ele.position[0]).position[2],
+            max(self.particles, key=lambda ele: ele.position[0]).position[2]
         ))
 
         return BarnesHutCell(x_bounds, y_bounds, z_bounds, self.particles)
@@ -106,6 +106,9 @@ class Simulation():
         """
         # Get the root node of the octree
         barnes_hut_tree = self.create_barnes_hut_nodes()
+        print(barnes_hut_tree)
+        print('Finish BH tree')
+        sys.exit()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -115,7 +118,6 @@ class Simulation():
             particle1 = self.particles[i]
 
             for j in range(i + 1, len(self.particles)):
-                # print(f'i, j: {i}, {j}')
                 particle2 = self.particles[j]
                 self.apply_force_between_particles(particle1, particle2)
 
@@ -124,8 +126,6 @@ class Simulation():
                 self.electric_field, self.magnetic_field
             )
             particle1.apply_gravitational_field(self.gravitational_field)
-
-            # print()
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
@@ -227,7 +227,7 @@ if __name__ == '__main__':
     ]
 
     # Create and run the simulation
-    total_ticks = file_data['total ticks']
+    total_ticks = file_data['num ticks']
     tick_size = file_data['tick size']
     simulation = Simulation(
         particles,
