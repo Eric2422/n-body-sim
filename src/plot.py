@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from files import FileHandler
 
 class Plot():
     def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
@@ -48,6 +49,8 @@ class Plot():
         max_z = np.max(data_frame['z'].values)
         ax.set_zlim(min_z * margin, max_z * margin)
 
+        self.fps = 1 / tick_size
+
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
             fig,
@@ -84,3 +87,7 @@ class Plot():
     def show(self) -> None:
         """Display this plot and run the animation. """
         plt.show()
+
+    def save_plot_to_file(self) -> None:
+        FFwriter = animation.FFMpegWriter(fps=self.fps)
+        self.plot_animation.save('test.gif', writer=FFwriter)

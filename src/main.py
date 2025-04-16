@@ -1,5 +1,6 @@
 import sys
 
+import matplotlib.animation as animation
 import numpy as np
 import pandas as pd
 
@@ -98,10 +99,11 @@ class Simulation():
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
-        index = 0
-
         for i in range(len(self.particles)):
             particle1 = self.particles[i]
+
+            for child_node in barnes_hut_tree.child_cells:
+                pass
 
             for j in range(i + 1, len(self.particles)):
                 particle2 = self.particles[j]
@@ -215,11 +217,15 @@ if __name__ == '__main__':
         particles,
         tick_size=tick_size
     )
-    simulation.run(num_ticks=num_ticks, file_handler=file_handler, print_progress=True)
+    simulation.run(num_ticks=num_ticks,
+                   file_handler=file_handler, print_progress=True)
 
     # Plot the simulation
     plot = Plot(
         data_frame=simulation.particle_positions_log,
         tick_size=simulation.tick_size
     )
+
+    plot.save_plot_to_file()
     plot.show()
+

@@ -163,6 +163,12 @@ class BarnesHutCell():
 
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
+    def get_electrical_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        pass
+
+    def get_magnetic_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        pass
+
     def get_depth(self):
         if len(self.child_cells) == 0:
             return 2
