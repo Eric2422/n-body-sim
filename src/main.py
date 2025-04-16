@@ -94,7 +94,7 @@ class Simulation():
     def tick(self) -> float:
         """Run one tick of the simulation."""
         # Get the root node of the octree
-        # barnes_hut_tree = self.create_barnes_hut_nodes()
+        barnes_hut_tree = self.create_barnes_hut_nodes()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -152,7 +152,8 @@ class Simulation():
         print_progress : bool, optional
             Whether to print a progress report on how much of the simulation has been completed, by default False
         """
-        file_handler.clear_output_file()
+        if file_handler is not None:
+            file_handler.clear_output_file()
 
         # Run the necessary number of ticks
         output_string = ''
@@ -178,7 +179,8 @@ class Simulation():
 
                 output_string += '\n'
 
-        file_handler.append_to_output_file(output_string)
+        if file_handler is not None:
+            file_handler.append_to_output_file(output_string)
 
         # If printing progress reports,
         # add an extra line to account for the carriage returns.
@@ -208,13 +210,13 @@ if __name__ == '__main__':
     ]
 
     # Create and run the simulation
-    num_ticks = file_data['num ticks']
+    num_ticks = int(file_data['num ticks'])
     tick_size = file_data['tick size']
     simulation = Simulation(
         particles,
         tick_size=tick_size
     )
-    simulation.run(num_ticks=num_ticks, file_handler=file_handler, print_progress=True)
+    simulation.run(num_ticks=num_ticks, file_handler=None, print_progress=True)
 
     # Plot the simulation
     plot = Plot(
