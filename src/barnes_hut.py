@@ -27,7 +27,7 @@ class BarnesHutCell():
             List of particles that are contained within this Barnes-Hut cell.
             Assumed to not contain any particles out of the bounds, by default []
         """
-
+        # print('Initiate cell')
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds

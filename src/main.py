@@ -10,15 +10,13 @@ from plot import Plot
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: float = 1.0) -> None:
+    def __init__(self, particles: list[PointParticle], tick_size: float = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
         ----------
         particles : list
             A list of particles that are interacting with each other.
-        total_ticks: int
-            The duration of the simulation, measured in ticks.
         tick_size : float, optional
             The time increment of the simulation in seconds, by default 1.0
         """
@@ -36,7 +34,6 @@ class Simulation():
         self.magnetic_field = np.zeros(3)
         self.gravitational_field = np.zeros(3)
 
-        self.total_ticks = total_ticks
         self.current_tick = 0
         self.tick_size = tick_size
 
@@ -95,20 +92,9 @@ class Simulation():
             )
 
     def tick(self) -> float:
-        """Run one tick of the simulation.
-
-        Returns
-        -------
-        float
-            Returns the progress of the simulator as a decimal, `p`,
-            where 0 < `p` <= 1.
-            Progress is measured as how many ticks out of `self.total_ticks` have been completed.
-        """
+        """Run one tick of the simulation."""
         # Get the root node of the octree
-        barnes_hut_tree = self.create_barnes_hut_nodes()
-        print(barnes_hut_tree)
-        print('Finish BH tree')
-        sys.exit()
+        # barnes_hut_tree = self.create_barnes_hut_nodes()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -151,15 +137,13 @@ class Simulation():
 
         self.current_tick += 1
 
-        return self.current_tick / self.total_ticks
-
-    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
+    def run(self, num_ticks: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks.
 
         Parameters
         ----------
-        ticks_to_run : int, optional
-            The number of ticks that the simulation runs by, by default `self.total_ticks`
+        num_ticks : int, optional
+            The number of ticks that the simulation runs by.
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
             Writes the data into a file,
@@ -168,17 +152,14 @@ class Simulation():
         print_progress : bool, optional
             Whether to print a progress report on how much of the simulation has been completed, by default False
         """
-
-        # By default, run the entire simulation
-        if ticks_to_run == None:
-            ticks_to_run = self.total_ticks
-
         file_handler.clear_output_file()
 
         # Run the necessary number of ticks
         output_string = ''
-        for i in range(ticks_to_run):
-            progress = self.tick()
+        for i in range(num_ticks):
+            # print(i)
+            self.tick()
+            progress = i / num_ticks
 
             if print_progress:
                 # Clear the previous line.
@@ -227,14 +208,13 @@ if __name__ == '__main__':
     ]
 
     # Create and run the simulation
-    total_ticks = file_data['num ticks']
+    num_ticks = file_data['num ticks']
     tick_size = file_data['tick size']
     simulation = Simulation(
         particles,
-        total_ticks=total_ticks,
         tick_size=tick_size
     )
-    simulation.run(file_handler=file_handler, print_progress=True)
+    simulation.run(num_ticks=num_ticks, file_handler=file_handler, print_progress=True)
 
     # Plot the simulation
     plot = Plot(
