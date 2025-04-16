@@ -63,41 +63,6 @@ class PointParticle:
         if not self.fixed:
             self.acceleration += force / self.mass
 
-<<<<<<< HEAD
-=======
-    def apply_gravitational_field(self, gravitational_field: vectors.FieldVector) -> None:
-        """Calculate and apply the effects of a gravitational field upon this particle.
-
-        Parameters
-        ----------
-        gravitational_field : np.ndarray
-            A 3D vector measured in N/kg representing the gravitational field acting upon this particle.
-        """
-        self.apply_force(self.mass * gravitational_field)
-
-    def apply_electric_field(self, electric_field: vectors.FieldVector) -> None:
-        """Calculate and apply the effects of a electric field upon this particle.
-
-        Parameters
-        ----------
-        electric_field : np.ndarray
-            A 3D vector measured in N/C representing the electric field acting upon this particle.
-        """
-        self.apply_force(self.charge * electric_field)
-
-    def apply_magnetic_field(self, magnetic_field: vectors.FieldVector) -> None:
-        """Calculate and apply the effects of a magnetic field upon this particle.
-
-        Parameters
-        ----------
-        magnetic_field : np.ndarray
-            A 3D vector measured in teslas representing the magnetic field acting upon this particle.
-        """
-        self.apply_force(
-            self.charge * np.cross(self.velocity, magnetic_field)
-        )
-
->>>>>>> a13bff24c70003e92c21c4d49a89c94ddd9fdaec
     def apply_lorentz_force_law(self, electric_field: vectors.FieldVector, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
 
@@ -130,7 +95,6 @@ class PointParticle:
 
         return unit_vector * scipy.constants.G * self.mass / distance ** 2
 
-<<<<<<< HEAD
     def apply_gravitational_field(self, gravitational_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of a gravitational field upon this particle.
 
@@ -141,8 +105,6 @@ class PointParticle:
         """
         self.apply_force(self.mass * gravitational_field)
 
-=======
->>>>>>> a13bff24c70003e92c21c4d49a89c94ddd9fdaec
     def get_electric_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the electric field at `point` due to this particle.
 
@@ -168,7 +130,6 @@ class PointParticle:
 
         return -electric_field * unit_vector
 
-<<<<<<< HEAD
     def apply_electric_field(self, electric_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of a electric field upon this particle.
 
@@ -179,8 +140,6 @@ class PointParticle:
         """
         self.apply_force(self.charge * electric_field)
 
-=======
->>>>>>> a13bff24c70003e92c21c4d49a89c94ddd9fdaec
     def get_magnetic_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the magnetic field exerted by by this particle at `point`. 
 
