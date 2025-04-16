@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+from files import FileHandler
 
 class Plot():
     def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
@@ -84,3 +85,7 @@ class Plot():
     def show(self) -> None:
         """Display this plot and run the animation. """
         plt.show()
+
+    def save_plot_to_file(self, file_handler) -> None:
+        print(f'./{FileHandler.OUTPUT_DIR}/{file_handler.output_file.stem}.mp4')
+        self.plot_animation.save(f'{FileHandler.OUTPUT_DIR}/{file_handler.output_file.stem}.mp4')

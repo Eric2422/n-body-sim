@@ -39,9 +39,6 @@ class FileHandler:
 
         Parameters
         ----------
-        file_name : str, optional
-            The name of the file to write to, 
-            excluding the directory(i.e. `output/`), by default `sample.txt`
         output_string: str, optional
             The string to be appended to the given file, by default ''
         """
