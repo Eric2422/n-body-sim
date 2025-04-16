@@ -20,7 +20,6 @@ class Plot():
         ax = fig.add_subplot(111, projection='3d')
 
         self.data_frame = data_frame
-        print(data_frame)
 
         self.num_particles = len(data_frame[data_frame['t'] == 0])
 

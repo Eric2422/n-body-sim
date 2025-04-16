@@ -44,13 +44,13 @@ class Simulation():
         ))
 
         y_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]).position[1],
-            max(self.particles, key=lambda ele: ele.position[0]).position[1]
+            min(self.particles, key=lambda ele: ele.position[1]).position[1],
+            max(self.particles, key=lambda ele: ele.position[1]).position[1]
         ))
 
         z_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]).position[2],
-            max(self.particles, key=lambda ele: ele.position[0]).position[2]
+            min(self.particles, key=lambda ele: ele.position[2]).position[2],
+            max(self.particles, key=lambda ele: ele.position[2]).position[2]
         ))
 
         return BarnesHutCell(x_bounds, y_bounds, z_bounds, self.particles)
@@ -157,8 +157,7 @@ class Simulation():
 
         # Run the necessary number of ticks
         output_string = ''
-        for i in range(num_ticks):
-            # print(i)
+        for i in range(num_ticks + 1):
             self.tick()
             progress = i / num_ticks
 
@@ -216,7 +215,7 @@ if __name__ == '__main__':
         particles,
         tick_size=tick_size
     )
-    simulation.run(num_ticks=num_ticks, file_handler=None, print_progress=True)
+    simulation.run(num_ticks=num_ticks, file_handler=file_handler, print_progress=True)
 
     # Plot the simulation
     plot = Plot(

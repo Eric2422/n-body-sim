@@ -11,9 +11,11 @@ class BarnesHutCell():
             x_bounds: np.ndarray[np.float64],
             y_bounds: np.ndarray[np.float64],
             z_bounds: np.ndarray[np.float64],
-            particles: list[PointParticle] = []
+            particles: list[PointParticle] = [],
     ):
-        """Constructs a Barnes-Hut cell and recursively create its child nodes. 
+        """Constructs a Barnes-Hut cell and recursively create its child nodes.
+
+        Will catch out of bounds particles.
 
         Parameters
         ----------
@@ -25,12 +27,19 @@ class BarnesHutCell():
             A 2-element NumPy array that contains the lower and upper Z bounds, in that order
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.
-            Assumed to not contain any particles out of the bounds, by default []
         """
-        # print('Initiate cell')
         self.x_bounds = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
+
+        # Remove out of bounds particles
+        for particle in particles:
+            if not (
+                particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
+                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
+                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]
+            ):
+                particles.remove(particle)
 
         self.total_mass = 0
 
@@ -117,18 +126,19 @@ class BarnesHutCell():
         for i in range(2):
             for j in range(2):
                 for k in range(2):
-                    lower_x = self.x_bounds + (i * child_width)
-                    lower_y = self.y_bounds + (j * child_width)
-                    lower_z = self.z_bounds + (k * child_width)
+                    lower_x = self.x_bounds[0] + (i * child_width)
+                    lower_y = self.y_bounds[0] + (j * child_width)
+                    lower_z = self.z_bounds[0] + (k * child_width)
 
                     child_cells.append(
                         BarnesHutCell(
-                            particles=octant_particles_list[i][j][k],
                             x_bounds=np.array(
                                 (lower_x, lower_x + child_width)),
                             y_bounds=np.array(
                                 (lower_y, lower_y + child_width)),
-                            z_bounds=np.array((lower_z, lower_z + child_width))
+                            z_bounds=np.array(
+                                (lower_z, lower_z + child_width)),
+                            particles=octant_particles_list[i][j][k],
                         )
                     )
 
@@ -153,11 +163,17 @@ class BarnesHutCell():
 
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
+    def get_depth(self):
+        if len(self.child_cells) == 0:
+            return 2
+
+        return max(child.get_depth() for child in self.child_cells)
+
     def __str__(self):
         string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[1]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
 Center of Mass: {self.center_of_mass}
 {len(self.child_cells)} child cell(s):'''
-        
+
         for child_node in self.child_cells:
             string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
 
