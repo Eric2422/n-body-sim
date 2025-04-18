@@ -228,4 +228,3 @@ if __name__ == '__main__':
 
     plot.save_plot_to_file()
     plot.show()
-
