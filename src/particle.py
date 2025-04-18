@@ -67,7 +67,7 @@ class PointParticle:
             The force that is being applied to the particle
         """
         if not self.fixed:
-            self.acceleration += force / self.mass
+            self.acceleration = force / self.mass
 
     def apply_lorentz_force_law(self, electric_field: vectors.FieldVector, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
@@ -95,7 +95,7 @@ class PointParticle:
         np.ndarray
             A vector of the gravitational field generated at `point`.
         """
-        vector_between_points = point - self.position
+        vector_between_points = self.position - point 
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 

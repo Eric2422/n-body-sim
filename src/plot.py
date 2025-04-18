@@ -39,15 +39,15 @@ class Plot():
         margin = 1.25
         min_x = np.min(data_frame['x'].values)
         max_x = np.max(data_frame['x'].values)
-        plt.xlim(left=min_x * margin, right=max_x * margin)
+        plt.xlim(left=min_x - ((max_x - min_x) * margin), right=max_x + ((max_x - min_x) * margin))
 
         min_y = np.min(data_frame['y'].values)
         max_y = np.max(data_frame['y'].values)
-        plt.ylim(bottom=min_y * margin, top=max_y * margin)
+        plt.ylim(bottom=min_y - ((max_y - min_y) * margin), top=max_y + ((max_y - min_y) * margin))
 
         min_z = np.min(data_frame['z'].values)
         max_z = np.max(data_frame['z'].values)
-        ax.set_zlim(min_z * margin, max_z * margin)
+        ax.set_zlim(min_z - ((max_z - min_z) * margin), max_z + ((max_z - min_z) * margin))
 
         self.fps = 1 / tick_size
 
