@@ -10,6 +10,9 @@ class PointParticle:
     """A point particle with a specified position, charge, and mass.
     """
 
+    current_id = 0
+    """Used to assign an identifier to each particle."""
+
     def __init__(
         self,
         position: vectors.PositionVector = np.array([0, 0, 0]),
@@ -51,6 +54,9 @@ class PointParticle:
         self.charge = charge
 
         self.fixed = fixed
+
+        self.id = PointParticle.current_id
+        PointParticle.current_id += 1
 
     def apply_force(self, force: vectors.ForceVector) -> None:
         """Update the particle's acceleration by adding a force.
@@ -181,5 +187,8 @@ class PointParticle:
         )
 
     def __str__(self) -> str:
-        coordinates = f'({" m, ".join([str(num) for num in self.position])} m)'
-        return f'Particle with {self.charge} C and {self.mass} kg at {coordinates}'
+        position = f'({", ".join((str(dimension) for dimension in self.position))})'
+        velocity = f'<{", ".join((str(dimension) for dimension in self.velocity))}>'
+        acceleration = f'<{", ".join((str(dimension) for dimension in self.acceleration))}>'
+
+        return f'Particle {self.id}: m={self.mass}, Q={self.charge}, r={position}, v={velocity}, a={acceleration}'

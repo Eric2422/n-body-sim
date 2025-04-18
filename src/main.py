@@ -92,6 +92,43 @@ class Simulation():
                 )
             )
 
+    def log_particle_positions(self, particle: PointParticle) -> None:
+        """Save the data of a particle to the particle positions log.
+
+        Parameters
+        ----------
+        particle : PositionParticle
+            A particle to save the position of.
+        """
+        # Save particle position data
+        new_data = pd.DataFrame([{
+            't': self.current_tick * self.tick_size,
+            'x': np.array((particle.position[0])),
+            'y': np.array((particle.position[1])),
+            'z': np.array((particle.position[2]))
+        }])
+        self.particle_positions_log = pd.concat(
+        [self.particle_positions_log, new_data], ignore_index=True)
+
+    def get_particle_positions_string(self) -> str:
+        """Return a string of the particles' current state.
+
+        Returns
+        -------
+        str
+            _description_
+        """
+
+        # Add the initial time and particle data to the file
+        output_string = f't={self.current_tick * self.tick_size}\n'
+
+        for particle in self.particles:
+            output_string += particle.__str__() + '\n'
+
+        output_string += '\n'
+
+        return output_string
+
     def tick(self) -> float:
         """Run one tick of the simulation."""
         # Get the root node of the octree
@@ -117,19 +154,8 @@ class Simulation():
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
-        index = 0
         for particle in particles:
-            # Save particle position data
-            new_data = pd.DataFrame([{
-                't': self.current_tick * self.tick_size,
-                'x': np.array((particle.position[0])),
-                'y': np.array((particle.position[1])),
-                'z': np.array((particle.position[2]))
-            }])
-            self.particle_positions_log = pd.concat(
-                [self.particle_positions_log, new_data], ignore_index=True)
-
-            index += 1
+            self.log_particle_positions(particle)
 
             # Update the particle's velocity
             particle.velocity += particle.acceleration * self.tick_size
@@ -154,11 +180,22 @@ class Simulation():
         print_progress : bool, optional
             Whether to print a progress report on how much of the simulation has been completed, by default False
         """
+        output_string = ''
         if file_handler is not None:
             file_handler.clear_output_file()
 
+            # Print fields
+            output_string += f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
+            output_string += f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
+            output_string += f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n\n'
+
+            output_string += self.get_particle_positions_string()
+
+        # Record initial particle data
+        for particle in particles:
+            self.log_particle_positions(particle=particle)
+
         # Run the necessary number of ticks
-        output_string = ''
         for i in range(num_ticks + 1):
             self.tick()
             progress = i / num_ticks
@@ -171,14 +208,7 @@ class Simulation():
 
             # If a `FileHandler` object is passed, output the results to a file.
             if file_handler is not None:
-                # Add the current time and particle data to the file
-                output_string += f'''Time: {self.current_tick *
-                                            self.tick_size} s\n'''
-
-                for particle in self.particles:
-                    output_string += particle.__str__() + '\n'
-
-                output_string += '\n'
+                output_string += self.get_particle_positions_string()
 
         if file_handler is not None:
             file_handler.append_to_output_file(output_string)
@@ -226,5 +256,5 @@ if __name__ == '__main__':
         tick_size=simulation.tick_size
     )
 
-    plot.save_plot_to_file()
+    # plot.save_plot_to_file()
     plot.show()

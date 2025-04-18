@@ -161,7 +161,7 @@ cython_debug/
 #.idea/
 
 # User-input files
-config/*.json
+config/*
 !/config/sample.json
 
 # User-output files
