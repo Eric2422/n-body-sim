@@ -74,9 +74,6 @@ class Simulation():
                 particle2.get_magnetic_field(particle1.position)
             )
 
-            print(particle2.get_gravitational_field(
-                particle1.position
-            ))
             particle1.apply_gravitational_field(
                 particle2.get_gravitational_field(
                     particle1.position
@@ -89,9 +86,6 @@ class Simulation():
                 particle1.get_magnetic_field(particle2.position)
             )
 
-            print(particle1.get_gravitational_field(
-                particle2.position
-            ))
             particle2.apply_gravitational_field(
                 particle1.get_gravitational_field(
                     particle2.position

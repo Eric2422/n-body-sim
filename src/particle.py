@@ -109,7 +109,6 @@ class PointParticle:
         gravitational_field : np.ndarray
             A 3D vector measured in N/kg representing the gravitational field acting upon this particle.
         """
-        print('G force: ')
         self.apply_force(self.mass * gravitational_field)
 
     def get_electric_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
