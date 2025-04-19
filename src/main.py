@@ -74,6 +74,9 @@ class Simulation():
                 particle2.get_magnetic_field(particle1.position)
             )
 
+            print(particle2.get_gravitational_field(
+                particle1.position
+            ))
             particle1.apply_gravitational_field(
                 particle2.get_gravitational_field(
                     particle1.position
@@ -86,6 +89,9 @@ class Simulation():
                 particle1.get_magnetic_field(particle2.position)
             )
 
+            print(particle1.get_gravitational_field(
+                particle2.position
+            ))
             particle2.apply_gravitational_field(
                 particle1.get_gravitational_field(
                     particle2.position
@@ -108,7 +114,7 @@ class Simulation():
             'z': np.array((particle.position[2]))
         }])
         self.particle_positions_log = pd.concat(
-        [self.particle_positions_log, new_data], ignore_index=True)
+            [self.particle_positions_log, new_data], ignore_index=True)
 
     def get_particle_positions_string(self) -> str:
         """Return a string of the particles' current state.
@@ -134,6 +140,9 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_tree = self.create_barnes_hut_nodes()
 
+        for particle in self.particles:
+            particle.acceleration = np.array((0.0, 0.0, 0.0))
+
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
         for i in range(len(self.particles)):
@@ -144,6 +153,7 @@ class Simulation():
 
             for j in range(i + 1, len(self.particles)):
                 particle2 = self.particles[j]
+
                 self.apply_force_between_particles(particle1, particle2)
 
             # Add the constant fields

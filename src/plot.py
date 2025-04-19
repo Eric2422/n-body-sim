@@ -55,7 +55,7 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             fig,
             self.update,
-            interval=tick_size / 1000,  # Convert from seconds to milliseconds.
+            interval=tick_size / 1e-2,  # Convert from seconds to milliseconds.
             blit=True
         )
 
