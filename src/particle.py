@@ -58,7 +58,7 @@ class PointParticle:
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
 
-    def apply_force(self, force: vectors.ForceVector) -> None:
+    def add_force(self, force: vectors.ForceVector) -> None:
         """Update the particle's acceleration by adding a force.
 
         Parameters
@@ -68,6 +68,14 @@ class PointParticle:
         """
         if not self.fixed:
             self.acceleration += force / self.mass
+
+    def set_force(self, force: vectors.ForceVector) -> None:
+        self.acceleration = force / self.mass
+
+    def clear_force(self) -> None:
+        """Set the force acting upon the particle to 0.
+        """
+        self.acceleration *= 0
 
     def apply_lorentz_force_law(self, electric_field: vectors.FieldVector, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
@@ -95,7 +103,7 @@ class PointParticle:
         np.ndarray
             A vector of the gravitational field generated at `point`.
         """
-        vector_between_points = self.position - point 
+        vector_between_points = self.position - point
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 
@@ -109,7 +117,7 @@ class PointParticle:
         gravitational_field : np.ndarray
             A 3D vector measured in N/kg representing the gravitational field acting upon this particle.
         """
-        self.apply_force(self.mass * gravitational_field)
+        self.add_force(self.mass * gravitational_field)
 
     def get_electric_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the electric field at `point` due to this particle.
@@ -144,7 +152,7 @@ class PointParticle:
         electric_field : np.ndarray
             A 3D vector measured in N/C representing the electric field acting upon this particle.
         """
-        self.apply_force(self.charge * electric_field)
+        self.add_force(self.charge * electric_field)
 
     def get_magnetic_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the magnetic field exerted by by this particle at `point`. 
@@ -182,7 +190,7 @@ class PointParticle:
         magnetic_field : np.ndarray
             A 3D vector measured in teslas representing the magnetic field acting upon this particle.
         """
-        self.apply_force(
+        self.add_force(
             self.charge * np.cross(self.velocity, magnetic_field)
         )
 

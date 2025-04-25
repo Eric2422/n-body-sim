@@ -135,7 +135,7 @@ class Simulation():
         barnes_hut_tree = self.create_barnes_hut_nodes()
 
         for particle in self.particles:
-            particle.acceleration = np.array((0.0, 0.0, 0.0))
+            particle.clear_force()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
