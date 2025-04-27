@@ -34,11 +34,7 @@ class BarnesHutCell():
 
         # Remove out of bounds particles
         for particle in particles:
-            if not (
-                particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
-                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
-                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]
-            ):
+            if not self.contains_particle(particle):
                 particles.remove(particle)
 
         self.total_mass = 0
@@ -65,6 +61,11 @@ class BarnesHutCell():
         # If mass is 0, return the centroid
         self.center_of_mass = total_moment / self.total_mass if self.total_mass != 0 else np.array((
             np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
+    
+    def contains_particle(self, particle: PointParticle) -> bool:
+        return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
+                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
+                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
 
     def create_child_cells(self, particles):
         centroid = np.array((
