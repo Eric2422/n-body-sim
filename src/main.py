@@ -143,7 +143,7 @@ class Simulation():
             particle1 = self.particles[i]
 
             for child_node in barnes_hut_tree.child_cells:
-                pass
+                
 
             for j in range(i + 1, len(self.particles)):
                 particle2 = self.particles[j]

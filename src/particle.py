@@ -119,6 +119,22 @@ class PointParticle:
         """
         self.add_force(self.mass * gravitational_field)
 
+    def get_gravitational_force(self, gravitational_field: vectors.FieldVector) -> vectors.ForceVector:
+        """Get the gravitational force acting upon this particle as a result of the given gravitational field. 
+
+        Parameters
+        ----------
+        gravitational_field : vectors.FieldVector
+            A NumPy array of shape (1, 3) representing a 3D vector of the gravitational field acting upon this particle.
+
+        Returns
+        -------
+        vectors.ForceVector
+            A NumPy array of shape (1, 3) representing a 3D vector of the gravitational force 
+            acting upon this particle as a result of the gravitational field.
+        """
+        return self.mass * gravitational_field
+
     def get_electric_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the electric field at `point` due to this particle.
 
