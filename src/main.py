@@ -70,24 +70,24 @@ class Simulation():
         if particle1 != particle2:
             # Lorentz force law
             particle1.apply_lorentz_force_law(
-                particle2.get_electric_field(particle1.position),
-                particle2.get_magnetic_field(particle1.position)
+                particle2.get_electric_field_exerted(particle1.position),
+                particle2.get_magnetic_field_exerted(particle1.position)
             )
 
             particle1.apply_gravitational_field(
-                particle2.get_gravitational_field(
+                particle2.get_gravitational_field_exerted(
                     particle1.position
                 )
             )
 
             # Lorentz force law
             particle2.apply_lorentz_force_law(
-                particle1.get_electric_field(particle2.position),
-                particle1.get_magnetic_field(particle2.position)
+                particle1.get_electric_field_exerted(particle2.position),
+                particle1.get_magnetic_field_exerted(particle2.position)
             )
 
             particle2.apply_gravitational_field(
-                particle1.get_gravitational_field(
+                particle1.get_gravitational_field_exerted(
                     particle2.position
                 )
             )
@@ -134,6 +134,9 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_tree = self.create_barnes_hut_nodes()
 
+        # An array of forces for each particle
+        forces = np.zeros(shape=(len(self.particles), 3))
+
         for particle in self.particles:
             particle.clear_force()
 
@@ -155,6 +158,7 @@ class Simulation():
                 self.electric_field, self.magnetic_field
             )
             particle1.apply_gravitational_field(self.gravitational_field)
+            particle.apply_fields()
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
