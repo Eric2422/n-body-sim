@@ -11,7 +11,7 @@ from plot import Plot
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], tick_size: float = 1.0) -> None:
+    def __init__(self, particles: list[PointParticle], tick_size: float = 1.0, theta: float = 0.5) -> None:
         """Initiate one simulation.
 
         Parameters
