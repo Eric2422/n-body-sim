@@ -1,6 +1,5 @@
 import sys
 
-import matplotlib.animation as animation
 import numpy as np
 import pandas as pd
 
@@ -129,7 +128,7 @@ class Simulation():
 
         return output_string
 
-    def tick(self) -> float:
+    def tick(self) -> None:
         """Run one tick of the simulation."""
         # Get the root node of the octree
         barnes_hut_tree = self.create_barnes_hut_nodes()
@@ -148,7 +147,7 @@ class Simulation():
             for child_node in barnes_hut_tree.child_cells:
                 forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitational_field(particle1.position))
-                
+
                 forces[i] += particle1.get_electric_force_experienced(
                     child_node.get_electric_field(particle1.position)
                 )
@@ -163,11 +162,8 @@ class Simulation():
                 self.apply_force_between_particles(particle1, particle2)
 
             # Add the constant fields
-            particle1.apply_lorentz_force_law(
-                self.electric_field, self.magnetic_field
-            )
-            particle1.apply_gravitational_field(self.gravitational_field)
-            particle.apply_fields()
+            particle1.apply_fields(
+                self.electric_field, self.magnetic_field, self.gravitational_field)
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
@@ -182,7 +178,7 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, num_ticks: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
+    def run(self, num_ticks: int = -1, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks.
 
         Parameters
@@ -270,7 +266,7 @@ if __name__ == '__main__':
     # Plot the simulation
     plot = Plot(
         data_frame=simulation.particle_positions_log,
-        tick_size=simulation.tick_size
+        tick_size=np.float64(simulation.tick_size)
     )
 
     # plot.save_plot_to_file()
