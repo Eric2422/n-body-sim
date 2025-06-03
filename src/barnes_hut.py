@@ -38,8 +38,11 @@ class BarnesHutCell():
                 particles.remove(particle)
 
         self.total_mass = 0
+        self.total_charge = 0
 
-        total_moment = np.zeros(3)
+        mass_moment = np.zeros(3)
+        charge_moment = np.zeros(3)
+        
 
         # If this cell is an internal node(i.e. it has more than 1 particle)
         if len(particles) > 1:
@@ -47,7 +50,10 @@ class BarnesHutCell():
 
             for child_cell in self.child_cells:
                 self.total_mass += child_cell.total_mass
-                total_moment += child_cell.total_mass * child_cell.center_of_mass
+                mass_moment += child_cell.total_mass * child_cell.center_of_mass
+
+                self.total_charge += child_cell.total_charge
+                charge_moment += child_cell.total_charge * child_cell.center_of_mass
 
         # If this is an external node(i.e. it has only 0 or 1 particles)
         else:
@@ -55,11 +61,19 @@ class BarnesHutCell():
 
             for particle in particles:
                 self.total_mass += particle.mass
-                total_moment += particle.mass * particle.position
+                mass_moment += particle.mass * particle.position
 
-        # Divide the total moment by center of mass to obtain the center of mass
+                self.total_charge
+                charge_moment += particle.charge * particle.position
+
+        # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
-        self.center_of_mass = total_moment / self.total_mass if self.total_mass != 0 else np.array((
+        self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 else np.array((
+            np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
+
+        # Divide the charge moment by center of charge to obtain the center of charge
+        # If charge is 0, return the centroid
+        self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 else np.array((
             np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
 
     def contains_particle(self, particle: PointParticle) -> bool:
