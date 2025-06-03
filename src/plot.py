@@ -39,19 +39,22 @@ class Plot():
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
         ax.set_xlim(left=min_x - ((max_x - min_x) * MARGIN),
-                 right=max_x + ((max_x - min_x) * MARGIN))
+                    right=max_x + ((max_x - min_x) * MARGIN))
+        ax.set_xlabel('meters (m)')
 
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
         ax.set_ylim(bottom=min_y - ((max_y - min_y) * MARGIN),
-                 top=max_y + ((max_y - min_y) * MARGIN))
+                    top=max_y + ((max_y - min_y) * MARGIN))
+        ax.set_ylabel('meters (m)')
 
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
-        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN),
+        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN), # type: ignore
                     max_z + ((max_z - min_z) * MARGIN))
+        ax.set_zlabel('meters (m)') # type: ignore
 
-        self.fps = 1 / tick_size
+        self.fps = round(1 / tick_size)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
@@ -82,7 +85,7 @@ class Plot():
         data = self.data_frame.loc[start_index: end_index]
 
         self.plot.set_data(data.x, data.y)
-        self.plot.set_3d_properties(data.z)
+        self.plot.set_3d_properties(data.z) # type: ignore
 
         return self.plot,
 
