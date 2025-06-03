@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import sys
+from typing import Any
 
 import jsonschema
 import referencing
@@ -31,7 +32,7 @@ class FileHandler:
         )
 
         # Open the schema file and read it.
-        self.schema_dict = json.load(
+        self.schema = json.load(
             (FileHandler.SCHEMA_DIR / schema_file).open())
 
     def append_to_output_file(self, output_string: str = '') -> None:
@@ -98,33 +99,39 @@ class FileHandler:
 
         return referencing.Resource.from_contents(contents)
 
-    def validate_config_dict(self, config_dict: dict) -> bool:
+    def validate_config_dict(self, config_dict: dict, schema: dict | None = None) -> None:
         """Determine whether or not the given Python dict is valid by the schema.
 
         Parameters
         ----------
         config_dict : dict
             The dict that is being validated.
-
-        Returns
-        -------
-        bool
-            Whether the dict is valid. 
+        schema : dict, optional
+            The JSON schema or schema property to validate the other JSON dict with, by default `self.schema`.
 
         Raises
         ------
         ValidationError
             If the given config dict does not conform to the JSON schema.
         """
+        # If no schema is passed in,
+        # default to `self.json_schema`
+        if schema is None:
+            schema = self.schema
+
+        if schema is None:
+            raise ValueError(
+                "No schema provided. Please provide a valid JSON schema.")
+
         # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
 
         # Validate the config dict using the schema and registry
         validator = jsonschema.Draft202012Validator(
-            self.schema_dict, registry=registry)
+            schema, registry=registry)
         validator.validate(config_dict)
 
-    def write_config_file(self, config_dict: dict = None) -> None:
+    def write_config_file(self, config_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a config JSON file .
 
         Extended Summary
@@ -139,7 +146,7 @@ class FileHandler:
         file_name : str, optional
             The name of the config file to be 
         input_dict : str, optional
-            An object to write into the file as a JSON, by default `None`.
+            An object to write into the file as a JSON.
 
         Raises
         ------
@@ -155,13 +162,18 @@ class FileHandler:
             indent=4
         )
 
-    def create_json_template(self, schema: dict = None) -> dict:
+    def create_json_template(self, schema: dict | None = None) -> Any:
         """Recursively loop through the provided schema and generate a schema-valid dictionary of blank values.
 
         Parameters
         ----------
         schema : dict, optional
-            The JSON schema or schema property to generate a dictionary with, by default `self.json_schema`.
+            The JSON schema or schema property to generate a dictionary with, by default `self.schema`.
+
+        Raises
+        ------
+        ValueError
+            If no schema is provided or the schema is invalid.
 
         Returns
         -------
@@ -171,7 +183,11 @@ class FileHandler:
         # If no schema is passed in,
         # default to `self.json_schema`
         if schema is None:
-            schema = self.schema_dict
+            schema = self.schema
+
+        if schema is None:
+            raise ValueError(
+                "No schema provided. Please provide a valid JSON schema.")
 
         # If the schema contains a subschema,
         # open and read it

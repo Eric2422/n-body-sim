@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.typing as npt
 import scipy
 
 from particle import PointParticle
@@ -8,9 +9,9 @@ import vectors
 class BarnesHutCell():
     def __init__(
         self,
-        x_bounds: np.ndarray[np.float64],
-        y_bounds: np.ndarray[np.float64],
-        z_bounds: np.ndarray[np.float64],
+        x_bounds: npt.NDArray[np.float64],
+        y_bounds: npt.NDArray[np.float64],
+        z_bounds: npt.NDArray[np.float64],
         particles: list[PointParticle] = [],
     ):
         """Constructs a Barnes-Hut cell and recursively create its child nodes.
@@ -19,11 +20,11 @@ class BarnesHutCell():
 
         Parameters
         ----------
-        x_bounds : np.ndarray[np.float64]
+        x_bounds : npt.NDArray[np.float64]
             A 2-element NumPy array that contains the lower and upper X bounds, in that order
-        y_bounds : np.ndarray[np.float64]
+        y_bounds : npt.NDArray[np.float64]
             A 2-element NumPy array that contains the lower and upper Y bounds, in that order
-        z_bounds : np.ndarray[np.float64]
+        z_bounds : npt.NDArray[np.float64]
             A 2-element NumPy array that contains the lower and upper Z bounds, in that order
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.

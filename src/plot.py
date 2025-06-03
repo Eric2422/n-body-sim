@@ -3,11 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from files import FileHandler
-
 
 class Plot():
-    def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = 1.0) -> None:
+    def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = np.float64(1.0)) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
@@ -37,21 +35,21 @@ class Plot():
 
         # Set dimenions of plot.
         # Scalar margin
-        margin = 1.25
-        min_x = np.min(data_frame['x'].values)
-        max_x = np.max(data_frame['x'].values)
-        plt.xlim(left=min_x - ((max_x - min_x) * margin),
-                 right=max_x + ((max_x - min_x) * margin))
+        MARGIN = 1.25
+        min_x = np.min(np.array(data_frame['x'].values))
+        max_x = np.max(np.array(data_frame['x'].values))
+        ax.set_xlim(left=min_x - ((max_x - min_x) * MARGIN),
+                 right=max_x + ((max_x - min_x) * MARGIN))
 
-        min_y = np.min(data_frame['y'].values)
-        max_y = np.max(data_frame['y'].values)
-        plt.ylim(bottom=min_y - ((max_y - min_y) * margin),
-                 top=max_y + ((max_y - min_y) * margin))
+        min_y = np.min(np.array(data_frame['y'].values))
+        max_y = np.max(np.array(data_frame['y'].values))
+        ax.set_ylim(bottom=min_y - ((max_y - min_y) * MARGIN),
+                 top=max_y + ((max_y - min_y) * MARGIN))
 
-        min_z = np.min(data_frame['z'].values)
-        max_z = np.max(data_frame['z'].values)
-        ax.set_zlim(min_z - ((max_z - min_z) * margin),
-                    max_z + ((max_z - min_z) * margin))
+        min_z = np.min(np.array(data_frame['z'].values))
+        max_z = np.max(np.array(data_frame['z'].values))
+        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN),
+                    max_z + ((max_z - min_z) * MARGIN))
 
         self.fps = 1 / tick_size
 
