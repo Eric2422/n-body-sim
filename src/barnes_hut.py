@@ -39,11 +39,15 @@ class BarnesHutCell():
                 particles.remove(particle)
 
         self.total_mass = 0
-        self.total_charge = 0
-
         mass_moment = np.zeros(3)
+
+        self.total_charge = 0
         charge_moment = np.zeros(3)
-        
+
+        # Completely made up name.
+        # q * v = q * d / t = q / t * d = I * d
+        # Thus, moment of current
+        current_moment = np.zeros(3)
 
         # If this cell is an internal node(i.e. it has more than 1 particle)
         if len(particles) > 1:
@@ -55,6 +59,7 @@ class BarnesHutCell():
 
                 self.total_charge += child_cell.total_charge
                 charge_moment += child_cell.total_charge * child_cell.center_of_mass
+                current_moment += child_cell.total_charge * child_cell.center_of_charge_velocity
 
         # If this is an external node(i.e. it has only 0 or 1 particles)
         else:
@@ -66,16 +71,23 @@ class BarnesHutCell():
 
                 self.total_charge
                 charge_moment += particle.charge * particle.position
+                current_moment += particle.charge * particle.velocity
+
+        centroid = np.array((
+            np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
 
         # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
-        self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 else np.array((
-            np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
+        self.center_of_mass = mass_moment / \
+            self.total_mass if self.total_mass != 0 else centroid
 
         # Divide the charge moment by center of charge to obtain the center of charge
         # If charge is 0, return the centroid
-        self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 else np.array((
-            np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
+        self.center_of_charge = charge_moment / \
+            self.total_charge if self.total_charge != 0 else centroid
+
+        self.center_of_charge_velocity = current_moment / \
+            self.total_charge if self.total_charge != 0 else centroid
 
     def contains_particle(self, particle: PointParticle) -> bool:
         return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
@@ -160,7 +172,7 @@ class BarnesHutCell():
 
         return child_cells
 
-    def get_gravitationl_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
+    def get_gravitationl_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
 
         Parameters
@@ -179,11 +191,29 @@ class BarnesHutCell():
 
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
-    def get_electrical_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
-        pass
+    def get_electrical_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        vector_between_particles = point - self.center_of_charge
+        distance = np.linalg.norm(vector_between_particles)
+        unit_vector = vector_between_particles / distance
 
-    def get_magnetic_field(self, point: vectors.PositionVector) -> vectors.FieldVector:
-        pass
+        # The Coulomb constant
+        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+
+        # The electric force between the particles
+        electric_field = (k * self.total_charge) / (distance ** 2)
+
+        return -electric_field * unit_vector
+
+    def get_magnetic_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        # The vector between the positions of the particles
+        r = point - self.center_of_charge
+        # The unit vector of `r`
+        r_hat = r / np.linalg.norm(r)
+
+        magnetic_field = (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
+                          / (4 * np.pi * np.linalg.norm(r) ** 2))
+
+        return magnetic_field
 
     def get_depth(self):
         if len(self.child_cells) == 0:
