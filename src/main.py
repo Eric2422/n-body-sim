@@ -131,7 +131,7 @@ class Simulation():
     def tick(self) -> None:
         """Run one tick of the simulation."""
         # Get the root node of the octree
-        barnes_hut_tree = self.create_barnes_hut_nodes()
+        barnes_hut_root = self.create_barnes_hut_nodes()
 
         # An array of forces for each particle
         forces = np.zeros(shape=(len(self.particles), 3))
@@ -144,7 +144,10 @@ class Simulation():
         for i in range(len(self.particles)):
             particle1 = self.particles[i]
 
-            for child_node in barnes_hut_tree.child_cells:
+            for child_node in barnes_hut_root.child_cells:
+                if np.norm(child_node.center_of_mass - particle1.position) < child_node.width * self.theta:
+                    pass
+
                 forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitational_field(particle1.position))
 
