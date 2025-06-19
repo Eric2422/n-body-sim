@@ -154,14 +154,14 @@ class Simulation():
                     pass
 
                 forces[i] += particle1.get_gravitational_force_experienced(
-                    child_node.get_gravitational_field(particle1.position))
+                    child_node.get_gravitationl_field_exerted(particle1.position))
 
                 forces[i] += particle1.get_electric_force_experienced(
-                    child_node.get_electric_field(particle1.position)
+                    child_node.get_electrical_field_exerted(particle1.position)
                 )
 
                 forces[i] += particle1.get_magnetic_field_experienced(
-                    child_node.get_magnetic_field(particle1.position)
+                    child_node.get_magnetic_field_exerted(particle1.position)
                 )
 
             for j in range(i + 1, len(self.particles)):
