@@ -19,6 +19,8 @@ class Simulation():
             A list of particles that are interacting with each other.
         tick_size : float, optional
             The time increment of the simulation in seconds, by default 1.0
+        theta : float, optional
+            The Barnes-Hut approximation parameter, by default 0.5
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
@@ -36,6 +38,9 @@ class Simulation():
 
         self.current_tick = 0
         self.tick_size = tick_size
+
+        # The Barnes-Hut approximation parameter
+        self.theta = theta
 
     def create_barnes_hut_nodes(self) -> BarnesHutCell:
         x_bounds = np.array((
@@ -145,7 +150,7 @@ class Simulation():
             particle1 = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                if np.norm(child_node.center_of_mass - particle1.position) < child_node.width * self.theta:
+                if np.linalg.norm(child_node.center_of_mass - particle1.position) < child_node.width * self.theta:
                     pass
 
                 forces[i] += particle1.get_gravitational_force_experienced(
@@ -261,7 +266,8 @@ if __name__ == '__main__':
     tick_size = file_data['tick size']
     simulation = Simulation(
         particles,
-        tick_size=tick_size
+        tick_size=tick_size,
+        theta=file_data['theta']
     )
     simulation.run(num_ticks=num_ticks,
                    file_handler=file_handler, print_progress=True)
