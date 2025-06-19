@@ -29,7 +29,7 @@ class BarnesHutCell():
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.
         """
-        self.x_bounds = x_bounds
+        self.x_bounds: npt.NDArray[np.float64] = x_bounds
         self.y_bounds = y_bounds
         self.z_bounds = z_bounds
 
@@ -37,7 +37,7 @@ class BarnesHutCell():
 
         # Remove out of bounds particles
         for particle in particles:
-            if not self.contains_particle(particle):
+            if not self.within_cell_bounds(particle):
                 particles.remove(particle)
 
         self.particles = particles
@@ -48,14 +48,14 @@ class BarnesHutCell():
         self.total_charge = 0
         charge_moment = np.zeros(3)
 
-        # Completely made up name.
+        # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current
         current_moment = np.zeros(3)
 
         # If this cell is an internal node(i.e. it has more than 1 particle)
         if len(particles) > 1:
-            self.child_cells = self.create_child_cells(particles)
+            self.child_cells = self.create_child_cells()
 
             for child_cell in self.child_cells:
                 self.total_mass += child_cell.total_mass
@@ -93,13 +93,31 @@ class BarnesHutCell():
         self.center_of_charge_velocity = current_moment / \
             self.total_charge if self.total_charge != 0 else centroid
 
-    def contains_particle(self, particle: PointParticle) -> bool:
+    def within_cell_bounds(self, particle: PointParticle) -> bool:
+        """Returns whether a given particle is within the bounds of this Barnes-Hut cell.
+
+        Parameters
+        ----------
+        particle : PointParticle
+            The particle to check.
+
+        Returns
+        -------
+        bool
+            True if the particle is within the bounds of this cell, False otherwise.
+        """
         return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
                 and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
-                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]
-                and particle in self.particles)
+                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
 
-    def create_child_cells(self, particles):
+    def create_child_cells(self) -> list['BarnesHutCell']:
+        """Recursively creates child cells for this Barnes-Hut cell.
+
+        Returns
+        -------
+        list['BarnesHutCell']   
+            A list of child Barnes-Hut cells, each representing an octant of this cell.
+        """
         centroid = np.array((
             np.mean(self.x_bounds),
             np.mean(self.y_bounds),
@@ -122,7 +140,7 @@ class BarnesHutCell():
         )
 
         # Loop through each particle and categorize them into an octant
-        for particle in particles:
+        for particle in self.particles:
             # Right-front-top
             if particle.position[0] >= centroid[0] and particle.position[1] >= centroid[1] and particle.position[2] >= centroid[2]:
                 octant_particles_list[1][1][1].append(particle)
@@ -188,7 +206,7 @@ class BarnesHutCell():
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D field vector. Measured in newtons per kg (N / kg).
+            A 3D NumPy array representing a 3D gravitational field vector. Measured in newtons per kg(N/kg).
         """
         vector_between_points = point - self.center_of_mass
         distance = np.linalg.norm(vector_between_points)
@@ -197,6 +215,18 @@ class BarnesHutCell():
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
     def get_electrical_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        """Calculate the approximate electrical field exerted by this cell at a certain point.
+
+        Parameters
+        ----------
+        point : vectors.PositionVector
+            A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+
+        Returns
+        -------
+        vectors.FieldVector
+            A 3D NumPy array representing a 3D electrical field vector. Measured in newtons per coulomb(N/C).
+        """
         vector_between_particles = point - self.center_of_charge
         distance = np.linalg.norm(vector_between_particles)
         unit_vector = vector_between_particles / distance
@@ -210,6 +240,18 @@ class BarnesHutCell():
         return -electric_field * unit_vector
 
     def get_magnetic_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+        """Calculate the approximate magnetic field exerted by this cell at a certain point.
+
+        Parameters
+        ----------
+        point : vectors.PositionVector
+            A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+
+        Returns
+        -------
+        vectors.FieldVector
+            A 3D NumPy array representing a 3D magnetic field vector. Measured in teslas(T). 
+        """
         # The vector between the positions of the particles
         r = point - self.center_of_charge
         # The unit vector of `r`
@@ -220,9 +262,17 @@ class BarnesHutCell():
 
         return magnetic_field
 
-    def get_depth(self):
+    def get_depth(self) -> int:
+        """Get the depth of the branch/tree under this Barnes-Hut cell.
+
+        Returns
+        -------
+        int 
+            The depth of the branch/tree under this Barnes-Hut cell.
+        If this cell has no child cells, it is a leaf node and the depth is 1.
+        """
         if len(self.child_cells) == 0:
-            return 2
+            return 1
 
         return max(child.get_depth() for child in self.child_cells)
 

@@ -50,9 +50,9 @@ class Plot():
 
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
-        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN), # type: ignore
+        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN),  # type: ignore
                     max_z + ((max_z - min_z) * MARGIN))
-        ax.set_zlabel('meters (m)') # type: ignore
+        ax.set_zlabel('meters (m)')  # type: ignore
 
         self.fps = round(1 / tick_size)
 
@@ -85,7 +85,7 @@ class Plot():
         data = self.data_frame.loc[start_index: end_index]
 
         self.plot.set_data(data.x, data.y)
-        self.plot.set_3d_properties(data.z) # type: ignore
+        self.plot.set_3d_properties(data.z)  # type: ignore
 
         return self.plot,
 
