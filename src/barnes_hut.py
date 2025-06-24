@@ -30,19 +30,19 @@ class BarnesHutCell():
             List of particles that are contained within this Barnes-Hut cell.
         """
         self.x_bounds: npt.NDArray[np.float64] = x_bounds
-        self.y_bounds = y_bounds
-        self.z_bounds = z_bounds
+        self.y_bounds: npt.NDArray[np.float64] = y_bounds
+        self.z_bounds: npt.NDArray[np.float64] = z_bounds
 
-        self.width = x_bounds[1] - x_bounds[0]
+        self.width: np.float64 = x_bounds[1] - x_bounds[0]
 
         # Remove out of bounds particles
         for particle in particles:
             if not self.within_cell_bounds(particle):
                 particles.remove(particle)
 
-        self.particles = particles
+        self.particles: list[PointParticle] = particles
 
-        self.total_mass = 0
+        self.total_mass: np.float64 = np.float64(0.0)
         mass_moment = np.zeros(3)
 
         self.total_charge = 0
@@ -214,11 +214,19 @@ class BarnesHutCell():
         vectors.FieldVector
             A 3D NumPy array representing a 3D gravitational field vector. Measured in newtons per kg(N/kg).
         """
-        vector_between_points = point - self.center_of_mass
+        vector_between_points: npt.NDArray = point - self.center_of_mass
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 
-        return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
+        if self.width / distance < theta:
+            return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
+        
+        else:
+            force = np.zeros(shape=(3))
+            for particle in self.particles:
+                force += particle.get_gravitational_field_exerted(point=point)
+            
+            return force
 
     def get_electrical_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate electrical field exerted by this cell at a certain point.
