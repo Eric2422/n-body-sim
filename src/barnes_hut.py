@@ -195,7 +195,7 @@ class BarnesHutCell():
 
         return child_cells
 
-    def get_gravitationl_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+    def get_gravitationl_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
 
         Parameters
@@ -214,7 +214,7 @@ class BarnesHutCell():
 
         return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
-    def get_electrical_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+    def get_electrical_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate electrical field exerted by this cell at a certain point.
 
         Parameters
@@ -239,7 +239,7 @@ class BarnesHutCell():
 
         return -electric_field * unit_vector
 
-    def get_magnetic_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
+    def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this cell at a certain point.
 
         Parameters

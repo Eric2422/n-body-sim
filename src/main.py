@@ -151,7 +151,11 @@ class Simulation():
 
             for child_node in barnes_hut_root.child_cells:
                 if np.linalg.norm(child_node.center_of_mass - particle1.position) < child_node.width * self.theta and child_node not in barnes_hut_root.particles:
-                    pass
+                    forces[i] += particle1.get_gravitational_force_experienced(
+                        child_node.get_gravitationl_field_exerted(particle1.position))
+                    
+                else:
+                    forces[i] += 
 
                 forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitationl_field_exerted(particle1.position))
