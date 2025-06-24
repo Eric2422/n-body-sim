@@ -202,6 +202,12 @@ class BarnesHutCell():
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+        theta : np.float64, optional
+            The value of theta, the Barnes-Hut approximation parameter being used.
+            Given the distance betweeen the point and the center of mass, 
+            it used to determine whether to return an approximate or exact value for the gravitational field.
+            When theta is 0.0, no approximation will occur.
+            By default, 0.0
 
         Returns
         -------
@@ -221,6 +227,12 @@ class BarnesHutCell():
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+        theta : np.float64, optional
+            The value of theta, the Barnes-Hut approximation parameter being used.
+            Given the distance betweeen the point and the center of charge, 
+            it used to determine whether to return an approximate or exact value for the gravitational field.
+            When theta is 0.0, no approximation will occur.
+            By default, 0.0
 
         Returns
         -------
@@ -246,6 +258,12 @@ class BarnesHutCell():
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+        theta : np.float64, optional
+            The value of theta, the Barnes-Hut approximation parameter being used.
+            Given the distance betweeen the point and the center of charge, 
+            it used to determine whether to return an approximate or exact value for the magnetic field.
+            When theta is 0.0, no approximation will occur.
+            By default, 0.0
 
         Returns
         -------
