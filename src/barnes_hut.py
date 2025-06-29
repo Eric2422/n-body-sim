@@ -220,12 +220,12 @@ class BarnesHutCell():
 
         if self.width / distance < theta:
             return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
-        
+
         else:
             force = np.zeros(shape=(3))
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
-            
+
             return force
 
     def get_electrical_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
@@ -254,10 +254,18 @@ class BarnesHutCell():
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        # The electric force between the particles
-        electric_field = (k * self.total_charge) / (distance ** 2)
+        if self.width / distance < theta:
+            # The electric force between the particles
+            electric_field = (k * self.total_charge) / (distance ** 2)
 
-        return -electric_field * unit_vector
+            return -electric_field * unit_vector
+
+        else:
+            force = np.zeros(shape=(3))
+            for particle in self.particles:
+                force += particle.get_electric_field_exerted(point=point)
+
+            return force
 
     def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this cell at a certain point.
@@ -280,13 +288,21 @@ class BarnesHutCell():
         """
         # The vector between the positions of the particles
         r = point - self.center_of_charge
+        # The distance between the particle and center of charge
+        distance = np.linalg.norm(r)
         # The unit vector of `r`
-        r_hat = r / np.linalg.norm(r)
+        r_hat = r / distance
 
-        magnetic_field = (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
-                          / (4 * np.pi * np.linalg.norm(r) ** 2))
+        if self.width / distance < theta:
+            return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
+                    / (4 * np.pi * np.linalg.norm(r) ** 2))
+        
+        else:
+            force = np.zeros(shape=(3))
+            for particle in self.particles:
+                force += particle.get_magnetic_field_exerted(point=point)
 
-        return magnetic_field
+            return force 
 
     def get_depth(self) -> int:
         """Get the depth of the branch/tree under this Barnes-Hut cell.
