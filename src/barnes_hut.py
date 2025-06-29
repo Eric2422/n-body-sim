@@ -214,15 +214,20 @@ class BarnesHutCell():
         vectors.FieldVector
             A 3D NumPy array representing a 3D gravitational field vector. Measured in newtons per kg(N/kg).
         """
-        vector_between_points: npt.NDArray = point - self.center_of_mass
+        vector_between_points = point - self.center_of_mass
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 
+
+        force = np.zeros(shape=(3))
         if self.width / distance < theta:
             return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
+        # If this cell has child cells,
+        elif len(self.child_cells) > 0:
+            pass
+
         else:
-            force = np.zeros(shape=(3))
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
 

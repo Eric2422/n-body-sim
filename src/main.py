@@ -1,6 +1,7 @@
 import sys
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from barnes_hut import BarnesHutCell
@@ -138,7 +139,7 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
 
-        # An array of forces for each particle
+        # An array of net force acting upon each particle
         forces = np.zeros(shape=(len(self.particles), 3))
 
         for particle in self.particles:
@@ -150,9 +151,6 @@ class Simulation():
             particle1 = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                forces[i] += particle1.get_gravitational_force_experienced(
-                    child_node.get_gravitationl_field_exerted(particle1.position))
-
                 forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitationl_field_exerted(particle1.position))
 
