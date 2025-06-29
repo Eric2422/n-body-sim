@@ -231,7 +231,7 @@ class BarnesHutCell():
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
 
-            return force
+        return force
 
     def get_electric_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate electrical field exerted by this cell at a certain point.
