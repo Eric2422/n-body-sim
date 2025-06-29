@@ -152,10 +152,10 @@ class Simulation():
 
             for child_node in barnes_hut_root.child_cells:
                 forces[i] += particle1.get_gravitational_force_experienced(
-                    child_node.get_gravitationl_field_exerted(particle1.position))
+                    child_node.get_gravitational_field_exerted(particle1.position))
 
                 forces[i] += particle1.get_electric_force_experienced(
-                    child_node.get_electrical_field_exerted(particle1.position)
+                    child_node.get_electric_field_exerted(particle1.position)
                 )
 
                 forces[i] += particle1.get_magnetic_force_experienced(
