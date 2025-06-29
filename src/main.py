@@ -160,7 +160,7 @@ class Simulation():
                     child_node.get_electrical_field_exerted(particle1.position)
                 )
 
-                forces[i] += particle1.get_magnetic_field_experienced(
+                forces[i] += particle1.get_magnetic_force_experienced(
                     child_node.get_magnetic_field_exerted(particle1.position)
                 )
 
