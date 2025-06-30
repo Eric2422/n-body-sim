@@ -251,6 +251,9 @@ class PointParticle:
         """
         return self.charge * np.cross(self.velocity, magnetic_field)
 
+    def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
+        return self.charge * np.cross(self.velocity, magnetic_field)
+
     def apply_magnetic_field(self, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of a magnetic field upon this particle.
 
