@@ -77,27 +77,6 @@ class PointParticle:
         """
         self.acceleration *= 0
 
-    def apply_fields(
-        self,
-        gravitational_field: vectors.FieldVector,
-        electric_field: vectors.FieldVector,
-        magnetic_field: vectors.FieldVector
-    ) -> None:
-        """Calculate and apply the effects of an electromagnetic field on upon this particle.
-
-        Parameters
-        ----------
-        gravitational : np.ndarray 
-            A 3D vector measured in netwon per kilogram(N/kg) representing the electric field acting upon this particle.
-        electric_field : np.ndarray
-            A 3D vector measured in newtons per coulomb(N/C) representing the electric field acting upon this particle.
-        magnetic_field : np.ndarray
-            A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
-        """
-        self.apply_gravitational_field(gravitational_field)
-        self.apply_electric_field(electric_field)
-        self.apply_magnetic_field(magnetic_field)
-
     def apply_lorentz_force_law(self, electric_field: vectors.FieldVector, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of an electromagnetic field on upon this particle.
 
@@ -106,7 +85,7 @@ class PointParticle:
         electric_field : np.ndarray
             A 3D vector measured in netwons per coulomb(N/C) representing the electric field acting upon this particle.
         magnetic_field : np.ndarray
-            A 3D vector measured in teslas(T)representing the magnetic field acting upon this particle.
+            A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
         """
         self.apply_electric_field(electric_field)
         self.apply_magnetic_field(magnetic_field)
@@ -235,8 +214,8 @@ class PointParticle:
 
         return magnetic_field
 
-    def get_magnetic_field_experienced(self, magnetic_field: vectors.PositionVector) -> vectors.FieldVector:
-        """Get the electrical force acting upon this particle by the given electrical field. 
+    def get_magnetic_force_experienced(self, magnetic_field: vectors.PositionVector) -> vectors.FieldVector:
+        """Get the magnetic force acting upon this particle by the given electrical field. 
 
         Parameters
         ----------
@@ -251,20 +230,46 @@ class PointParticle:
         """
         return self.charge * np.cross(self.velocity, magnetic_field)
 
-    def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
-        return self.charge * np.cross(self.velocity, magnetic_field)
-
     def apply_magnetic_field(self, magnetic_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of a magnetic field upon this particle.
 
         Parameters
         ----------
         magnetic_field : np.ndarray
-            A 3D vector measured in teslas(T)representing the magnetic field acting upon this particle.
+            A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
         """
         self.add_force(
             self.charge * np.cross(self.velocity, magnetic_field)
         )
+
+    def get_force_experienced(
+        self,
+        gravitational_field: vectors.FieldVector,
+        electric_field: vectors.FieldVector,
+        magnetic_field: vectors.FieldVector
+    ) -> vectors.ForceVector:
+        return self.get_gravitational_force_experienced(gravitational_field) + self.get_electric_force_experienced(electric_field) + self.get_magnetic_force_experienced(magnetic_field)
+
+    def apply_fields(
+        self,
+        gravitational_field: vectors.FieldVector,
+        electric_field: vectors.FieldVector,
+        magnetic_field: vectors.FieldVector
+    ) -> None:
+        """Calculate and apply the effects of an electromagnetic field on upon this particle.
+
+        Parameters
+        ----------
+        gravitational : np.ndarray 
+            A 3D vector measured in netwon per kilogram(N/kg) representing the electric field acting upon this particle.
+        electric_field : np.ndarray
+            A 3D vector measured in newtons per coulomb(N/C) representing the electric field acting upon this particle.
+        magnetic_field : np.ndarray
+            A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
+        """
+        self.apply_gravitational_field(gravitational_field)
+        self.apply_electric_field(electric_field)
+        self.apply_magnetic_field(magnetic_field)
 
     def __str__(self) -> str:
         position = f'({", ".join((str(dimension) for dimension in self.position))})'
