@@ -18,28 +18,29 @@ class Simulation():
         gravitational_field: vectors.FieldVector = np.zeros(3),
         electric_field: vectors.FieldVector = np.zeros(3),
         magnetic_field: vectors.FieldVector = np.zeros(3),
-        tick_size: float = 1.0,
-        theta: float = 0.5
+        tick_size: np.float64 = np.float64(1.0),
+        theta: np.float64 = np.float64(0.5)
     ) -> None:
         """Initiate one simulation.
 
         Parameters
         ----------
-        particles : list
+        particles : list[PointParticle]
             A list of particles that are interacting with each other.
-        tick_size : float, optional
+        tick_size : np.float64, optional
             The time increment of the simulation in seconds, by default 1.0
-        theta : float, optional
+        theta : np.float64, optional
             The Barnes-Hut approximation parameter, by default 0.5
         """
         self.particles = particles
-        # A log of all the particles' positions over the course of the simulation
+
         self.particle_positions_log = pd.DataFrame({
             't': np.empty(0, dtype=np.float64),
             'x': np.empty(0, dtype=np.float64),
             'y': np.empty(0, dtype=np.float64),
             'z': np.empty(0, dtype=np.float64)
         })
+        """A log of all the particles' positions over the course of the simulation."""
 
         # Constant, universal fields
         self.gravitational_field = gravitational_field
@@ -49,8 +50,8 @@ class Simulation():
         self.current_tick = 0
         self.tick_size = tick_size
 
-        # The Barnes-Hut approximation parameter
         self.theta = theta
+        """The Barnes-Hut approximation parameter"""
 
     def create_barnes_hut_nodes(self) -> BarnesHutCell:
         x_bounds = np.array((
@@ -70,44 +71,8 @@ class Simulation():
 
         return BarnesHutCell(x_bounds, y_bounds, z_bounds, self.particles)
 
-    def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
-        """Calculate and apply the force from one particle upon another.
-
-        Parameters
-        ----------
-        particle1 : PointParticle
-            The particle that is being being moved by `particle2`.
-        particle2 : PointParticle
-            The particle that is exerting a force upon `particle1`.
-        """
-        # If the particles are not the same
-        if particle1 != particle2:
-            # Lorentz force law
-            particle1.apply_lorentz_force_law(
-                particle2.get_electric_field_exerted(particle1.position),
-                particle2.get_magnetic_field_exerted(particle1.position)
-            )
-
-            particle1.apply_gravitational_field(
-                particle2.get_gravitational_field_exerted(
-                    particle1.position
-                )
-            )
-
-            # Lorentz force law
-            particle2.apply_lorentz_force_law(
-                particle1.get_electric_field_exerted(particle2.position),
-                particle1.get_magnetic_field_exerted(particle2.position)
-            )
-
-            particle2.apply_gravitational_field(
-                particle1.get_gravitational_field_exerted(
-                    particle2.position
-                )
-            )
-
-    def log_particle_positions(self, particle: PointParticle) -> None:
-        """Save the data of a particle to the particle positions log.
+    def log_particle_position(self, particle: PointParticle) -> None:
+        """Save the positoin of a particle to the particle positions log.
 
         Parameters
         ----------
@@ -130,7 +95,7 @@ class Simulation():
         Returns
         -------
         str
-            _description_
+            A string describing the state of all particles.
         """
 
         # Add the initial time and particle data to the file
@@ -149,10 +114,10 @@ class Simulation():
         barnes_hut_root = self.create_barnes_hut_nodes()
 
         # An array of net force acting upon each particle
-        forces = np.zeros(shape=(len(self.particles), 3))
+        net_forces = np.zeros(shape=(len(self.particles), 3))
 
         for particle in self.particles:
-            particle.clear_force()
+            particle.set_force()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -160,30 +125,26 @@ class Simulation():
             particle1 = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                forces[i] += particle1.get_gravitational_force_experienced(
-                    child_node.get_gravitationl_field_exerted(particle1.position))
+                net_forces[i] += particle1.get_gravitational_force_experienced(
+                    child_node.get_gravitational_field_exerted(particle1.position))
 
-                forces[i] += particle1.get_electrostatic_force_experienced(
+                net_forces[i] += particle1.get_electrostatic_force_experienced(
                     child_node.get_electric_field_exerted(particle1.position)
                 )
 
-                forces[i] += particle1.get_magnetic_force_experienced(
+                net_forces[i] += particle1.get_magnetic_force_experienced(
                     child_node.get_magnetic_field_exerted(particle1.position)
                 )
 
-            for j in range(i + 1, len(self.particles)):
-                particle2 = self.particles[j]
-
-                self.apply_force_between_particles(particle1, particle2)
-
             # Add the constant fields
-            particle1.apply_fields(
-                self.electric_field, self.magnetic_field, self.gravitational_field)
+            net_forces[i] += particle1.get_force_experienced(
+                self.electric_field, self.magnetic_field, self.gravitational_field
+            )
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
         for particle in particles:
-            self.log_particle_positions(particle)
+            self.log_particle_position(particle)
 
             # Update the particle's velocity
             particle.velocity += particle.acceleration * self.tick_size
@@ -193,7 +154,7 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, num_ticks: int = -1, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, num_ticks: int, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks.
 
         Parameters
@@ -221,7 +182,7 @@ class Simulation():
 
         # Record initial particle data
         for particle in particles:
-            self.log_particle_positions(particle=particle)
+            self.log_particle_position(particle=particle)
 
         # Run the necessary number of ticks
         for i in range(num_ticks + 1):

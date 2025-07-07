@@ -195,7 +195,7 @@ class BarnesHutCell():
 
         return child_cells
 
-    def get_gravitationl_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
+    def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
 
         Parameters
@@ -218,20 +218,20 @@ class BarnesHutCell():
         distance = np.linalg.norm(vector_between_points)
         unit_vector = vector_between_points / distance
 
-
-        force = np.zeros(shape=(3))
+        force = np.zeros(3)
         if self.width / distance < theta:
             return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
 
         # If this cell has child cells,
         elif len(self.child_cells) > 0:
-            pass
+            for child_cell in self.child_cells:
+                force += child_cell.get_gravitational_field_exerted(point=point)
 
         else:
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
 
-            return force
+        return force
 
     def get_electric_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate electric field exerted by this cell at a certain point.
@@ -259,18 +259,23 @@ class BarnesHutCell():
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
+        force = np.zeros(3)
         if self.width / distance < theta:
-            # The electrostatic between the particles
+            # The electrostatic force between the particles
             electric_field = (k * self.total_charge) / (distance ** 2)
 
             return -electric_field * unit_vector
 
+        # If this cell has child cells,
+        elif len(self.child_cells) > 0:
+            for child_cell in self.child_cells:
+                force += child_cell.get_electric_field_exerted(point=point)
+
         else:
-            force = np.zeros(shape=(3))
             for particle in self.particles:
                 force += particle.get_electric_field_exerted(point=point)
 
-            return force
+        return force
 
     def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this cell at a certain point.
@@ -298,16 +303,21 @@ class BarnesHutCell():
         # The unit vector of `r`
         r_hat = r / distance
 
+        force = np.zeros(3)
         if self.width / distance < theta:
             return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
                     / (4 * np.pi * np.linalg.norm(r) ** 2))
-        
+
+        # If this cell has child cells,
+        elif len(self.child_cells) > 0:
+            for child_cell in self.child_cells:
+                force += child_cell.get_magnetic_field_exerted(point=point)
+
         else:
-            force = np.zeros(shape=(3))
             for particle in self.particles:
                 force += particle.get_magnetic_field_exerted(point=point)
 
-            return force 
+        return force
 
     def get_depth(self) -> int:
         """Get the depth of the branch/tree under this Barnes-Hut cell.
