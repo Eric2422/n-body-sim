@@ -234,7 +234,7 @@ class BarnesHutCell():
         return force
 
     def get_electric_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
-        """Calculate the approximate electrical field exerted by this cell at a certain point.
+        """Calculate the approximate electric field exerted by this cell at a certain point.
 
         Parameters
         ----------
@@ -250,7 +250,7 @@ class BarnesHutCell():
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D electrical field vector. Measured in newtons per coulomb(N/C).
+            A 3D NumPy array representing a 3D electric field vector. Measured in newtons per coulomb(N/C).
         """
         vector_between_particles = point - self.center_of_charge
         distance = np.linalg.norm(vector_between_particles)
@@ -261,7 +261,7 @@ class BarnesHutCell():
 
         force = np.zeros(3)
         if self.width / distance < theta:
-            # The electric force between the particles
+            # The electrostatic force between the particles
             electric_field = (k * self.total_charge) / (distance ** 2)
 
             return -electric_field * unit_vector

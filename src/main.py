@@ -117,7 +117,7 @@ class Simulation():
         net_forces = np.zeros(shape=(len(self.particles), 3))
 
         for particle in self.particles:
-            particle.clear_force()
+            particle.set_force()
 
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
@@ -128,7 +128,7 @@ class Simulation():
                 net_forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitational_field_exerted(particle1.position))
 
-                net_forces[i] += particle1.get_electric_force_experienced(
+                net_forces[i] += particle1.get_electrostatic_force_experienced(
                     child_node.get_electric_field_exerted(particle1.position)
                 )
 
