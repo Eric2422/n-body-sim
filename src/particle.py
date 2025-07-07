@@ -176,26 +176,26 @@ class PointParticle:
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        # The electric force between the particles
+        # The electrostatic between the particles
         electric_field = (k * self.charge) / (distance ** 2)
 
         return -electric_field * unit_vector
 
-    def get_electric_force_experienced(self, electrical_field: vectors.FieldVector) -> vectors.ForceVector:
-        """Get the electrical force acting upon this particle by the given electrical field. 
+    def get_electrostatic_force_experienced(self, electric_field: vectors.FieldVector) -> vectors.ForceVector:
+        """Get the electrostatic acting upon this particle by the given electric field. 
 
         Parameters
         ----------
-        electrical_field : vectors.FieldVector
+        electric_field : vectors.FieldVector
             A NumPy array of shape (1, 3) representing a 3D vector of the gravitational field acting upon this particle.
 
         Returns
         -------
         vectors.ForceVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the electrical force 
-            exerted upon this particle by the electrical field.
+            A NumPy array of shape (1, 3) representing a 3D vector of the electrostatic 
+            exerted upon this particle by the electric field.
         """
-        return self.charge * electrical_field
+        return self.charge * electric_field
 
     def apply_electric_field(self, electric_field: vectors.FieldVector) -> None:
         """Calculate and apply the effects of a electric field upon this particle.
@@ -235,18 +235,18 @@ class PointParticle:
 
         return magnetic_field
 
-    def get_magnetic_field_experienced(self, magnetic_field: vectors.PositionVector) -> vectors.FieldVector:
-        """Get the electrical force acting upon this particle by the given electrical field. 
+    def get_magnetic_force_experienced(self, magnetic_field: vectors.PositionVector) -> vectors.FieldVector:
+        """Get the electrostatic acting upon this particle by the given electric field. 
 
         Parameters
         ----------
-        electrical_field : vectors.FieldVector
+        electric_field : vectors.FieldVector
             A NumPy array of shape (1, 3) representing a 3D vector of the gravitational field acting upon this particle.
 
         Returns
         -------
         vectors.ForceVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the electrical force 
+            A NumPy array of shape (1, 3) representing a 3D vector of the electrostatic 
             exerted upon this particle by the magnetic field.
         """
         return self.charge * np.cross(self.velocity, magnetic_field)
@@ -262,6 +262,8 @@ class PointParticle:
         self.add_force(
             self.charge * np.cross(self.velocity, magnetic_field)
         )
+
+    def 
 
     def __str__(self) -> str:
         position = f'({", ".join((str(dimension) for dimension in self.position))})'

@@ -8,10 +8,19 @@ from barnes_hut import BarnesHutCell
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
+import vectors
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], tick_size: float = 1.0, theta: float = 0.5) -> None:
+    def __init__(
+        self,
+        particles: list[PointParticle],
+        gravitational_field: vectors.FieldVector = np.zeros(3),
+        electric_field: vectors.FieldVector = np.zeros(3),
+        magnetic_field: vectors.FieldVector = np.zeros(3),
+        tick_size: float = 1.0,
+        theta: float = 0.5
+    ) -> None:
         """Initiate one simulation.
 
         Parameters
@@ -26,16 +35,16 @@ class Simulation():
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
         self.particle_positions_log = pd.DataFrame({
-            't': np.empty(0),
-            'x': np.empty(0),
-            'y': np.empty(0),
-            'z': np.empty(0)
+            't': np.empty(0, dtype=np.float64),
+            'x': np.empty(0, dtype=np.float64),
+            'y': np.empty(0, dtype=np.float64),
+            'z': np.empty(0, dtype=np.float64)
         })
 
         # Constant, universal fields
-        self.electric_field = np.zeros(3)
-        self.magnetic_field = np.zeros(3)
-        self.gravitational_field = np.zeros(3)
+        self.gravitational_field = gravitational_field
+        self.electric_field = electric_field
+        self.magnetic_field = magnetic_field
 
         self.current_tick = 0
         self.tick_size = tick_size
@@ -154,8 +163,8 @@ class Simulation():
                 forces[i] += particle1.get_gravitational_force_experienced(
                     child_node.get_gravitationl_field_exerted(particle1.position))
 
-                forces[i] += particle1.get_electric_force_experienced(
-                    child_node.get_electrical_field_exerted(particle1.position)
+                forces[i] += particle1.get_electrostatic_force_experienced(
+                    child_node.get_electric_field_exerted(particle1.position)
                 )
 
                 forces[i] += particle1.get_magnetic_force_experienced(
