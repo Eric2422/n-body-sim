@@ -27,6 +27,12 @@ class Simulation():
         ----------
         particles : list[PointParticle]
             A list of particles that are interacting with each other.
+        gravitational_field : vectors.FieldVector, optional
+            The constant gravitational field acting upon the particles, by default `np.zeros(3)`
+        electric_field : vectors.FieldVector, optional
+            The constant electric field acting upon the particles, by default `np.zeros(3)`
+        magnetic_field : vectors.FieldVector, optional
+            The constant magnetic field acting upon the particles, by default `np.zeros(3)`
         tick_size : np.float64, optional
             The time increment of the simulation in seconds, by default 1.0
         theta : np.float64, optional
@@ -51,7 +57,7 @@ class Simulation():
         self.tick_size = tick_size
 
         self.theta = theta
-        """The Barnes-Hut approximation parameter"""
+        """The Barnes-Hut approximation parameter."""
 
     def create_barnes_hut_nodes(self) -> BarnesHutCell:
         x_bounds = np.array((

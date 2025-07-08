@@ -66,12 +66,12 @@ class PointParticle:
 
         Parameters
         ----------
-        point : np.ndarray
+        point : vectors.PositionVector
             A 3D vector representing the coordinates of the point that this particle is exerting a gravitational field upon.
 
         Returns
         -------
-        np.ndarray
+        vectors.FieldVector
             A vector of the gravitational field generated at `point`.
         """
         vector_between_points = self.position - point
@@ -101,12 +101,12 @@ class PointParticle:
 
         Parameters
         ----------
-        point : np.ndarray
+        point : vectors.PositionVector
             A 3D vector representing a coordinate.
 
         Returns
         -------
-        np.ndarray
+        vectors.FieldVector
             The vector of the electric field that this particle creates at the point
         """
         vector_between_particles = point - self.position
@@ -142,12 +142,12 @@ class PointParticle:
 
         Parameters
         ----------
-        point : np.ndarray
+        point : vectors.PositionVector
             The point at which to calculate the magnetic field
 
         Returns
         -------
-        np.ndarray
+        vectors.FieldVector
             The vector of the magnetic field exerted by this particle at `point`.
 
         Notes
@@ -165,12 +165,12 @@ class PointParticle:
 
         return magnetic_field
 
-    def get_magnetic_force_experienced(self, magnetic_field: vectors.PositionVector) -> vectors.FieldVector:
+    def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the magnetic force acting upon this particle by the given electric field. 
 
         Parameters
         ----------
-        electric_field : vectors.FieldVector
+        magnetic_field : vectors.FieldVector
             A NumPy array of shape (1, 3) representing a 3D vector of the gravitational field acting upon this particle.
 
         Returns
@@ -203,11 +203,11 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational : np.ndarray 
+        gravitational : vectors.FieldVector
             A 3D vector measured in netwon per kilogram(N/kg) representing the electric field acting upon this particle.
-        electric_field : np.ndarray
+        electric_field :vectors.FieldVector
             A 3D vector measured in newtons per coulomb(N/C) representing the electric field acting upon this particle.
-        magnetic_field : np.ndarray
+        magnetic_field :vectors.FieldVector
             A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
         """
         self.set_force(
