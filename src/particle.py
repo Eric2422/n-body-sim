@@ -66,7 +66,7 @@ class PointParticle:
         ----------
         force : vectors.ForceVector, optional
             The force applied upon this particle, by default np.zeros(3)
-        """        
+        """
         self.acceleration = force / self.mass
 
     def get_gravitational_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:

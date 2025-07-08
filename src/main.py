@@ -66,7 +66,7 @@ class Simulation():
         -------
         BarnesHutCell
             The root node of the Barnes Hut octree. 
-        """        
+        """
         x_bounds = np.array((
             min(self.particles, key=lambda ele: ele.position[0]).position[0],
             max(self.particles, key=lambda ele: ele.position[0]).position[0]

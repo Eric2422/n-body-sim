@@ -225,7 +225,8 @@ class BarnesHutCell():
         # If this cell has child cells,
         elif len(self.child_cells) > 0:
             for child_cell in self.child_cells:
-                force += child_cell.get_gravitational_field_exerted(point=point)
+                force += child_cell.get_gravitational_field_exerted(
+                    point=point)
 
         else:
             for particle in self.particles:
