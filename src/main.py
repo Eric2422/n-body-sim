@@ -27,12 +27,6 @@ class Simulation():
         ----------
         particles : list[PointParticle]
             A list of particles that are interacting with each other.
-        gravitational_field : vectors.FieldVector, optional
-            The constant gravitational field acting upon the particles, by default `np.zeros(3)`
-        electric_field : vectors.FieldVector, optional
-            The constant electric field acting upon the particles, by default `np.zeros(3)`
-        magnetic_field : vectors.FieldVector, optional
-            The constant magnetic field acting upon the particles, by default `np.zeros(3)`
         tick_size : np.float64, optional
             The time increment of the simulation in seconds, by default 1.0
         theta : np.float64, optional
@@ -60,14 +54,7 @@ class Simulation():
         """The Barnes-Hut approximation parameter."""
 
     def create_barnes_hut_nodes(self) -> BarnesHutCell:
-        """Recursively divides the particles in Barnes Hut cells. 
-
-        Returns
-        -------
-        BarnesHutCell
-            The root node of the Barnes Hut octree. 
-        """
-        return BarnesHutCell(self.particles)
+        return BarnesHutCell(particles=self.particles)
 
     def log_particle_position(self, particle: PointParticle) -> None:
         """Save the positoin of a particle to the particle positions log.
@@ -111,42 +98,33 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
 
-        print(barnes_hut_root.particles)
-
-        # print(f't={self.current_tick * self.tick_size}')
-        # print(f'Root node: \n----------\n{barnes_hut_root}')
-
         # An array of net force acting upon each particle
         net_forces = np.zeros(shape=(len(self.particles), 3))
 
+        for particle in self.particles:
+            particle.set_force()
+
         # Calculate the forces that the particles exert on each other
-        # Update the particle's acceleration and, but not the velocity and position.
+        # Update the particle's acceleration and, but not the velocity and position
         for i in range(len(self.particles)):
-            particle = self.particles[i]
+            particle1 = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                # print(child_node, end='\n\n')
-                net_forces[i] += particle.get_gravitational_force_experienced(
-                    child_node.get_gravitational_field_exerted(particle.position))
-                
-                # print(f'Child node gravitational field: {child_node.get_gravitational_field_exerted(particle.position)}')
+                net_forces[i] += particle1.get_gravitational_force_experienced(
+                    child_node.get_gravitational_field_exerted(particle1.position))
 
-                net_forces[i] += particle.get_electrostatic_force_experienced(
-                    child_node.get_electric_field_exerted(particle.position)
+                net_forces[i] += particle1.get_electrostatic_force_experienced(
+                    child_node.get_electric_field_exerted(particle1.position)
                 )
 
-                net_forces[i] += particle.get_magnetic_force_experienced(
-                    child_node.get_magnetic_field_exerted(particle.position)
+                net_forces[i] += particle1.get_magnetic_force_experienced(
+                    child_node.get_magnetic_field_exerted(particle1.position)
                 )
 
             # Add the constant fields
-            net_forces[i] += particle.get_force_experienced(
+            net_forces[i] += particle1.get_force_experienced(
                 self.electric_field, self.magnetic_field, self.gravitational_field
             )
-
-            # print(net_forces[i])
-
-            particle.set_force(net_forces[i])
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
@@ -192,9 +170,9 @@ class Simulation():
             self.log_particle_position(particle=particle)
 
         # Run the necessary number of ticks
-        for i in range(num_ticks):
+        for i in range(num_ticks + 1):
             self.tick()
-            progress = i / (num_ticks + 1)
+            progress = i / num_ticks
 
             if print_progress:
                 # Clear the previous line.
@@ -253,4 +231,5 @@ if __name__ == '__main__':
         tick_size=np.float64(simulation.tick_size)
     )
 
-    # plot.show()
+    # plot.save_plot_to_file()
+    plot.show()
