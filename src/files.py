@@ -1,16 +1,16 @@
 import json
-from pathlib import Path
+import pathlib
 import sys
-from typing import Any
+import typing
 
 import jsonschema
 import referencing
 
 
 class FileHandler:
-    CONFIG_DIR = Path('./config')
-    SCHEMA_DIR = Path('./schemas')
-    OUTPUT_DIR = Path('./output')
+    CONFIG_DIR = pathlib.Path('./config')
+    SCHEMA_DIR = pathlib.Path('./schemas')
+    OUTPUT_DIR = pathlib.Path('./output')
 
     def __init__(self, schema_file: str = 'main.json', config_file: str = 'sample.json') -> None:
         """Initiate a file handler for reading and creating files. 
@@ -24,11 +24,12 @@ class FileHandler:
             The name of the config file with the file extension, by default 'sample.csv'
             The output file will have the same name but with the '.txt' file extension instead.
         """
-        self.config_file = Path(FileHandler.CONFIG_DIR / config_file)
+
+        self.config_file = pathlib.Path(FileHandler.CONFIG_DIR / config_file)
         # The output file has the same name as config_file but with the '.txt' extension.
-        self.output_file = Path(
+        self.output_file = pathlib.Path(
             FileHandler.OUTPUT_DIR /
-            (Path(config_file).stem + '.txt')
+            (pathlib.Path(config_file).stem + '.txt')
         )
 
         # Open the schema file and read it.
@@ -94,8 +95,8 @@ class FileHandler:
         referencing.Resource
             The Resource created from the contents of the file. 
         """
-        path = self.SCHEMA_DIR / Path(uri)
-        contents = json.loads(path.read_text())
+        pathlib.Path = self.SCHEMA_DIR / pathlib.Path(uri)
+        contents = json.loads(pathlib.Path.read_text())
 
         return referencing.Resource.from_contents(contents)
 
@@ -162,7 +163,7 @@ class FileHandler:
             indent=4
         )
 
-    def create_json_template(self, schema: dict | None = None) -> Any:
+    def create_json_template(self, schema: dict | None = None) -> typing.Any:
         """Recursively loop through the provided schema and generate a schema-valid dictionary of blank values.
 
         Parameters
