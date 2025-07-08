@@ -38,21 +38,24 @@ class Plot():
         MARGIN = 1.25
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
-        ax.set_xlim(left=min_x - ((max_x - min_x) * MARGIN),
-                    right=max_x + ((max_x - min_x) * MARGIN))
+        width = max_x - min_x
+        ax.set_xlim(left=min_x - (width * MARGIN),
+                    right=max_x + (width * MARGIN))
         ax.set_xlabel('meters (m)')
 
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
-        ax.set_ylim(bottom=min_y - ((max_y - min_y) * MARGIN),
-                    top=max_y + ((max_y - min_y) * MARGIN))
+        length = max_y - min_y
+        ax.set_ylim(bottom=min_y - (length * MARGIN),
+                    top=max_y + (length * MARGIN))
         ax.set_ylabel('meters (m)')
 
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
-        ax.set_zlim(min_z - ((max_z - min_z) * MARGIN),  # type: ignore
-                    max_z + ((max_z - min_z) * MARGIN))
-        ax.set_zlabel('meters (m)')  # type: ignore
+        height = max_z - min_z
+        ax.set_zlim(min_z - (height * MARGIN),
+                    max_z + (height * MARGIN))
+        ax.set_zlabel('meters (m)')
 
         self.fps = round(1 / tick_size)
 
@@ -61,7 +64,8 @@ class Plot():
             fig,
             self.update,
             interval=tick_size / 1000,  # Convert from seconds to milliseconds.
-            blit=True
+            blit=True,
+            cache_frame_data=False
         )
 
     def update(self, num: int):
