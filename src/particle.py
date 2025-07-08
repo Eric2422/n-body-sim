@@ -54,11 +54,19 @@ class PointParticle:
         self.charge = charge
 
         self.fixed = fixed
+        """Whether this particle's position is constant."""
 
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
 
     def set_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
+        """Set the force of this particle based on the given force.
+
+        Parameters
+        ----------
+        force : vectors.ForceVector, optional
+            The force applied upon this particle, by default np.zeros(3)
+        """        
         self.acceleration = force / self.mass
 
     def get_gravitational_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
