@@ -9,26 +9,52 @@ import vectors
 class BarnesHutCell():
     def __init__(
         self,
-        x_bounds: npt.NDArray[np.float64],
-        y_bounds: npt.NDArray[np.float64],
-        z_bounds: npt.NDArray[np.float64],
+        x_bounds: npt.NDArray[np.float64] = None,
+        y_bounds: npt.NDArray[np.float64] = None,
+        z_bounds: npt.NDArray[np.float64] = None,
         particles: list[PointParticle] = [],
     ):
         """Constructs a Barnes-Hut cell and recursively create its child nodes.
 
         Will catch out of bounds particles.
+        If `x_bounds`, `y_bounds`, or `z_bounds` are left `None`, ]
+        they will be automatically inferred based on the positions of the particles in the list.
 
         Parameters
         ----------
-        x_bounds : npt.NDArray[np.float64]
-            A 2-element NumPy array that contains the lower and upper X bounds, in that order
-        y_bounds : npt.NDArray[np.float64]
-            A 2-element NumPy array that contains the lower and upper Y bounds, in that order
-        z_bounds : npt.NDArray[np.float64]
-            A 2-element NumPy array that contains the lower and upper Z bounds, in that order
+        x_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
+        y_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
+        z_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.
         """
+        if x_bounds is None:
+            x_bounds = np.array((
+                min(self.particles,
+                    key=lambda ele: ele.position[0]).position[0],
+                max(self.particles,
+                    key=lambda ele: ele.position[0]).position[0]
+            ))
+
+        if y_bounds is None:
+            y_bounds = np.array((
+                min(self.particles,
+                    key=lambda ele: ele.position[1]).position[1],
+                max(self.particles,
+                    key=lambda ele: ele.position[1]).position[1]
+            ))
+
+        if z_bounds is None:
+            z_bounds = np.array((
+                min(self.particles,
+                    key=lambda ele: ele.position[2]).position[2],
+                max(self.particles,
+                    key=lambda ele: ele.position[2]).position[2]
+            ))
+
         self.x_bounds: npt.NDArray[np.float64] = x_bounds
         self.y_bounds: npt.NDArray[np.float64] = y_bounds
         self.z_bounds: npt.NDArray[np.float64] = z_bounds
@@ -37,6 +63,7 @@ class BarnesHutCell():
 
         # Remove out of bounds particles
         for particle in particles:
+            print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
             if not self.within_cell_bounds(particle):
                 particles.remove(particle)
 

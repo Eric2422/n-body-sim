@@ -67,22 +67,7 @@ class Simulation():
         BarnesHutCell
             The root node of the Barnes Hut octree. 
         """
-        x_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[0]).position[0],
-            max(self.particles, key=lambda ele: ele.position[0]).position[0]
-        ))
-
-        y_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[1]).position[1],
-            max(self.particles, key=lambda ele: ele.position[1]).position[1]
-        ))
-
-        z_bounds = np.array((
-            min(self.particles, key=lambda ele: ele.position[2]).position[2],
-            max(self.particles, key=lambda ele: ele.position[2]).position[2]
-        ))
-
-        return BarnesHutCell(x_bounds, y_bounds, z_bounds, self.particles)
+        return BarnesHutCell(self.particles)
 
     def log_particle_position(self, particle: PointParticle) -> None:
         """Save the positoin of a particle to the particle positions log.
@@ -126,7 +111,10 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
 
-        print(f'Root node: {barnes_hut_root}')
+        print(barnes_hut_root.particles)
+
+        # print(f't={self.current_tick * self.tick_size}')
+        # print(f'Root node: \n----------\n{barnes_hut_root}')
 
         # An array of net force acting upon each particle
         net_forces = np.zeros(shape=(len(self.particles), 3))
@@ -137,7 +125,7 @@ class Simulation():
             particle = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                print(child_node, end='\n\n')
+                # print(child_node, end='\n\n')
                 net_forces[i] += particle.get_gravitational_force_experienced(
                     child_node.get_gravitational_field_exerted(particle.position))
                 
@@ -204,9 +192,9 @@ class Simulation():
             self.log_particle_position(particle=particle)
 
         # Run the necessary number of ticks
-        for i in range(num_ticks + 1):
+        for i in range(num_ticks):
             self.tick()
-            progress = i / num_ticks
+            progress = i / (num_ticks + 1)
 
             if print_progress:
                 # Clear the previous line.
@@ -265,5 +253,4 @@ if __name__ == '__main__':
         tick_size=np.float64(simulation.tick_size)
     )
 
-    # plot.save_plot_to_file()
-    plot.show()
+    # plot.show()
