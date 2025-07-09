@@ -31,35 +31,28 @@ class BarnesHutCell():
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.
         """
-        if x_bounds is None:
-            x_bounds = np.array((
-                min(self.particles,
-                    key=lambda ele: ele.position[0]).position[0],
-                max(self.particles,
-                    key=lambda ele: ele.position[0]).position[0]
-            ))
+        self.x_bounds = np.array((
+            min(particles,
+                key=lambda ele: ele.position[0]).position[0],
+            max(particles,
+                key=lambda ele: ele.position[0]).position[0]
+        )) if x_bounds is None else x_bounds
 
-        if y_bounds is None:
-            y_bounds = np.array((
-                min(self.particles,
-                    key=lambda ele: ele.position[1]).position[1],
-                max(self.particles,
-                    key=lambda ele: ele.position[1]).position[1]
-            ))
+        self.y_bounds = np.array((
+            min(particles,
+                key=lambda ele: ele.position[1]).position[1],
+            max(particles,
+                key=lambda ele: ele.position[1]).position[1]
+        )) if y_bounds is None else y_bounds
 
-        if z_bounds is None:
-            z_bounds = np.array((
-                min(self.particles,
-                    key=lambda ele: ele.position[2]).position[2],
-                max(self.particles,
-                    key=lambda ele: ele.position[2]).position[2]
-            ))
+        self.z_bounds = np.array((
+            min(particles,
+                key=lambda ele: ele.position[2]).position[2],
+            max(particles,
+                key=lambda ele: ele.position[2]).position[2]
+        )) if z_bounds is None else z_bounds
 
-        self.x_bounds: npt.NDArray[np.float64] = x_bounds
-        self.y_bounds: npt.NDArray[np.float64] = y_bounds
-        self.z_bounds: npt.NDArray[np.float64] = z_bounds
-
-        self.width: np.float64 = x_bounds[1] - x_bounds[0]
+        self.width: np.float64 = self.x_bounds[1] - self.x_bounds[0]
 
         # Remove out of bounds particles
         for particle in particles:
@@ -67,7 +60,7 @@ class BarnesHutCell():
             if not self.within_cell_bounds(particle):
                 particles.remove(particle)
 
-        self.particles: list[PointParticle] = particles
+        self.particles = particles
 
         self.total_mass: np.float64 = np.float64(0.0)
         mass_moment = np.zeros(3)

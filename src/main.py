@@ -14,12 +14,12 @@ import vectors
 class Simulation():
     def __init__(
         self,
-        particles: list[PointParticle],
+        theta: np.float64 = np.float64(0.5),
+        tick_size: np.float64 = np.float64(1.0),
         gravitational_field: vectors.FieldVector = np.zeros(3),
         electric_field: vectors.FieldVector = np.zeros(3),
         magnetic_field: vectors.FieldVector = np.zeros(3),
-        tick_size: np.float64 = np.float64(1.0),
-        theta: np.float64 = np.float64(0.5)
+        particles: list[PointParticle] = []
     ) -> None:
         """Initiate one simulation.
 
@@ -218,12 +218,12 @@ if __name__ == '__main__':
     num_ticks = int(file_data['num ticks'])
     tick_size = file_data['tick size']
     simulation = Simulation(
-        particles,
+        theta=file_data['theta'],
+        tick_size=tick_size,
         gravitational_field=file_data['gravitational field'],
         electric_field=file_data['electric field'],
         magnetic_field=file_data['magnetic field'],
-        tick_size=tick_size,
-        theta=file_data['theta']
+        particles=particles
     )
     simulation.run(
         num_ticks=num_ticks,
