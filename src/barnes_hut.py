@@ -9,9 +9,9 @@ import vectors
 class BarnesHutCell():
     def __init__(
         self,
-        x_bounds: npt.NDArray[np.float64] = None,
-        y_bounds: npt.NDArray[np.float64] = None,
-        z_bounds: npt.NDArray[np.float64] = None,
+        x_bounds: npt.NDArray[np.float64] | None = None,
+        y_bounds: npt.NDArray[np.float64] | None = None,
+        z_bounds: npt.NDArray[np.float64] | None = None,
         particles: list[PointParticle] = [],
     ):
         """Constructs a Barnes-Hut cell and recursively create its child nodes.

@@ -219,11 +219,17 @@ if __name__ == '__main__':
     tick_size = file_data['tick size']
     simulation = Simulation(
         particles,
+        gravitational_field=file_data['gravitational field'],
+        electric_field=file_data['electric field'],
+        magnetic_field=file_data['magnetic field'],
         tick_size=tick_size,
         theta=file_data['theta']
     )
-    simulation.run(num_ticks=num_ticks,
-                   file_handler=file_handler, print_progress=True)
+    simulation.run(
+        num_ticks=num_ticks,
+        file_handler=file_handler,
+        print_progress=True
+    )
 
     # Plot the simulation
     plot = Plot(

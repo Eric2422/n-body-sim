@@ -22,6 +22,15 @@
             "exclusiveMinimum": 0,
             "default": 60
         },
+        "gravitational field": {
+            "description": "The constant gravitational field as 3D vector, easured in netwons per kilogram(N/kg).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+        },
         "electric field": {
             "description": "The constant electric field as a 3D vector, measured in newtons per coulomb(N/C).",
             "type": "array",
@@ -33,15 +42,6 @@
         },
         "magnetic field": {
             "description": "The constant magnetic field as 3D vector, measured in teslas(T).",
-            "type": "array",
-            "items": {
-                "type": "number"
-            },
-            "minItems": 3,
-            "maxItems": 3
-        },
-        "gravitational field": {
-            "description": "The constant gravitational field as 3D vector, easured in netwons per kilogram(N/kg).",
             "type": "array",
             "items": {
                 "type": "number"
