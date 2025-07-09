@@ -98,7 +98,7 @@ class BarnesHutCell():
                 current_moment += particle.charge * particle.velocity
 
         centroid = np.array((
-            np.mean(x_bounds), np.mean(y_bounds), np.mean(z_bounds)))
+            np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds)))
 
         # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
