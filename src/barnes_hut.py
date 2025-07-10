@@ -234,13 +234,13 @@ class BarnesHutCell():
         vectors.FieldVector
             A 3D NumPy array representing a 3D gravitational field vector. Measured in newtons per kg(N/kg).
         """
-        vector_between_points = point - self.center_of_mass
-        distance = np.linalg.norm(vector_between_points)
-        unit_vector = vector_between_points / distance
+        r = point - self.center_of_mass
+        distance = np.linalg.norm(r)
+        r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
-        if self.width / distance < theta:
-            return unit_vector * scipy.constants.G * self.total_mass / distance ** 2
+        if self.width < theta * distance:
+            return r_hat * scipy.constants.G * self.total_mass / distance ** 2
 
         # If this cell has child cells,
         elif len(self.child_cells) > 0:
@@ -273,19 +273,19 @@ class BarnesHutCell():
         vectors.FieldVector
             A 3D NumPy array representing a 3D electric field vector. Measured in newtons per coulomb(N/C).
         """
-        vector_between_particles = point - self.center_of_charge
-        distance = np.linalg.norm(vector_between_particles)
-        unit_vector = vector_between_particles / distance
+        r = point - self.center_of_charge
+        distance = np.linalg.norm(r)
+        r_hat = r / distance if distance != 0 else np.zeros(3)
 
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
         force = np.zeros(3)
-        if self.width / distance < theta:
+        if self.width < theta * distance:
             # The electrostatic force between the particles
             electric_field = (k * self.total_charge) / (distance ** 2)
 
-            return -electric_field * unit_vector
+            return -electric_field * r_hat
 
         # If this cell has child cells,
         elif len(self.child_cells) > 0:
@@ -325,7 +325,7 @@ class BarnesHutCell():
         r_hat = r / distance
 
         force = np.zeros(3)
-        if self.width / distance < theta:
+        if self.width < theta * distance:
             return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
                     / (4 * np.pi * np.linalg.norm(r) ** 2))
 
