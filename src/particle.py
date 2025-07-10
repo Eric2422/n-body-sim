@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 import scipy.constants
 
+import typing
 import vectors
 
 
@@ -59,6 +60,22 @@ class PointParticle:
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
 
+    def __get_vector_to_point(self, point: vectors.PositionVector) -> typing.Tuple[vectors.DisplacementVector, np.float64]:
+        """Returns the vector from this particle to another given point, and the distance between them.
+
+        Parameters
+        ----------
+        point : vectors.PositionVector
+            Any point to measure from this particle to.
+
+        Returns
+        -------
+        typing.Tuple[vectors.DisplacementVector, np.float64]
+            A tuple containing two elements: the vector from this particle to the point and the distance between them.
+        """
+        r = point - self.position
+        return r, np.linalg.norm(r)
+
     def set_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
         """Set the force of this particle based on the given force.
 
@@ -82,11 +99,14 @@ class PointParticle:
         vectors.FieldVector
             A vector of the gravitational field generated at `point`.
         """
-        vector_between_points = self.position - point
-        distance = np.linalg.norm(vector_between_points)
-        unit_vector = vector_between_points / distance
+        r = point - self.position
+        # If the points are overlapping, there is no force.
+        if r == np.zeros(3):
+            return r
 
-        return unit_vector * scipy.constants.G * self.mass / distance ** 2
+        distance = np.linalg.norm(r)
+
+        return -r * scipy.constants.G * self.mass / (distance ** 3) if distance != 0 else np.zeros(3)
 
     def get_gravitational_force_experienced(self, gravitational_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the gravitational force acting upon this particle by the given gravitational field. 
@@ -117,17 +137,17 @@ class PointParticle:
         vectors.FieldVector
             The vector of the electric field that this particle creates at the point
         """
-        vector_between_particles = point - self.position
-        distance = np.linalg.norm(vector_between_particles)
-        unit_vector = vector_between_particles / distance
+        r = point - self.position
+        # If the points are overlapping, there is no force.
+        if r == np.zeros(3):
+            return r
+        
+        distance = np.linalg.norm(r)
 
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        # The electrostatic force between the particles
-        electric_field = (k * self.charge) / (distance ** 2)
-
-        return -electric_field * unit_vector
+        return - r * (k * self.charge) / (distance ** 3)
 
     def get_electrostatic_force_experienced(self, electric_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the electrostatic force acting upon this particle by the given electric field. 
@@ -163,15 +183,15 @@ class PointParticle:
         It uses the "Biot-Savart Law for point charges," technically a misnomer,
         which only approximates magnetic fields for particles with a velocity << c.
         """
-        # The vector between the positions of the particles
         r = point - self.position
-        # The unit vector of `r`
-        r_hat = r / np.linalg.norm(r)
+        # If the points are overlapping, there is no force.
+        if r == np.zeros(3):
+            return r
+        
+        distance = np.linalg.norm(r)
 
-        magnetic_field = (scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r_hat)
-                          / (4 * np.pi * np.linalg.norm(r) ** 2))
-
-        return magnetic_field
+        return (scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
+                          / (4 * np.pi * distance ** 3))
 
     def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the magnetic force acting upon this particle by the given electric field. 
