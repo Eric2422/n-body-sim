@@ -43,9 +43,9 @@ class Simulation():
         """A log of all the particles' positions over the course of the simulation."""
 
         # Constant, universal fields
-        self.gravitational_field = gravitational_field
-        self.electric_field = electric_field
-        self.magnetic_field = magnetic_field
+        self.gravitational_field = np.array(gravitational_field)
+        self.electric_field = np.array(electric_field)
+        self.magnetic_field = np.array(magnetic_field)
 
         self.current_tick = 0
         self.tick_size = tick_size
@@ -170,9 +170,9 @@ class Simulation():
             self.log_particle_position(particle=particle)
 
         # Run the necessary number of ticks
-        for i in range(num_ticks + 1):
+        for i in range(num_ticks):
             self.tick()
-            progress = i / num_ticks
+            progress = i / num_ticks if num_ticks == 0 else np.float64(1.0)
 
             if print_progress:
                 # Clear the previous line.

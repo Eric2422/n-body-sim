@@ -60,22 +60,6 @@ class PointParticle:
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
 
-    def __get_vector_to_point(self, point: vectors.PositionVector) -> typing.Tuple[vectors.DisplacementVector, np.float64]:
-        """Returns the vector from this particle to another given point, and the distance between them.
-
-        Parameters
-        ----------
-        point : vectors.PositionVector
-            Any point to measure from this particle to.
-
-        Returns
-        -------
-        typing.Tuple[vectors.DisplacementVector, np.float64]
-            A tuple containing two elements: the vector from this particle to the point and the distance between them.
-        """
-        r = point - self.position
-        return r, np.linalg.norm(r)
-
     def set_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
         """Set the force of this particle based on the given force.
 
@@ -101,12 +85,12 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if r == np.zeros(3):
+        if np.all(r == 0):
             return r
 
         distance = np.linalg.norm(r)
 
-        return -r * scipy.constants.G * self.mass / (distance ** 3) if distance != 0 else np.zeros(3)
+        return np.array(-r * scipy.constants.G * self.mass / (distance ** 3))
 
     def get_gravitational_force_experienced(self, gravitational_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the gravitational force acting upon this particle by the given gravitational field. 
@@ -122,7 +106,7 @@ class PointParticle:
             A NumPy array of shape (1, 3) representing a 3D vector of the gravitational force 
             acting upon this particle as a result of the gravitational field.
         """
-        return self.mass * gravitational_field
+        return np.array(self.mass * gravitational_field)
 
     def get_electric_field_exerted(self, point: vectors.PositionVector) -> vectors.FieldVector:
         """Calculate the electric field at `point` due to this particle.
@@ -139,15 +123,15 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if r == np.zeros(3):
+        if np.all(r == 0):
             return r
-        
+
         distance = np.linalg.norm(r)
 
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        return - r * (k * self.charge) / (distance ** 3)
+        return np.array(- r * (k * self.charge) / (distance ** 3))
 
     def get_electrostatic_force_experienced(self, electric_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the electrostatic force acting upon this particle by the given electric field. 
@@ -185,13 +169,13 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if r == np.zeros(3):
+        if np.all(r == 0):
             return r
-        
+
         distance = np.linalg.norm(r)
 
         return (scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
-                          / (4 * np.pi * distance ** 3))
+                / (4 * np.pi * distance ** 3))
 
     def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
         """Get the magnetic force acting upon this particle by the given electric field. 
