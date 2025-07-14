@@ -20,7 +20,7 @@ Running `python src/files.py {configuration file name}` will create a JSON objec
 
 # Running the Simulation
 
-To run the simulation, type `python src/main.py {configuration file name}`.
+To run the simulation, type `python src/main.py config/{configuration file name}`.
 The file name should contain the file extension(i.e. '.json').
 
 # Output Files

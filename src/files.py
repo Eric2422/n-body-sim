@@ -1,4 +1,5 @@
 import json
+import os
 import pathlib
 import sys
 import typing
@@ -20,12 +21,14 @@ class FileHandler:
         schema_file: str, optional
             The name of the JSON schema file used for the config files, by default 'schema.json'
             Found in the './config.' directory but does not contain the directory.
+            Best to keep it to the default 'main.json' unless you want to write an entire JSON schema.
         config_file : str, optional
-            The name of the config file with the file extension, by default 'sample.csv'
+            The file path of the configuration file, including file extension, by default 'sample.csv'
+            Accepts both with and without the directory.
             The output file will have the same name but with the '.txt' file extension instead.
         """
+        self.config_file = pathlib.Path(config_file if os.path.dirname(config_file) == 'config' else self.CONFIG_DIR / config_file)
 
-        self.config_file = pathlib.Path(FileHandler.CONFIG_DIR / config_file)
         # The output file has the same name as config_file but with the '.txt' extension.
         self.output_file = pathlib.Path(
             FileHandler.OUTPUT_DIR /
@@ -52,8 +55,7 @@ class FileHandler:
             print('The output file could not be opened.')
 
     def clear_output_file(self) -> None:
-        """Clear the output file.
-        """
+        """Clear the output file."""
         try:
             self.output_file.write_text('')
 
@@ -61,7 +63,7 @@ class FileHandler:
             print('The output file could not be opened.')
 
     def read_config_file(self) -> dict:
-        """Read a the configuration JSON file, extract the data, and return it as dict.
+        """Read the configuration JSON file, extract the data, and return it as dict.
 
         Returns
         -------
@@ -135,8 +137,6 @@ class FileHandler:
     def write_config_file(self, config_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a config JSON file .
 
-        Extended Summary
-        ----------------
         The file must be in the `./config` directory.
         If the file does not exist, a new file will be created.
         Any pre-existing content will be overwritten.

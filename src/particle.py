@@ -155,7 +155,7 @@ class PointParticle:
         Parameters
         ----------
         point : vectors.PositionVector
-            The point at which to calculate the magnetic field
+            The point at which to calculate the magnetic field.
 
         Returns
         -------
