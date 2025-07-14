@@ -12,6 +12,9 @@ import vectors
 
 
 class Simulation():
+    """Represents one simulation with particles and fields.
+    """
+
     def __init__(
         self,
         theta: np.float64 = np.float64(0.5),

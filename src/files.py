@@ -9,6 +9,8 @@ import referencing
 
 
 class FileHandler:
+    """Handles the creation, reading, and writing of files."""
+    
     CONFIG_DIR = pathlib.Path('./config')
     SCHEMA_DIR = pathlib.Path('./schemas')
     OUTPUT_DIR = pathlib.Path('./output')

@@ -7,6 +7,9 @@ import vectors
 
 
 class BarnesHutCell():
+    """Represents one node of a Barnes-Hut octree.
+    """
+
     def __init__(
         self,
         x_bounds: npt.NDArray[np.float64] | None = None,

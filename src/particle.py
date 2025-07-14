@@ -8,8 +8,7 @@ import vectors
 
 
 class PointParticle:
-    """A point particle with a specified position, charge, and mass.
-    """
+    """A point particle with a specified position, charge, and mass."""
 
     current_id = 0
     """Used to assign an identifier to each particle."""
