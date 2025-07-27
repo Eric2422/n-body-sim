@@ -66,10 +66,12 @@ class BarnesHutCell():
 
         # Remove out of bounds particles
         for particle in particles:
-            print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
-            print(particle)
             if not self.within_cell_bounds(particle):
+                print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
+                print(particle)
                 particles.remove(particle)
+
+            print()
 
         self.particles = particles
         """A list of all particle included in this cell."""
@@ -140,6 +142,12 @@ class BarnesHutCell():
         bool
             True if the particle is within the bounds of this cell, False otherwise.
         """
+        print(
+            f'x position {particle.position[0]} in {self.x_bounds}: {particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]}')
+        print(
+            f'y position {particle.position[1]} in {self.y_bounds}: {particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]}')
+        print(
+            f'z position {particle.position[2]} in {self.z_bounds}: {particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]}')
         return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
                 and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
                 and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
