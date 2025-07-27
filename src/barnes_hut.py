@@ -34,6 +34,8 @@ class BarnesHutCell():
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell.
         """
+        # If `x_bounds` is not given, set it based on the min and max x positions of the particles.
+        # Else, set it to the given x bounds.
         self.x_bounds = np.array((
             min(particles,
                 key=lambda ele: ele.position[0]).position[0],
@@ -41,6 +43,8 @@ class BarnesHutCell():
                 key=lambda ele: ele.position[0]).position[0]
         )) if x_bounds is None else x_bounds
 
+        # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
+        # Else, set it to the given y bounds.
         self.y_bounds = np.array((
             min(particles,
                 key=lambda ele: ele.position[1]).position[1],
@@ -48,6 +52,8 @@ class BarnesHutCell():
                 key=lambda ele: ele.position[1]).position[1]
         )) if y_bounds is None else y_bounds
 
+        # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
+        # Else, set it to the given z bounds.
         self.z_bounds = np.array((
             min(particles,
                 key=lambda ele: ele.position[2]).position[2],
@@ -56,19 +62,26 @@ class BarnesHutCell():
         )) if z_bounds is None else z_bounds
 
         self.width: np.float64 = self.x_bounds[1] - self.x_bounds[0]
+        """The distance from one side of the cell to the other."""
 
         # Remove out of bounds particles
         for particle in particles:
-            print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
             if not self.within_cell_bounds(particle):
+                print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
+                print(particle)
                 particles.remove(particle)
 
+            print()
+
         self.particles = particles
+        """A list of all particle included in this cell."""
 
         self.total_mass: np.float64 = np.float64(0.0)
+        """Total mass of all particles in this cell, measured in kilograms(kg)."""
         mass_moment = np.zeros(3)
 
         self.total_charge = 0
+        """Total charge of all particles in this cell, measured in coulombs(C)."""
         charge_moment = np.zeros(3)
 
         # Completely made-up name.
@@ -129,6 +142,12 @@ class BarnesHutCell():
         bool
             True if the particle is within the bounds of this cell, False otherwise.
         """
+        print(
+            f'x position {particle.position[0]} in {self.x_bounds}: {particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]}')
+        print(
+            f'y position {particle.position[1]} in {self.y_bounds}: {particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]}')
+        print(
+            f'z position {particle.position[2]} in {self.z_bounds}: {particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]}')
         return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
                 and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
                 and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
