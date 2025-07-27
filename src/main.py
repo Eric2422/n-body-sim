@@ -60,7 +60,7 @@ class Simulation():
         return BarnesHutCell(particles=self.particles)
 
     def log_particle_position(self, particle: PointParticle) -> None:
-        """Save the positoin of a particle to the particle positions log.
+        """Save the position of a particle to the particle positions log.
 
         Parameters
         ----------
@@ -181,7 +181,7 @@ class Simulation():
                 # Clear the previous line.
                 sys.stdout.write('\033[K')
                 # Print the current progress and then return to the beginning of the line.
-                print(f'Progess: {round(progress * 100, 1)}%', end='\r')
+                print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
             # If a `FileHandler` object is passed, output the results to a file.
             if file_handler is not None:
