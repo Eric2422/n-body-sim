@@ -167,7 +167,7 @@ class BarnesHutCell():
         ))
 
         # Width of child cells
-        child_width = self.x_bounds[1] - self.x_bounds[0] / 2
+        child_width = self.width / 2
 
         # List of all the child BH cells
         child_cells = []
@@ -383,7 +383,7 @@ Total charge: {self.total_charge}
 Center of Mass: {self.center_of_mass}
 {len(self.child_cells)} child cell(s):'''
 
-        for child_node in self.child_cells:
-            string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
+        # for child_node in self.child_cells:
+        #     string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
 
         return string
