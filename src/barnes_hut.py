@@ -60,8 +60,6 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[2]).position[2]
         )) if z_bounds is None else z_bounds
-
-        self.width: np.float64 = self.x_bounds[1] - self.x_bounds[0]
         """The distance from one side of the cell to the other."""
 
         # Remove out of bounds particles
@@ -129,29 +127,6 @@ class BarnesHutCell():
         self.center_of_charge_velocity = current_moment / \
             self.total_charge if self.total_charge != 0 else centroid
 
-    def within_cell_bounds(self, particle: PointParticle) -> bool:
-        """Returns whether a given particle is within the bounds of this Barnes-Hut cell.
-
-        Parameters
-        ----------
-        particle : PointParticle
-            The particle to check.
-
-        Returns
-        -------
-        bool
-            True if the particle is within the bounds of this cell, False otherwise.
-        """
-        print(
-            f'x position {particle.position[0]} in {self.x_bounds}: {particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]}')
-        print(
-            f'y position {particle.position[1]} in {self.y_bounds}: {particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]}')
-        print(
-            f'z position {particle.position[2]} in {self.z_bounds}: {particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]}')
-        return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
-                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
-                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
-
     def create_child_cells(self) -> list['BarnesHutCell']:
         """Recursively creates child cells for this Barnes-Hut cell.
 
@@ -160,60 +135,11 @@ class BarnesHutCell():
         list['BarnesHutCell']   
             A list of child Barnes-Hut cells, each representing an octant of this cell.
         """
-        centroid = np.array((
-            np.mean(self.x_bounds),
-            np.mean(self.y_bounds),
-            np.mean(self.z_bounds)
-        ))
-
         # Width of child cells
         child_width = self.width / 2
 
         # List of all the child BH cells
         child_cells = []
-
-        # Stores the particles in each octant
-        # Indexed by x(left-right), y(back-front), z(bottom-top)
-        octant_particles_list = (
-            (([], []),
-             ([], [])),
-            (([], []),
-             ([], []))
-        )
-
-        # Loop through each particle and categorize them into an octant
-        for particle in self.particles:
-            # Right-front-top
-            if particle.position[0] >= centroid[0] and particle.position[1] >= centroid[1] and particle.position[2] >= centroid[2]:
-                octant_particles_list[1][1][1].append(particle)
-
-            # Left-front-top
-            elif particle.position[0] <= centroid[0] and particle.position[1] >= centroid[1] and particle.position[2] >= centroid[2]:
-                octant_particles_list[0][1][1].append(particle)
-
-            # Right-back-top
-            elif particle.position[0] >= centroid[0] and particle.position[1] <= centroid[1] and particle.position[2] >= centroid[2]:
-                octant_particles_list[1][0][1].append(particle)
-
-            # Left-back-top
-            elif particle.position[0] <= centroid[0] and particle.position[1] <= centroid[1] and particle.position[2] >= centroid[2]:
-                octant_particles_list[0][0][1].append(particle)
-
-            # Right-front-bottom
-            elif particle.position[0] >= centroid[0] and particle.position[1] >= centroid[1] and particle.position[2] <= centroid[2]:
-                octant_particles_list[1][1][0].append(particle)
-
-            # Left-front-bottom
-            elif particle.position[0] <= centroid[0] and particle.position[1] >= centroid[1] and particle.position[2] <= centroid[2]:
-                octant_particles_list[0][1][0].append(particle)
-
-            # Right-back-bottom
-            elif particle.position[0] >= centroid[0] and particle.position[1] <= centroid[1] and particle.position[2] <= centroid[2]:
-                octant_particles_list[1][0][0].append(particle)
-
-            # Left-back-bottom
-            elif particle.position[0] <= centroid[0] and particle.position[1] <= centroid[1] and particle.position[2] <= centroid[2]:
-                octant_particles_list[0][0][0].append(particle)
 
         # Loop eight times to create the octants
         for i in range(2):
@@ -231,11 +157,34 @@ class BarnesHutCell():
                                 (lower_y, lower_y + child_width)),
                             z_bounds=np.array(
                                 (lower_z, lower_z + child_width)),
-                            particles=octant_particles_list[i][j][k],
+                            particles=self.particles,
                         )
                     )
 
         return child_cells
+
+    def within_cell_bounds(self, particle: PointParticle) -> bool:
+        """Returns whether a given particle is within the bounds of this Barnes-Hut cell.
+
+        Parameters
+        ----------
+        particle : PointParticle
+            The particle to check.
+
+        Returns
+        -------
+        bool
+            True if the particle is within the bounds of this cell, False otherwise.
+        """
+        # print(
+        #     f'x position {particle.position[0]} in {self.x_bounds}: {particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]}')
+        # print(
+        #     f'y position {particle.position[1]} in {self.y_bounds}: {particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]}')
+        # print(
+        #     f'z position {particle.position[2]} in {self.z_bounds}: {particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]}')
+        return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
+                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
+                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
 
     def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
@@ -383,7 +332,7 @@ Total charge: {self.total_charge}
 Center of Mass: {self.center_of_mass}
 {len(self.child_cells)} child cell(s):'''
 
-        # for child_node in self.child_cells:
-        #     string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
+        for child_node in self.child_cells:
+            string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
 
         return string
