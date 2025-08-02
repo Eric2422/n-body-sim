@@ -1,4 +1,4 @@
-# *n*-Body Simulator
+# _n_-Body Simulator
 
 A physics simulation for simulating the movement of point particles.
 It also simulates the effects of electromagnetic and gravitational fields.
