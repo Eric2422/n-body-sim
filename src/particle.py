@@ -215,7 +215,7 @@ class PointParticle:
         Parameters
         ----------
         gravitational_field: vectors.FieldVector
-            A 3D vector measured in netwon per kilogram(N/kg) representing the electric field acting upon this particle.
+            A 3D vector measured in newtons per kilogram(N/kg) representing the electric field acting upon this particle.
         electric_field :vectors.FieldVector
             A 3D vector measured in newtons per coulomb(N/C) representing the electric field acting upon this particle.
         magnetic_field :vectors.FieldVector
