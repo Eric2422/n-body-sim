@@ -1,4 +1,4 @@
-# _n_-Body Simulator
+# *n*-Body Simulator
 
 A physics simulation for simulating the movement of point particles.
 It also simulates the effects of electromagnetic and gravitational fields.
@@ -37,11 +37,11 @@ A sample output file named [sample.txt](./output/sample.txt) is provided.
 
 ### Metal resistivities
 
--   [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
+- [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
 
 ### Metal densities
 
--   [https://www.rsc.org/periodic-table/element/29/copper](https://www.rsc.org/periodic-table/element/29/copper)
--   [https://www.rsc.org/periodic-table/element/47/silver](https://www.rsc.org/periodic-table/element/47/silver)
--   [https://www.rsc.org/periodic-table/element/79/gold](https://www.rsc.org/periodic-table/element/79/gold)
--   [https://www.rsc.org/periodic-table/element/13/aluminium](https://www.rsc.org/periodic-table/element/13/aluminium)
+- [https://www.rsc.org/periodic-table/element/29/copper](https://www.rsc.org/periodic-table/element/29/copper)
+- [https://www.rsc.org/periodic-table/element/47/silver](https://www.rsc.org/periodic-table/element/47/silver)
+- [https://www.rsc.org/periodic-table/element/79/gold](https://www.rsc.org/periodic-table/element/79/gold)
+- [https://www.rsc.org/periodic-table/element/13/aluminium](https://www.rsc.org/periodic-table/element/13/aluminium)
