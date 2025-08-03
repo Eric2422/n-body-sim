@@ -42,6 +42,7 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[0]).position[0]
         )) if x_bounds is None else x_bounds
+        width = self.x_bounds[1] - self.x_bounds[0]
 
         # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
         # Else, set it to the given y bounds.
@@ -51,6 +52,7 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[1]).position[1]
         )) if y_bounds is None else y_bounds
+        length = self.y_bounds[1] - self.x_bounds[0]
 
         # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
         # Else, set it to the given z bounds.
@@ -60,6 +62,12 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[2]).position[2]
         )) if z_bounds is None else z_bounds
+        height = self.z_bounds[1] - self.z_bounds[0]
+        
+        self.centroid = np.array((
+            np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds)))
+
+        self.size = max(width, length, height)
         """The distance from one side of the cell to the other."""
 
         # Remove out of bounds particles
@@ -111,21 +119,18 @@ class BarnesHutCell():
                 charge_moment += particle.charge * particle.position
                 current_moment += particle.charge * particle.velocity
 
-        centroid = np.array((
-            np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds)))
-
         # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
         self.center_of_mass = mass_moment / \
-            self.total_mass if self.total_mass != 0 else centroid
+            self.total_mass if self.total_mass != 0 else self.centroid
 
         # Divide the charge moment by center of charge to obtain the center of charge
         # If charge is 0, return the centroid
         self.center_of_charge = charge_moment / \
-            self.total_charge if self.total_charge != 0 else centroid
+            self.total_charge if self.total_charge != 0 else self.centroid
 
         self.center_of_charge_velocity = current_moment / \
-            self.total_charge if self.total_charge != 0 else centroid
+            self.total_charge if self.total_charge != 0 else self.centroid
 
     def create_child_cells(self) -> list['BarnesHutCell']:
         """Recursively creates child cells for this Barnes-Hut cell.
@@ -136,7 +141,7 @@ class BarnesHutCell():
             A list of child Barnes-Hut cells, each representing an octant of this cell.
         """
         # Width of child cells
-        child_width = self.width / 2
+        child_width = self.size / 2
 
         # List of all the child BH cells
         child_cells = []
@@ -210,7 +215,7 @@ class BarnesHutCell():
         r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
-        if self.width < theta * distance:
+        if self.size < theta * distance:
             return r_hat * scipy.constants.G * self.total_mass / distance ** 2
 
         # If this cell has child cells,
@@ -252,7 +257,7 @@ class BarnesHutCell():
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
         force = np.zeros(3)
-        if self.width < theta * distance:
+        if self.size < theta * distance:
             # The electrostatic force between the particles
             electric_field = (k * self.total_charge) / (distance ** 2)
 
@@ -296,7 +301,7 @@ class BarnesHutCell():
         r_hat = r / distance
 
         force = np.zeros(3)
-        if self.width < theta * distance:
+        if self.size < theta * distance:
             return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
                     / (4 * np.pi * np.linalg.norm(r) ** 2))
 
