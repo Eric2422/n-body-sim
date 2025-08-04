@@ -16,7 +16,7 @@ particles = ()
 
 
 def electric_field(r: vectors.PositionVector) -> vectors.FieldVector:
-    l = np.linalg.norm(r - points[0])
+    l = np.float64(np.linalg.norm(r - points[0]))
 
     return np.array(sum([particle.get_electric_field(
         wire.get_wire_point(l)) for particle in particles]) + constant_electric_field, dtype=np.float64)
