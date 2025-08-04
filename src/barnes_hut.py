@@ -63,7 +63,7 @@ class BarnesHutCell():
                 key=lambda ele: ele.position[2]).position[2]
         )) if z_bounds is None else z_bounds
         height = self.z_bounds[1] - self.z_bounds[0]
-        
+
         self.centroid = np.array((
             np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds)))
 

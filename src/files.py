@@ -10,7 +10,7 @@ import referencing
 
 class FileHandler:
     """Handles the creation, reading, and writing of files."""
-    
+
     CONFIG_DIR = pathlib.Path('./config')
     SCHEMA_DIR = pathlib.Path('./schemas')
     OUTPUT_DIR = pathlib.Path('./output')
@@ -29,7 +29,8 @@ class FileHandler:
             Accepts both with and without the directory.
             The output file will have the same name but with the '.txt' file extension instead.
         """
-        self.config_file = pathlib.Path(config_file if os.path.dirname(config_file) == 'config' else self.CONFIG_DIR / config_file)
+        self.config_file = pathlib.Path(config_file if os.path.dirname(
+            config_file) == 'config' else self.CONFIG_DIR / config_file)
 
         # The output file has the same name as config_file but with the '.txt' extension.
         self.output_file = pathlib.Path(

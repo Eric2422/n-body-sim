@@ -33,7 +33,7 @@ class Plot():
             marker="o"
         )
 
-        # Set dimenions of plot.
+        # Set dimensions of plot.
         # Scalar margin
         MARGIN = 1.25
         min_x = np.min(np.array(data_frame['x'].values))
@@ -53,9 +53,9 @@ class Plot():
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
         height = max_z - min_z
-        ax.set_zlim(min_z - (height * MARGIN), # type: ignore
+        ax.set_zlim(min_z - (height * MARGIN),  # type: ignore
                     max_z + (height * MARGIN))
-        ax.set_zlabel('meters (m)') # type: ignore
+        ax.set_zlabel('meters (m)')  # type: ignore
 
         self.fps = round(1 / tick_size)
 

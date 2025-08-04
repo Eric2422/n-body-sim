@@ -23,7 +23,7 @@
             "default": 60
         },
         "gravitational field": {
-            "description": "The constant gravitational field as 3D vector, easured in netwons per kilogram(N/kg).",
+            "description": "The constant gravitational field as 3D vector, measured in newtons per kilogram(N/kg).",
             "type": "array",
             "items": {
                 "type": "number"
