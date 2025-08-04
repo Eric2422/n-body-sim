@@ -89,7 +89,7 @@ class Wire():
 
         Returns
         -------
-        np.ndarray[np.float64]
+        vectors.UnitVector
             A 3D vector representing the unit vector in the direction of the wire. 
         """
         wire_vector = self.points[1] - self.points[0]
