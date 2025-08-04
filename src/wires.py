@@ -19,7 +19,7 @@ class WireMaterial(Enum):
 
 '''
 All data is at 20 degrees Celsius.
-Densities are in kilgrams per cubic meter (kg/m^3)
+Densities are in kilograms per cubic meter (kg/m^3)
 and are taken from the Royal Society of Chemistry(RSC): 
  - https://www.rsc.org/periodic-table/element/29/copper
  - https://www.rsc.org/periodic-table/element/47/silver 
@@ -35,7 +35,7 @@ MATERIAL_DENSITIES = {
 
 
 '''
-All restivities are taken from the Engineering Toolbox: 
+All resistivities are taken from the Engineering Toolbox: 
 https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html. 
 The values are in ohm-meters(Ω⋅m)
 '''
