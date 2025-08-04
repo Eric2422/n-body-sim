@@ -1,11 +1,12 @@
 from enum import auto, Enum, unique
 
 import numpy as np
+from numpy import typing as npt
 import scipy
 import scipy.integrate
-from typing import Callable
+import typing
 
-from vectors import *
+import vectors
 
 
 @unique
@@ -51,11 +52,12 @@ class Wire():
         Has uniform density and resistivity.
     """
 
-    def __init__(self,
-                 points: np.ndarray[PositionVector],
-                 mass: np.float64 = 1.0,
-                 resistance: np.float64 = 1.0,
-                 ) -> None:
+    def __init__(
+        self,
+        points: npt.NDArray[np.float64],
+        mass: np.float64 = np.float64(1.0),
+        resistance: np.float64 = np.float64(1.0),
+    ) -> None:
         """Initiate a straight current-carrying wire.
 
         Parameters
@@ -74,7 +76,7 @@ class Wire():
         # The acceleration of the center of mass
         # 3D vector
         self.acceleration = np.zeros(shape=(3))
-        
+
         # Torque is a 3D vector consisting of pitch, yaw, and roll.
         # TODO: Type may change.
         self.torque = np.zeros(shape=(3))
@@ -82,7 +84,7 @@ class Wire():
         self.mass = mass
         self.resistance = resistance
 
-    def get_unit_vector(self) -> np.ndarray[np.float64]:
+    def get_unit_vector(self) -> npt.NDArray[np.float64]:
         """Get the unit vector in the direction of the wire from the first to last point.
 
         Returns
@@ -93,7 +95,7 @@ class Wire():
         wire_vector = self.points[1] - self.points[0]
         return wire_vector / np.linalg.norm(wire_vector)
 
-    def get_wire_point(self, distance: np.float64) -> PositionVector:
+    def get_wire_point(self, distance: np.float64) -> vectors.PositionVector:
         """Returns a point along the wire given a distance from the first point.
 
         Parameters
@@ -108,31 +110,31 @@ class Wire():
         """
         return self.points[0] + self.get_unit_vector() * distance
 
-    def get_closest_point(self, point: PositionVector) -> PositionVector:
+    def get_closest_point(self, point: vectors.PositionVector) -> vectors.PositionVector:
         """Given any point, find the wire point closest to it.
 
         Parameters
         ----------
-        point : PositionVector
+        point : vectors.PositionVector
             Any point from which to find the closest wire point.
 
         Returns
         -------
-        PositionVector
+        vectors.PositionVector
             The wire point that is closest to the given point.
         """
         # Get the vector from `point` to one end of the wire
         vector = point - self.points[0]
-        return points[0] + (np.dot(vector, self.get_unit_vector()))
+        return self.points[0] + (np.dot(vector, self.get_unit_vector()))
 
-    def get_center_of_mass(self) -> PositionVector:
+    def get_center_of_mass(self) -> vectors.PositionVector:
         """Get the position of the center of mass of this wire.
 
         Since the wire is of uniform linear density, the center of mass is in the middle.
 
         Returns
         -------
-        PositionVector
+        vectors.PositionVector
             A 3D vector representing the position of the center of mass.
         """
         return (self.points[0] + self.points[1]) / 2.0
@@ -150,14 +152,14 @@ class Wire():
         for i in range(0, len(self.points) - 1):
             length += np.linalg.norm(self.points[i+1] - self.points[i])
 
-        return length
+        return np.float64(length)
 
-    def get_electromotive_force(self, electric_field: Callable[[PositionVector], FieldVector]) -> np.float64:
+    def get_electromotive_force(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> np.float64:
         """Calculate the electromotive force(emf) generated across the wire.
 
         Parameters
         ----------
-        electric_field : Callable[PositionVector], FieldVector]
+        electric_field : typing.Callable[vectors.PositionVector], vectors.FieldVector]
             A function that returns the electric field at any given point.
 
         Returns
@@ -175,12 +177,12 @@ class Wire():
             self.get_length()
         )[0]
 
-    def get_current(self, electric_field: Callable[[PositionVector], FieldVector]) -> np.float64:
+    def get_current(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> np.float64:
         """Calculate the current flowing through this wire.
 
         Parameters
         ----------
-        electric_field : Callable[[PositionVector]]
+        electric_field : typing.Callable[[vectors.PositionVector]]
             A function that returns the electric field at any given point.
 
         Returns
@@ -190,7 +192,7 @@ class Wire():
         """
         return self.get_electromotive_force(electric_field) / self.resistance
 
-    def get_magnetic_field(self, field_point: PositionVector) -> FieldVector:
+    def get_magnetic_field(self, field_point: vectors.PositionVector, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> vectors.FieldVector:
         """Calculate the magnetic field generated by this wire at a point.
 
         The calculation is based on the Biot-Savart law.
@@ -199,15 +201,17 @@ class Wire():
 
         Parameters
         ----------
-        PositionVector
+        vectors.PositionVector
             A 3D vector of np.float64 representing a point to calculate the magnetic field at.
+        electric_field : typing.Callable[[vectors.PositionVector]]
+            A function that returns the electric field at any given point.
 
         Returns
         -------
-        FieldVector
+        vectors.FieldVector
             A 3D vector representing the strength of the magnetic field at the point in teslas(T). 
         """
-        def r(l: np.float64) -> np.ndarray[np.float64]:
+        def r(l: np.float64) -> vectors.PositionVector:
             """Calculate r, the 3D vector between the magnetic field point and the point of integration.
 
             Parameters
@@ -224,7 +228,7 @@ class Wire():
 
         biot_savart_constant = scipy.constants.mu_0 / (4 * scipy.constants.pi)
         return biot_savart_constant \
-            * self.get_current(particles, electric_field) \
+            * self.get_current(electric_field) \
             * scipy.integrate.quad_vec(
                 lambda l: np.cross(
                     self.get_unit_vector(),
@@ -234,12 +238,12 @@ class Wire():
                 self.get_length()
             )[0]
 
-    def apply_force(self, force: ForceVector) -> None:
+    def apply_force(self, force: vectors.ForceVector) -> None:
         """Apply a net force to this wire. 
 
         Parameters
         ----------
-        force : ForceVector
+        force : vectors.ForceVector
             The force that is applied upon this wire.
         """
         self.acceleration += force / self.mass
@@ -247,49 +251,34 @@ class Wire():
     def apply_torque(self, torque) -> None:
         self.torque += torque
 
-    def apply_magnetic_field(self, magnetic_field: Callable[[PositionVector], FieldVector]) -> None:
+    def apply_magnetic_field(self, magnetic_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector], electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> None:
         """Apply a magnetic force to the wire based on a magnetic field.
 
         Parameters
         ----------
-        magnetic_field : Callable[[PositionVector], FieldVector]
+        magnetic_field : typing.Callable[[vectors.PositionVector], vectors.FieldVector]
             A function that returns the magnetic field at any given point.
+        electric_field : typing.Callable[[vectors.PositionVector]]
+            A function that returns the electric field at any given point.
         """
         self.apply_force(
             scipy.integrate.quad_vec(
                 lambda l: np.cross(
                     magnetic_field(l),
                     self.get_unit_vector()
-                )
+                ),
+                self.points[0],
+                self.points[1]
             )
         )
 
         self.apply_torque(
-            scipy.integrate.quadvdec(
+            scipy.integrate.quad_vec(
                 lambda l: np.cross(
-                        magnetic_field(l)
-                    )
+                    magnetic_field(l) * self.get_current(electric_field),
+                    l - self.get_center_of_mass()
+                ),
+                self.points[0],
+                self.points[1]
             )
         )
-
-
-if __name__ == '__main__':
-    points = np.array(
-        (
-            (-1e3, 0, 0),
-            (1e3, 0, 0)
-        )
-    )
-
-    wire = Wire(points, 1.0)
-    constatnt_electric_field = np.array((100, 0.0, 0.0))
-    particles = ()
-
-    def electric_field(l: np.float64):
-        return sum([particle.get_electric_field(
-            wire.get_wire_point(l)) for particle in particles]) + constatnt_electric_field
-
-    print(wire.get_current(electric_field))
-    print()
-    print(wire.get_magnetic_field(
-        np.array((0.0, 0.0, 0.001)), electric_field))

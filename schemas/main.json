@@ -5,15 +5,31 @@
     "description": "The initial setup for the force fields, particles, and wires used by the physics simulation.",
     "type": "object",
     "properties": {
+        "theta": {
+            "description": "The theta value used for the Barnes-Hut algorithm",
+            "type": "number",
+            "default": 0.5
+        },
         "tick size": {
             "description": "The time increment of the simulation, measured in seconds(s).",
             "type": "number",
-            "exclusiveMinimum": 0.0
+            "exclusiveMinimum": 0.0,
+            "default": 0.1
         },
-        "total ticks": {
+        "num ticks": {
             "description": "The duration of the simulation as measured in ticks.",
             "type": "integer",
-            "exclusiveMinimum": 0
+            "exclusiveMinimum": 0,
+            "default": 60
+        },
+        "gravitational field": {
+            "description": "The constant gravitational field as 3D vector, easured in netwons per kilogram(N/kg).",
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
         },
         "electric field": {
             "description": "The constant electric field as a 3D vector, measured in newtons per coulomb(N/C).",
@@ -26,15 +42,6 @@
         },
         "magnetic field": {
             "description": "The constant magnetic field as 3D vector, measured in teslas(T).",
-            "type": "array",
-            "items": {
-                "type": "number"
-            },
-            "minItems": 3,
-            "maxItems": 3
-        },
-        "gravitational field": {
-            "description": "The constant gravitational field as 3D vector, easured in netwons per kilogram(N/kg).",
             "type": "array",
             "items": {
                 "type": "number"
