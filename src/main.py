@@ -10,7 +10,7 @@ from wires import Wire
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: float = 1.0) -> None:
+    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: np.float64 = np.float64(1.0)) -> None:
         """Initiate one simulation.
 
         Parameters
@@ -53,27 +53,10 @@ class Simulation():
         # If the particles are not the same
         if particle1 != particle2:
             # Lorentz force law
-            particle1.apply_lorentz_force_law(
-                particle2.get_electric_field(particle1.position),
-                particle2.get_magnetic_field(particle1.position)
-            )
-
-            particle1.apply_gravitational_field(
-                particle2.get_gravitational_field(
-                    particle1.position
-                )
-            )
-
-            # Lorentz force law
-            particle2.apply_lorentz_force_law(
-                particle1.get_electric_field(particle2.position),
-                particle1.get_magnetic_field(particle2.position)
-            )
-
-            particle2.apply_gravitational_field(
-                particle1.get_gravitational_field(
-                    particle2.position
-                )
+            particle1.apply_fields(
+                particle2.get_gravitational_field_exerted(particle1.position),
+                particle2.get_electric_field_exerted(particle1.position),
+                particle2.get_magnetic_field_exerted(particle1.position)
             )
 
     def tick(self) -> float:
@@ -99,10 +82,9 @@ class Simulation():
                 self.apply_force_between_particles(particle1, particle2)
 
             # Add the constant fields
-            particle1.apply_lorentz_force_law(
-                self.electric_field, self.magnetic_field
+            particle1.apply_fields(
+                self.gravitational_field, self.electric_field, self.magnetic_field
             )
-            particle1.apply_gravitational_field(self.gravitational_field)
 
             # print()
 
@@ -132,7 +114,7 @@ class Simulation():
 
         return self.current_tick / self.total_ticks
 
-    def run(self, ticks_to_run: int = None, file_handler: FileHandler = None, print_progress=False) -> None:
+    def run(self, ticks_to_run: int | None = None, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
@@ -152,7 +134,8 @@ class Simulation():
         if ticks_to_run == None:
             ticks_to_run = self.total_ticks
 
-        file_handler.clear_output_file()
+        if file_handler is not None:
+            file_handler.clear_output_file()
 
         # Run the necessary number of ticks
         output_string = ''
@@ -163,20 +146,21 @@ class Simulation():
                 # Clear the previous line.
                 sys.stdout.write('\033[K')
                 # Print the current progress and then return to the beginning of the line.
-                print(f'Progess: {round(progress * 100, 1)}%', end='\r')
+                print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
             # If a `FileHandler` object is passed, output the results to a file.
             if file_handler is not None:
                 # Add the current time and particle data to the file
                 output_string += f'''Time: {self.current_tick *
                                             self.tick_size} s\n'''
-                
+
                 for particle in self.particles:
                     output_string += particle.__str__() + '\n'
 
                 output_string += '\n'
 
-        file_handler.append_to_output_file(output_string)
+        if file_handler is not None:
+            file_handler.append_to_output_file(output_string)
 
         # If printing progress reports,
         # add an extra line to account for the carriage returns.
