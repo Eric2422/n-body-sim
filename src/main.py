@@ -1,7 +1,6 @@
 import sys
 
 import numpy as np
-import numpy.typing as npt
 import pandas as pd
 
 from barnes_hut import BarnesHutCell
@@ -149,13 +148,13 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, num_ticks: int, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, num_ticks: int = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks.
 
         Parameters
         ----------
-        num_ticks : int, optional
-            The number of ticks that the simulation runs by.
+        num_ticks : int
+            The number of ticks that the simulation runs by, by default 1.
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
             Writes the data into a file,
