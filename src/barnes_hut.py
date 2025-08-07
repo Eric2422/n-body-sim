@@ -65,7 +65,10 @@ class BarnesHutCell():
         height = self.z_bounds[1] - self.z_bounds[0]
 
         self.centroid = np.array((
-            np.mean(self.x_bounds), np.mean(self.y_bounds), np.mean(self.z_bounds)))
+            np.mean(self.x_bounds),
+            np.mean(self.y_bounds),
+            np.mean(self.z_bounds)
+        ))
 
         self.size = max(width, length, height)
         """The distance from one side of the cell to the other."""
