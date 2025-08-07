@@ -6,21 +6,32 @@ import pandas as pd
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
-from wires import Wire
+import vectors
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: float = 1.0) -> None:
-        """Initiate one simulation.
+    def __init__(
+        self,
+        tick_size: float = 1.0,
+        gravitational_field: vectors.FieldVector = np.zeros(3, dtype=float),
+        electric_field: vectors.FieldVector = np.zeros(3, dtype=float),
+        magnetic_field: vectors.FieldVector = np.zeros(3, dtype=float),
+        particles: list[PointParticle] = []
+    ) -> None:
+        """Initialize a simulation.
 
         Parameters
         ----------
-        particles : list[PointParticle]
-            A list of particles that are interacting with each other.
-        total_ticks : int
-            The duration of the simulation, measured in ticks.
         tick_size : float, optional
             The time increment of the simulation in seconds, by default 1.0
+        gravitational_field : vectors.FieldVector, optional
+            A constant, uniform gravitational field, by default np.zeros(3, dtype=float)
+        electric_field : vectors.FieldVector, optional
+            A constant, uniform electric field, by default np.zeros(3, dtype=float)
+        magnetic_field : vectors.FieldVector, optional
+            A constant, uniform magnetic field, by default np.zeros(3, dtype=float)
+        particles : list[PointParticle], optional
+            A list of particles that are interacting with each other., by default []
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
@@ -32,11 +43,10 @@ class Simulation():
         })
 
         # Constant, universal fields
-        self.electric_field = np.zeros(3)
-        self.magnetic_field = np.zeros(3)
-        self.gravitational_field = np.zeros(3)
+        self.electric_field = electric_field
+        self.magnetic_field = magnetic_field
+        self.gravitational_field = gravitational_field
 
-        self.total_ticks = total_ticks
         self.current_tick = 0.0
         self.tick_size = tick_size
 
@@ -112,7 +122,7 @@ class Simulation():
 
         return self.current_tick / self.total_ticks
 
-    def run(self, ticks_to_run: int | None = None, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, ticks_to_run: int = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
@@ -187,12 +197,12 @@ if __name__ == '__main__':
     ]
 
     # Create and run the simulation
-    total_ticks = file_data['total ticks']
-    tick_size = file_data['tick size']
     simulation = Simulation(
-        particles,
-        total_ticks=total_ticks,
-        tick_size=tick_size
+        tick_size=file_data['tick size'],
+        gravitational_field=file_data['gravitational field'],
+        electric_field=file_data['electric field'],
+        magnetic_field=file_data['magnetic field'],
+        particles=particles
     )
     simulation.run(file_handler=file_handler, print_progress=True)
 
