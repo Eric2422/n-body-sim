@@ -112,13 +112,13 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, ticks_to_run: int = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, num_ticks: int = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
         ----------
-        ticks_to_run : int, optional
-            The number of ticks that the simulation runs by, by default `self.total_ticks`
+        num_ticks : int, optional
+            The number of ticks that the simulation runs by, by default 1
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
             Writes the data into a file, 
@@ -129,16 +129,17 @@ class Simulation():
         """
 
         # By default, run the entire simulation
-        if ticks_to_run == None:
-            ticks_to_run = self.total_ticks
+        if num_ticks == None:
+            num_ticks = self.total_ticks
 
         if file_handler is not None:
             file_handler.clear_output_file()
 
         # Run the necessary number of ticks
         output_string = ''
-        for i in range(ticks_to_run):
-            progress = self.tick()
+        for i in range(num_ticks):
+            self.tick()
+            progress = i / num_ticks if num_ticks == 0 else float(1.0)
 
             if print_progress:
                 # Clear the previous line.
