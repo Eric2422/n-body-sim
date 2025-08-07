@@ -51,11 +51,11 @@ class Simulation():
         """A log of all the particles' positions over the course of the simulation."""
 
         # Constant, universal fields
-        self.gravitational_field = np.array(gravitational_field)
-        self.electric_field = np.array(electric_field)
-        self.magnetic_field = np.array(magnetic_field)
+        self.electric_field = electric_field
+        self.magnetic_field = magnetic_field
+        self.gravitational_field = gravitational_field
 
-        self.current_tick = 0
+        self.current_tick = 0.0
         self.tick_size = tick_size
 
         self.theta = theta
@@ -196,8 +196,7 @@ class Simulation():
         if file_handler is not None:
             file_handler.append_to_output_file(output_string)
 
-        # If printing progress reports,
-        # add an extra line to account for the carriage returns.
+        # If printing progress reports, add an extra line to account for the carriage returns.
         if print_progress:
             print()
 
@@ -224,18 +223,17 @@ if __name__ == '__main__':
     ]
 
     # Create and run the simulation
-    num_ticks = int(file_data['num ticks'])
-    tick_size = file_data['tick size']
     simulation = Simulation(
         theta=file_data['theta'],
-        tick_size=tick_size,
+        tick_size=file_data['tick size'],
         gravitational_field=file_data['gravitational field'],
         electric_field=file_data['electric field'],
         magnetic_field=file_data['magnetic field'],
         particles=particles
     )
+
     simulation.run(
-        num_ticks=num_ticks,
+        num_ticks=file_data['num ticks'],
         file_handler=file_handler,
         print_progress=True
     )
