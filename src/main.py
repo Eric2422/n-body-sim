@@ -17,11 +17,11 @@ class Simulation():
 
     def __init__(
         self,
-        theta: np.float64 = np.float64(0.5),
-        tick_size: np.float64 = np.float64(1.0),
-        gravitational_field: vectors.FieldVector = np.zeros(3),
-        electric_field: vectors.FieldVector = np.zeros(3),
-        magnetic_field: vectors.FieldVector = np.zeros(3),
+        theta: float = 0.5,
+        tick_size: float = 1.0,
+        gravitational_field: vectors.FieldVector = np.zeros(3, dtype=float),
+        electric_field: vectors.FieldVector = np.zeros(3, dtype=float),
+        magnetic_field: vectors.FieldVector = np.zeros(3, dtype=float),
         particles: list[PointParticle] = []
     ) -> None:
         """Initiate one simulation.
@@ -30,18 +30,18 @@ class Simulation():
         ----------
         particles : list[PointParticle]
             A list of particles that are interacting with each other.
-        tick_size : np.float64, optional
+        tick_size : float, optional
             The time increment of the simulation in seconds, by default 1.0
-        theta : np.float64, optional
+        theta : float, optional
             The Barnes-Hut approximation parameter, by default 0.5
         """
         self.particles = particles
 
         self.particle_positions_log = pd.DataFrame({
-            't': np.empty(0, dtype=np.float64),
-            'x': np.empty(0, dtype=np.float64),
-            'y': np.empty(0, dtype=np.float64),
-            'z': np.empty(0, dtype=np.float64)
+            't': np.empty(0, dtype=float),
+            'x': np.empty(0, dtype=float),
+            'y': np.empty(0, dtype=float),
+            'z': np.empty(0, dtype=float)
         })
         """A log of all the particles' positions over the course of the simulation."""
 
@@ -176,7 +176,7 @@ class Simulation():
         # Run the necessary number of ticks
         for i in range(num_ticks):
             self.tick()
-            progress = i / num_ticks if num_ticks == 0 else np.float64(1.0)
+            progress = i / num_ticks if num_ticks == 0 else float(1.0)
 
             if print_progress:
                 # Clear the previous line.
@@ -238,7 +238,7 @@ if __name__ == '__main__':
     # Plot the simulation
     plot = Plot(
         data_frame=simulation.particle_positions_log,
-        tick_size=np.float64(simulation.tick_size)
+        tick_size=simulation.tick_size
     )
 
     # plot.save_plot_to_file()
