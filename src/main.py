@@ -17,10 +17,10 @@ class Simulation():
         ----------
         particles : list[PointParticle]
             A list of particles that are interacting with each other.
-        total_ticks : np.int_
+        total_ticks : int
             The duration of the simulation, measured in ticks.
-        tick_size : np.float64, optional
-            The time increment of the simulation in seconds, by default np.float64(1.0)
+        tick_size : float, optional
+            The time increment of the simulation in seconds, by default 1.0
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
@@ -85,8 +85,6 @@ class Simulation():
             particle1.apply_fields(
                 self.gravitational_field, self.electric_field, self.magnetic_field
             )
-
-            # print()
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
@@ -162,8 +160,7 @@ class Simulation():
         if file_handler is not None:
             file_handler.append_to_output_file(output_string)
 
-        # If printing progress reports,
-        # add an extra line to account for the carriage returns.
+        # If printing progress reports, add an extra line to account for the carriage returns.
         if print_progress:
             print()
 
