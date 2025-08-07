@@ -62,7 +62,7 @@ class Wire():
 
         Parameters
         ----------
-        points : np.ndarray[np.float64]
+        points : npt.NDArray[np.float64]
             A 2D array of the points that the wire connects.
         mass : np.float64
             The total mass of the wire in kilograms(kg). Greater than 0, by default 1.0
@@ -89,7 +89,7 @@ class Wire():
 
         Returns
         -------
-        vectors.UnitVector
+        npt.NDArray[np.float64]
             A 3D vector representing the unit vector in the direction of the wire. 
         """
         wire_vector = self.points[1] - self.points[0]
