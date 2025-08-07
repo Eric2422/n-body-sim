@@ -15,43 +15,43 @@ class PointParticle:
 
     def __init__(
         self,
-        position: vectors.PositionVector = np.array([0, 0, 0]),
-        velocity: vectors.VelocityVector = np.array([0, 0, 0]),
-        acceleration: vectors.AccelerationVector = np.array([0, 0, 0]),
-        mass: np.float64 = np.float64(1.0),
-        charge: np.float64 = np.float64(0.0),
+        position: vectors.PositionVector = np.array([0.0, 0.0, 0.0]),
+        velocity: vectors.VelocityVector = np.array([0.0, 0.0, 0.0]),
+        acceleration: vectors.AccelerationVector = np.array([0.0, 0.0, 0.0]),
+        mass: float = 1.0,
+        charge: float = 0.0,
         fixed: bool = False
     ) -> None:
         """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
         ----------
-        position : vectors.PositionVector
-            The initial position of the particle.
-            X is left/right, Y is forward/backward, Z is up/down.
-            Specified in meters(m). 
-        velocity : vectors.VelocityVector
-            The initial velocity of the particle.
-            X is left/right, Y is forward/backward, Z is up/down.
-            Specified in meters per second(m/s). 
-        acceleration : AccelerationVector
-            The initial acceleration of the particle.
-            X is left/right, Y is forward/backward, Z is up/down.
-            Specified in meters per second squared(m/s^2). 
-        mass : np.float64, optional
-            The mass of the charged particle in kilograms, by default 1.0
-        charge : np.float64, optional
-            The charge of the particle in coulombs, by default 0.0
+        position : vectors.PositionVector, optional
+            The initial position of the particle in 3D space.
+            x is left/right, y is forward/backward, z is up/down.
+            Specified in meters(m), by default np.array([0.0, 0.0, 0.0])
+        velocity : vectors.VelocityVector, optional
+            The initial velocity of the particle in 3D space.
+            x is left/right, y is forward/backward, z is up/down.
+            Specified in meters per second(m/s), by default np.array([0.0, 0.0, 0.0])
+        acceleration : vectors.AccelerationVector, optional
+            The initial acceleration of the particle in 3D space.
+            x is left/right, y is forward/backward, z is up/down.
+            Specified in meters per second squared(m/s^2), by default np.array([0.0, 0.0, 0.0])
+        mass : float | float, optional
+            The mass of the charged particle in kilograms(kg), by default 1.0
+        charge : float | float, optional
+            The charge of the particle in coulombs(C), by default 0.0
         fixed : bool, optional
             Whether this particle's position is constant, by default False
         """
-        # Represented by arrays of (X, Y, Z).
-        self.position = position.astype(np.float64)
+        # Represented by arrays of (x, y, z).
+        self.position = position
         self.velocity = velocity
         self.acceleration = acceleration
 
-        self.mass = mass
-        self.charge = charge
+        self.mass = np.float64(mass)
+        self.charge = np.float64(charge)
 
         self.fixed = fixed
         """Whether this particle's position is constant."""

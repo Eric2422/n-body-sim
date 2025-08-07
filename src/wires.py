@@ -55,18 +55,18 @@ class Wire():
     def __init__(
         self,
         points: npt.NDArray[np.float64],
-        mass: np.float64 = np.float64(1.0),
-        resistance: np.float64 = np.float64(1.0),
+        mass: float = 1.0,
+        resistance: float = 1.0,
     ) -> None:
         """Initiate a straight current-carrying wire.
 
         Parameters
         ----------
-        points : npt.NDArray[np.float64]
+        points : npt.NDArray[float]
             A 2D array of the points that the wire connects.
-        mass : np.float64
+        mass : float
             The total mass of the wire in kilograms(kg). Greater than 0, by default 1.0
-        resistance : np.float64
+        resistance : float
             The resistance of the wire in ohms(Ω). Greater than 0, by default 1.0
         """
         self.points = points
@@ -89,18 +89,18 @@ class Wire():
 
         Returns
         -------
-        npt.NDArray[np.float64]
+        npt.NDArray[float]
             A 3D vector representing the unit vector in the direction of the wire. 
         """
         wire_vector = self.points[1] - self.points[0]
         return wire_vector / np.linalg.norm(wire_vector)
 
-    def get_wire_point(self, distance: np.float64) -> vectors.PositionVector:
+    def get_wire_point(self, distance: float) -> vectors.PositionVector:
         """Returns a point along the wire given a distance from the first point.
 
         Parameters
         ----------
-        distance : np.float64
+        distance : float
             The distance from the start of the wire. 
 
         Returns
@@ -139,12 +139,12 @@ class Wire():
         """
         return (self.points[0] + self.points[1]) / 2.0
 
-    def get_length(self) -> np.float64:
+    def get_length(self) -> float:
         """Calculate the total length of the wire.
 
         Returns
         -------
-        np.float64
+        float
             A scalar value representing the total length of this wire. 
         """
         # Sum the distance between each point
@@ -152,9 +152,9 @@ class Wire():
         for i in range(0, len(self.points) - 1):
             length += np.linalg.norm(self.points[i+1] - self.points[i])
 
-        return np.float64(length)
+        return float(length)
 
-    def get_electromotive_force(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> np.float64:
+    def get_electromotive_force(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> float:
         """Calculate the electromotive force(emf) generated across the wire.
 
         Parameters
@@ -164,7 +164,7 @@ class Wire():
 
         Returns
         -------
-        np.float64
+        float
             The electromotive force across this wire, measured in volts(V).
         """
         # Negative integral of the electric field across the wire.
@@ -177,7 +177,7 @@ class Wire():
             self.get_length()
         )[0]
 
-    def get_current(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> np.float64:
+    def get_current(self, electric_field: typing.Callable[[vectors.PositionVector], vectors.FieldVector]) -> float:
         """Calculate the current flowing through this wire.
 
         Parameters
@@ -187,7 +187,7 @@ class Wire():
 
         Returns
         -------
-        np.float64
+        float
             The current flowing through this wire, measured in amps(A).
         """
         return self.get_electromotive_force(electric_field) / self.resistance
@@ -202,7 +202,7 @@ class Wire():
         Parameters
         ----------
         vectors.PositionVector
-            A 3D vector of np.float64 representing a point to calculate the magnetic field at.
+            A 3D vector of float representing a point to calculate the magnetic field at.
         electric_field : typing.Callable[[vectors.PositionVector]]
             A function that returns the electric field at any given point.
 
@@ -211,12 +211,12 @@ class Wire():
         vectors.FieldVector
             A 3D vector representing the strength of the magnetic field at the point in teslas(T). 
         """
-        def r(l: np.float64) -> vectors.PositionVector:
+        def r(l: float) -> vectors.PositionVector:
             """Calculate r, the 3D vector between the magnetic field point and the point of integration.
 
             Parameters
             ----------
-            l : np.float64
+            l : float
                 The distance along this wire from `start_point` in meters.
 
             Returns

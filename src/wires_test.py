@@ -10,7 +10,7 @@ points = np.array(
     )
 )
 
-wire = Wire(points, np.float64(1.0))
+wire = Wire(points, 1.0)
 constant_electric_field = np.array((100, 0.0, 0.0))
 particles = ()
 

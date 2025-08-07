@@ -5,7 +5,7 @@ import pandas as pd
 
 
 class Plot():
-    def __init__(self, data_frame: pd.DataFrame, tick_size: np.float64 = np.float64(1.0)) -> None:
+    def __init__(self, data_frame: pd.DataFrame, tick_size: float = 1.0) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
@@ -13,7 +13,7 @@ class Plot():
         data_frame : pd.DataFrame
             A data frame with four columns: t, x, y, z
             Contains the time and position of particles.
-        tick_size : np.float64, optional
+        tick_size : float, optional
             The amount of time between each frame, by default 1.0
         """
         fig = plt.figure()

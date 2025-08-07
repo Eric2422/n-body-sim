@@ -10,17 +10,17 @@ from wires import Wire
 
 
 class Simulation():
-    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: np.float64 = np.float64(1.0)) -> None:
+    def __init__(self, particles: list[PointParticle], total_ticks: int, tick_size: float = 1.0) -> None:
         """Initiate one simulation.
 
         Parameters
         ----------
-        particles : list
+        particles : list[PointParticle]
             A list of particles that are interacting with each other.
-        total_ticks: int
+        total_ticks : np.int_
             The duration of the simulation, measured in ticks.
-        tick_size : float, optional
-            The time increment of the simulation in seconds, by default 1.0
+        tick_size : np.float64, optional
+            The time increment of the simulation in seconds, by default np.float64(1.0)
         """
         self.particles = particles
         # A log of all the particles' positions over the course of the simulation
@@ -37,7 +37,7 @@ class Simulation():
         self.gravitational_field = np.zeros(3)
 
         self.total_ticks = total_ticks
-        self.current_tick = 0
+        self.current_tick = 0.0
         self.tick_size = tick_size
 
     def apply_force_between_particles(self, particle1: PointParticle, particle2: PointParticle) -> None:
