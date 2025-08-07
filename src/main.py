@@ -24,16 +24,22 @@ class Simulation():
         magnetic_field: vectors.FieldVector = np.zeros(3, dtype=float),
         particles: list[PointParticle] = []
     ) -> None:
-        """Initiate one simulation.
+        """Initialize a simulation.
 
         Parameters
         ----------
-        particles : list[PointParticle]
-            A list of particles that are interacting with each other.
-        tick_size : float, optional
-            The time increment of the simulation in seconds, by default 1.0
         theta : float, optional
             The Barnes-Hut approximation parameter, by default 0.5
+        tick_size : float, optional
+            The time increment of the simulation in seconds, by default 1.0
+        gravitational_field : vectors.FieldVector, optional
+            A constant, uniform gravitational field, by default np.zeros(3, dtype=float)
+        electric_field : vectors.FieldVector, optional
+            A constant, uniform electric field, by default np.zeros(3, dtype=float)
+        magnetic_field : vectors.FieldVector, optional
+            A constant, uniform magnetic field, by default np.zeros(3, dtype=float)
+        particles : list[PointParticle], optional
+            A list of particles that are interacting with each other., by default []
         """
         self.particles = particles
 
