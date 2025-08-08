@@ -11,13 +11,26 @@ import vectors
 
 @unique
 class WireMaterial(Enum):
+    """An enum class of various common metals.
+
+    Parameters
+    ----------
+    Enum : Enum
+        A metal to be added to the enum.
+    """
     COPPER = auto()
     SILVER = auto()
     GOLD = auto()
     ALUMINUM = auto()
 
 
-'''
+MATERIAL_DENSITIES = {
+    WireMaterial.COPPER: 8.96e3,
+    WireMaterial.SILVER: 10.5e3,
+    WireMaterial.GOLD: 19.3e3,
+    WireMaterial.ALUMINUM: 2.70e3
+}
+"""
 All data is at 20 degrees Celsius.
 Densities are in kilograms per cubic meter (kg/m^3)
 and are taken from the Royal Society of Chemistry(RSC): 
@@ -25,26 +38,19 @@ and are taken from the Royal Society of Chemistry(RSC):
  - https://www.rsc.org/periodic-table/element/47/silver 
  - https://www.rsc.org/periodic-table/element/79/gold
  - https://www.rsc.org/periodic-table/element/13/aluminium 
-'''
-MATERIAL_DENSITIES = {
-    WireMaterial.COPPER: 8.96e3,
-    WireMaterial.SILVER: 10.5e3,
-    WireMaterial.GOLD: 19.3e3,
-    WireMaterial.ALUMINUM: 2.70e3
-}
+"""
 
-
-'''
-All resistivities are taken from the Engineering Toolbox: 
-https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html. 
-The values are in ohm-meters(Ω⋅m)
-'''
 MATERIAL_RESISTIVITIES = {
     WireMaterial.COPPER: 1.724e-8,
     WireMaterial.SILVER: 1.59e-8,
     WireMaterial.GOLD: 2.24e-8,
     WireMaterial.ALUMINUM: 2.65e-8
 }
+"""
+All resistivities are taken from the Engineering Toolbox: 
+https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html. 
+The values are in ohm-meters(Ω⋅m)
+"""
 
 
 class Wire():
