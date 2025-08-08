@@ -10,6 +10,9 @@ import vectors
 
 
 class Simulation():
+    """Represents one simulation with particles and fields.
+    """
+
     def __init__(
         self,
         tick_size: float = 1.0,
