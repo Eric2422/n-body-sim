@@ -1,5 +1,17 @@
 # *n*-Body Simulator
 
+## Table of Contents
+
+- [Setting Up the Simulation](#setting-up-the-simulation)
+  - [Schemas](#schemas)
+  - [Configuration Files](#configuration-files)
+- [Running the Simulation](#running-the-simulation)
+- [Output Files](#output-files)
+- [Citations](#citations)
+  - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
+  - [Metal Densities](#metal-densities)
+  - [Metal Resistivities](#metal-resistivities)
+
 A physics simulation for simulating the movement of point particles.
 It also simulates the effects of electromagnetic and gravitational fields.
 All numbers are in SI units.
@@ -32,15 +44,15 @@ The output file will have the same base name as the configuration file but will 
 
 ## Citations
 
-### Barnes-Hut algorithm
+### Barnes-Hut Algorithm
 
-### Metal resistivities
-
-- [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
-
-### Metal densities
+### Metal Densities
 
 - [https://www.rsc.org/periodic-table/element/29/copper](https://www.rsc.org/periodic-table/element/29/copper)
 - [https://www.rsc.org/periodic-table/element/47/silver](https://www.rsc.org/periodic-table/element/47/silver)
 - [https://www.rsc.org/periodic-table/element/79/gold](https://www.rsc.org/periodic-table/element/79/gold)
 - [https://www.rsc.org/periodic-table/element/13/aluminium](https://www.rsc.org/periodic-table/element/13/aluminium)
+
+### Metal Resistivities
+
+- [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
