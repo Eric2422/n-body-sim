@@ -16,20 +16,19 @@ The [`./schemas`](./schemas/) directory contains the JSON schemas used to valida
 
 ### Configuration Files
 
-The configuration files are used to set up the simulation and are located in [`config/`](./config/).
-Each configuration file is a JSON file validated using the [`main.json` schema](./schemas/main.json).
-Running `python src/files.py {configuration file name}` will create a JSON object full of blank values.
+The configuration files set up the simulation and are located in [`config/`](./config/).
+Each configuration file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
+Running `python src/files.py <configuration file name>` will create a JSON object filled with default values.
 
 ## Running the Simulation
 
-To run the simulation, type `python src/main.py config/{configuration file name}`.
+To run the simulation, type `python src/main.py config/<configuration file name>`.
 The file name should contain the file extension(i.e. `.json`).
 
 ## Output Files
 
 The output files, located in [`output/`](./output/), store records of the state of the particles over time.
 The output file will have the same base name as the configuration file but will have a file extension of `.txt` instead.
-A sample output file named [`sample.txt`](./output/sample.txt) is provided.
 
 ## Citations
 
