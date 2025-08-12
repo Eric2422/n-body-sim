@@ -124,16 +124,16 @@ class BarnesHutCell():
 
         # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
-        self.center_of_mass = mass_moment / \
-            self.total_mass if self.total_mass != 0 else self.centroid
+        self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 \
+            else self.centroid
 
         # Divide the charge moment by center of charge to obtain the center of charge
         # If charge is 0, return the centroid
-        self.center_of_charge = charge_moment / \
-            self.total_charge if self.total_charge != 0 else self.centroid
+        self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 \
+            else self.centroid
 
-        self.center_of_charge_velocity = current_moment / \
-            self.total_charge if self.total_charge != 0 else self.centroid
+        self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
+            else self.centroid
 
     def create_child_cells(self) -> list['BarnesHutCell']:
         """Recursively creates child cells for this Barnes-Hut cell.
