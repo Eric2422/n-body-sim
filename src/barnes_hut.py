@@ -42,7 +42,6 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[0]).position[0]
         )) if x_bounds is None else x_bounds
-        width = self.x_bounds[1] - self.x_bounds[0]
 
         # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
         # Else, set it to the given y bounds.
@@ -52,7 +51,6 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[1]).position[1]
         )) if y_bounds is None else y_bounds
-        length = self.y_bounds[1] - self.x_bounds[0]
 
         # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
         # Else, set it to the given z bounds.
@@ -62,16 +60,16 @@ class BarnesHutCell():
             max(particles,
                 key=lambda ele: ele.position[2]).position[2]
         )) if z_bounds is None else z_bounds
-        height = self.z_bounds[1] - self.z_bounds[0]
 
-        self.centroid = np.array((
-            np.mean(self.x_bounds),
-            np.mean(self.y_bounds),
-            np.mean(self.z_bounds)
-        ))
+        self.centroid: npt.NDArray[np.float64]
+        """The centroid of the Barnes Hut cell"""
 
-        self.size = max(width, length, height)
+        self.size: float
         """The distance from one side of the cell to the other."""
+
+        bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(self.x_bounds, self.y_bounds, self.z_bounds)
+
+        self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
         # Remove out of bounds particles
         for particle in particles:
@@ -134,6 +132,36 @@ class BarnesHutCell():
 
         self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
             else self.centroid
+
+    @classmethod
+    def cube_bounds(
+        cls,
+        x_bounds: npt.NDArray[np.float64],
+        y_bounds: npt.NDArray[np.float64],
+        z_bounds: npt.NDArray[np.float64]
+    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
+        centroid = np.array(
+            (
+                np.mean(x_bounds),
+                np.mean(y_bounds),
+                np.mean(z_bounds)
+            ),
+            dtype=float
+        )
+
+        width = x_bounds[1] - x_bounds[0]
+        length = y_bounds[1] - x_bounds[0]
+        height = z_bounds[1] - z_bounds[0]
+        size = max(width, length, height)
+
+        half_size = size / 2
+        new_bounds = np.array(
+            ((centroid[i] - half_size, centroid[i] + half_size)
+             for i in range(3)),
+            dtype=float
+        )
+
+        return new_bounds, centroid, size
 
     def create_child_cells(self) -> list['BarnesHutCell']:
         """Recursively creates child cells for this Barnes-Hut cell.

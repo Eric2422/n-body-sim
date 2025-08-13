@@ -236,7 +236,7 @@ class Wire():
 
             Returns
             -------
-            np.ndarray
+            vectors.PositionVector
                 A 3D vector from the point of integration to `field_point`.
             """
             return field_point - self.get_wire_point(l)
