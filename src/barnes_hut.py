@@ -70,6 +70,7 @@ class BarnesHutCell():
         bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(self.x_bounds, self.y_bounds, self.z_bounds)
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
+        print(self.x_bounds)
 
         # Remove out of bounds particles
         for particle in particles:
@@ -149,17 +150,23 @@ class BarnesHutCell():
             dtype=float
         )
 
+        print(x_bounds)
+        print(y_bounds)
+        print(z_bounds)
+
         width = x_bounds[1] - x_bounds[0]
         length = y_bounds[1] - x_bounds[0]
         height = z_bounds[1] - z_bounds[0]
         size = max(width, length, height)
 
+
         half_size = size / 2
         new_bounds = np.array(
-            ((centroid[i] - half_size, centroid[i] + half_size)
-             for i in range(3)),
+            [(centroid[i] - half_size, centroid[i] + half_size)
+             for i in range(3)],
             dtype=float
         )
+        print(f'New bounds: {new_bounds}')
 
         return new_bounds, centroid, size
 
