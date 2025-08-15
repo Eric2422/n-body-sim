@@ -67,19 +67,18 @@ class BarnesHutCell():
         self.size: float
         """The distance from one side of the cell to the other."""
 
-        bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(self.x_bounds, self.y_bounds, self.z_bounds)
+        bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(
+            self.x_bounds,
+            self.y_bounds,
+            self.z_bounds
+        )
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
-        print(self.x_bounds)
 
         # Remove out of bounds particles
         for particle in particles:
             if not self.within_cell_bounds(particle):
-                print('Oh NoEs, A pArTiClE wAs oUt Of BoUnDs!')
-                print(particle)
                 particles.remove(particle)
-
-            print()
 
         self.particles = particles
         """A list of all particle included in this cell."""
@@ -150,10 +149,6 @@ class BarnesHutCell():
             dtype=float
         )
 
-        print(x_bounds)
-        print(y_bounds)
-        print(z_bounds)
-
         width = x_bounds[1] - x_bounds[0]
         length = y_bounds[1] - x_bounds[0]
         height = z_bounds[1] - z_bounds[0]
@@ -165,7 +160,6 @@ class BarnesHutCell():
              for i in range(3)],
             dtype=float
         )
-        print(f'New bounds: {new_bounds}')
 
         return new_bounds, centroid, size
 
