@@ -71,7 +71,7 @@ class FileHandler:
         Returns
         -------
         dict
-            A `dict` containing information about the initial conditions of the simulation.
+            A `dict` containing information about the initial state of the simulation.
             Stores a list of the particles.
 
         Raises
