@@ -39,14 +39,14 @@ The [`./schemas`](./schemas/) directory contains the JSON schemas used to valida
 
 ### Input Files
 
-The input files set up the simulation and are located in [`config/`](./config/).
+The input files set up the simulation and are located in [`input/`](./input/).
 Each input file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
 
 Running `python src/files.py <input file name>` will create a JSON object filled with default values.
 
 ### Running the Simulation
 
-To run the simulation, type `python src/main.py config/<input file name>`.
+To run the simulation, type `python src/main.py input/<input file name>`.
 The file name should contain the file extension(i.e. `.json`).
 
 ### Output Files
