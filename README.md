@@ -1,48 +1,60 @@
 # *n*-Body Simulator
 
-## Table of Contents
-
-- [Setting Up the Simulation](#setting-up-the-simulation)
-  - [Schemas](#schemas)
-  - [Configuration Files](#configuration-files)
-- [Running the Simulation](#running-the-simulation)
-- [Output Files](#output-files)
-- [Citations](#citations)
-  - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
-  - [Metal Densities](#metal-densities)
-  - [Metal Resistivities](#metal-resistivities)
-
 A physics simulation for simulating the movement of point particles.
 It also simulates the effects of electromagnetic and gravitational fields.
 All numbers are in SI units.
 
-## Setting Up the Simulation
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Schemas](#schemas)
+  - [Input Files](#input-files)
+  - [Running the Simulation](#running-the-simulation)
+  - [Output Files](#output-files)
+- [Acknowledgements](#acknowledgements)
+  - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
+  - [Metal Densities](#metal-densities)
+  - [Metal Resistivities](#metal-resistivities)
+
+## Installation
+
+If you have not installed Python already, [download it](https://www.python.org/downloads/).
+
+Go to your command line of choice and enter:
+```
+git clone https://github.com/Eric2422/n-body-sim.git
+pip install -r requirements
+```
+
+## Usage
 
 ### Schemas
 
-The [`./schemas`](./schemas/) directory contains the JSON schemas used to validate and generate configuration files.
+The [`./schemas`](./schemas/) directory contains the JSON schemas used to validate and generate input files.
 
 > [!Caution]
 > It is recommended that you do not edit the schemas.
 > Doing so may prevent the program from properly running.
 
-### Configuration Files
+### Input Files
 
-The configuration files set up the simulation and are located in [`config/`](./config/).
-Each configuration file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
-Running `python src/files.py <configuration file name>` will create a JSON object filled with default values.
+The input files set up the simulation and are located in [`config/`](./config/).
+Each input file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
 
-## Running the Simulation
+Running `python src/files.py <input file name>` will create a JSON object filled with default values.
 
-To run the simulation, type `python src/main.py config/<configuration file name>`.
+### Running the Simulation
+
+To run the simulation, type `python src/main.py config/<input file name>`.
 The file name should contain the file extension(i.e. `.json`).
 
-## Output Files
+### Output Files
 
 The output files, located in [`output/`](./output/), store records of the state of the particles over time.
-The output file will have the same base name as the configuration file but will have a file extension of `.txt` instead.
+The output file will have the same base name as the input file but will have a file extension of `.txt` instead.
 
-## Citations
+## Acknowledgements
 
 ### Barnes-Hut Algorithm
 

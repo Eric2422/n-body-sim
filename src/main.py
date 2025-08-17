@@ -207,8 +207,8 @@ if __name__ == '__main__':
         raise ValueError('Please enter the name of the config file.')
 
     # Read the config file data and create particles based on that data
-    file_handler = FileHandler(config_file=sys.argv[1])
-    file_data = file_handler.read_config_file()
+    file_handler = FileHandler(input_file=sys.argv[1])
+    file_data = file_handler.read_input_file()
 
     # Create a list of particles as described by the file data.
     particles = [

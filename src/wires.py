@@ -95,7 +95,7 @@ class Wire():
 
         Returns
         -------
-        npt.NDArray[float]
+        vectors.UnitVector
             A 3D vector representing the unit vector in the direction of the wire. 
         """
         wire_vector = self.points[1] - self.points[0]
@@ -192,7 +192,7 @@ class Wire():
 
         Parameters
         ----------
-        electric_field : typing.Callable[[vectors.PositionVector]]
+        electric_field : typing.Callable[[vectors.PositionVector], vectors.FieldVector]]
             A function that returns the electric field at any given point.
 
         Returns
@@ -218,7 +218,7 @@ class Wire():
         ----------
         vectors.PositionVector
             A 3D vector of float representing a point to calculate the magnetic field at.
-        electric_field : typing.Callable[[vectors.PositionVector]]
+        electric_field : typing.Callable[[vectors.PositionVector], vectors.FieldVector]
             A function that returns the electric field at any given point.
 
         Returns
@@ -278,7 +278,7 @@ class Wire():
         ----------
         magnetic_field : typing.Callable[[vectors.PositionVector], vectors.FieldVector]
             A function that returns the magnetic field at any given point.
-        electric_field : typing.Callable[[vectors.PositionVector]]
+        electric_field : typing.Callable[[ vectors.PositionVector], vectors.FieldVector]
             A function that returns the electric field at any given point.
         """
         self.apply_force(
