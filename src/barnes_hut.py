@@ -67,11 +67,13 @@ class BarnesHutCell():
         self.size: float
         """The distance from one side of the cell to the other."""
 
+        # Make the bounds cubical if they are not.
         bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(
             self.x_bounds,
             self.y_bounds,
             self.z_bounds
         )
+        print(bounds)
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
@@ -140,6 +142,22 @@ class BarnesHutCell():
         y_bounds: npt.NDArray[np.float64],
         z_bounds: npt.NDArray[np.float64]
     ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
+        """Makes the given bounds cube(i.e. all with the same length), preserving the centroid.
+
+        Parameters
+        ----------
+        x_bounds : npt.NDArray[np.float64]
+            The given x bounds to cube.
+        y_bounds : npt.NDArray[np.float64]
+            The given y bounds to cube.
+        z_bounds : npt.NDArray[np.float64]
+            The given z bounds to cube.
+
+        Returns
+        -------
+        tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
+            The newly cubed bounds as a 3D array, the centroid, and the size of any dimension.
+        """        
         centroid = np.array(
             (
                 np.mean(x_bounds),
@@ -212,12 +230,6 @@ class BarnesHutCell():
         bool
             True if the particle is within the bounds of this cell, False otherwise.
         """
-        # print(
-        #     f'x position {particle.position[0]} in {self.x_bounds}: {particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]}')
-        # print(
-        #     f'y position {particle.position[1]} in {self.y_bounds}: {particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]}')
-        # print(
-        #     f'z position {particle.position[2]} in {self.z_bounds}: {particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]}')
         return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
                 and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
                 and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
