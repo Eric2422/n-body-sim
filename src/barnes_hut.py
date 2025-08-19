@@ -374,6 +374,7 @@ class BarnesHutCell():
 
     def __str__(self):
         string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[1]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+Centroid: {self.centroid}
 Total mass: {self.total_mass}
 Total charge: {self.total_charge}
 Center of Mass: {self.center_of_mass}
