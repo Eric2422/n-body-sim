@@ -73,7 +73,6 @@ class BarnesHutCell():
             self.y_bounds,
             self.z_bounds
         )
-        print(bounds)
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
