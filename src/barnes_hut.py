@@ -156,7 +156,7 @@ class BarnesHutCell():
         -------
         tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
             The newly cubed bounds as a 3D array, the centroid, and the size of any dimension.
-        """        
+        """
         centroid = np.array(
             (
                 np.mean(x_bounds),
@@ -177,6 +177,7 @@ class BarnesHutCell():
              for i in range(3)],
             dtype=float
         )
+        # print(new_bounds)
 
         return new_bounds, centroid, size
 
@@ -373,7 +374,7 @@ class BarnesHutCell():
         return max(child.get_depth() for child in self.child_cells)
 
     def __str__(self):
-        string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[1]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+        string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[0]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
 Total charge: {self.total_charge}
