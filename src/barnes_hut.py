@@ -16,11 +16,11 @@ class BarnesHutCell():
         y_bounds: npt.NDArray[np.float64] | None = None,
         z_bounds: npt.NDArray[np.float64] | None = None,
         particles: list[PointParticle] = [],
-    ):
+    ):  
         """Constructs a Barnes-Hut cell and recursively create its child nodes.
 
         Will catch out of bounds particles.
-        If `x_bounds`, `y_bounds`, or `z_bounds` are left `None`, ]
+        If `x_bounds`, `y_bounds`, or `z_bounds` are left `None`,
         they will be automatically inferred based on the positions of the particles in the list.
 
         Parameters
@@ -32,7 +32,7 @@ class BarnesHutCell():
         z_bounds : npt.NDArray[np.float64], optional
             A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
         particles : list[PointParticle], optional
-            List of particles that are contained within this Barnes-Hut cell.
+            List of particles that are contained within this Barnes-Hut cell, by default []
         """
         # If `x_bounds` is not given, set it based on the min and max x positions of the particles.
         # Else, set it to the given x bounds.
@@ -84,7 +84,7 @@ class BarnesHutCell():
         self.particles = particles
         """A list of all particle included in this cell."""
 
-        self.total_mass: np.float64 = np.float64(0.0)
+        self.total_mass: float = 0.0
         """Total mass of all particles in this cell, measured in kilograms(kg)."""
         mass_moment = np.zeros(3)
 
@@ -234,19 +234,18 @@ class BarnesHutCell():
                 and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
                 and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
 
-    def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
+    def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
-        theta : np.float64, optional
-            The value of theta, the Barnes-Hut approximation parameter being used.
+        theta : float, optional
+            The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
             Given the distance between the point and the center of mass, 
             it used to determine whether to return an approximate or exact value for the gravitational field.
             When theta is 0.0, no approximation will occur.
-            By default, 0.0
 
         Returns
         -------
@@ -273,19 +272,18 @@ class BarnesHutCell():
 
         return force
 
-    def get_electric_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
+    def get_electric_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
         """Calculate the approximate electric field exerted by this cell at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
-        theta : np.float64, optional
-            The value of theta, the Barnes-Hut approximation parameter being used.
+        theta : float, optional
+            The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
             Given the distance between the point and the center of charge, 
             it used to determine whether to return an approximate or exact value for the gravitational field.
             When theta is 0.0, no approximation will occur.
-            By default, 0.0
 
         Returns
         -------
@@ -317,19 +315,18 @@ class BarnesHutCell():
 
         return force
 
-    def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: np.float64 = np.float64(0.0)) -> vectors.FieldVector:
+    def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this cell at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
             A 3D NumPy array representing a 3D position vector. Measured in meters(m).
-        theta : np.float64, optional
-            The value of theta, the Barnes-Hut approximation parameter being used.
+        theta : float, optional
+            The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
             Given the distance between the point and the center of charge, 
             it used to determine whether to return an approximate or exact value for the magnetic field.
             When theta is 0.0, no approximation will occur.
-            By default, 0.0
 
         Returns
         -------
@@ -366,7 +363,7 @@ class BarnesHutCell():
         -------
         int 
             The depth of the branch/tree under this Barnes-Hut cell.
-        If this cell has no child cells, it is a leaf node and the depth is 1.
+            If this cell has no child cells, it is a leaf node and the depth is 1.
         """
         if len(self.child_cells) == 0:
             return 1
