@@ -76,10 +76,12 @@ class BarnesHutCell():
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
+        self.particles = particles
+        
         # Remove out of bounds particles
-        for particle in particles:
+        for particle in self.particles:
             if not self.within_cell_bounds(particle):
-                particles.remove(particle)
+                self.particles.remove(particle)
 
         self.particles = particles
         """A list of all particle included in this cell."""
