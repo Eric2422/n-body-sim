@@ -26,15 +26,15 @@ class BarnesHutCell():
         Parameters
         ----------
         x_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper x bounds in that order, by default None
         y_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper y bounds in that order, by default None
         z_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper X bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper z bounds in that order, by default None
         particles : list[PointParticle], optional
             List of particles that are contained within this Barnes-Hut cell, by default []
         """
-        # If `x_bounds` is not given, set it based on the min and max x positions of the particles.
+        # If `x_bounds` is not given, set it based on the minimum and maximum x positions of the particles.
         # Else, set it to the given x bounds.
         self.x_bounds = np.array((
             min(particles,
@@ -43,7 +43,7 @@ class BarnesHutCell():
                 key=lambda ele: ele.position[0]).position[0]
         )) if x_bounds is None else x_bounds
 
-        # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
+        # If `y_bounds` is not given, set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given y bounds.
         self.y_bounds = np.array((
             min(particles,
@@ -52,7 +52,7 @@ class BarnesHutCell():
                 key=lambda ele: ele.position[1]).position[1]
         )) if y_bounds is None else y_bounds
 
-        # If `y_bounds` is not given, set it based on the min and max y positions of the particles.
+        # If `y_bounds` is not given, set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given z bounds.
         self.z_bounds = np.array((
             min(particles,
@@ -373,7 +373,7 @@ class BarnesHutCell():
         return max(child.get_depth() for child in self.child_cells)
 
     def __str__(self):
-        string = f'''X: [{self.x_bounds[0]}, {self.x_bounds[1]}], Y: [{self.y_bounds[0]}, {self.y_bounds[1]}], Z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+        string = f'''x: [{self.x_bounds[0]}, {self.x_bounds[1]}], y: [{self.y_bounds[0]}, {self.y_bounds[1]}], z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
 Total charge: {self.total_charge}
