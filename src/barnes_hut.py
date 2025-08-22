@@ -377,7 +377,8 @@ class BarnesHutCell():
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
 Total charge: {self.total_charge}
-Center of Mass: {self.center_of_mass}
+Center of mass: {self.center_of_mass}
+Number of particles: {len(self.particles)}
 {len(self.child_cells)} child cell(s):'''
 
         for child_node in self.child_cells:
