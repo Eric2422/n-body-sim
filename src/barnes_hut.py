@@ -164,7 +164,6 @@ class BarnesHutCell():
              for i in range(3)],
             dtype=float
         )
-        # print(new_bounds)
 
         return new_bounds, centroid, size
 
@@ -198,7 +197,7 @@ class BarnesHutCell():
                                 (lower_y, lower_y + child_width)),
                             z_bounds=np.array(
                                 (lower_z, lower_z + child_width)),
-                            particles=self.particles,
+                            particles=self.particles.copy(),
                         )
                     )
 

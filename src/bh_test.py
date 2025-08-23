@@ -29,4 +29,4 @@ barnes_hut_cell = BarnesHutCell(
     particles=particles
 )
 
-print(barnes_hut_cell.particles)
+print(barnes_hut_cell)
