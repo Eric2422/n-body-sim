@@ -360,9 +360,12 @@ class BarnesHutCell():
         string = f'''x: [{self.x_bounds[0]}, {self.x_bounds[1]}], y: [{self.y_bounds[0]}, {self.y_bounds[1]}], z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
-Total charge: {self.total_charge}
 Center of mass: {self.center_of_mass}
-Number of particles: {len(self.particles)}
+Total charge: {self.total_charge}
+Center of charge: {self.center_of_charge}
+Velocity of center of charge: {self.center_of_charge_velocity}
+Number particles: {len(self.particles)}
+Particles: {self.particles}
 {len(self.child_cells)} child cell(s):'''
 
         for child_node in self.child_cells:
