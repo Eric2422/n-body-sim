@@ -16,7 +16,7 @@ class BarnesHutCell():
         y_bounds: npt.NDArray[np.float64] | None = None,
         z_bounds: npt.NDArray[np.float64] | None = None,
         particles: list[PointParticle] = [],
-    ):  
+    ):
         """Constructs a Barnes-Hut cell and recursively create its child nodes.
 
         Will catch out of bounds particles.
@@ -77,64 +77,49 @@ class BarnesHutCell():
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
         self.particles = particles
-        
+        """A list of all particle included in this cell."""
+
         # Remove out of bounds particles
         for particle in self.particles:
             if not self.within_cell_bounds(particle):
                 self.particles.remove(particle)
 
-        self.particles = particles
-        """A list of all particle included in this cell."""
-
-        self.total_mass: float = 0.0
+        self.total_mass = sum([particle.mass for particle in self.particles])
         """Total mass of all particles in this cell, measured in kilograms(kg)."""
-        mass_moment = np.zeros(3)
-
-        self.total_charge = 0
-        """Total charge of all particles in this cell, measured in coulombs(C)."""
-        charge_moment = np.zeros(3)
-
-        # Completely made-up name.
-        # q * v = q * d / t = q / t * d = I * d
-        # Thus, moment of current
-        current_moment = np.zeros(3)
-
-        # If this cell is an internal node(i.e. it has more than 1 particle)
-        if len(particles) > 1:
-            self.child_cells = self.create_child_cells()
-
-            for child_cell in self.child_cells:
-                self.total_mass += child_cell.total_mass
-                mass_moment += child_cell.total_mass * child_cell.center_of_mass
-
-                self.total_charge += child_cell.total_charge
-                charge_moment += child_cell.total_charge * child_cell.center_of_mass
-                current_moment += child_cell.total_charge * child_cell.center_of_charge_velocity
-
-        # If this is an external node(i.e. it has only 0 or 1 particles)
-        else:
-            self.child_cells = []
-
-            for particle in particles:
-                self.total_mass += particle.mass
-                mass_moment += particle.mass * particle.position
-
-                self.total_charge
-                charge_moment += particle.charge * particle.position
-                current_moment += particle.charge * particle.velocity
+        mass_moment = sum(
+            [particle.mass * particle.position for particle in self.particles])
 
         # Divide the mass moment by center of mass to obtain the center of mass
         # If mass is 0, return the centroid
         self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 \
             else self.centroid
 
+        self.total_charge = sum(
+            [particle.charge for particle in self.particles]
+        )
+        """Total charge of all particles in this cell, measured in coulombs(C)."""
+        charge_moment = sum(
+            [particle.charge * particle.position for particle in self.particles]
+        )
+
         # Divide the charge moment by center of charge to obtain the center of charge
         # If charge is 0, return the centroid
         self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 \
             else self.centroid
 
+        # Completely made-up name.
+        # q * v = q * d / t = q / t * d = I * d
+        # Thus, moment of current
+        current_moment = sum(
+            [particle.charge * particle.velocity for particle in self.particles]
+        )
+
         self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
             else self.centroid
+
+        # Create child cells if this cell is an internal node(i.e. it has more than 1 particle)
+        # Create no children if this is an external node(i.e. it has only 0 or 1 particles)
+        self.child_cells = self.create_child_cells() if len(self.particles) > 1 else []
 
     @classmethod
     def cube_bounds(
