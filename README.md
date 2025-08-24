@@ -23,7 +23,7 @@ If you have not installed Python already, [download it](https://www.python.org/d
 
 Go to your command line of choice and enter:
 
-```bash
+```shell
 git clone https://github.com/Eric2422/n-body-sim.git
 pip install -r requirements
 ```

@@ -18,32 +18,32 @@ class PointParticle:
         position: vectors.PositionVector = np.array([0.0, 0.0, 0.0]),
         velocity: vectors.VelocityVector = np.array([0.0, 0.0, 0.0]),
         acceleration: vectors.AccelerationVector = np.array([0.0, 0.0, 0.0]),
+        fixed: bool = False,
         mass: float = 1.0,
-        charge: float = 0.0,
-        fixed: bool = False
+        charge: float = 0.0
     ) -> None:
         """Initialize a single point particle with a position, charge, and mass.
 
         Parameters
         ----------
         position : vectors.PositionVector, optional
-            The initial position of the particle in 3D space.
+            The initial position of the particle in 3D space, by default np.array([0.0, 0.0, 0.0])
             x is left/right, y is forward/backward, z is up/down.
-            Specified in meters(m), by default np.array([0.0, 0.0, 0.0])
+            Specified in meters(m).
         velocity : vectors.VelocityVector, optional
-            The initial velocity of the particle in 3D space.
+            The initial velocity of the particle in 3D space, by default np.array([0.0, 0.0, 0.0])
             x is left/right, y is forward/backward, z is up/down.
-            Specified in meters per second(m/s), by default np.array([0.0, 0.0, 0.0])
+            Specified in meters per second(m/s).
         acceleration : vectors.AccelerationVector, optional
-            The initial acceleration of the particle in 3D space.
+            The initial acceleration of the particle in 3D space, by default np.array([0.0, 0.0, 0.0])
             x is left/right, y is forward/backward, z is up/down.
-            Specified in meters per second squared(m/s^2), by default np.array([0.0, 0.0, 0.0])
+            Specified in meters per second squared(m/s^2).
+        fixed : bool, optional
+            Whether this particle's position is constant, by default False
         mass : float | float, optional
             The mass of the charged particle in kilograms(kg), by default 1.0
         charge : float | float, optional
             The charge of the particle in coulombs(C), by default 0.0
-        fixed : bool, optional
-            Whether this particle's position is constant, by default False
         """
         # Represented by arrays of (x, y, z).
         self.position = position
@@ -228,8 +228,11 @@ class PointParticle:
         )
 
     def __str__(self) -> str:
-        position = f'({", ".join((str(dimension) for dimension in self.position))})'
-        velocity = f'<{", ".join((str(dimension) for dimension in self.velocity))}>'
-        acceleration = f'<{", ".join((str(dimension) for dimension in self.acceleration))}>'
+        position_string = f'({", ".join((str(dimension) for dimension in self.position))})'
+        velocity_string = f'<{", ".join((str(dimension) for dimension in self.velocity))}>'
+        acceleration_string = f'<{", ".join((str(dimension) for dimension in self.acceleration))}>'
 
-        return f'Particle {self.id}: m={self.mass}, Q={self.charge}, r={position}, v={velocity}, a={acceleration}'
+        return (
+            f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}'
+            f': r={position_string}, v={velocity_string}, a={acceleration_string}, m={self.mass}, q={self.charge}'
+        )
