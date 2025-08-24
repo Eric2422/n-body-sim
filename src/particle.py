@@ -232,4 +232,7 @@ class PointParticle:
         velocity_string = f'<{", ".join((str(dimension) for dimension in self.velocity))}>'
         acceleration_string = f'<{", ".join((str(dimension) for dimension in self.acceleration))}>'
 
-        return f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}: r={position_string}, v={velocity_string}, a={acceleration_string}, m={self.mass}, Q={self.charge}'
+        return (
+            f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}'
+            f': r={position_string}, v={velocity_string}, a={acceleration_string}, m={self.mass}, q={self.charge}'
+        )
