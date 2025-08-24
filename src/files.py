@@ -100,13 +100,12 @@ class FileHandler:
         referencing.Resource
             The `Resource` created from the contents of the file. 
         """
-        pathlib.Path = self.SCHEMA_DIR / pathlib.Path(uri)
+        pathlib.Path = self.SCHEMA_DIR / uri
         contents = json.loads(pathlib.Path.read_text())
 
         return referencing.Resource.from_contents(contents)
 
     def validate_input_dict(self, input_dict: dict, schema: dict | None = None) -> None:
-        
         """Determine whether or not the given `dict`` is valid by the schema.
 
         Parameters
@@ -131,13 +130,14 @@ class FileHandler:
 
         # Validate the input dict using the schema and registry
         validator = jsonschema.Draft202012Validator(
-            schema=schema_dict, registry=registry)
+            schema=schema_dict, registry=registry
+        )
         validator.validate(input_dict)
 
     def write_input_file(self, input_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a input JSON file.
-        
-        The file must be in the `./input` directory.
+
+        The file must be in the `input/` directory.
         If the file does not exist, a new file will be created.
         If the file *does* exist, any pre-existing content will be overwritten.
         The file will have the same name as `self.input_file`.
