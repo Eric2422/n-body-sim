@@ -236,3 +236,7 @@ class PointParticle:
             f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}'
             f': r={position_string}, v={velocity_string}, a={acceleration_string}, m={self.mass}, q={self.charge}'
         )
+
+    def __repr__(self) -> str:
+        cls = self.__class__.__name__
+        return f'{cls}({self.position}, {self.velocity}, {self.acceleration}, {self.fixed}, {self.mass}, {self.charge})'
