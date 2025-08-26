@@ -353,7 +353,7 @@ class BarnesHutCell():
         return max(child.get_depth() for child in self.child_cells)
 
     def __str__(self):
-        string = f'''x: [{self.x_bounds[0]}, {self.x_bounds[1]}], y: [{self.y_bounds[0]}, {self.y_bounds[1]}], z: [{self.z_bounds[0]}, {self.z_bounds[1]}]
+        string = f'''x: {self.x_bounds}, y: {self.y_bounds}, z: {self.z_bounds}
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
 Center of mass: {self.center_of_mass}
