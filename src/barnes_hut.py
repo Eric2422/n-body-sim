@@ -174,31 +174,26 @@ class BarnesHutCell():
         list['BarnesHutCell']   
             A list of child Barnes-Hut cells, each representing an octant of this cell.
         """
-        # Width of child cells
-        child_width = self.size / 2
+        # Size of child cells
+        child_size = self.size / 2
 
         # List of all the child BH cells
         child_cells = []
 
         # Loop eight times to create the octants
-        for i in range(2):
-            for j in range(2):
-                for k in range(2):
-                    lower_x = self.x_bounds[0] + (i * child_width)
-                    lower_y = self.y_bounds[0] + (j * child_width)
-                    lower_z = self.z_bounds[0] + (k * child_width)
-
-                    child_cells.append(
-                        BarnesHutCell(
-                            x_bounds=np.array(
-                                (lower_x, lower_x + child_width)),
-                            y_bounds=np.array(
-                                (lower_y, lower_y + child_width)),
-                            z_bounds=np.array(
-                                (lower_z, lower_z + child_width)),
-                            particles=self.particles.copy(),
-                        )
+        for lower_x in np.linspace(self.x_bounds[0], self.x_bounds[1], num=2, endpoint=False):
+            for lower_y in np.linspace(self.y_bounds[0], self.y_bounds[1], num=2, endpoint=False):
+                for lower_z in np.linspace(self.z_bounds[0], self.z_bounds[1], num=2, endpoint=False):
+                    child = BarnesHutCell(
+                        x_bounds=np.array(
+                            (lower_x, lower_x + child_size)),
+                        y_bounds=np.array(
+                            (lower_y, lower_y + child_size)),
+                        z_bounds=np.array(
+                            (lower_z, lower_z + child_size)),
+                        particles=self.particles.copy(),
                     )
+                    child_cells.append(child)
 
         return child_cells
 
