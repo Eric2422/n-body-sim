@@ -214,7 +214,7 @@ class BarnesHutCell():
         Returns
         -------
         bool
-            True if the particle is within the bounds of this cell, False otherwise.
+            `True` if the particle is within the bounds of this cell, `False` otherwise.
         """
         return (
             particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
@@ -366,7 +366,7 @@ Center of mass: {self.center_of_mass}
 Total charge: {self.total_charge}
 Center of charge: {self.center_of_charge}
 Velocity of center of charge: {self.center_of_charge_velocity}
-Number particles: {len(self.particles)}
+Number of particles: {len(self.particles)}
 Particles: {self.particles}
 {len(self.child_cells)} child cell(s):'''
 
