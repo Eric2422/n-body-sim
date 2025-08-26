@@ -216,9 +216,11 @@ class BarnesHutCell():
         bool
             True if the particle is within the bounds of this cell, False otherwise.
         """
-        return (particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
-                and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
-                and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1])
+        return (
+            particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
+            and particle.position[1] >= self.y_bounds[0] and particle.position[1] <= self.y_bounds[1]
+            and particle.position[2] >= self.z_bounds[0] and particle.position[2] <= self.z_bounds[1]
+        )
 
     def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this cell at a certain point.
