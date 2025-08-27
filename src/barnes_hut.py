@@ -106,7 +106,7 @@ class BarnesHutCell():
         # If charge is 0, return the centroid
         self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 \
             else np.zeros(3, dtype=float)
-        
+
         # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current
