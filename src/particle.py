@@ -169,7 +169,7 @@ class PointParticle:
         r = point - self.position
         # If the points are overlapping, there is no force.
         if np.all(r == 0):
-            return r
+            return np.zeros(3, dtype=np.float64)
 
         distance = np.linalg.norm(r)
 
