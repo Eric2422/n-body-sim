@@ -154,7 +154,7 @@ class BarnesHutCell():
         )
 
         width = x_bounds[1] - x_bounds[0]
-        length = y_bounds[1] - x_bounds[0]
+        length = y_bounds[1] - y_bounds[0]
         height = z_bounds[1] - z_bounds[0]
         size = max(width, length, height)
 
