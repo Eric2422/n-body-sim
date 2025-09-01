@@ -158,6 +158,9 @@ class BarnesHutCell():
         height = z_bounds[1] - z_bounds[0]
         size = max(width, length, height)
 
+        if width == length and length == height:
+            return np.array((x_bounds, y_bounds, z_bounds)), centroid, size
+
         half_size = size / 2
         new_bounds = np.array(
             [(centroid[i] - half_size, centroid[i] + half_size)
