@@ -193,9 +193,9 @@ if __name__ == '__main__':
     # Create and run the simulation
     simulation = Simulation(
         tick_size=file_data['tick size'],
-        gravitational_field=file_data['gravitational field'],
-        electric_field=file_data['electric field'],
-        magnetic_field=file_data['magnetic field'],
+        gravitational_field=np.array(file_data['gravitational field']),
+        electric_field=np.array(file_data['electric field']),
+        magnetic_field=np.array(file_data['magnetic field']),
         particles=particles
     )
     simulation.run(file_handler=file_handler, print_progress=True)
