@@ -226,9 +226,9 @@ if __name__ == '__main__':
     simulation = Simulation(
         theta=file_data['theta'],
         tick_size=file_data['tick size'],
-        gravitational_field=file_data['gravitational field'],
-        electric_field=file_data['electric field'],
-        magnetic_field=file_data['magnetic field'],
+        gravitational_field=np.array(file_data['gravitational field']),
+        electric_field=np.array(file_data['electric field']),
+        magnetic_field=np.array(file_data['magnetic field']),
         particles=particles
     )
 
