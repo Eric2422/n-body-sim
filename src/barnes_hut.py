@@ -319,7 +319,7 @@ class BarnesHutCell():
         # The distance between the particle and center of charge
         distance = np.linalg.norm(r)
         # The unit vector of `r`
-        r_hat = r / distance
+        r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
         if self.size < theta * distance:
