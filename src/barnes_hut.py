@@ -110,7 +110,7 @@ class BarnesHutCell():
         )
 
         self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
-            else self.centroid
+            else np.zeros(3, dtype=float)
 
         # Create child cells if this cell is an internal node(i.e. it has more than 1 particle)
         # Create no children if this is an external node(i.e. it has only 0 or 1 particles)
