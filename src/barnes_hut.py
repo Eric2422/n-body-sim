@@ -76,13 +76,8 @@ class BarnesHutCell():
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
-        self.particles = particles
+        self.particles = [particle for particle in particles if self.within_cell_bounds(particle)]
         """A list of all particle included in this cell."""
-
-        # Remove out of bounds particles
-        for particle in self.particles:
-            if not self.within_cell_bounds(particle):
-                self.particles.remove(particle)
 
         self.total_mass = sum([particle.mass for particle in self.particles])
         """Total mass of all particles in this cell, measured in kilograms(kg)."""
