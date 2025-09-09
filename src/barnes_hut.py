@@ -76,7 +76,7 @@ class BarnesHutCell():
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
-        self.particles = [particle for particle in particles if self.within_cell_bounds(particle)]
+        self.particles = [particle for particle in particles if self.particle_within_bounds(particle)]
         """A list of all particle included in this cell."""
 
         self.total_mass = sum([particle.mass for particle in self.particles])
@@ -110,7 +110,7 @@ class BarnesHutCell():
         )
 
         self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
-            else self.centroid
+            else np.zeros(3, dtype=float)
 
         # Create child cells if this cell is an internal node(i.e. it has more than 1 particle)
         # Create no children if this is an external node(i.e. it has only 0 or 1 particles)
@@ -196,7 +196,7 @@ class BarnesHutCell():
 
         return child_cells
 
-    def within_cell_bounds(self, particle: PointParticle) -> bool:
+    def particle_within_bounds(self, particle: PointParticle) -> bool:
         """Returns whether a given particle is within the bounds of this Barnes-Hut cell.
 
         Parameters
@@ -319,7 +319,7 @@ class BarnesHutCell():
         # The distance between the particle and center of charge
         distance = np.linalg.norm(r)
         # The unit vector of `r`
-        r_hat = r / distance
+        r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
         if self.size < theta * distance:
