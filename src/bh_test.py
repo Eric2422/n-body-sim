@@ -29,7 +29,7 @@ barnes_hut_cell = BarnesHutCell(
     particles=particles
 )
 
-testParticle = PointParticle(position=np.array((2, 2, 2)), mass=1, charge=1)
+testParticle = PointParticle(position=np.array((0.5, 0.5, 0.5)), mass=1, charge=1)
 
 print(testParticle.get_force_experienced(
     barnes_hut_cell.get_gravitational_field_exerted(testParticle.position),
