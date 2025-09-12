@@ -116,22 +116,19 @@ class Simulation():
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
         for i in range(len(self.particles)):
-            particle1 = self.particles[i]
+            particle = self.particles[i]
 
             for child_node in barnes_hut_root.child_cells:
-                net_forces[i] += particle1.get_gravitational_force_experienced(
-                    child_node.get_gravitational_field_exerted(particle1.position))
-
-                net_forces[i] += particle1.get_electrostatic_force_experienced(
-                    child_node.get_electric_field_exerted(particle1.position)
-                )
-
-                net_forces[i] += particle1.get_magnetic_force_experienced(
-                    child_node.get_magnetic_field_exerted(particle1.position)
+                net_forces[i] += particle.get_force_experienced(
+                    child_node.get_gravitational_field_exerted(
+                        particle.position
+                    ),
+                    child_node.get_electric_field_exerted(particle.position),
+                    child_node.get_magnetic_field_exerted(particle.position)
                 )
 
             # Add the constant fields
-            net_forces[i] += particle1.get_force_experienced(
+            net_forces[i] += particle.get_force_experienced(
                 self.electric_field, self.magnetic_field, self.gravitational_field
             )
 
