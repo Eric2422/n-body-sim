@@ -29,10 +29,15 @@ barnes_hut_cell = BarnesHutCell(
     particles=particles
 )
 
-testParticle = PointParticle(position=np.array((0.5, 0.5, 0.5)), mass=1, charge=1)
+testParticle = PointParticle(position=np.array((5, 5, 5)), mass=1, charge=1)
 
 print(testParticle.get_force_experienced(
-    barnes_hut_cell.get_gravitational_field_exerted(testParticle.position),
-    barnes_hut_cell.get_electric_field_exerted(testParticle.position),
-    barnes_hut_cell.get_magnetic_field_exerted(testParticle.position)
+    barnes_hut_cell.get_gravitational_field_exerted(
+        testParticle.position, theta=file_data['theta']),
+    barnes_hut_cell.get_electric_field_exerted(
+        testParticle.position, theta=file_data['theta']
+    ),
+    barnes_hut_cell.get_magnetic_field_exerted(
+        testParticle.position, theta=file_data['theta']
+    )
 ))

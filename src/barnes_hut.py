@@ -76,7 +76,8 @@ class BarnesHutCell():
 
         self.x_bounds, self.y_bounds, self.z_bounds = bounds
 
-        self.particles = [particle for particle in particles if self.particle_within_bounds(particle)]
+        self.particles = [
+            particle for particle in particles if self.particle_within_bounds(particle)]
         """A list of all particle included in this cell."""
 
         self.total_mass = sum([particle.mass for particle in self.particles])
