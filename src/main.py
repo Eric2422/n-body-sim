@@ -105,7 +105,6 @@ class Simulation():
         """Run one tick of the simulation."""
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
-        # print(barnes_hut_root)
 
         # An array of net force acting upon each particle
         net_forces = np.zeros(shape=(len(self.particles), 3))
