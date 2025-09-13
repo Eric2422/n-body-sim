@@ -106,19 +106,13 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
 
-        # An array of net force acting upon each particle
-        net_forces = np.zeros(shape=(len(self.particles), 3))
-
-        for particle in self.particles:
-            particle.set_force()
-
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
-        for i in range(len(self.particles)):
-            particle = self.particles[i]
+        for particle in self.particles:
+            net_force = np.zeros(3, dtype=float)
 
             for child_node in barnes_hut_root.child_cells:
-                net_forces[i] += particle.get_force_experienced(
+                net_force += particle.get_force_experienced(
                     child_node.get_gravitational_field_exerted(
                         particle.position
                     ),
@@ -127,9 +121,11 @@ class Simulation():
                 )
 
             # Add the constant fields
-            net_forces[i] += particle.get_force_experienced(
+            net_force += particle.get_force_experienced(
                 self.electric_field, self.magnetic_field, self.gravitational_field
             )
+
+            particle.set_force(net_force)
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
