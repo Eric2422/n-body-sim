@@ -140,12 +140,13 @@ class Simulation():
 
         self.current_tick += 1
 
-    def run(self, num_ticks: int = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, num_ticks: int | float = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
+        
         """Run the simulation for a given number of ticks. 
 
         Parameters
         ----------
-        num_ticks : int, optional
+        num_ticks : int | float, optional
             The number of ticks that the simulation runs by, by default 1
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
@@ -155,23 +156,24 @@ class Simulation():
         print_progress : bool, optional
             Whether to print a progress report on how much of the simulation has been completed, by default False
         """
+        # Stores the file output
         output_string = ''
+
         if file_handler is not None:
+            # Clear the output
             file_handler.clear_output_file()
 
             # Print fields
             output_string += f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
             output_string += f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
-            output_string += f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n\n'
+            output_string += f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n'
+            output_string += '\n'
 
+            # Log initial particle states
             output_string += self.get_particle_positions_string()
 
-        # Record initial particle data
-        for particle in particles:
-            self.log_particle_position(particle=particle)
-
         # Run the necessary number of ticks
-        for i in range(num_ticks):
+        for i in range(int(num_ticks)):
             self.tick()
             progress = i / num_ticks if num_ticks == 0 else float(1.0)
 
