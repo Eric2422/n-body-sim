@@ -140,7 +140,7 @@ class Simulation():
 
         # Run the necessary number of ticks
         output_string = ''
-        for i in range(num_ticks):
+        for i in range(int(num_ticks)):
             self.tick()
             progress = i / num_ticks if num_ticks == 0 else float(1.0)
 
