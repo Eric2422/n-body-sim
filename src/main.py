@@ -111,14 +111,13 @@ class Simulation():
         for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
-            for child_node in barnes_hut_root.child_cells:
-                net_force += particle.get_force_experienced(
-                    child_node.get_gravitational_field_exerted(
-                        particle.position
-                    ),
-                    child_node.get_electric_field_exerted(particle.position),
-                    child_node.get_magnetic_field_exerted(particle.position)
-                )
+            net_force += particle.get_force_experienced(
+                barnes_hut_root.get_gravitational_field_exerted(
+                    particle.position
+                ),
+                barnes_hut_root.get_electric_field_exerted(particle.position),
+                barnes_hut_root.get_magnetic_field_exerted(particle.position)
+            )
 
             # Add the constant fields
             net_force += particle.get_force_experienced(
