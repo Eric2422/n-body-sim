@@ -14,8 +14,6 @@ All numbers are in SI units.
   - [Output Files](#output-files)
 - [Acknowledgements](#acknowledgements)
   - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
-  - [Metal Densities](#metal-densities)
-  - [Metal Resistivities](#metal-resistivities)
 
 ## Installation
 
@@ -58,14 +56,3 @@ The output file will have the same base name as the input file but will have a f
 ## Acknowledgements
 
 ### Barnes-Hut Algorithm
-
-### Metal Densities
-
-- [https://www.rsc.org/periodic-table/element/29/copper](https://www.rsc.org/periodic-table/element/29/copper)
-- [https://www.rsc.org/periodic-table/element/47/silver](https://www.rsc.org/periodic-table/element/47/silver)
-- [https://www.rsc.org/periodic-table/element/79/gold](https://www.rsc.org/periodic-table/element/79/gold)
-- [https://www.rsc.org/periodic-table/element/13/aluminium](https://www.rsc.org/periodic-table/element/13/aluminium)
-
-### Metal Resistivities
-
-- [https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html](https://www.engineeringtoolbox.com/resistivity-conductivity-d_418.html)
