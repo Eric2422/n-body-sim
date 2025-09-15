@@ -171,10 +171,14 @@ class Simulation():
             # Log initial particle states
             output_string += self.get_particle_positions_string()
 
+        # Log initial state
+        for particle in particles:
+            self.log_particle_position(particle)
+
         # Run the necessary number of ticks
         for i in range(int(num_ticks)):
             self.tick()
-            progress = i / num_ticks if num_ticks == 0 else float(1.0)
+            progress = i / num_ticks
 
             if print_progress:
                 # Clear the previous line.
