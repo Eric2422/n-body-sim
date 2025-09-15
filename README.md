@@ -12,7 +12,7 @@ All numbers are in SI units.
   - [Input Files](#input-files)
   - [Running the Simulation](#running-the-simulation)
   - [Output Files](#output-files)
-- [Acknowledgements](#acknowledgements)
+- [References](#references)
   - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
 
 ## Installation
@@ -53,6 +53,8 @@ The file name should contain the file extension(i.e. `.json`).
 The output files, located in [`output/`](./output/), store records of the state of the particles over time.
 The output file will have the same base name as the input file but will have a file extension of `.txt` instead.
 
-## Acknowledgements
+## References
 
 ### Barnes-Hut Algorithm
+
+Ventimiglia, Tom and Wayne, Kevin. (n.d.). "The Barnes-Hut Algorithm". <https://arborjs.org/docs/barnes-hut>.
