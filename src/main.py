@@ -178,7 +178,7 @@ class Simulation():
         # Run the necessary number of ticks
         for i in range(int(num_ticks)):
             self.tick()
-            progress = i / num_ticks
+            progress = (i + 1) / num_ticks
 
             if print_progress:
                 # Clear the previous line.
