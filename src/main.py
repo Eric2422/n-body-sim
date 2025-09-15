@@ -175,6 +175,9 @@ class Simulation():
         for particle in particles:
             self.log_particle_position(particle)
 
+        progress = 0
+        print(f'Progress: {round(progress * 100, 1)}%', end='\r')
+
         # Run the necessary number of ticks
         for i in range(int(num_ticks)):
             self.tick()
