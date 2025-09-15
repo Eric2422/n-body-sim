@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "main.json",
     "title": "Physics simulation input file",
-    "description": "The initial state of the force fields, particles, and wires used by the physics simulation.",
+    "description": "The initial state of the force fields and particles used by the physics simulation.",
     "type": "object",
     "properties": {
         "theta": {
@@ -55,14 +55,6 @@
             "items": {
                 "description": "A point particle with a specified position, charge, and mass.",
                 "$ref": "particle.json"
-            }
-        },
-        "wires": {
-            "description": "The current-carrying wires used in the simulation.",
-            "type": "array",
-            "items": {
-                "description": "A current-carrying wire with a specified position, length, and resistance.",
-                "$ref": "wire.json"
             }
         }
     }
