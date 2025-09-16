@@ -84,8 +84,8 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if np.all(r == 0):
-            return r
+        if np.linalg.norm(r) == 0:
+            return np.zeros(3, dtype=float)
 
         distance = np.linalg.norm(r)
 
@@ -122,8 +122,8 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if np.all(r == 0):
-            return r
+        if np.linalg.norm(r) == 0:
+            return np.zeros(3, dtype=float)
 
         distance = np.linalg.norm(r)
 
@@ -168,8 +168,8 @@ class PointParticle:
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
-        if np.all(r == 0):
-            return np.zeros(3, dtype=np.float64)
+        if np.linalg.norm(r) == 0:
+            return np.zeros(3, dtype=float)
 
         distance = np.linalg.norm(r)
 
