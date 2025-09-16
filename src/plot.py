@@ -39,22 +39,28 @@ class Plot():
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
         width = max_x - min_x
-        ax.set_xlim(left=min_x - (width * MARGIN),
-                    right=max_x + (width * MARGIN))
+        ax.set_xlim(
+            left=min_x - (width * MARGIN),
+            right=max_x + (width * MARGIN)
+        )
         ax.set_xlabel('meters (m)')
 
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
         length = max_y - min_y
-        ax.set_ylim(bottom=min_y - (length * MARGIN),
-                    top=max_y + (length * MARGIN))
+        ax.set_ylim(
+            bottom=min_y - (length * MARGIN),
+            top=max_y + (length * MARGIN)
+        )
         ax.set_ylabel('meters (m)')
 
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
         height = max_z - min_z
-        ax.set_zlim(min_z - (height * MARGIN),  # type: ignore
-                    max_z + (height * MARGIN))
+        ax.set_zlim(  # type: ignore
+            min_z - (height * MARGIN),
+            max_z + (height * MARGIN)
+        )
         ax.set_zlabel('meters (m)')  # type: ignore
 
         self.fps = round(1 / tick_size)
@@ -97,6 +103,13 @@ class Plot():
         """Display this plot and run the animation. """
         plt.show()
 
-    def save_plot_to_file(self) -> None:
+    def save_plot_to_file(self, filename: str) -> None:
+        """Save the plot as a GIF file.
+        
+        Parameters
+        ----------
+        filename : str
+            The name that the file will be saved with.
+        """
         FFwriter = animation.FFMpegWriter(fps=self.fps)
-        self.plot_animation.save('test.gif', writer=FFwriter)
+        self.plot_animation.save(filename, writer=FFwriter)
