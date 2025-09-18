@@ -239,15 +239,20 @@ class BarnesHutCell():
         r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
+
+        # If the point is sufficiently far away, approximate the force
         if self.size < theta * distance:
             return r_hat * scipy.constants.G * self.total_mass / distance ** 2
 
-        # If this cell has child cells,
+        # If the point is not sufficiently far away,
+        # and this cell is internal, add the force from each cell.
         elif len(self.child_cells) > 0:
             for child_cell in self.child_cells:
                 force += child_cell.get_gravitational_field_exerted(
                     point=point)
 
+        # If this the point is not sufficiently far away,
+        # and this cell is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
@@ -280,17 +285,22 @@ class BarnesHutCell():
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
         force = np.zeros(3)
+
+        # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
             # The electrostatic force between the particles
             electric_field = (k * self.total_charge) / (distance ** 2)
 
             return -electric_field * r_hat
 
-        # If this cell has child cells,
+        # If the point is not sufficiently far away,
+        # and this cell is internal, add the force from each cell.
         elif len(self.child_cells) > 0:
             for child_cell in self.child_cells:
                 force += child_cell.get_electric_field_exerted(point=point)
 
+        # If this the point is not sufficiently far away,
+        # and this cell is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_electric_field_exerted(point=point)
@@ -323,15 +333,20 @@ class BarnesHutCell():
         r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
+        
+        # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
             return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
                     / (4 * np.pi * np.linalg.norm(r) ** 2))
 
-        # If this cell has child cells,
+        # If the point is not sufficiently far away,
+        # and this cell is internal, add the force from each cell.
         elif len(self.child_cells) > 0:
             for child_cell in self.child_cells:
                 force += child_cell.get_magnetic_field_exerted(point=point)
 
+        # If this the point is not sufficiently far away,
+        # and this cell is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_magnetic_field_exerted(point=point)
