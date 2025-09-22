@@ -124,7 +124,7 @@ class Simulation():
                 self.electric_field, self.magnetic_field, self.gravitational_field
             )
 
-            particle.set_force(net_force)
+            particle.apply_force(net_force)
 
         # Update particle positions and velocities after calculating the forces,
         # so it doesn't affect force calculations.
@@ -140,7 +140,6 @@ class Simulation():
         self.current_tick += 1
 
     def run(self, num_ticks: int | float = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
-        
         """Run the simulation for a given number of ticks. 
 
         Parameters
