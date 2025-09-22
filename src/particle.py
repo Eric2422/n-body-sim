@@ -59,8 +59,8 @@ class PointParticle:
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
 
-    def set_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
-        """Set the force of this particle based on the given force.
+    def apply_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
+        """Set the acceleration of this particle based on the given force.
 
         Parameters
         ----------
@@ -221,7 +221,7 @@ class PointParticle:
         magnetic_field :vectors.FieldVector
             A 3D vector measured in teslas(T) representing the magnetic field acting upon this particle.
         """
-        self.set_force(
+        self.apply_force(
             self.get_gravitational_force_experienced(gravitational_field)
             + self.get_electrostatic_force_experienced(electric_field)
             + self.get_magnetic_force_experienced(magnetic_field)
