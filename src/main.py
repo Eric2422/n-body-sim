@@ -106,6 +106,16 @@ class Simulation():
         # Get the root node of the octree
         barnes_hut_root = self.create_barnes_hut_nodes()
 
+        # Update particle positions and velocities before calculating the forces.
+        for particle in particles:
+            self.log_particle_position(particle)
+
+            # Update the particle's velocity
+            particle.velocity += particle.acceleration * self.tick_size
+
+            # Update particle positions.
+            particle.position += particle.velocity * self.tick_size
+
         # Calculate the forces that the particles exert on each other
         # Update the particle's acceleration and, but not the velocity and position
         for particle in self.particles:
@@ -125,17 +135,6 @@ class Simulation():
             )
 
             particle.apply_force(net_force)
-
-        # Update particle positions and velocities after calculating the forces,
-        # so it doesn't affect force calculations.
-        for particle in particles:
-            self.log_particle_position(particle)
-
-            # Update the particle's velocity
-            particle.velocity += particle.acceleration * self.tick_size
-
-            # Update particle positions.
-            particle.position += particle.velocity * self.tick_size
 
         self.current_tick += 1
 
@@ -170,10 +169,6 @@ class Simulation():
             # Log initial particle states
             output_string += self.get_particle_positions_string()
 
-        # Log initial state
-        for particle in particles:
-            self.log_particle_position(particle)
-
         if print_progress:
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
@@ -194,7 +189,12 @@ class Simulation():
             if file_handler is not None:
                 output_string += self.get_particle_positions_string()
 
+        # Log final state
+        for particle in particles:
+            self.log_particle_position(particle)
+
         if file_handler is not None:
+
             file_handler.append_to_output_file(output_string)
 
         # If printing progress reports, add an extra line to account for the carriage returns.
