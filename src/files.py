@@ -21,11 +21,11 @@ class FileHandler:
         Parameters
         ----------
         schema_file: str, optional
-            The name of the JSON schema file used for the input files, by default 'schema.json'
+            The name of the JSON schema file used for the input files, by default 'schema.json'.
             Found in the `./input` directory but does not contain the directory.
             Best to keep it to the default unless you want to write an entire JSON schema.
         input_file : str, optional
-            The file path of the input file, including file extension, by default 'sample.csv'
+            The file path of the input file, including file extension, by default 'sample.csv'.
             Accepts both with and without the directory.
             The output file will have the same name but with the '.txt' file extension instead.
         """
@@ -48,7 +48,7 @@ class FileHandler:
         Parameters
         ----------
         output_string: str, optional
-            The string to be appended to the given file, by default '\n'
+            The string to be appended to the given file, by default '\n'.
         """
         try:
             with self.output_file.open('a') as file:
@@ -66,7 +66,7 @@ class FileHandler:
             print('The output file could not be opened.')
 
     def read_input_file(self) -> dict:
-        """Read the input JSON file, extract the data, and return it as dict.
+        """Read the input JSON file, extract the data, and return it as a `dict`.
 
         Returns
         -------
@@ -88,7 +88,7 @@ class FileHandler:
             sys.exit()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
-        """Retrieve a referencing `Resource` from the given URI.
+        """Retrieve a `referencing` `Resource` from the given URI.
 
         Parameters
         ----------
@@ -106,15 +106,15 @@ class FileHandler:
         return referencing.Resource.from_contents(contents)
 
     def validate_input_dict(self, input_dict: dict, schema: dict | None = None) -> None:
-        """Determine whether or not the given `dict`` is valid by the schema.
+        """Determine whether or not the given `dict` is valid by the schema.
 
         Parameters
         ----------
         input_dict : dict
-            The dict that is being validated.
+            The `dict` that is being validated.
         schema : dict | None, optional
-            The JSON schema or schema property to validate the other JSON dict with, by default None.
-            If `None` is passed it in, 
+            The JSON schema or schema property to validate the other JSON `dict` with, by default `None`.
+            If `None` is passed in, assume to the be default `self.json_schema`.
 
         Raises
         ------
@@ -163,12 +163,12 @@ class FileHandler:
         Parameters
         ----------
         schema : dict, optional
-            The JSON schema or schema property to generate a dictionary with, by default `self.schema`.
+            The JSON schema or schema property to generate a `dict` with, by default `self.schema`.
 
         Returns
         -------
         dict
-            A dictionary of default values that conforms to the schema.
+            A `dict` of default values that conforms to the schema.
         """
         # If no schema is passed in,
         # default to `self.json_schema`
@@ -232,7 +232,7 @@ class FileHandler:
             case _:
                 return None
 
-
+# Generate a default blank template input file.
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         raise ValueError(
