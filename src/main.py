@@ -3,7 +3,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from barnes_hut import BarnesHutCell
+from barnes_hut import BarnesHutNode
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
@@ -61,8 +61,8 @@ class Simulation():
         self.theta = theta
         """The Barnes-Hut approximation parameter."""
 
-    def create_barnes_hut_nodes(self) -> BarnesHutCell:
-        return BarnesHutCell(particles=self.particles)
+    def create_barnes_hut_nodes(self) -> BarnesHutNode:
+        return BarnesHutNode(particles=self.particles)
 
     def log_particle_position(self, particle: PointParticle) -> None:
         """Save the position of a particle to the particle positions log.
