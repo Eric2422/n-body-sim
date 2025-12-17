@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-from barnes_hut import BarnesHutCell
+from barnes_hut import BarnesHutNode
 import files
 from particle import PointParticle
 
@@ -25,7 +25,7 @@ particles = [
     for particle in file_data['particles']
 ]
 
-barnes_hut_cell = BarnesHutCell(
+barnes_hut_cell = BarnesHutNode(
     particles=particles
 )
 
