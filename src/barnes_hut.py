@@ -6,7 +6,7 @@ from particle import PointParticle
 import vectors
 
 
-class BarnesHutCell():
+class BarnesHutNode():
     """Represents one node of a Barnes-Hut octree.
     """
 
@@ -17,10 +17,10 @@ class BarnesHutCell():
         z_bounds: npt.NDArray[np.float64] | None = None,
         particles: list[PointParticle] = [],
     ):
-        """Constructs a Barnes-Hut cell and recursively create its child nodes.
+        """Construct a Barnes-Hut node and recursively create its child nodes.
 
         Will catch out of bounds particles.
-        If `x_bounds`, `y_bounds`, or `z_bounds` are left `None`,
+        If `x_bounds`, `y_bounds`, or `z_bounds` are `None`,
         they will be automatically inferred based on the positions of the particles in the list.
 
         Parameters
@@ -32,7 +32,7 @@ class BarnesHutCell():
         z_bounds : npt.NDArray[np.float64], optional
             A 2-element NumPy array that contains the lower and upper z bounds in that order, by default None
         particles : list[PointParticle], optional
-            List of particles that are contained within this Barnes-Hut cell, by default []
+            List of particles that are contained within this Barnes-Hut node, by default []
         """
         # If `x_bounds` is not given, set it based on the minimum and maximum x positions of the particles.
         # Else, set it to the given x bounds.
@@ -62,13 +62,13 @@ class BarnesHutCell():
         )) if z_bounds is None else z_bounds
 
         self.centroid: npt.NDArray[np.float64]
-        """The centroid of the Barnes Hut cell"""
+        """The centroid of the Barnes Hut node"""
 
         self.size: float
-        """The distance from one side of the cell to the other."""
+        """The distance from one side of the node to the other."""
 
         # Make the bounds cubical if they are not.
-        bounds, self.centroid, self.size = BarnesHutCell.cube_bounds(
+        bounds, self.centroid, self.size = BarnesHutNode.cube_bounds(
             self.x_bounds,
             self.y_bounds,
             self.z_bounds
@@ -78,34 +78,34 @@ class BarnesHutCell():
 
         self.particles = [
             particle for particle in particles if self.particle_within_bounds(particle)]
-        """A list of all particle included in this cell."""
+        """A list of all particle included in this node."""
 
         self.total_mass = sum([particle.mass for particle in self.particles])
-        """Total mass of all particles in this cell, measured in kilograms(kg)."""
+        """Total mass of all particles in this node, measured in kilograms(kg)."""
         mass_moment = sum(
             [particle.mass * particle.position for particle in self.particles])
 
-        # Divide the mass moment by center of mass to obtain the center of mass
-        # If mass is 0, return the centroid
+        # Divide the mass moment by center of mass to obtain the center of mass.
+        # If mass is 0, return the centroid.
         self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 \
             else self.centroid
 
         self.total_charge = sum(
             [particle.charge for particle in self.particles]
         )
-        """Total charge of all particles in this cell, measured in coulombs(C)."""
+        """Total charge of all particles in this node, measured in coulombs(C)."""
         charge_moment = sum(
             [particle.charge * particle.position for particle in self.particles]
         )
 
-        # Divide the charge moment by center of charge to obtain the center of charge
-        # If charge is 0, return the centroid
+        # Divide the charge moment by center of charge to obtain the center of charge.
+        # If charge is 0, return the centroid.
         self.center_of_charge = charge_moment / self.total_charge if self.total_charge != 0 \
             else np.zeros(3, dtype=float)
 
         # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
-        # Thus, moment of current
+        # Thus, moment of current.
         current_moment = sum(
             [particle.charge * particle.velocity for particle in self.particles]
         )
@@ -113,9 +113,9 @@ class BarnesHutCell():
         self.center_of_charge_velocity = current_moment / self.total_charge if self.total_charge != 0 \
             else np.zeros(3, dtype=float)
 
-        # Create child cells if this cell is an internal node(i.e. it has more than 1 particle)
-        # Create no children if this is an external node(i.e. it has only 0 or 1 particles)
-        self.child_cells = self.create_child_cells() if len(self.particles) > 1 else []
+        # Create child nodes if this node is an internal node (i.e. it has more than 1 particle).
+        # Create no children if this is an external node (i.e. it has only 0 or 1 particles).
+        self.child_nodes = self.create_child_nodes() if len(self.particles) > 1 else []
 
     @classmethod
     def cube_bounds(
@@ -124,7 +124,7 @@ class BarnesHutCell():
         y_bounds: npt.NDArray[np.float64],
         z_bounds: npt.NDArray[np.float64]
     ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
-        """Makes the given bounds cube(i.e. all with the same length), preserving the centroid.
+        """Make the given bounds cube (i.e. all with the same length), preserving the centroid.
 
         Parameters
         ----------
@@ -152,11 +152,14 @@ class BarnesHutCell():
         width = x_bounds[1] - x_bounds[0]
         length = y_bounds[1] - y_bounds[0]
         height = z_bounds[1] - z_bounds[0]
+        # Size of the largest dimension.
         size = max(width, length, height)
 
+        # If the bounds are already cube, just stop here and return it as it is.
         if width == length and length == height:
             return np.array((x_bounds, y_bounds, z_bounds)), centroid, size
 
+        # Reset the other two dimensions to match the size of the largest dimension.
         half_size = size / 2
         new_bounds = np.array(
             [(centroid[i] - half_size, centroid[i] + half_size)
@@ -166,25 +169,25 @@ class BarnesHutCell():
 
         return new_bounds, centroid, size
 
-    def create_child_cells(self) -> list['BarnesHutCell']:
-        """Recursively creates child cells for this Barnes-Hut cell.
+    def create_child_nodes(self) -> list['BarnesHutNode']:
+        """Recursively create child nodes for this Barnes-Hut node.
 
         Returns
         -------
-        list['BarnesHutCell']   
-            A list of child Barnes-Hut cells, each representing an octant of this cell.
+        list['BarnesHutNode']
+            A list of child Barnes-Hut nodes, each representing an octant of this node.
         """
-        # Size of child cells
+        # Size of child nodes
         child_size = self.size / 2
 
-        # List of all the child BH cells
-        child_cells = []
+        # List of all the child BH nodes
+        child_nodes = []
 
         # Loop eight times to create the octants
         for lower_x in np.linspace(self.x_bounds[0], self.x_bounds[1], num=2, endpoint=False):
             for lower_y in np.linspace(self.y_bounds[0], self.y_bounds[1], num=2, endpoint=False):
                 for lower_z in np.linspace(self.z_bounds[0], self.z_bounds[1], num=2, endpoint=False):
-                    child = BarnesHutCell(
+                    child = BarnesHutNode(
                         x_bounds=np.array(
                             (lower_x, lower_x + child_size)),
                         y_bounds=np.array(
@@ -193,12 +196,12 @@ class BarnesHutCell():
                             (lower_z, lower_z + child_size)),
                         particles=self.particles.copy(),
                     )
-                    child_cells.append(child)
+                    child_nodes.append(child)
 
-        return child_cells
+        return child_nodes
 
     def particle_within_bounds(self, particle: PointParticle) -> bool:
-        """Returns whether a given particle is within the bounds of this Barnes-Hut cell.
+        """Return whether a given particle is within the bounds of this Barnes-Hut node.
 
         Parameters
         ----------
@@ -208,7 +211,9 @@ class BarnesHutCell():
         Returns
         -------
         bool
-            `True` if the particle is within the bounds of this cell, `False` otherwise.
+            `True` if the particle is within the bounds of this node.
+
+            `False` otherwise.
         """
         return (
             particle.position[0] >= self.x_bounds[0] and particle.position[0] <= self.x_bounds[1]
@@ -217,15 +222,15 @@ class BarnesHutCell():
         )
 
     def get_gravitational_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
-        """Calculate the approximate gravitational field exerted by this cell at a certain point.
+        """Calculate the approximate gravitational field exerted by this node at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+            A 3D NumPy array representing a 3D position vector. Measured in meters (m).
         theta : float, optional
             The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
-            Given the distance between the point and the center of mass, 
+            Given the distance between the point and the center of mass,
             it used to determine whether to return an approximate or exact value for the gravitational field.
             When theta is 0.0, no approximation will occur.
 
@@ -245,14 +250,14 @@ class BarnesHutCell():
             return r_hat * scipy.constants.G * self.total_mass / distance ** 2
 
         # If the point is not sufficiently far away,
-        # and this cell is internal, add the force from each cell.
-        elif len(self.child_cells) > 0:
-            for child_cell in self.child_cells:
-                force += child_cell.get_gravitational_field_exerted(
+        # and this node is internal, add the force from each node.
+        elif len(self.child_nodes) > 0:
+            for child_node in self.child_nodes:
+                force += child_node.get_gravitational_field_exerted(
                     point=point)
 
         # If this the point is not sufficiently far away,
-        # and this cell is external, add the force from each particle.
+        # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_gravitational_field_exerted(point=point)
@@ -260,22 +265,22 @@ class BarnesHutCell():
         return force
 
     def get_electric_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
-        """Calculate the approximate electric field exerted by this cell at a certain point.
+        """Calculate the approximate electric field exerted by this node at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+            A 3D NumPy array representing a 3D position vector. Measured in meters (m).
         theta : float, optional
             The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
-            Given the distance between the point and the center of charge, 
+            Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value for the gravitational field.
             When theta is 0.0, no approximation will occur.
 
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D electric field vector. Measured in newtons per coulomb(N/C).
+            A 3D NumPy array representing a 3D electric field vector. Measured in newtons per coulomb (N/C).
         """
         r = point - self.center_of_charge
         distance = np.linalg.norm(r)
@@ -294,13 +299,13 @@ class BarnesHutCell():
             return -electric_field * r_hat
 
         # If the point is not sufficiently far away,
-        # and this cell is internal, add the force from each cell.
-        elif len(self.child_cells) > 0:
-            for child_cell in self.child_cells:
-                force += child_cell.get_electric_field_exerted(point=point)
+        # and this node is internal, add the force from each node.
+        elif len(self.child_nodes) > 0:
+            for child_node in self.child_nodes:
+                force += child_node.get_electric_field_exerted(point=point)
 
         # If this the point is not sufficiently far away,
-        # and this cell is external, add the force from each particle.
+        # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_electric_field_exerted(point=point)
@@ -308,66 +313,67 @@ class BarnesHutCell():
         return force
 
     def get_magnetic_field_exerted(self, point: vectors.PositionVector, theta: float = 0.0) -> vectors.FieldVector:
-        """Calculate the approximate magnetic field exerted by this cell at a certain point.
+        """Calculate the approximate magnetic field exerted by this node at a certain point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector. Measured in meters(m).
+            A 3D NumPy array representing a 3D position vector. Measured in meters (m).
         theta : float, optional
             The value of theta, the Barnes-Hut approximation parameter being used, by default 0.0
-            Given the distance between the point and the center of charge, 
+            Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value for the magnetic field.
             When theta is 0.0, no approximation will occur.
 
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D magnetic field vector. Measured in teslas(T). 
+            A 3D NumPy array representing a 3D magnetic field vector. Measured in teslas (T).
         """
-        # The vector between the positions of the particles
+        # The vector between the positions of the particles.
         r = point - self.center_of_charge
-        # The distance between the particle and center of charge
+        # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
-        # The unit vector of `r`
+        # The unit vector of `r`.
         r_hat = r / distance if distance != 0 else np.zeros(3)
 
         force = np.zeros(3)
-        
+
         # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
             return (scipy.constants.mu_0 * self.total_charge * np.cross(self.center_of_charge_velocity, r_hat)
                     / (4 * np.pi * np.linalg.norm(r) ** 2))
 
         # If the point is not sufficiently far away,
-        # and this cell is internal, add the force from each cell.
-        elif len(self.child_cells) > 0:
-            for child_cell in self.child_cells:
-                force += child_cell.get_magnetic_field_exerted(point=point)
+        # and this node is internal, add the force from each node.
+        elif len(self.child_nodes) > 0:
+            for child_node in self.child_nodes:
+                force += child_node.get_magnetic_field_exerted(point=point)
 
         # If this the point is not sufficiently far away,
-        # and this cell is external, add the force from each particle.
+        # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
                 force += particle.get_magnetic_field_exerted(point=point)
 
         return force
 
-    def get_depth(self) -> int:
-        """Get the depth of the branch/tree under this Barnes-Hut cell.
+    def get_height(self) -> int:
+        """Return the height of the tree under this Barnes-Hut node.
+        The root node (i.e., this node) has a height of 0.
 
         Returns
         -------
-        int 
-            The depth of the branch/tree under this Barnes-Hut cell.
-            If this cell has no child cells, it is a leaf node and the depth is 1.
+        int
+            The height of the subtree under this Barnes-Hut node.
+            If this node has no child nodes, it is a leaf node and its height is 0.
         """
-        if len(self.child_cells) == 0:
-            return 1
-
-        return max(child.get_depth() for child in self.child_cells)
+        return 0 if len(self.child_nodes) == 0 else 1 + max(child.get_height() for child in self.child_nodes)
 
     def __str__(self):
+        """Return information about the centroid, total mass, center of mass, total charge, center of charge, 
+        velocity of center of charge, particles, and child nodes.
+        """
         string = f'''x: {self.x_bounds}, y: {self.y_bounds}, z: {self.z_bounds}
 Centroid: {self.centroid}
 Total mass: {self.total_mass}
@@ -375,11 +381,10 @@ Center of mass: {self.center_of_mass}
 Total charge: {self.total_charge}
 Center of charge: {self.center_of_charge}
 Velocity of center of charge: {self.center_of_charge_velocity}
-Number of particles: {len(self.particles)}
-Particles: {self.particles}
-{len(self.child_cells)} child cell(s):'''
+Particles ({len(self.particles)}): {self.particles}
+{len(self.child_nodes)} child node(s):'''
 
-        for child_node in self.child_cells:
+        for child_node in self.child_nodes:
             string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
 
         return string
