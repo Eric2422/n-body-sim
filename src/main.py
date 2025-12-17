@@ -12,6 +12,11 @@ import vectors
 
 class Simulation():
     """Represents one simulation with particles and fields.
+
+    Contains the theta; tick size; constant, uniform gravitational field; constant, uniform electrical field; 
+    constant, uniform magnetic field; and particles used in the simulation.
+
+    Keeps track of the previous positions of all the partices.
     """
 
     def __init__(
@@ -30,7 +35,7 @@ class Simulation():
         theta : float, optional
             The Barnes-Hut approximation parameter, by default 0.5
         tick_size : float, optional
-            The time increment of the simulation in seconds, by default 1.0
+            The time increment of the simulation in seconds (s), by default 1.0
         gravitational_field : vectors.FieldVector, optional
             A constant, uniform gravitational field, by default np.zeros(3, dtype=float)
         electric_field : vectors.FieldVector, optional
@@ -38,7 +43,7 @@ class Simulation():
         magnetic_field : vectors.FieldVector, optional
             A constant, uniform magnetic field, by default np.zeros(3, dtype=float)
         particles : list[PointParticle], optional
-            A list of particles that are interacting with each other., by default []
+            A list of particles that are interacting with each other, by default []
         """
         self.particles = particles
 
@@ -60,9 +65,6 @@ class Simulation():
 
         self.theta = theta
         """The Barnes-Hut approximation parameter."""
-
-    def create_barnes_hut_nodes(self) -> BarnesHutNode:
-        return BarnesHutNode(particles=self.particles)
 
     def log_particle_position(self, particle: PointParticle) -> None:
         """Save the position of a particle to the particle positions log.
@@ -103,8 +105,8 @@ class Simulation():
 
     def tick(self) -> None:
         """Run one tick of the simulation."""
-        # Get the root node of the octree
-        barnes_hut_root = self.create_barnes_hut_nodes()
+        # Generate the root node of the octree
+        barnes_hut_root = BarnesHutNode(particles=self.particles)
 
         # Update particle positions and velocities before calculating the forces.
         for particle in particles:
