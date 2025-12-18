@@ -41,7 +41,7 @@ The [`./schemas`](./schemas/) directory contains the JSON schemas used to valida
 The input files set up the simulation and are located in [`input/`](./input/).
 Each input file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
 
-The `num ticks` property of the input file dictates how many ticks the simulator runs.
+The `num_time_steps` property of the input file dictates how many time steps the simulator runs.
 If it is set to 0, only the initial state will be given.
 
 Running `python src/files.py <input file name>` will create a JSON object filled with default values.
@@ -60,4 +60,4 @@ The output file will have the same base name as the input file but will have a f
 
 ### Barnes-Hut Algorithm
 
-Ventimiglia, Tom and Wayne, Kevin. (n.d.). "The Barnes-Hut Algorithm". <https://arborjs.org/docs/barnes-hut>.
+Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*. ArborJS. <https://arborjs.org/docs/barnes-hut>.

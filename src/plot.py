@@ -5,7 +5,7 @@ import pandas as pd
 
 
 class Plot():
-    def __init__(self, data_frame: pd.DataFrame, tick_size: float = 1.0) -> None:
+    def __init__(self, data_frame: pd.DataFrame, time_step_size: float = 1.0) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
@@ -13,7 +13,7 @@ class Plot():
         data_frame : pd.DataFrame
             A data frame with four columns: t, x, y, z
             Contains the time and position of particles.
-        tick_size : float, optional
+        time_step_size : float, optional
             The amount of time between each frame, by default 1.0
         """
         fig = plt.figure()
@@ -63,13 +63,13 @@ class Plot():
         )
         ax.set_zlabel('meters (m)')  # type: ignore
 
-        self.fps = round(1 / tick_size)
+        self.fps = round(1 / time_step_size)
 
         # The animation runs at real speed.
         self.plot_animation = animation.FuncAnimation(
             fig,
             self.update,
-            interval=tick_size / 1000,  # Convert from seconds to milliseconds.
+            interval=time_step_size / 1000,  # Convert from seconds to milliseconds.
             blit=True,
             cache_frame_data=False
         )
@@ -100,7 +100,7 @@ class Plot():
         return self.plot,
 
     def show(self) -> None:
-        """Display this plot and run the animation. """
+        """Display this plot and run the animation."""
         plt.show()
 
     def save_plot_to_file(self, filename: str) -> None:
