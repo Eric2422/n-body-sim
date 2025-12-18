@@ -5,7 +5,11 @@ import pandas as pd
 
 
 class Plot():
-    def __init__(self, data_frame: pd.DataFrame, time_step_size: float = 1.0) -> None:
+    def __init__(
+        self,
+        data_frame: pd.DataFrame,
+        time_step_size: float = 1.0
+    ) -> None:
         """Create a 3D NumPy plot.
 
         Parameters
@@ -69,7 +73,8 @@ class Plot():
         self.plot_animation = animation.FuncAnimation(
             fig,
             self.update,
-            interval=time_step_size / 1000,  # Convert from seconds to milliseconds.
+            # Convert from seconds to milliseconds.
+            interval=time_step_size / 1000,
             blit=True,
             cache_frame_data=False
         )
@@ -105,7 +110,7 @@ class Plot():
 
     def save_plot_to_file(self, filename: str) -> None:
         """Save the plot as a GIF file.
-        
+
         Parameters
         ----------
         filename : str

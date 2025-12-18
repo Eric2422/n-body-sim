@@ -15,24 +15,35 @@ class FileHandler:
     SCHEMA_DIR = pathlib.Path('./schemas')
     OUTPUT_DIR = pathlib.Path('./output')
 
-    def __init__(self, schema_file: str = 'main.json', input_file: str = 'sample.json') -> None:
+    def __init__(
+        self,
+        schema_file: str = 'main.json',
+        input_file: str = 'sample.json'
+    ) -> None:
         """Initiate a file handler for reading and creating files. 
 
         Parameters
         ----------
         schema_file: str, optional
-            The name of the JSON schema file used for the input files, by default 'schema.json'.
+            The name of the JSON schema file used for the input files, 
+            by default 'schema.json'.
+
             Found in the `./input` directory but does not contain the directory.
-            Best to keep it to the default unless you want to write an entire JSON schema.
+            Best to keep it to the default unless you want to write 
+            an entire JSON schema.
         input_file : str, optional
-            The file path of the input file, including file extension, by default 'sample.csv'.
+            The file path of the input file, including file extension, 
+            by default 'sample.csv'.
+
             Accepts both with and without the directory.
-            The output file will have the same name but with the '.txt' file extension instead.
+            The output file will have the same name 
+            but with the '.txt' file extension instead.
         """
         self.input_file = pathlib.Path(input_file if os.path.dirname(
             input_file) == 'input' else self.INPUT_DIR / input_file)
 
-        # The output file has the same name as input_file but with the '.txt' extension.
+        # The output file has the same name as input_file
+        # but with the '.txt' extension.
         self.output_file = pathlib.Path(
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_file).stem + '.txt')
@@ -105,7 +116,11 @@ class FileHandler:
 
         return referencing.Resource.from_contents(contents)
 
-    def validate_input_dict(self, input_dict: dict, schema: dict | None = None) -> None:
+    def validate_input_dict(
+        self,
+        input_dict: dict,
+        schema: dict | None = None
+    ) -> None:
         """Determine whether or not the given `dict` is valid by the schema.
 
         Parameters
@@ -113,7 +128,9 @@ class FileHandler:
         input_dict : dict
             The `dict` that is being validated.
         schema : dict | None, optional
-            The JSON schema or schema property to validate the other JSON `dict` with, by default `None`.
+            The JSON schema or schema property to validate the other JSON `dict` with,
+            by default `None`.
+
             If `None` is passed in, assume to the be default `self.json_schema`.
 
         Raises
@@ -138,10 +155,12 @@ class FileHandler:
         """Write a schema-valid Python dictionary into a input JSON file.
 
         The file must be in the `input/` directory.
+        The `input_dict` must conform to the JSON schema in `self.schema_file`.
+
         If the file does not exist, a new file will be created.
         If the file *does* exist, any pre-existing content will be overwritten.
         The file will have the same name as `self.input_file`.
-        The `input_dict` must conform to the JSON schema in `self.schema_file`.
+
 
         Parameters
         ----------
@@ -158,12 +177,14 @@ class FileHandler:
         )
 
     def create_json_template(self, schema: dict | None = None) -> typing.Any:
-        """Recursively loop through the provided schema and generate a schema-valid dictionary of default values.
+        """Recursively loop through the provided schema 
+        and generate a schema-valid dictionary of default values.
 
         Parameters
         ----------
         schema : dict, optional
-            The JSON schema or schema property to generate a `dict` with, by default `self.schema`.
+            The JSON schema or schema property to generate a `dict` with, 
+            by default `self.schema`.
 
         Returns
         -------
@@ -190,9 +211,12 @@ class FileHandler:
             case 'object':
 
                 # Recurse through the properties of the object
-                return {property: self.create_json_template(schema_dict['properties'][property])
-                        for property in schema_dict['properties']
-                        }
+                return {
+                    property: self.create_json_template(
+                        schema_dict['properties'][property]
+                    )
+                    for property in schema_dict['properties']
+                }
 
             case 'array':
                 # Create the array element to be copied
@@ -200,7 +224,9 @@ class FileHandler:
 
                 # Add the minimum number of elements necessary.
                 if 'minItems' in schema_dict:
-                    return [array_element for i in range(schema_dict['minItems'])]
+                    return [
+                        array_element for i in range(schema_dict['minItems'])
+                    ]
 
                 else:
                     return [array_element]
@@ -231,6 +257,7 @@ class FileHandler:
 
             case _:
                 return None
+
 
 # Generate a default blank template input file.
 if __name__ == '__main__':
