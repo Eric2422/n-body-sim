@@ -7,6 +7,7 @@ from barnes_hut import BarnesHutNode
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
+import numerical_integration
 import vectors
 
 
@@ -22,7 +23,7 @@ class Simulation():
     def __init__(
         self,
         theta: float = 0.5,
-        tick_size: float = 1.0,
+        time_step_size: float = 1.0,
         gravitational_field: vectors.FieldVector = np.zeros(3, dtype=float),
         electric_field: vectors.FieldVector = np.zeros(3, dtype=float),
         magnetic_field: vectors.FieldVector = np.zeros(3, dtype=float),
@@ -61,7 +62,7 @@ class Simulation():
         self.gravitational_field = gravitational_field
 
         self.current_tick = 0.0
-        self.tick_size = tick_size
+        self.tick_size = time_step_size
 
         self.theta = theta
         """The Barnes-Hut approximation parameter."""
@@ -112,7 +113,18 @@ class Simulation():
         for particle in particles:
             self.log_particle_position(particle)
 
-            particle.position += particle.velocity * self.tick_size
+            
+
+            # Simpson's rule.
+            mid_velocity = particle.acceleration * (1 / 2) * self.tick_size
+            final_velocity = particle.acceleration * self.tick_size
+            delta_velocity = (self.tick_size / 6) * (particle.velocity + 4 * mid_velocity + final_velocity)
+
+            # Assume acceleration is constant.
+            # Δx = vt + (1/2) at^2
+            particle.position += particle.velocity * self.tick_size + \
+                (1 / 2) * particle.acceleration * self.tick_size ** 2
+
             particle.velocity += particle.acceleration * self.tick_size
 
         # Calculate the forces exerted on the particles and apply the corresponding acceleration.
@@ -190,12 +202,11 @@ class Simulation():
             if file_handler is not None:
                 output_string += self.get_particle_positions_string()
 
-        # Log final state
+        # Log final state.
         for particle in particles:
             self.log_particle_position(particle)
 
         if file_handler is not None:
-
             file_handler.append_to_output_file(output_string)
 
         # If printing progress reports, add an extra line to account for the carriage returns.
@@ -227,7 +238,7 @@ if __name__ == '__main__':
     # Create and run the simulation
     simulation = Simulation(
         theta=file_data['theta'],
-        tick_size=file_data['tick size'],
+        time_step_size=file_data['tick size'],
         gravitational_field=np.array(file_data['gravitational field']),
         electric_field=np.array(file_data['electric field']),
         magnetic_field=np.array(file_data['magnetic field']),
