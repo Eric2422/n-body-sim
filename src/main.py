@@ -246,7 +246,7 @@ if __name__ == '__main__':
     )
 
     simulation.run(
-        num_time_steps=file_data['num time_step()s'],
+        num_time_steps=file_data['num time steps'],
         file_handler=file_handler,
         print_progress=True
     )
