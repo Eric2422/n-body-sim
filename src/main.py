@@ -227,7 +227,7 @@ if __name__ == '__main__':
     # Create and run the simulation
     simulation = Simulation(
         theta=file_data['theta'],
-        time_step_size=file_data['time_step() size'],
+        time_step_size=file_data['time step size'],
         gravitational_field=np.array(file_data['gravitational field']),
         electric_field=np.array(file_data['electric field']),
         magnetic_field=np.array(file_data['magnetic field']),
@@ -235,7 +235,7 @@ if __name__ == '__main__':
     )
 
     simulation.run(
-        num_time_steps=file_data['num time_step()s'],
+        num_time_steps=file_data['num time steps'],
         file_handler=file_handler,
         print_progress=True
     )
