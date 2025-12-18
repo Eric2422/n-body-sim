@@ -92,7 +92,7 @@ class PointParticle:
         return np.array(-r * scipy.constants.G * self.mass / (distance ** 3))
 
     def get_gravitational_force_experienced(self, gravitational_field: vectors.FieldVector) -> vectors.ForceVector:
-        """Get the gravitational force acting upon this particle by the given gravitational field. 
+        """Calculate the gravitational force acting upon this particle by the given gravitational field. 
 
         Parameters
         ----------
@@ -133,7 +133,7 @@ class PointParticle:
         return np.array(- r * (k * self.charge) / (distance ** 3))
 
     def get_electrostatic_force_experienced(self, electric_field: vectors.FieldVector) -> vectors.ForceVector:
-        """Get the electrostatic force acting upon this particle by the given electric field. 
+        """Calculate the electrostatic force acting upon this particle by the given electric field. 
 
         Parameters
         ----------
@@ -177,7 +177,7 @@ class PointParticle:
                 / (4 * np.pi * distance ** 3))
 
     def get_magnetic_force_experienced(self, magnetic_field: vectors.FieldVector) -> vectors.ForceVector:
-        """Get the magnetic force acting upon this particle by the given electric field. 
+        """Calculate the magnetic force acting upon this particle by the given electric field. 
 
         Parameters
         ----------
@@ -194,10 +194,28 @@ class PointParticle:
 
     def get_force_experienced(
         self,
-        gravitational_field: vectors.FieldVector,
-        electric_field: vectors.FieldVector,
-        magnetic_field: vectors.FieldVector
+        gravitational_field: vectors.FieldVector = np.array((0, 0, 0)),
+        electric_field: vectors.FieldVector = np.array((0, 0, 0)),
+        magnetic_field: vectors.FieldVector = np.array((0, 0, 0))
     ) -> vectors.ForceVector:
+        """Calculate the net force exerted on this particle as a result of
+        gravitational, electric, and magnetic fields.
+
+        Parameters
+        ----------
+        gravitational_field : vectors.FieldVector, optional
+            The gravitational field acting upon this particle, by default np.array((0, 0, 0))
+        electric_field : vectors.FieldVector, optional
+            The electric field acting upon this particle, by default np.array((0, 0, 0))
+        magnetic_field : vectors.FieldVector, optional
+            The magnetic field acting upon this particle, by default np.array((0, 0, 0))
+
+        Returns
+        -------
+        vectors.ForceVector
+            A 3D vector of the net force exerted upon this particle as a result
+            of gravitational, electric, and magnetic fields.
+        """
         return (
             self.get_gravitational_force_experienced(gravitational_field)
             + self.get_electrostatic_force_experienced(electric_field)
@@ -238,5 +256,14 @@ class PointParticle:
         )
 
     def __repr__(self) -> str:
+        """Return a `str` containing all the arguments needed to instantiate 
+        another identical particle (aside from the :const:`PointParticle.id`).
+
+        Returns
+        -------
+        str
+            A `str` containing all the arguments needed to instantiate 
+            another identical particle (aside from the :const:`PointParticle.id`).
+        """
         cls = self.__class__.__name__
         return f'{cls}({self.position}, {self.velocity}, {self.acceleration}, {self.fixed}, {self.mass}, {self.charge})'
