@@ -13,8 +13,9 @@ import vectors
 class Simulation():
     """Represents one simulation with particles and fields.
 
-    Contains the theta; time_step() size; constant, uniform gravitational field; constant, uniform electrical field; 
-    constant, uniform magnetic field; and particles used in the simulation.
+    Contains the theta; time step size; constant, uniform gravitational field;
+    constant, uniform electrical field; constant, uniform magnetic field;
+    and particles used in the simulation.
 
     Keeps track of the previous positions of all the partices.
     """
@@ -37,13 +38,13 @@ class Simulation():
         time_step_size : float, optional
             The time increment of the simulation in seconds (s), by default 1.0
         gravitational_field : vectors.FieldVector, optional
-            A constant, uniform gravitational field, by default np.zeros(3, dtype=float)
+            A constant, uniform gravitational field, by default `np.zeros(3, dtype=float)`
         electric_field : vectors.FieldVector, optional
-            A constant, uniform electric field, by default np.zeros(3, dtype=float)
+            A constant, uniform electric field, `by default np.zeros(3, dtype=float)`
         magnetic_field : vectors.FieldVector, optional
-            A constant, uniform magnetic field, by default np.zeros(3, dtype=float)
+            A constant, uniform magnetic field, `by default np.zeros(3, dtype=float)`
         particles : list[PointParticle], optional
-            A list of particles that are interacting with each other, by default []
+            A list of particles that are interacting with each other, by default `[]`
         """
         self.particles = particles
 
@@ -115,11 +116,13 @@ class Simulation():
             particle.position += particle.velocity * self.time_step_size
             particle.velocity += particle.acceleration * self.time_step_size
 
-        # Calculate the forces exerted on the particles and apply the corresponding acceleration.
+        # Calculate the forces exerted on the particles 
+        # and apply the corresponding acceleration.
         for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
-            # Use the Barnes-Hut algorithm to approximate the net force exerted on this particle.
+            # Use the Barnes-Hut algorithm to approximate the net force 
+            # exerted on this particle.
             net_force += particle.get_force_experienced(
                 barnes_hut_root.get_gravitational_field_exerted(
                     particle.position
@@ -140,7 +143,12 @@ class Simulation():
 
         self.current_time_step += 1
 
-    def run(self, num_time_steps: int | float = 1, file_handler: FileHandler | None = None, print_progress: bool = False) -> None:
+    def run(
+        self,
+        num_time_steps: int | float = 1,
+        file_handler: FileHandler | None = None,
+        print_progress: bool = False
+    ) -> None:
         """Run the simulation for a given number of time_step()s. 
 
         Parameters
@@ -149,10 +157,12 @@ class Simulation():
             The number of time steps that the simulation runs by, by default 1
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
-            Writes the data into a file, so the data does not need to be looped through again afterward.
-            By default None
+            Writes the data into a file,
+            so the data does not need to be looped through again afterward.
+            By default `None`
         print_progress : bool, optional
-            Whether to print a progress report on how much of the simulation has been completed, by default False
+            Whether to print a progress report on how much of the simulation 
+            has been completed, by default `False`
         """
         # Stores the file output
         output_string = ''
@@ -162,9 +172,12 @@ class Simulation():
             file_handler.clear_output_file()
 
             # Print fields
-            output_string += f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
-            output_string += f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
-            output_string += f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n'
+            output_string += \
+                f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
+            output_string += \
+                f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
+            output_string += \
+                f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n'
             output_string += '\n'
 
             # Log initial particle states
@@ -195,7 +208,6 @@ class Simulation():
             self.log_particle_position(particle)
 
         if file_handler is not None:
-
             file_handler.append_to_output_file(output_string)
 
         # If printing progress reports, add an extra line to account for the carriage returns.
