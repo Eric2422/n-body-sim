@@ -10,14 +10,14 @@
             "type": "number",
             "default": 0.5
         },
-        "tick size": {
+        "time step size": {
             "description": "The time increment of the simulation, measured in seconds(s).",
             "type": "number",
             "exclusiveMinimum": 0.0,
             "default": 0.1
         },
-        "num ticks": {
-            "description": "The duration of the simulation as measured in ticks.",
+        "num time steps": {
+            "description": "The duration of the simulation as measured in time steps.",
             "type": "integer",
             "minimum": 0,
             "default": 600
