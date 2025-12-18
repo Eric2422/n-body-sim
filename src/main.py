@@ -112,17 +112,14 @@ class Simulation():
         for particle in particles:
             self.log_particle_position(particle)
 
-            # Update the particle's velocity
+            particle.position += particle.velocity * self.tick_size
             particle.velocity += particle.acceleration * self.tick_size
 
-            # Update particle positions.
-            particle.position += particle.velocity * self.tick_size
-
-        # Calculate the forces that the particles exert on each other
-        # Update the particle's acceleration and, but not the velocity and position
+        # Calculate the forces exerted on the particles and apply the corresponding acceleration.
         for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
+            # Use the Barnes-Hut algorithm to approximate the net force exerted on this particle.
             net_force += particle.get_force_experienced(
                 barnes_hut_root.get_gravitational_field_exerted(
                     particle.position
@@ -133,14 +130,17 @@ class Simulation():
 
             # Add the constant fields
             net_force += particle.get_force_experienced(
-                self.electric_field, self.magnetic_field, self.gravitational_field
+                self.electric_field,
+                self.magnetic_field,
+                self.gravitational_field
             )
 
+            # Update the particle's acceleration based on the force.
             particle.apply_force(net_force)
 
         self.current_tick += 1
 
-    def run(self, num_ticks: int | float = 1, file_handler: FileHandler | None = None, print_progress=False) -> None:
+    def run(self, num_ticks: int | float = 1, file_handler: FileHandler | None = None, print_progress: bool = False) -> None:
         """Run the simulation for a given number of ticks. 
 
         Parameters
@@ -149,8 +149,7 @@ class Simulation():
             The number of ticks that the simulation runs by, by default 1
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
-            Writes the data into a file,
-            so the data does not need to be looped through again afterward.
+            Writes the data into a file, so the data does not need to be looped through again afterward.
             By default None
         print_progress : bool, optional
             Whether to print a progress report on how much of the simulation has been completed, by default False
