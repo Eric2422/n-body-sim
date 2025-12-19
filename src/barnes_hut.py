@@ -32,7 +32,7 @@ class BarnesHutNode():
         Returns
         -------
         `tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]`
-            The newly cubed bounds as a 3D array, the centroid, and the size of any dimension.
+            The newly cubed bounds, the centroid, and the size of any dimension.
         """
         centroid = np.array(
             (
@@ -267,8 +267,7 @@ class BarnesHutNode():
         Returns
         -------
         `vectors.FieldVector`
-            A 3D NumPy array representing a 3D gravitational field vector,
-            measured in newtons per kg (N/kg).
+            The gravitational field produced by this node, measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_mass
@@ -308,11 +307,12 @@ class BarnesHutNode():
         Parameters
         ----------
         `point` : `vectors.PositionVector`
-            A 3D NumPy array representing a 3D position vector.
+            The position to calculate the electric field at.
             Measured in meters (m).
         `theta` : `float`, optional
             The value of theta, the Barnes-Hut approximation parameter being used,
             by default 0.0
+
             Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
@@ -381,8 +381,8 @@ class BarnesHutNode():
         Returns
         -------
         `vectors.FieldVector`
-            The 3D magnetic field vector produced by this node.
-            Measured in teslas (T).
+            The magnetic field produced by this node,
+            measured in teslas (T).
         """
         # The vector between the positions of the particles.
         r = point - self.center_of_charge

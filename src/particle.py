@@ -26,20 +26,17 @@ class PointParticle:
         Parameters
         ----------
         `position` : `vectors.PositionVector`, optional
-            The initial position of the particle in 3D space
-            in meters (m).
+            The initial position of the particle in meters (m).
             x is left/right, y is forward/backward, z is up/down.
 
             By default `np.array([0.0, 0.0, 0.0])`.
         `velocity` : `vectors.VelocityVector`, optional
-            The initial velocity of the particle in 3D space
-            in meters per second (m/s).
+            The initial velocity of the particle in meters per second (m/s).
             x is left/right, y is forward/backward, z is up/down.
 
             By default `np.array([0.0, 0.0, 0.0])`.
         `acceleration` : `vectors.AccelerationVector`, optional
-            The initial acceleration of the particle in 3D space
-            in meters per second squared (m/s^2).
+            The initial acceleration of the particle in meters per second squared (m/s^2).
             x is left/right, y is forward/backward, z is up/down.
 
             By default `np.array([0.0, 0.0, 0.0])`
