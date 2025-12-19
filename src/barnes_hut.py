@@ -10,6 +10,59 @@ class BarnesHutNode():
     """Represents one node of a Barnes-Hut octree.
     """
 
+    @classmethod
+    def cube_bounds(
+        cls,
+        x_bounds: npt.NDArray[np.float64],
+        y_bounds: npt.NDArray[np.float64],
+        z_bounds: npt.NDArray[np.float64]
+    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
+        """Make the given bounds cube (i.e., all with the same length),
+        preserving the centroid.
+
+        Parameters
+        ----------
+        `x_bounds` : `npt.NDArray[np.float64]`
+            The given x bounds to cube.
+        `y_bounds` : `npt.NDArray[np.float64]`
+            The given y bounds to cube.
+        `z_bounds` : `npt.NDArray[np.float64]`
+            The given z bounds to cube.
+
+        Returns
+        -------
+        `tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]`
+            The newly cubed bounds as a 3D array, the centroid, and the size of any dimension.
+        """
+        centroid = np.array(
+            (
+                np.mean(x_bounds),
+                np.mean(y_bounds),
+                np.mean(z_bounds)
+            ),
+            dtype=float
+        )
+
+        width = x_bounds[1] - x_bounds[0]
+        length = y_bounds[1] - y_bounds[0]
+        height = z_bounds[1] - z_bounds[0]
+        # Size of the largest dimension.
+        size = max(width, length, height)
+
+        # If the bounds are already cube, just stop here and return it as it is.
+        if width == length and length == height:
+            return np.array((x_bounds, y_bounds, z_bounds)), centroid, size
+
+        # Reset the other two dimensions to match the size of the largest dimension.
+        half_size = size / 2
+        new_bounds = np.array(
+            [(centroid[i] - half_size, centroid[i] + half_size)
+             for i in range(3)],
+            dtype=float
+        )
+
+        return new_bounds, centroid, size
+
     def __init__(
         self,
         x_bounds: npt.NDArray[np.float64] | None = None,
@@ -25,13 +78,13 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        x_bounds : npt.NDArray[np.float64], optional
+        ``x_bounds`` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper x bounds in that order, by default `None`
-        y_bounds : npt.NDArray[np.float64], optional
+        `y_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper y bounds in that order, by default `None`
-        z_bounds : npt.NDArray[np.float64], optional
+        `z_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper z bounds in that order, by default `None`
-        particles : list[PointParticle], optional
+        `particles` : `list[PointParticle]`, optional
             List of particles that are contained within this Barnes-Hut node, by default `[]`
         """
         # If `x_bounds` is not given,
@@ -125,67 +178,13 @@ class BarnesHutNode():
         self.child_nodes = self.create_child_nodes() if len(self.particles) > 1 \
             else []
 
-    @classmethod
-    def cube_bounds(
-        cls,
-        x_bounds: npt.NDArray[np.float64],
-        y_bounds: npt.NDArray[np.float64],
-        z_bounds: npt.NDArray[np.float64]
-    ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
-        """Make the given bounds cube (i.e., all with the same length),
-        preserving the centroid.
-
-        Parameters
-        ----------
-        x_bounds : npt.NDArray[np.float64]
-            The given x bounds to cube.
-        y_bounds : npt.NDArray[np.float64]
-            The given y bounds to cube.
-        z_bounds : npt.NDArray[np.float64]
-            The given z bounds to cube.
-
-        Returns
-        -------
-        tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
-            The newly cubed bounds as a 3D array, the centroid, and the size of any dimension.
-        """
-        centroid = np.array(
-            (
-                np.mean(x_bounds),
-                np.mean(y_bounds),
-                np.mean(z_bounds)
-            ),
-            dtype=float
-        )
-
-        width = x_bounds[1] - x_bounds[0]
-        length = y_bounds[1] - y_bounds[0]
-        height = z_bounds[1] - z_bounds[0]
-        # Size of the largest dimension.
-        size = max(width, length, height)
-
-        # If the bounds are already cube, just stop here and return it as it is.
-        if width == length and length == height:
-            return np.array((x_bounds, y_bounds, z_bounds)), centroid, size
-
-        # Reset the other two dimensions to match the size of the largest dimension.
-        half_size = size / 2
-        new_bounds = np.array(
-            [(centroid[i] - half_size, centroid[i] + half_size)
-             for i in range(3)],
-            dtype=float
-        )
-
-        return new_bounds, centroid, size
-
     def create_child_nodes(self) -> list['BarnesHutNode']:
         """Recursively create child nodes for this Barnes-Hut node.
 
         Returns
         -------
-        list['BarnesHutNode']
-            A list of child Barnes-Hut nodes,
-            each representing an octant of this node.
+        `list['BarnesHutNode']`
+            A list of child Barnes-Hut nodes, each representing an octant of this node.
         """
         # Size of child nodes.
         child_size = self.size / 2
@@ -223,12 +222,12 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        particle : PointParticle
+        `particle` : `PointParticle`
             The particle to check.
 
         Returns
         -------
-        bool
+        `bool`
             `True` if the particle is within the bounds of this node.
 
             `False` otherwise.
@@ -252,10 +251,10 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector,
+        `point` : `vectors.PositionVector`
+            The position to calculate the gravitational field at,
             measured in meters (m).
-        theta : float, optional
+        `theta` : `float`, optional
             The value of theta, the Barnes-Hut approximation parameter being used,
             by default 0.0
 
@@ -267,7 +266,7 @@ class BarnesHutNode():
 
         Returns
         -------
-        vectors.FieldVector
+        `vectors.FieldVector`
             A 3D NumPy array representing a 3D gravitational field vector,
             measured in newtons per kg (N/kg).
         """
@@ -308,10 +307,10 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        `point` : `vectors.PositionVector`
             A 3D NumPy array representing a 3D position vector.
             Measured in meters (m).
-        theta : float, optional
+        `theta` : `float`, optional
             The value of theta, the Barnes-Hut approximation parameter being used,
             by default 0.0
             Given the distance between the point and the center of charge,
@@ -321,9 +320,9 @@ class BarnesHutNode():
 
         Returns
         -------
-        vectors.FieldVector
-            A 3D NumPy array representing a 3D electric field vector.
-            Measured in newtons per coulomb (N/C).
+        `vectors.FieldVector`
+            The electric field vector produced by this node,
+            measured in newtons per coulomb (N/C).
         """
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_charge
@@ -367,12 +366,13 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector.
+        `point` : vectors.PositionVector
+            The point at which to calculate the magnetic field.
             Measured in meters (m).
-        theta : float, optional
+        `theta` : `float`, optional
             The value of theta, the Barnes-Hut approximation parameter being used,
             by default 0.0
+
             Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact
             value for the magnetic field.
@@ -380,8 +380,8 @@ class BarnesHutNode():
 
         Returns
         -------
-        vectors.FieldVector
-            A 3D NumPy array representing a 3D magnetic field vector.
+        `vectors.FieldVector`
+            The 3D magnetic field vector produced by this node.
             Measured in teslas (T).
         """
         # The vector between the positions of the particles.
@@ -421,7 +421,7 @@ class BarnesHutNode():
 
         Returns
         -------
-        int
+        `int`
             The height of the subtree under this Barnes-Hut node.
             If this node has no child nodes, it is a leaf node and its height is 0.
         """

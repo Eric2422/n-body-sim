@@ -24,14 +24,14 @@ class FileHandler:
 
         Parameters
         ----------
-        schema_file: str, optional
+        `schema_file`: `str`, optional
             The name of the JSON schema file used for the input files,
             by default 'schema.json'.
 
             Found in the `./input` directory but does not contain the directory.
             Best to keep it to the default unless you want to write
             an entire JSON schema.
-        input_file : str, optional
+        `input_file` : `str`, optional
             The file path of the input file, including file extension,
             by default 'sample.csv'.
 
@@ -58,7 +58,7 @@ class FileHandler:
 
         Parameters
         ----------
-        output_string: str, optional
+        `output_string`: `str`, optional
             The string to be appended to the given file, by default '\n'.
         """
         try:
@@ -81,13 +81,13 @@ class FileHandler:
 
         Returns
         -------
-        dict
+        `dict`
             A `dict` containing information about the initial state of the simulation.
-            Stores a list of the particles.
+            Stores a `list` of the particles.
 
         Raises
         ------
-        FileNotFoundError
+        `FileNotFoundError`
             When the input file can not be found.
         """
         # Try to open the input file
@@ -99,16 +99,16 @@ class FileHandler:
             sys.exit()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
-        """Retrieve a `referencing` `Resource` from the given URI.
+        """Retrieve a `referencing.Resource` from the given URI.
 
         Parameters
         ----------
-        uri : str
+        `uri` : `str`
             The URI of the file.
 
         Returns
         -------
-        referencing.Resource
+        `referencing.Resource`
             The `Resource` created from the contents of the file.
         """
         pathlib.Path = self.SCHEMA_DIR / uri
@@ -125,18 +125,16 @@ class FileHandler:
 
         Parameters
         ----------
-        input_dict : dict
+        `input_dict` : `dict`
             The `dict` that is being validated.
-        schema : dict | None, optional
+        `schema` : `dict` | `None`, optional
             The JSON schema or schema property to validate the other JSON `dict` with,
-            by default `None`.
-
-            If `None` is passed in, assume to the be default `self.json_schema`.
+            by `self.json_schema`.
 
         Raises
         ------
-        ValidationError
-            If the given input dict does not conform to the JSON schema.
+        `ValidationError`
+            If the given input `dict` does not conform to the JSON schema.
         """
         # If no schema is passed in,
         # default to `self.json_schema`
@@ -164,7 +162,7 @@ class FileHandler:
 
         Parameters
         ----------
-        input_dict : dict
+        `input_dict` : `dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -182,13 +180,13 @@ class FileHandler:
 
         Parameters
         ----------
-        schema : dict, optional
+        `schema` : `dict`, optional
             The JSON schema or schema property to generate a `dict` with,
             by default `self.schema`.
 
         Returns
         -------
-        dict
+        `dict`
             A `dict` of default values that conforms to the schema.
         """
         # If no schema is passed in,

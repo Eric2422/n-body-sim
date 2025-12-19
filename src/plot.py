@@ -14,10 +14,10 @@ class Plot():
 
         Parameters
         ----------
-        data_frame : pd.DataFrame
+        `data_frame` : `pd.DataFrame`
             A data frame with four columns: t, x, y, z
             Contains the time and position of particles.
-        time_step_size : float, optional
+        `time_step_size` : `float`, optional
             The amount of time between each frame, by default 1.0
         """
         fig = plt.figure()
@@ -84,7 +84,7 @@ class Plot():
 
         Parameters
         ----------
-        num : int
+        `num` : `int`
             The number of intervals that have elapsed.
         """
         # The particles are flattened into a single data frame,
@@ -113,7 +113,7 @@ class Plot():
 
         Parameters
         ----------
-        filename : str
+        `filename` : `str`
             The name that the file will be saved with.
         """
         FFwriter = animation.FFMpegWriter(fps=self.fps)
