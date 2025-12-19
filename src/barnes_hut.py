@@ -26,13 +26,13 @@ class BarnesHutNode():
         Parameters
         ----------
         x_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper x bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper x bounds in that order, by default `None`
         y_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper y bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper y bounds in that order, by default `None`
         z_bounds : npt.NDArray[np.float64], optional
-            A 2-element NumPy array that contains the lower and upper z bounds in that order, by default None
+            A 2-element NumPy array that contains the lower and upper z bounds in that order, by default `None`
         particles : list[PointParticle], optional
-            List of particles that are contained within this Barnes-Hut node, by default []
+            List of particles that are contained within this Barnes-Hut node, by default `[]`
         """
         # If `x_bounds` is not given,
         # set it based on the minimum and maximum x positions of the particles.
@@ -132,7 +132,7 @@ class BarnesHutNode():
         y_bounds: npt.NDArray[np.float64],
         z_bounds: npt.NDArray[np.float64]
     ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
-        """Make the given bounds cube (i.e., all with the same length), 
+        """Make the given bounds cube (i.e., all with the same length),
         preserving the centroid.
 
         Parameters
@@ -184,7 +184,7 @@ class BarnesHutNode():
         Returns
         -------
         list['BarnesHutNode']
-            A list of child Barnes-Hut nodes, 
+            A list of child Barnes-Hut nodes,
             each representing an octant of this node.
         """
         # Size of child nodes.
@@ -218,7 +218,7 @@ class BarnesHutNode():
         return child_nodes
 
     def particle_within_bounds(self, particle: PointParticle) -> bool:
-        """Return whether a given particle is within the bounds of this 
+        """Return whether a given particle is within the bounds of this
         Barnes-Hut node.
 
         Parameters
@@ -234,11 +234,11 @@ class BarnesHutNode():
             `False` otherwise.
         """
         return (
-            particle.position[0] >= self.x_bounds[0] 
+            particle.position[0] >= self.x_bounds[0]
             and particle.position[0] <= self.x_bounds[1]
-            and particle.position[1] >= self.y_bounds[0] 
+            and particle.position[1] >= self.y_bounds[0]
             and particle.position[1] <= self.y_bounds[1]
-            and particle.position[2] >= self.z_bounds[0] 
+            and particle.position[2] >= self.z_bounds[0]
             and particle.position[2] <= self.z_bounds[1]
         )
 
@@ -247,27 +247,29 @@ class BarnesHutNode():
         point: vectors.PositionVector,
         theta: float = 0.0
     ) -> vectors.FieldVector:
-        """Calculate the approximate gravitational field exerted by this node 
+        """Calculate the approximate gravitational field exerted by this node
         at a given point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector.
-            Measured in meters (m).
+            A 3D NumPy array representing a 3D position vector,
+            measured in meters (m).
         theta : float, optional
-            The value of theta, the Barnes-Hut approximation parameter being used, 
+            The value of theta, the Barnes-Hut approximation parameter being used,
             by default 0.0
+
             Given the distance between the point and the center of mass,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
+
             When theta is 0.0, no approximation will occur.
 
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D gravitational field vector. 
-            Measured in newtons per kg(N/kg).
+            A 3D NumPy array representing a 3D gravitational field vector,
+            measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_mass
@@ -301,7 +303,7 @@ class BarnesHutNode():
         point: vectors.PositionVector,
         theta: float = 0.0
     ) -> vectors.FieldVector:
-        """Calculate the approximate electric field exerted by this node 
+        """Calculate the approximate electric field exerted by this node
         at a given point.
 
         Parameters
@@ -320,7 +322,7 @@ class BarnesHutNode():
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D electric field vector. 
+            A 3D NumPy array representing a 3D electric field vector.
             Measured in newtons per coulomb (N/C).
         """
         # Calculate the displacement vector between the two points.
@@ -360,13 +362,13 @@ class BarnesHutNode():
         point: vectors.PositionVector,
         theta: float = 0.0
     ) -> vectors.FieldVector:
-        """Calculate the approximate magnetic field exerted by this node at a 
+        """Calculate the approximate magnetic field exerted by this node at a
         given point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D NumPy array representing a 3D position vector. 
+            A 3D NumPy array representing a 3D position vector.
             Measured in meters (m).
         theta : float, optional
             The value of theta, the Barnes-Hut approximation parameter being used,
@@ -379,7 +381,7 @@ class BarnesHutNode():
         Returns
         -------
         vectors.FieldVector
-            A 3D NumPy array representing a 3D magnetic field vector. 
+            A 3D NumPy array representing a 3D magnetic field vector.
             Measured in teslas (T).
         """
         # The vector between the positions of the particles.
