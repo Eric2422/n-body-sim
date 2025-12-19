@@ -3,7 +3,6 @@ from __future__ import annotations
 import numpy as np
 import scipy.constants
 
-import typing
 import vectors
 
 
@@ -30,16 +29,19 @@ class PointParticle:
             The initial position of the particle in 3D space.
             x is left/right, y is forward/backward, z is up/down.
             Specified in meters(m).
+
             By default `np.array([0.0, 0.0, 0.0])`.
         velocity : vectors.VelocityVector, optional
             The initial velocity of the particle in 3D space.
             x is left/right, y is forward/backward, z is up/down.
             Specified in meters per second(m/s).
+
             By default `np.array([0.0, 0.0, 0.0])`.
         acceleration : vectors.AccelerationVector, optional
             The initial acceleration of the particle in 3D space.
             x is left/right, y is forward/backward, z is up/down.
-            Specified in meters per second squared(m/s^2).
+            Specified in meters per second squared (m/s^2).
+
             By default `np.array([0.0, 0.0, 0.0])`
         fixed : bool, optional
             Whether this particle's position is constant, by default `False`
@@ -68,7 +70,7 @@ class PointParticle:
         Parameters
         ----------
         force : vectors.ForceVector, optional
-            The force applied upon this particle, by default np.zeros(3)
+            The force applied upon this particle, by default `np.zeros(3)`
         """
         self.acceleration = force / self.mass
 
@@ -76,17 +78,19 @@ class PointParticle:
         self,
         point: vectors.PositionVector
     ) -> vectors.FieldVector:
-        """Calculate the gravitational field created by this particle at `point`. 
+        """Calculate the gravitational field created by this particle at a
+        given point.
 
         Parameters
         ----------
         point : vectors.PositionVector
-            A 3D vector representing the coordinates of the point that this particle is exerting a gravitational field upon.
+            A 3D vector representing the coordinates of the point that this
+            particle is exerting a gravitational field upon.
 
         Returns
         -------
         vectors.FieldVector
-            A vector of the gravitational field generated at `point`.
+            The 3D vector of the gravitational field generated at `point`.
         """
         r = point - self.position
         # If the points are overlapping, there is no force.
@@ -101,20 +105,20 @@ class PointParticle:
         self,
         gravitational_field: vectors.FieldVector
     ) -> vectors.ForceVector:
-        """Calculate the gravitational force acting upon this particle 
-        by the given gravitational field. 
+        """Calculate the gravitational force acting upon this particle
+        by the given gravitational field.
 
         Parameters
         ----------
         gravitational_field : vectors.FieldVector
-            A NumPy array of shape (1, 3) representing a 3D vector 
+            A NumPy array of shape (1, 3) representing a 3D vector
             of the gravitational field acting upon this particle.
 
         Returns
         -------
         vectors.ForceVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the 
-            gravitational force acting upon this particle as a result of the 
+            A NumPy array of shape (1, 3) representing a 3D vector of the
+            gravitational force acting upon this particle as a result of the
             gravitational field.
         """
         return np.array(self.mass * gravitational_field)
@@ -123,7 +127,7 @@ class PointParticle:
         self,
         point: vectors.PositionVector
     ) -> vectors.FieldVector:
-        """Calculate the electric field at `point` due to this particle.
+        """Calculate the electric field at a given point due to this particle.
 
         Parameters
         ----------
@@ -133,7 +137,7 @@ class PointParticle:
         Returns
         -------
         vectors.FieldVector
-            The vector of the electric field that this particle creates 
+            The vector of the electric field that this particle creates
             at the given point.
         """
         r = point - self.position
@@ -153,19 +157,19 @@ class PointParticle:
         electric_field:
         vectors.FieldVector
     ) -> vectors.ForceVector:
-        """Calculate the electrostatic force acting upon this particle by the 
-        given electric field. 
+        """Calculate the electrostatic force acting upon this particle by the
+        given electric field.
 
         Parameters
         ----------
         electric_field : vectors.FieldVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the 
+            A NumPy array of shape (1, 3) representing a 3D vector of the
             gravitational field acting upon this particle.
 
         Returns
         -------
         vectors.ForceVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the 
+            A NumPy array of shape (1, 3) representing a 3D vector of the
             electrostatic force exerted upon this particle by the electric field.
         """
         return self.charge * electric_field
@@ -174,7 +178,7 @@ class PointParticle:
         self,
         point: vectors.PositionVector
     ) -> vectors.FieldVector:
-        """Calculate the magnetic field exerted by by this particle at `point`. 
+        """Calculate the magnetic field exerted by by this particle at `point`.
 
         Parameters
         ----------
@@ -205,19 +209,19 @@ class PointParticle:
         self,
         magnetic_field: vectors.FieldVector
     ) -> vectors.ForceVector:
-        """Calculate the magnetic force acting upon this particle by the 
-        given electric field. 
+        """Calculate the magnetic force acting upon this particle by the
+        given electric field.
 
         Parameters
         ----------
         magnetic_field : vectors.FieldVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the 
+            A NumPy array of shape (1, 3) representing a 3D vector of the
             gravitational field acting upon this particle.
 
         Returns
         -------
         vectors.ForceVector
-            A NumPy array of shape (1, 3) representing a 3D vector of the 
+            A NumPy array of shape (1, 3) representing a 3D vector of the
             electrostatic force exerted upon this particle by the magnetic field.
         """
         return self.charge * np.cross(self.velocity, magnetic_field)
@@ -234,13 +238,13 @@ class PointParticle:
         Parameters
         ----------
         gravitational_field : vectors.FieldVector, optional
-            The gravitational field acting upon this particle, 
+            The gravitational field acting upon this particle,
             by default `np.array((0, 0, 0))`
         electric_field : vectors.FieldVector, optional
-            The electric field acting upon this particle, 
+            The electric field acting upon this particle,
             by default `np.array((0, 0, 0))`
         magnetic_field : vectors.FieldVector, optional
-            The magnetic field acting upon this particle, 
+            The magnetic field acting upon this particle,
             by default `np.array((0, 0, 0))`
 
         Returns
@@ -295,13 +299,13 @@ class PointParticle:
             f'a={acceleration_string}, m={self.mass}, q={self.charge}'
 
     def __repr__(self) -> str:
-        """Return a `str` containing all the arguments needed to instantiate 
+        """Return a `str` containing all the arguments needed to instantiate
         another identical particle (aside from the :const:`PointParticle.id`).
 
         Returns
         -------
         str
-            A `str` containing all the arguments needed to instantiate 
+            A `str` containing all the arguments needed to instantiate
             another identical particle (aside from the :const:`PointParticle.id`).
         """
         cls = self.__class__.__name__

@@ -20,23 +20,23 @@ class FileHandler:
         schema_file: str = 'main.json',
         input_file: str = 'sample.json'
     ) -> None:
-        """Initiate a file handler for reading and creating files. 
+        """Initiate a file handler for reading and creating files.
 
         Parameters
         ----------
         schema_file: str, optional
-            The name of the JSON schema file used for the input files, 
+            The name of the JSON schema file used for the input files,
             by default 'schema.json'.
 
             Found in the `./input` directory but does not contain the directory.
-            Best to keep it to the default unless you want to write 
+            Best to keep it to the default unless you want to write
             an entire JSON schema.
         input_file : str, optional
-            The file path of the input file, including file extension, 
+            The file path of the input file, including file extension,
             by default 'sample.csv'.
 
             Accepts both with and without the directory.
-            The output file will have the same name 
+            The output file will have the same name
             but with the '.txt' file extension instead.
         """
         self.input_file = pathlib.Path(input_file if os.path.dirname(
@@ -109,7 +109,7 @@ class FileHandler:
         Returns
         -------
         referencing.Resource
-            The `Resource` created from the contents of the file. 
+            The `Resource` created from the contents of the file.
         """
         pathlib.Path = self.SCHEMA_DIR / uri
         contents = json.loads(pathlib.Path.read_text())
@@ -177,13 +177,13 @@ class FileHandler:
         )
 
     def create_json_template(self, schema: dict | None = None) -> typing.Any:
-        """Recursively loop through the provided schema 
+        """Recursively loop through the provided schema
         and generate a schema-valid dictionary of default values.
 
         Parameters
         ----------
         schema : dict, optional
-            The JSON schema or schema property to generate a `dict` with, 
+            The JSON schema or schema property to generate a `dict` with,
             by default `self.schema`.
 
         Returns

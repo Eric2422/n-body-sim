@@ -128,12 +128,12 @@ class Simulation():
 
             particle.velocity += particle.acceleration * self.time_step_size
 
-        # Calculate the forces exerted on the particles 
+        # Calculate the forces exerted on the particles
         # and apply the corresponding acceleration.
         for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
-            # Use the Barnes-Hut algorithm to approximate the net force 
+            # Use the Barnes-Hut algorithm to approximate the net force
             # exerted on this particle.
             net_force += particle.get_force_experienced(
                 barnes_hut_root.get_gravitational_field_exerted(
@@ -161,7 +161,7 @@ class Simulation():
         file_handler: FileHandler | None = None,
         print_progress: bool = False
     ) -> None:
-        """Run the simulation for a given number of time_step()s. 
+        """Run the simulation for a given number of time_step()s.
 
         Parameters
         ----------
@@ -173,7 +173,7 @@ class Simulation():
             so the data does not need to be looped through again afterward.
             By default `None`
         print_progress : bool, optional
-            Whether to print a progress report on how much of the simulation 
+            Whether to print a progress report on how much of the simulation
             has been completed, by default `False`
         """
         # Stores the file output

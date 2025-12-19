@@ -80,7 +80,7 @@ class Plot():
         )
 
     def update(self, num: int):
-        """Update the plot points of the scatter. 
+        """Update the plot points of the scatter.
 
         Parameters
         ----------
