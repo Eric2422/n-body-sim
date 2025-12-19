@@ -7,6 +7,7 @@ from barnes_hut import BarnesHutNode
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
+import numerical_integration
 import vectors
 
 
@@ -33,18 +34,18 @@ class Simulation():
 
         Parameters
         ----------
-        theta : float, optional
+        `theta` : `float`, optional
             The Barnes-Hut approximation parameter, by default 0.5
-        time_step_size : float, optional
+        `time_step_size` : `float`, optional
             The time increment of the simulation in seconds (s), by default 1.0
-        gravitational_field : vectors.FieldVector, optional
+        `gravitational_field` : `vectors.FieldVector`, optional
             A constant, uniform gravitational field, by default `np.zeros(3, dtype=float)`
-        electric_field : vectors.FieldVector, optional
+        `electric_field` : `vectors.FieldVector`, optional
             A constant, uniform electric field, `by default np.zeros(3, dtype=float)`
-        magnetic_field : vectors.FieldVector, optional
+        `magnetic_field` :` vectors.FieldVector`, optional
             A constant, uniform magnetic field, `by default np.zeros(3, dtype=float)`
-        particles : list[PointParticle], optional
-            A list of particles that are interacting with each other, by default `[]`
+        `particles` : `list[PointParticle]`, optional
+            A `list` of particles that are interacting with each other, by default `[]`
         """
         self.particles = particles
 
@@ -72,7 +73,7 @@ class Simulation():
 
         Parameters
         ----------
-        particle : PositionParticle
+        `particle` : `PointParticle`
             A particle to save the position of.
         """
         # Save particle position data
@@ -90,7 +91,7 @@ class Simulation():
 
         Returns
         -------
-        str
+        `str`
             A string describing the state of all particles.
         """
 
@@ -105,7 +106,7 @@ class Simulation():
         return output_string
 
     def time_step(self) -> None:
-        """Run one time_step() of the simulation."""
+        """Run one time step of the simulation."""
         # Generate the root node of the octree
         barnes_hut_root = BarnesHutNode(particles=self.particles)
 
@@ -113,7 +114,18 @@ class Simulation():
         for particle in particles:
             self.log_particle_position(particle)
 
-            particle.position += particle.velocity * self.time_step_size
+            # Simpson's rule.
+            mid_velocity = particle.acceleration * \
+                (1 / 2) * self.time_step_size
+            final_velocity = particle.acceleration * self.time_step_size
+            delta_velocity = (self.time_step_size / 6) * \
+                (particle.velocity + 4 * mid_velocity + final_velocity)
+
+            # Assume acceleration is constant.
+            # Δx = vt + (1/2) at^2
+            particle.position += particle.velocity * self.time_step_size + \
+                (1 / 2) * particle.acceleration * self.time_step_size ** 2
+
             particle.velocity += particle.acceleration * self.time_step_size
 
         # Calculate the forces exerted on the particles
@@ -153,14 +165,14 @@ class Simulation():
 
         Parameters
         ----------
-        num_time_steps : int | float, optional
+        `num_time_steps` : `int` | `float`, optional
             The number of time steps that the simulation runs by, by default 1
-        file_handler : FileHandler, optional
+        `file_handler` : `FileHandler`, optional
             A `FileHandler` object to pass data into as the simulation runs.
             Writes the data into a file,
             so the data does not need to be looped through again afterward.
             By default `None`
-        print_progress : bool, optional
+        `print_progress` : `bool`, optional
             Whether to print a progress report on how much of the simulation
             has been completed, by default `False`
         """
@@ -203,7 +215,7 @@ class Simulation():
             if file_handler is not None:
                 output_string += self.get_particle_positions_string()
 
-        # Log final state
+        # Log final state.
         for particle in particles:
             self.log_particle_position(particle)
 
