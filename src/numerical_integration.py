@@ -170,9 +170,12 @@ class NumericalIntegration:
         # Perform the Runge-Kutta method the necessary number of times.
         for i in range(num_time_steps):
             k1 = derivative(time, values)
-            k2 = derivative(time + time_step_size / 2, values + time_step_size * k1 / 2)
-            k3 = derivative(time + time_step_size / 2, values + time_step_size * k2 / 2)
-            k4 = derivative(time + time_step_size, values + time_step_size * k3)
+            k2 = derivative(time + time_step_size / 2,
+                            values + time_step_size * k1 / 2)
+            k3 = derivative(time + time_step_size / 2,
+                            values + time_step_size * k2 / 2)
+            k4 = derivative(time + time_step_size,
+                            values + time_step_size * k3)
 
             # Avoid NumPy dimension errors.
             try:
