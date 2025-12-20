@@ -7,7 +7,7 @@ import vectors
 
 
 class NumericalIntegration:
-    """A class of static methods to calculate time-dependent
+    """Contains static methods to solve time-dependent
     initial value problems (IVPs) using numerical analysis.
     """
     @staticmethod
@@ -92,13 +92,27 @@ class NumericalIntegration:
         return values
 
     @staticmethod
-    def runge_kutta():
+    def runge_kutta(
+        derivative: typing.Callable[
+            [float, npt.NDArray[np.float64]],
+            npt.NDArray[np.float64]
+        ],
+        initial_values: npt.NDArray[np.float64] = np.zeros(3),
+        initial_time: float = 0.0,
+        time_step_size: float = 1,
+        num_time_steps: int = 1
+    ):
         pass
 
     @staticmethod
     def leapfrog(
-        acceleration: typing.Callable[[vectors.PositionVector], vectors.AccelerationVector],
+        acceleration: typing.Callable[
+            [float, vectors.PositionVector],
+            vectors.AccelerationVector
+        ],
         initial_values: np.ndarray = np.zeros(3),
-        time: float = 1
+        initial_time: float = 0,
+        time_step_size: float = 1,
+        num_time_steps: int = 1
     ):
         pass
