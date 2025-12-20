@@ -39,8 +39,10 @@ class FileHandler:
             The output file will have the same name
             but with the '.txt' file extension instead.
         """
-        self.input_file = pathlib.Path(input_file if os.path.dirname(
-            input_file) == 'input' else self.INPUT_DIR / input_file)
+        self.input_file = pathlib.Path(
+            input_file if os.path.dirname(input_file) == 'input'
+            else self.INPUT_DIR / input_file
+        )
 
         # The output file has the same name as input_file
         # but with the '.txt' extension.
@@ -51,7 +53,8 @@ class FileHandler:
 
         # Open the schema file and read it.
         self.schema = json.load(
-            (FileHandler.SCHEMA_DIR / schema_file).open())
+            (FileHandler.SCHEMA_DIR / schema_file).open()
+        )
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file.
@@ -261,7 +264,8 @@ class FileHandler:
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         raise ValueError(
-            "Please pass in the name of the input file to write to.")
+            "Please pass in the name of the input file to write to."
+        )
 
     # Create a file handler using the given JSON schema
     file_handler = FileHandler(input_file=sys.argv[1])

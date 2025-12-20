@@ -7,7 +7,7 @@ import vectors
 
 
 class NumericalIntegration:
-    """A class of static methods to calculate time-dependent
+    """Contains static methods to solve time-dependent
     initial value problems (IVPs) using numerical analysis.
     """
     @staticmethod
@@ -18,11 +18,17 @@ class NumericalIntegration:
         ],
         initial_values: npt.NDArray[np.float64] = np.zeros(3),
         initial_time: float = 0.0,
-        time_step_size: float = 1,
+        time_step_size: float = 1.0,
         num_time_steps: int = 1
     ) -> npt.NDArray[np.float64]:
         """Approximate the solution to the IVP via Euler's method
         using the given time step size and number of time steps.
+
+        It is not recommended to use Euler's method for approximations
+        because it is highly inaccurate compared to other more advanced methods.
+
+        For more details about Euler's method,
+        see [Euler method](https://en.wikipedia.org/wiki/Euler_method).
 
         Parameters
         ----------
@@ -92,13 +98,27 @@ class NumericalIntegration:
         return values
 
     @staticmethod
-    def runge_kutta():
-        pass
+    def runge_kutta(
+        derivative: typing.Callable[
+            [float, npt.NDArray[np.float64]],
+            npt.NDArray[np.float64]
+        ],
+        initial_values: npt.NDArray[np.float64] = np.zeros(3),
+        initial_time: float = 0.0,
+        time_step_size: float = 1.0,
+        num_time_steps: int = 1
+    ) -> npt.NDArray[np.float64]:
+        return initial_values
 
     @staticmethod
     def leapfrog(
-        acceleration: typing.Callable[[vectors.PositionVector], vectors.AccelerationVector],
+        acceleration: typing.Callable[
+            [float, vectors.PositionVector],
+            vectors.AccelerationVector
+        ],
         initial_values: np.ndarray = np.zeros(3),
-        time: float = 1
-    ):
-        pass
+        initial_time: float = 0.0,
+        time_step_size: float = 1.0,
+        num_time_steps: int = 1
+    ) -> npt.NDArray[np.float64]:
+        return initial_values
