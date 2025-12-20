@@ -159,8 +159,7 @@ class PointParticle:
         Returns
         -------
         `vectors.ForceVector`
-            The force exerted upon this particle by the electric field
-              in newtons (N).
+            The force exerted upon this particle by the electric field in newtons (N).
         """
         return self.charge * electric_field
 

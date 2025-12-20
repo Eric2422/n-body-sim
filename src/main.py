@@ -134,7 +134,7 @@ class Simulation():
             particle.apply_force(net_force)
 
             particle.velocity += particle.acceleration * self.time_step_size
-            particle.position = NumericalIntegration.runge_kutta(lambda t, x: particle.velocity)
+            particle.position = particle.position * self.time_step_size
 
         self.current_time_step += 1
 
