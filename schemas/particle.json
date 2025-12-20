@@ -21,10 +21,6 @@
         "charge": {
             "description": "The charge of the particle in coulombs(C).",
             "type": "number"
-        },
-        "fixed": {
-            "description": "Whether the particle can move.",
-            "type": "boolean"
         }
     },
     "required": ["mass"]

@@ -110,20 +110,10 @@ class Simulation():
         # Generate the root node of the octree
         barnes_hut_root = BarnesHutNode(particles=self.particles)
 
-        
-
         # Update particle positions and velocities before calculating the forces.
         for particle in particles:
             self.log_particle_position(particle)
 
-            # Simpson's rule.
-            particle.position = NumericalIntegration.runge_kutta(lambda t, x: particle.velocity)
-
-            particle.velocity += particle.acceleration * self.time_step_size
-
-        # Calculate the forces exerted on the particles
-        # and apply the corresponding acceleration.
-        for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
             # Use the Barnes-Hut algorithm to approximate the net force
@@ -142,6 +132,9 @@ class Simulation():
 
             # Update the particle's acceleration based on the force.
             particle.apply_force(net_force)
+
+            particle.velocity += particle.acceleration * self.time_step_size
+            particle.position = NumericalIntegration.runge_kutta(lambda t, x: particle.velocity)
 
         self.current_time_step += 1
 
