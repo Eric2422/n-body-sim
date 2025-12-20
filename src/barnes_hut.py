@@ -90,32 +90,35 @@ class BarnesHutNode():
         # If `x_bounds` is not given,
         # set it based on the minimum and maximum x positions of the particles.
         # Else, set it to the given x bounds.
-        self.x_bounds = np.array((
-            min(particles,
-                key=lambda ele: ele.position[0]).position[0],
-            max(particles,
-                key=lambda ele: ele.position[0]).position[0]
-        )) if x_bounds is None else x_bounds
+        self.x_bounds = (
+            np.array((
+                min(particles, key=lambda ele: ele.position[0]).position[0],
+                max(particles, key=lambda ele: ele.position[0]).position[0]
+            )) if x_bounds is None
+            else x_bounds
+        )
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given y bounds.
-        self.y_bounds = np.array((
-            min(particles,
-                key=lambda ele: ele.position[1]).position[1],
-            max(particles,
-                key=lambda ele: ele.position[1]).position[1]
-        )) if y_bounds is None else y_bounds
+        self.y_bounds = (
+            np.array((
+                min(particles, key=lambda ele: ele.position[1]).position[1],
+                max(particles, key=lambda ele: ele.position[1]).position[1]
+            )) if y_bounds is None
+            else y_bounds
+        )
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given z bounds.
-        self.z_bounds = np.array((
-            min(particles,
-                key=lambda ele: ele.position[2]).position[2],
-            max(particles,
-                key=lambda ele: ele.position[2]).position[2]
-        )) if z_bounds is None else z_bounds
+        self.z_bounds = (
+            np.array((
+                min(particles, key=lambda ele: ele.position[2]).position[2],
+                max(particles, key=lambda ele: ele.position[2]).position[2]
+            )) if z_bounds is None
+            else z_bounds
+        )
 
         self.centroid: npt.NDArray[np.float64]
         """The centroid of the Barnes Hut node"""
@@ -143,8 +146,10 @@ class BarnesHutNode():
 
         # Divide the mass moment by center of mass to obtain the center of mass.
         # If mass is 0, return the centroid.
-        self.center_of_mass = mass_moment / self.total_mass if self.total_mass != 0 \
+        self.center_of_mass = (
+            mass_moment / self.total_mass if self.total_mass != 0
             else self.centroid
+        )
 
         self.total_charge = sum(
             [particle.charge for particle in self.particles]
@@ -156,9 +161,10 @@ class BarnesHutNode():
 
         # Divide the charge moment by center of charge to obtain the center of charge.
         # If charge is 0, return the centroid.
-        self.center_of_charge = \
-            charge_moment / self.total_charge if self.total_charge != 0 \
+        self.center_of_charge = (
+            charge_moment / self.total_charge if self.total_charge != 0
             else np.zeros(3, dtype=float)
+        )
 
         # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
@@ -167,16 +173,19 @@ class BarnesHutNode():
             [particle.charge * particle.velocity for particle in self.particles]
         )
 
-        self.center_of_charge_velocity = \
-            current_moment / self.total_charge if self.total_charge != 0 \
+        self.center_of_charge_velocity = (
+            current_moment / self.total_charge if self.total_charge != 0
             else np.zeros(3, dtype=float)
+        )
 
         # Create child nodes if this node is an internal node
         # (i.e., it has more than 1 particle).
         # Create no children if this is an external node
         # (i.e., it has only 0 or 1 particles).
-        self.child_nodes = self.create_child_nodes() if len(self.particles) > 1 \
+        self.child_nodes = (
+            self.create_child_nodes() if len(self.particles) > 1
             else []
+        )
 
     def create_child_nodes(self) -> list['BarnesHutNode']:
         """Recursively create child nodes for this Barnes-Hut node.
@@ -286,7 +295,8 @@ class BarnesHutNode():
         elif len(self.child_nodes) > 0:
             for child_node in self.child_nodes:
                 force += child_node.get_gravitational_field_exerted(
-                    point=point)
+                    point=point
+                )
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
@@ -395,11 +405,13 @@ class BarnesHutNode():
 
         # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
-            return scipy.constants.mu_0 * self.total_charge \
+            return (
+                scipy.constants.mu_0 * self.total_charge
                 * np.cross(
                     self.center_of_charge_velocity,
                     r_hat / (4 * np.pi * np.linalg.norm(r) ** 2)
                 )
+            )
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
@@ -425,8 +437,10 @@ class BarnesHutNode():
             The height of the subtree under this Barnes-Hut node.
             If this node has no child nodes, it is a leaf node and its height is 0.
         """
-        return 0 if len(self.child_nodes) == 0 \
+        return (
+            0 if len(self.child_nodes) == 0
             else 1 + max(child.get_height() for child in self.child_nodes)
+        )
 
     def __str__(self):
         """Return information about the centroid, total mass, center of mass,

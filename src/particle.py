@@ -96,7 +96,7 @@ class PointParticle:
 
         distance = np.linalg.norm(r)
 
-        return np.array(-r * scipy.constants.G * self.mass / (distance ** 3))
+        return -r * scipy.constants.G * self.mass / (distance ** 3)
 
     def get_gravitational_force_experienced(
         self,
@@ -117,7 +117,7 @@ class PointParticle:
             The force acting upon this particle as a result of the
             gravitational field, in newtons (N).
         """
-        return np.array(self.mass * gravitational_field)
+        return self.mass * gravitational_field
 
     def get_electric_field_exerted(
         self,
@@ -147,7 +147,7 @@ class PointParticle:
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        return np.array(- r * (k * self.charge) / (distance ** 3))
+        return - r * (k * self.charge) / (distance ** 3)
 
     def get_electrostatic_force_experienced(
         self,
@@ -200,8 +200,10 @@ class PointParticle:
 
         distance = np.linalg.norm(r)
 
-        return (scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
-                / (4 * np.pi * distance ** 3))
+        return (
+            scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
+            / (4 * np.pi * distance ** 3)
+        )
 
     def get_magnetic_force_experienced(
         self,
@@ -280,16 +282,21 @@ class PointParticle:
         )
 
     def __str__(self) -> str:
-        position_string = \
+        position_string = (
             f'({", ".join((str(dimension) for dimension in self.position))})'
-        velocity_string = \
+        )
+        velocity_string = (
             f'<{", ".join((str(dimension) for dimension in self.velocity))}>'
-        acceleration_string = \
+        )
+        acceleration_string = (
             f'<{", ".join((str(dimension) for dimension in self.acceleration))}>'
+        )
 
-        return f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}' \
-            f': r={position_string}, v={velocity_string}, ' \
+        return (
+            f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}'
+            f': r={position_string}, v={velocity_string}, '
             f'a={acceleration_string}, m={self.mass}, q={self.charge}'
+        )
 
     def __repr__(self) -> str:
         """Return a `str` containing all the arguments needed to instantiate
@@ -302,5 +309,7 @@ class PointParticle:
             another identical particle (aside from :const:`PointParticle.id`).
         """
         cls = self.__class__.__name__
-        return f'{cls}({self.position}, {self.velocity}, {self.acceleration}, ' \
+        return (
+            f'{cls}({self.position}, {self.velocity}, {self.acceleration}, '
             f'{self.fixed}, {self.mass}, {self.charge})'
+        )

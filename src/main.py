@@ -115,16 +115,22 @@ class Simulation():
             self.log_particle_position(particle)
 
             # Simpson's rule.
-            mid_velocity = particle.acceleration * \
-                (1 / 2) * self.time_step_size
+            mid_velocity = (
+                particle.acceleration
+                * (1 / 2) * self.time_step_size
+            )
             final_velocity = particle.acceleration * self.time_step_size
-            delta_velocity = (self.time_step_size / 6) * \
-                (particle.velocity + 4 * mid_velocity + final_velocity)
+            delta_velocity = (
+                (self.time_step_size / 6)
+                * (particle.velocity + 4 * mid_velocity + final_velocity)
+            )
 
             # Assume acceleration is constant.
             # Δx = vt + (1/2) at^2
-            particle.position += particle.velocity * self.time_step_size + \
-                (1 / 2) * particle.acceleration * self.time_step_size ** 2
+            particle.position += (
+                particle.velocity * self.time_step_size
+                + (1 / 2) * particle.acceleration * self.time_step_size ** 2
+            )
 
             particle.velocity += particle.acceleration * self.time_step_size
 
@@ -157,15 +163,15 @@ class Simulation():
 
     def run(
         self,
-        num_time_steps: int | float = 1,
+        num_time_steps: int = 1,
         file_handler: FileHandler | None = None,
         print_progress: bool = False
     ) -> None:
-        """Run the simulation for a given number of time_step()s.
+        """Run the simulation for a given number of time steps.
 
         Parameters
         ----------
-        `num_time_steps` : `int` | `float`, optional
+        `num_time_steps` : `int`, optional
             The number of time steps that the simulation runs by, by default 1
         `file_handler` : `FileHandler`, optional
             A `FileHandler` object to pass data into as the simulation runs.
@@ -184,12 +190,15 @@ class Simulation():
             file_handler.clear_output_file()
 
             # Print fields
-            output_string += \
+            output_string += (
                 f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
-            output_string += \
+            )
+            output_string += (
                 f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
-            output_string += \
+            )
+            output_string += (
                 f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n'
+            )
             output_string += '\n'
 
             # Log initial particle states
@@ -199,7 +208,7 @@ class Simulation():
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
 
-        # Run the necessary number of time_step()s
+        # Run the necessary number of time steps
         for i in range(int(num_time_steps)):
             self.time_step()
 
