@@ -17,7 +17,6 @@ class PointParticle:
         position: vectors.PositionVector = np.array([0.0, 0.0, 0.0]),
         velocity: vectors.VelocityVector = np.array([0.0, 0.0, 0.0]),
         acceleration: vectors.AccelerationVector = np.array([0.0, 0.0, 0.0]),
-        fixed: bool = False,
         mass: float = 1.0,
         charge: float = 0.0
     ) -> None:
@@ -40,8 +39,6 @@ class PointParticle:
             x is left/right, y is forward/backward, z is up/down.
 
             By default `np.array([0.0, 0.0, 0.0])`
-        `fixed` : `bool`, optional
-            Whether this particle's position is constant, by default `False`
         `mass` : `float`, optional
             The mass of the charged particle in kilograms (kg), by default 1.0
         `charge` : `float`, optional
@@ -54,9 +51,6 @@ class PointParticle:
 
         self.mass = np.float64(mass)
         self.charge = np.float64(charge)
-
-        self.fixed = fixed
-        """Whether this particle's position is constant."""
 
         self.id = PointParticle.current_id
         PointParticle.current_id += 1
@@ -165,8 +159,7 @@ class PointParticle:
         Returns
         -------
         `vectors.ForceVector`
-            The force exerted upon this particle by the electric field
-              in newtons (N).
+            The force exerted upon this particle by the electric field in newtons (N).
         """
         return self.charge * electric_field
 
@@ -293,8 +286,7 @@ class PointParticle:
         )
 
         return (
-            f'Point Particle {self.id}{'(fixed)' if self.fixed else ''}'
-            f': r={position_string}, v={velocity_string}, '
+            f'Point Particle: r={position_string}, v={velocity_string}, '
             f'a={acceleration_string}, m={self.mass}, q={self.charge}'
         )
 
@@ -311,5 +303,5 @@ class PointParticle:
         cls = self.__class__.__name__
         return (
             f'{cls}({self.position}, {self.velocity}, {self.acceleration}, '
-            f'{self.fixed}, {self.mass}, {self.charge})'
+            f'{self.mass}, {self.charge})'
         )

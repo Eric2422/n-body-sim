@@ -13,10 +13,6 @@
             "description": "The initial velocity of the particle as a 3D vector, measured in meters per second(m/s).",
             "$ref": "3d_vector.json"
         },
-        "acceleration": {
-            "description": "The initial acceleration of the particle as a 3D vector, measured in meters per second squared(m/s^2).",
-            "$ref": "3d_vector.json"
-        },
         "mass": {
             "description": "The mass of the particle in kilograms(kg).",
             "type": "number",
@@ -25,10 +21,6 @@
         "charge": {
             "description": "The charge of the particle in coulombs(C).",
             "type": "number"
-        },
-        "fixed": {
-            "description": "Whether the particle can move.",
-            "type": "boolean"
         }
     },
     "required": ["mass"]

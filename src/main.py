@@ -7,7 +7,7 @@ from barnes_hut import BarnesHutNode
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
-import numerical_integration
+from numerical_integration import NumericalIntegration
 import vectors
 
 
@@ -110,33 +110,14 @@ class Simulation():
         # Generate the root node of the octree
         barnes_hut_root = BarnesHutNode(particles=self.particles)
 
+        new_data = np.zeros((len(particles), 3, 3))
+
         # Update particle positions and velocities before calculating the forces.
-        for particle in particles:
+        for i in range(len(particles)):
+            particle = particles[i]
+
             self.log_particle_position(particle)
 
-            # Simpson's rule.
-            mid_velocity = (
-                particle.acceleration
-                * (1 / 2) * self.time_step_size
-            )
-            final_velocity = particle.acceleration * self.time_step_size
-            delta_velocity = (
-                (self.time_step_size / 6)
-                * (particle.velocity + 4 * mid_velocity + final_velocity)
-            )
-
-            # Assume acceleration is constant.
-            # Δx = vt + (1/2) at^2
-            particle.position += (
-                particle.velocity * self.time_step_size
-                + (1 / 2) * particle.acceleration * self.time_step_size ** 2
-            )
-
-            particle.velocity += particle.acceleration * self.time_step_size
-
-        # Calculate the forces exerted on the particles
-        # and apply the corresponding acceleration.
-        for particle in self.particles:
             net_force = np.zeros(3, dtype=float)
 
             # Use the Barnes-Hut algorithm to approximate the net force
@@ -151,13 +132,21 @@ class Simulation():
 
             # Add the constant fields
             net_force += particle.get_force_experienced(
-                self.electric_field,
-                self.magnetic_field,
-                self.gravitational_field
-            )
+                self.electric_field, self.magnetic_field, self.gravitational_field)
 
-            # Update the particle's acceleration based on the force.
-            particle.apply_force(net_force)
+            # Calculate the new acceleration, velocity, and position.
+            new_data[i, 2] = (net_force / particle.mass)
+            new_data[i, 1] = (particle.velocity
+                              + particle.acceleration * self.time_step_size)
+            new_data[i, 0] = (particle.position
+                              + particle.velocity * self.time_step_size
+                              + (1 / 2) * particle.acceleration * self.time_step_size ** 2)
+
+        # Update the particle's position, velocity, and acceleration.
+        for i in range(len(particles)):
+            particles[i].acceleration = new_data[i, 2]
+            particles[i].velocity = new_data[i, 1]
+            particles[i].position = new_data[i, 0]
 
         self.current_time_step += 1
 
@@ -191,14 +180,11 @@ class Simulation():
 
             # Print fields
             output_string += (
-                f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n'
-            )
+                f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n')
             output_string += (
-                f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n'
-            )
+                f'E=<{", ".join((str(dimension) for dimension in self.electric_field))}>\n')
             output_string += (
-                f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n'
-            )
+                f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n')
             output_string += '\n'
 
             # Log initial particle states
@@ -250,7 +236,6 @@ if __name__ == '__main__':
         PointParticle(
             position=np.array(particle['position']),
             velocity=np.array(particle['velocity']),
-            acceleration=np.array(particle['acceleration']),
             mass=particle['mass'],
             charge=particle['charge']
         )
