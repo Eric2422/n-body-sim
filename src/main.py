@@ -113,7 +113,9 @@ class Simulation():
         new_data = np.zeros((len(particles), 3, 3))
 
         # Update particle positions and velocities before calculating the forces.
-        for particle in particles:
+        for i in range(len(particles)):
+            particle = particles[i]
+
             self.log_particle_position(particle)
 
             net_force = np.zeros(3, dtype=float)
@@ -132,11 +134,19 @@ class Simulation():
             net_force += particle.get_force_experienced(
                 self.electric_field, self.magnetic_field, self.gravitational_field)
 
-            # Update the particle's acceleration based on the force.
-            particle.apply_force(net_force)
+            # Calculate the new acceleration, velocity, and position.
+            new_data[i, 2] = (net_force / particle.mass)
+            new_data[i, 1] = (particle.velocity
+                              + particle.acceleration * self.time_step_size)
+            new_data[i, 0] = (particle.position
+                              + particle.velocity * self.time_step_size
+                              + (1 / 2) * particle.acceleration * self.time_step_size ** 2)
 
-            particle.velocity += particle.acceleration * self.time_step_size
-            particle.position = particle.position * self.time_step_size
+        # Update the particle's position, velocity, and acceleration.
+        for i in range(len(particles)):
+            particles[i].acceleration = new_data[i, 2]
+            particles[i].velocity = new_data[i, 1]
+            particles[i].position = new_data[i, 0]
 
         self.current_time_step += 1
 
