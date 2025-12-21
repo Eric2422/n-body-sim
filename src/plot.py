@@ -47,7 +47,7 @@ class Plot():
             left=min_x - (width * MARGIN),
             right=max_x + (width * MARGIN)
         )
-        ax.set_xlabel('meters (m)')
+        ax.set_xlabel('x (m)')
 
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
@@ -56,7 +56,7 @@ class Plot():
             bottom=min_y - (length * MARGIN),
             top=max_y + (length * MARGIN)
         )
-        ax.set_ylabel('meters (m)')
+        ax.set_ylabel('y (m)')
 
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
@@ -65,7 +65,7 @@ class Plot():
             min_z - (height * MARGIN),
             max_z + (height * MARGIN)
         )
-        ax.set_zlabel('meters (m)')  # type: ignore
+        ax.set_zlabel('z (m)')  # type: ignore
 
         self.fps = round(1 / time_step_size)
 
