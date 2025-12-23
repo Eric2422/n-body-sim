@@ -110,6 +110,7 @@ class Simulation():
         # Generate the root node of the octree
         barnes_hut_root = BarnesHutNode(particles=self.particles)
 
+        # Stores the new position, velocity, and acceleration.
         new_data = np.zeros((len(particles), 3, 3))
 
         # Update particle positions and velocities before calculating the forces.
