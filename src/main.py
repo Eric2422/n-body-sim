@@ -151,42 +151,42 @@ class Simulation():
 
             # Use Runge-Kutta method to to approximate velocity and position.
             a1 = particle.acceleration
+            v1 = particle.velocity
 
-            velocity = particle.velocity + a1 * self.time_step_size / 2
+            v2 = particle.velocity + a1 * self.time_step_size / 2
             position = (particle.position
-                        + particle.velocity * self.time_step_size / 2
+                        + v2 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
             a2 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, velocity) / particle.mass
+                particle, barnes_hut_root, position, v2) / particle.mass
 
-            velocity = particle.velocity + a2 * self.time_step_size / 2
+            v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
-                        + particle.velocity * self.time_step_size / 2
+                        + v3 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
             a3 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, velocity) / particle.mass
+                particle, barnes_hut_root, position, v3) / particle.mass
 
-            velocity = particle.velocity + a3 * self.time_step_size
+            v4 = particle.velocity + a3 * self.time_step_size
             position = (particle.position
-                        + particle.velocity * self.time_step_size
+                        + v4 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
             a4 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, velocity) / particle.mass
+                particle, barnes_hut_root, position, v4) / particle.mass
 
-            # Calculate the new acceleration, velocity, and position.
-            new_data[i, 2] = (self.time_step_size / 6) * \
-                (a1 + 2 * a2 * 2 * a3 + a4)
-            new_data[i, 1] = (particle.velocity
-                              + particle.acceleration * self.time_step_size)
-            new_data[i, 0] = (particle.position
-                              + particle.velocity * self.time_step_size
-                              + 1/2 * particle.acceleration * self.time_step_size ** 2)
+            # Calculate the new velocity and position.
+            new_data[i, 1] = (self.time_step_size / 6 *
+                              (a1 + 2 * a2 * 2 * a3 + a4))
+            new_data[i, 0] = (self.time_step_size / 6 *
+                              (v1 + 2 * v2 * 2 * v3 + v4))
 
         # Update the particle's position and velocity.
         for i in range(len(particles)):
             particle = particles[i]
             particle.position = new_data[i, 0]
             particle.velocity = new_data[i, 1]
+
+            # Acceleration has already been updated in the previous loop.
 
         self.current_time_step += 1
 
