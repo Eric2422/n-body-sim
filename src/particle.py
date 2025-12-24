@@ -90,7 +90,7 @@ class PointParticle:
 
         distance = np.linalg.norm(r)
 
-        return -r * scipy.constants.G * self.mass / (distance ** 2)
+        return -r * scipy.constants.G * self.mass / (distance ** 3)
 
     def get_gravitational_force_experienced(
         self,
@@ -141,7 +141,7 @@ class PointParticle:
         # The Coulomb constant
         k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
 
-        return - r * (k * self.charge) / (distance ** 2)
+        return - r * (k * self.charge) / (distance ** 3)
 
     def get_electrostatic_force_experienced(
         self,
@@ -194,7 +194,7 @@ class PointParticle:
 
         return (
             scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
-            / (4 * np.pi * distance ** 2)
+            / (4 * np.pi * distance ** 3)
         )
 
     def get_magnetic_force_experienced(
