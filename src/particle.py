@@ -145,8 +145,7 @@ class PointParticle:
 
     def get_electrostatic_force_experienced(
         self,
-        electric_field:
-        vectors.FieldVector
+        electric_field: vectors.FieldVector
     ) -> vectors.ForceVector:
         """Calculate the force acting upon this particle by the
         given electric field.
@@ -200,7 +199,8 @@ class PointParticle:
 
     def get_magnetic_force_experienced(
         self,
-        magnetic_field: vectors.FieldVector
+        magnetic_field: vectors.FieldVector,
+        velocity: vectors.FieldVector | None = None
     ) -> vectors.ForceVector:
         """Calculate the magnetic force acting upon this particle by the
         given electric field.
@@ -209,19 +209,29 @@ class PointParticle:
         ----------
         `magnetic_field` : `vectors.FieldVector`
             The magnetic field acting upon this particle in teslas (T).
+        `velocity` : `vectors.FieldVector` | `None`
+            The velocity to use for the magnetic force calculations, 
+            by default `self.velocity`.
 
         Returns
         -------
         vectors.ForceVector
             The force exerted upon this particle by the magnetic field in newtons (N).
         """
-        return self.charge * np.cross(self.velocity, magnetic_field)
+        return (
+            self.charge
+            * np.cross(
+                self.velocity if velocity is None else velocity,
+                magnetic_field
+            )
+        )
 
     def get_force_experienced(
         self,
         gravitational_field: vectors.FieldVector = np.array((0, 0, 0)),
         electric_field: vectors.FieldVector = np.array((0, 0, 0)),
-        magnetic_field: vectors.FieldVector = np.array((0, 0, 0))
+        magnetic_field: vectors.FieldVector = np.array((0, 0, 0)),
+        velocity: vectors.FieldVector | None = None
     ) -> vectors.ForceVector:
         """Calculate the net force exerted on this particle as a result of
         gravitational, electric, and magnetic fields.
@@ -237,6 +247,9 @@ class PointParticle:
         `magnetic_field` : `vectors.FieldVector`, optional
             The magnetic field acting upon this particle,
             by default `np.array((0, 0, 0))`
+        `velocity` : `vectors.FieldVector` | `None`
+            The velocity to use for the magnetic force calculations, 
+            by default `self.velocity`.
 
         Returns
         -------
@@ -247,7 +260,7 @@ class PointParticle:
         return (
             self.get_gravitational_force_experienced(gravitational_field)
             + self.get_electrostatic_force_experienced(electric_field)
-            + self.get_magnetic_force_experienced(magnetic_field)
+            + self.get_magnetic_force_experienced(magnetic_field, velocity)
         )
 
     def apply_fields(
