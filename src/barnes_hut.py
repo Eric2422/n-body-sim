@@ -398,8 +398,10 @@ class BarnesHutNode():
         r = point - self.center_of_charge
         # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
-        # The unit vector of `r`.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
+        
+        # If the distance is 0, return 0 vector to avoid divide by 0.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
 
@@ -409,7 +411,7 @@ class BarnesHutNode():
                 scipy.constants.mu_0 * self.total_charge
                 * np.cross(
                     self.center_of_charge_velocity,
-                    r_hat / (4 * np.pi * np.linalg.norm(r) ** 2)
+                    r / (4 * np.pi * np.linalg.norm(r) ** 3)
                 )
             )
 

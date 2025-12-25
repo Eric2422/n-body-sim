@@ -1,4 +1,6 @@
 from __future__ import annotations
+import warnings
+warnings.filterwarnings("error")
 
 import numpy as np
 import scipy.constants
