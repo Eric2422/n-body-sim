@@ -133,7 +133,7 @@ class Simulation():
     def time_step(self) -> None:
         """Run one time step of the simulation."""
         # Generate the root node of the octree
-        barnes_hut_root = BarnesHutNode(particles=self.particles)
+        barnes_hut_root = BarnesHutNode(self.particles)
 
         # Stores the new positions and velocities.
         new_data = np.zeros((len(particles), 2, 3))

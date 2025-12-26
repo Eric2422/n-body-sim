@@ -65,10 +65,10 @@ class BarnesHutNode():
 
     def __init__(
         self,
+        particles: list[PointParticle] = [],
         x_bounds: npt.NDArray[np.float64] | None = None,
         y_bounds: npt.NDArray[np.float64] | None = None,
-        z_bounds: npt.NDArray[np.float64] | None = None,
-        particles: list[PointParticle] = [],
+        z_bounds: npt.NDArray[np.float64] | None = None
     ):
         """Construct a Barnes-Hut node and recursively create its child nodes.
 
@@ -78,14 +78,14 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        ``x_bounds`` : `npt.NDArray[np.float64]`, optional
+        `particles` : `list[PointParticle]`, optional
+            List of particles that are contained within this Barnes-Hut node, by default `[]`
+        `x_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper x bounds in that order, by default `None`
         `y_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper y bounds in that order, by default `None`
         `z_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper z bounds in that order, by default `None`
-        `particles` : `list[PointParticle]`, optional
-            List of particles that are contained within this Barnes-Hut node, by default `[]`
         """
         # If `x_bounds` is not given,
         # set it based on the minimum and maximum x positions of the particles.
@@ -294,15 +294,13 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.child_nodes) > 0:
             for child_node in self.child_nodes:
-                force += child_node.get_gravitational_field_exerted(
-                    point=point
-                )
+                force += child_node.get_gravitational_field_exerted(point)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
-                force += particle.get_gravitational_field_exerted(point=point)
+                force += particle.get_gravitational_field_exerted(point)
 
         return force
 
@@ -398,7 +396,7 @@ class BarnesHutNode():
         r = point - self.center_of_charge
         # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
-        
+
         # If the distance is 0, return 0 vector to avoid divide by 0.
         if distance == 0:
             return np.zeros(3, dtype=float)
