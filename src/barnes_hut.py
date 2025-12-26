@@ -183,7 +183,7 @@ class BarnesHutNode():
         # Create no children if this is an external node
         # (i.e., it has only 0 or 1 particles).
         self.child_nodes = (
-            self.create_child_nodes() if len(self.particles) > 1
+            self.create_child_nodes() if len(self.particles) > 1 and self.size > 0
             else tuple()
         )
 
@@ -202,7 +202,7 @@ class BarnesHutNode():
         children = []
 
         # Split each dimension in half.
-        
+
         x_linspace = np.linspace(
             self.x_bounds[0], self.x_bounds[1], num=2, endpoint=False
         )
