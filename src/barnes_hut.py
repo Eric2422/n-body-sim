@@ -184,7 +184,7 @@ class BarnesHutNode():
         # (i.e., it has only 0 or 1 particles).
         self.child_nodes = (
             self.create_child_nodes() if len(self.particles) > 1
-            else []
+            else tuple()
         )
 
     def create_child_nodes(self) -> list['BarnesHutNode']:
@@ -199,8 +199,10 @@ class BarnesHutNode():
         child_size = self.size / 2
 
         # List of all the child BH nodes.
-        child_nodes = []
+        children = []
 
+        # Split each dimension in half.
+        
         x_linspace = np.linspace(
             self.x_bounds[0], self.x_bounds[1], num=2, endpoint=False
         )
@@ -221,9 +223,9 @@ class BarnesHutNode():
                         z_bounds=np.array((lower_z, lower_z + child_size)),
                         particles=self.particles.copy(),
                     )
-                    child_nodes.append(child)
+                    children.append(child)
 
-        return child_nodes
+        return children
 
     def particle_within_bounds(self, particle: PointParticle) -> bool:
         """Return whether a given particle is within the bounds of this
