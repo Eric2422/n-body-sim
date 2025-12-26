@@ -86,13 +86,13 @@ class PointParticle:
             The gravitational field generated at `point` in newtons per kilogram (N/kg).
         """
         r = point - self.position
-        print(r)
+        print(f'r: {r}')
         # If the points are overlapping, there is no force.
         if np.linalg.norm(r) == 0:
             return np.zeros(3, dtype=float)
 
         distance = np.linalg.norm(r)
-        print(distance)
+        print(f'distance: {distance}')
         print()
 
         return -r * scipy.constants.G * self.mass / (distance ** 3)

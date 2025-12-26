@@ -153,22 +153,23 @@ class Simulation():
             a1 = particle.acceleration
             v1 = particle.velocity
 
+            print()
             print(f'v1: {v1}')
             print(f'a1: {a1}')
 
             v2 = particle.velocity + a1 * self.time_step_size / 2
             position = (particle.position
-                        + v2 * self.time_step_size / 2
+                        + v1 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
             a2 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v2) / particle.mass
+                particle, barnes_hut_root, position, v1) / particle.mass
             
             print(f'v2: {v2}')
             print(f'a2: {a2}')
 
             v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
-                        + v3 * self.time_step_size / 2
+                        + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
             a3 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v3) / particle.mass
@@ -178,7 +179,7 @@ class Simulation():
 
             v4 = particle.velocity + a3 * self.time_step_size
             position = (particle.position
-                        + v4 * self.time_step_size
+                        + v3 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
             a4 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v4) / particle.mass
