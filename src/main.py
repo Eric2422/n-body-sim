@@ -150,41 +150,42 @@ class Simulation():
             self.log_particle(particle)
 
             # Use Runge-Kutta method to to approximate velocity and position.
-            a1 = particle.acceleration
             v1 = particle.velocity
+            a1 = particle.acceleration
 
             print()
+            print(f'position: {particle.position}')
             print(f'v1: {v1}')
             print(f'a1: {a1}')
 
+            a2 = self.calculate_particle_force(
+                particle, barnes_hut_root) / particle.mass
             v2 = particle.velocity + a1 * self.time_step_size / 2
             position = (particle.position
                         + v1 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
-            a2 = self.calculate_particle_force(
-                particle, barnes_hut_root, velocity=v1) / particle.mass
 
             print(f'position: {position}')
             print(f'v2: {v2}')
             print(f'a2: {a2}')
 
+            a3 = self.calculate_particle_force(
+                particle, barnes_hut_root, position, v2) / particle.mass
             v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
                         + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
-            a3 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v3) / particle.mass
 
             print(f'position: {position}')
             print(f'v3: {v3}')
             print(f'a3: {a3}')
 
+            a4 = self.calculate_particle_force(
+                particle, barnes_hut_root, position, v3) / particle.mass
             v4 = particle.velocity + a3 * self.time_step_size
             position = (particle.position
                         + v3 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
-            a4 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v4) / particle.mass
 
             print(f'position: {position}')
             print(f'v4: {v4}')

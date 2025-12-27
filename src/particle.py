@@ -92,7 +92,6 @@ class PointParticle:
             return np.zeros(3, dtype=float)
 
         print(f'distance: {distance}')
-        print()
 
         return -r * scipy.constants.G * self.mass / distance ** 3
 
