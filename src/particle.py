@@ -1,11 +1,9 @@
 from __future__ import annotations
+import vectors
+import scipy.constants
+import numpy as np
 import warnings
 warnings.filterwarnings("error")
-
-import numpy as np
-import scipy.constants
-
-import vectors
 
 
 class PointParticle:
@@ -86,16 +84,17 @@ class PointParticle:
             The gravitational field generated at `point` in newtons per kilogram (N/kg).
         """
         r = point - self.position
+        distance = np.linalg.norm(r)
         print(f'r: {r}')
+
         # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
+        if distance == 0:
             return np.zeros(3, dtype=float)
 
-        distance = np.linalg.norm(r)
         print(f'distance: {distance}')
         print()
 
-        return -r * scipy.constants.G * self.mass / (distance ** 3)
+        return -r * scipy.constants.G * self.mass / distance ** 3
 
     def get_gravitational_force_experienced(
         self,
@@ -137,16 +136,16 @@ class PointParticle:
             in newtons per coulomb (N/C).
         """
         r = point - self.position
-        # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
-            return np.zeros(3, dtype=float)
-
         distance = np.linalg.norm(r)
 
-        # The Coulomb constant
-        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+        # If the points are overlapping, there is no force.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
-        return - r * (k * self.charge) / (distance ** 3)
+        # The Coulomb constant
+        k = 1 / (4 * np.pi * scipy.constants.epsilon_0)
+
+        return -r * k * self.charge / distance ** 3
 
     def get_electrostatic_force_experienced(
         self,
@@ -191,11 +190,11 @@ class PointParticle:
         which only approximates magnetic fields for particles with a velocity << c.
         """
         r = point - self.position
-        # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
-            return np.zeros(3, dtype=float)
-
         distance = np.linalg.norm(r)
+
+        # If the points are overlapping, there is no force.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         return (
             scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)

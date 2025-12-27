@@ -283,14 +283,16 @@ class BarnesHutNode():
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_mass
         distance = np.linalg.norm(r)
-        # Normalize the displacement vector.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
+
+        # Prevent divide by 0 error.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
 
-        # If the point is sufficiently far away, approximate the force
+        # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
-            return r_hat * scipy.constants.G * self.total_mass / distance ** 2
+            return -r * scipy.constants.G * self.total_mass / distance ** 3
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
@@ -337,20 +339,20 @@ class BarnesHutNode():
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_charge
         distance = np.linalg.norm(r)
-        # Normalize the displacement vector.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
 
-        # The Coulomb constant.
-        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+        # If the distance is 0, return a 0 array to avoid divide by 0.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
+
+        # The Coulomb constant.
+        k = 1 / (4 * np.pi * scipy.constants.epsilon_0)
 
         # If the point is sufficiently far away, approximate the force.
         if self.size < theta * distance:
             # The electrostatic force between the particles.
-            electric_field = (k * self.total_charge) / (distance ** 2)
-
-            return -electric_field * r_hat
+            return -r * k * self.total_charge / distance ** 3
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
@@ -409,10 +411,8 @@ class BarnesHutNode():
         if self.size < theta * distance:
             return (
                 scipy.constants.mu_0 * self.total_charge
-                * np.cross(
-                    self.center_of_charge_velocity,
-                    r / (4 * np.pi * np.linalg.norm(r) ** 3)
-                )
+                * np.cross(self.center_of_charge_velocity, r)
+                / (4 * np.pi * distance ** 3)
             )
 
         # If the point is not sufficiently far away,
