@@ -1,11 +1,9 @@
+import vectors
+import scipy.constants
+import numpy as np
 import typing
 import warnings
 warnings.filterwarnings("error")
-
-import numpy as np
-import scipy.constants
-
-import vectors
 
 
 class PointParticle:
@@ -310,6 +308,7 @@ class PointParticle:
         """
         return isinstance(value, PointParticle) and self.id == value.id
 
+    @typing.override
     def __str__(self) -> str:
         """Return a `str` containing information about this particle's current state.
 
@@ -333,6 +332,7 @@ class PointParticle:
             f'a={acceleration_string}, m={self.mass}, q={self.charge}'
         )
 
+    @typing.override
     def __repr__(self) -> str:
         """Return a `str` containing all the arguments needed to instantiate
         another identical particle (aside from :const:`PointParticle.id`).
