@@ -1,3 +1,5 @@
+import typing
+
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,6 +7,9 @@ import pandas as pd
 
 
 class Plot():
+    "Creates and updates a Matplotlib plot."
+
+    @typing.override
     def __init__(
         self,
         data_frame: pd.DataFrame,

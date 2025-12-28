@@ -1,3 +1,5 @@
+import typing
+
 import numpy as np
 import numpy.typing as npt
 import scipy
@@ -63,6 +65,7 @@ class BarnesHutNode():
 
         return new_bounds, centroid, size
 
+    @typing.override
     def __init__(
         self,
         particles: list[PointParticle] = [],
@@ -462,6 +465,7 @@ class BarnesHutNode():
             else 1 + max(child.get_height() for child in self.child_nodes)
         )
 
+    @typing.override
     def __str__(self):
         """Return information about the centroid, total mass, center of mass,
         total charge, center of charge, velocity of center of charge,

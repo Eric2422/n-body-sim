@@ -13,6 +13,7 @@ class PointParticle:
     """Used to assign an identifier to each particle.
     Increments every time a new particle is created."""
 
+    @typing.override
     def __init__(
         self,
         position: vectors.PositionVector = np.array([0.0, 0.0, 0.0]),

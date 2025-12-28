@@ -1,4 +1,5 @@
 import sys
+import typing
 
 import numpy as np
 import pandas as pd
@@ -20,6 +21,7 @@ class Simulation():
     Keeps track of the previous positions of all the partices.
     """
 
+    @typing.override
     def __init__(
         self,
         theta: float = 0.5,

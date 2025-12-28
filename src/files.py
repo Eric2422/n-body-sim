@@ -12,9 +12,13 @@ class FileHandler:
     """Handles the creation, reading, and writing of files."""
 
     INPUT_DIR = pathlib.Path('./input')
+    """Represents the directory that contains the input files."""
     SCHEMA_DIR = pathlib.Path('./schemas')
+    """Represents the directory that contains the schema files used for JSON formatting."""
     OUTPUT_DIR = pathlib.Path('./output')
+    """Represents the directory that contains the output files."""
 
+    @typing.override
     def __init__(
         self,
         schema_file: str = 'main.json',
