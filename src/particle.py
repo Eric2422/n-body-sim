@@ -50,8 +50,9 @@ class PointParticle:
         self.position = position
         """The current position of this particle in meters (m)."""
         self.velocity = velocity
-        """The current velocity of this"""
+        """The current velocity of this particle in meters per second (m/s)."""
         self.acceleration = acceleration
+        """The current acceleration of this particle in meters per second squared (m/s^2)."""
 
         self.MASS = mass
         """The mass of this particle in kilograms (kg), which should never change."""
@@ -300,7 +301,7 @@ class PointParticle:
     @typing.override
     def __eq__(self, value: object) -> bool:
         """Return whether an `object` is equal to this `PointParticle`.
-        They are equal if and only if the `object` is also a `PointParticle` with the same `id`.
+        They are equal if and only if the `object` is also a `PointParticle` with the same `ID`.
 
         Parameters
         ----------
@@ -310,7 +311,7 @@ class PointParticle:
         Returns
         -------
         `bool`
-            Whether `value` is also a `PointParticle` with the same `id`.
+            Whether `value` is also a `PointParticle` with the same `ID`.
         """
         return isinstance(value, PointParticle) and self.ID == value.ID
 
