@@ -1,9 +1,11 @@
-from __future__ import annotations
-import vectors
-import scipy.constants
-import numpy as np
+import typing
 import warnings
 warnings.filterwarnings("error")
+
+import numpy as np
+import scipy.constants
+
+import vectors
 
 
 class PointParticle:
@@ -290,6 +292,9 @@ class PointParticle:
             + self.get_electrostatic_force_experienced(electric_field)
             + self.get_magnetic_force_experienced(magnetic_field)
         )
+
+    def __eq__(self, value: object) -> bool:
+        return isinstance(value, PointParticle) and self.id == value.id
 
     def __str__(self) -> str:
         position_string = (
