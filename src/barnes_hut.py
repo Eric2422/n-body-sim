@@ -145,10 +145,10 @@ class BarnesHutNode():
             particle for particle in particles if self.particle_within_bounds(particle)]
         """A list of all particle included in this node."""
 
-        self.TOTAL_MASS = sum([particle.MASS for particle in self.PARTICLES])
+        self.TOTAL_MASS = sum(particle.MASS for particle in self.PARTICLES)
         """Total mass of all particles in this node, measured in kilograms (kg)."""
         mass_moment = sum(
-            [particle.MASS * particle.position for particle in self.PARTICLES])
+            particle.MASS * particle.position for particle in self.PARTICLES)
 
         # Divide the mass moment by center of mass to obtain the center of mass.
         # If mass is 0, return the centroid.
@@ -163,7 +163,7 @@ class BarnesHutNode():
         )
         """Total charge of all particles in this node, measured in coulombs (C)."""
         charge_moment = sum(
-            [particle.CHARGE * particle.position for particle in self.PARTICLES]
+            particle.CHARGE * particle.position for particle in self.PARTICLES
         )
 
         # Divide the charge moment by center of charge to obtain the center of charge.
@@ -177,7 +177,7 @@ class BarnesHutNode():
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current.
         current_moment = sum(
-            [particle.CHARGE * particle.velocity for particle in self.PARTICLES]
+            particle.CHARGE * particle.velocity for particle in self.PARTICLES
         )
 
         self.CENTER_OF_CHARGE_VELOCITY = (
