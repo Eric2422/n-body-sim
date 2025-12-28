@@ -255,7 +255,8 @@ class BarnesHutNode():
     def get_gravitational_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int | None = None
     ) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this node
         at a given point.
@@ -311,7 +312,8 @@ class BarnesHutNode():
     def get_electric_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int | None = None
     ) -> vectors.FieldVector:
         """Calculate the approximate electric field exerted by this node
         at a given point.
@@ -371,7 +373,8 @@ class BarnesHutNode():
     def get_magnetic_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int | None = None
     ) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this node at a
         given point.
