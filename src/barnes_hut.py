@@ -142,10 +142,10 @@ class BarnesHutNode():
             particle for particle in particles if self.particle_within_bounds(particle)]
         """A list of all particle included in this node."""
 
-        self.total_mass = sum([particle.mass for particle in self.particles])
+        self.total_mass = sum([particle.MASS for particle in self.particles])
         """Total mass of all particles in this node, measured in kilograms (kg)."""
         mass_moment = sum(
-            [particle.mass * particle.position for particle in self.particles])
+            [particle.MASS * particle.position for particle in self.particles])
 
         # Divide the mass moment by center of mass to obtain the center of mass.
         # If mass is 0, return the centroid.
@@ -155,11 +155,11 @@ class BarnesHutNode():
         )
 
         self.total_charge = sum(
-            [particle.charge for particle in self.particles]
+            [particle.CHARGE for particle in self.particles]
         )
         """Total charge of all particles in this node, measured in coulombs (C)."""
         charge_moment = sum(
-            [particle.charge * particle.position for particle in self.particles]
+            [particle.CHARGE * particle.position for particle in self.particles]
         )
 
         # Divide the charge moment by center of charge to obtain the center of charge.
@@ -173,7 +173,7 @@ class BarnesHutNode():
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current.
         current_moment = sum(
-            [particle.charge * particle.velocity for particle in self.particles]
+            [particle.CHARGE * particle.velocity for particle in self.particles]
         )
 
         self.center_of_charge_velocity = (
@@ -307,13 +307,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.child_nodes) > 0:
             for child_node in self.child_nodes:
-                force += child_node.get_gravitational_field_exerted(point)
+                force += child_node.get_gravitational_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
-                force += particle.get_gravitational_field_exerted(point)
+                if particle.ID != particle_id:
+                    force += particle.get_gravitational_field_exerted(point)
 
         return force
 
@@ -373,13 +375,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.child_nodes) > 0:
             for child_node in self.child_nodes:
-                force += child_node.get_electric_field_exerted(point=point)
+                force += child_node.get_electric_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
-                force += particle.get_electric_field_exerted(point=point)
+                if particle.ID != particle_id:
+                    force += particle.get_electric_field_exerted(point)
 
         return force
 
@@ -440,13 +444,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.child_nodes) > 0:
             for child_node in self.child_nodes:
-                force += child_node.get_magnetic_field_exerted(point=point)
+                force += child_node.get_magnetic_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.particles:
-                force += particle.get_magnetic_field_exerted(point=point)
+                if particle.ID != particle_id:
+                    force += particle.get_magnetic_field_exerted(point=point)
 
         return force
 

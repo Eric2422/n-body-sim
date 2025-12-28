@@ -48,13 +48,18 @@ class PointParticle:
         """
         # Represented by arrays of (x, y, z).
         self.position = position
+        """The current position of this particle in meters (m)."""
         self.velocity = velocity
+        """The current velocity of this"""
         self.acceleration = acceleration
 
-        self.mass = np.float64(mass)
-        self.charge = np.float64(charge)
+        self.MASS = mass
+        """The mass of this particle in kilograms (kg), which should never change."""
+        self.CHARGE = charge
+        """The charge of this particle in coulombs (C), which should never change."""
 
-        self.id = PointParticle.current_id
+        self.ID = PointParticle.current_id
+        """The unique ID identifying this particle, which should never change."""
         PointParticle.current_id += 1
 
     def apply_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
@@ -65,7 +70,7 @@ class PointParticle:
         `force` : `vectors.ForceVector`, optional
             The force applied upon this particle in newtons (N), by default `np.zeros(3)`
         """
-        self.acceleration = force / self.mass
+        self.acceleration = force / self.MASS
 
     def get_gravitational_field_exerted(
         self,
@@ -95,7 +100,7 @@ class PointParticle:
 
         print(f'distance: {distance}')
 
-        return -r * scipy.constants.G * self.mass / distance ** 3
+        return -r * scipy.constants.G * self.MASS / distance ** 3
 
     def get_gravitational_force_experienced(
         self,
@@ -116,7 +121,7 @@ class PointParticle:
             The force acting upon this particle as a result of the
             gravitational field, in newtons (N).
         """
-        return self.mass * gravitational_field
+        return self.MASS * gravitational_field
 
     def get_electric_field_exerted(
         self,
@@ -146,7 +151,7 @@ class PointParticle:
         # The Coulomb constant
         k = 1 / (4 * np.pi * scipy.constants.epsilon_0)
 
-        return -r * k * self.charge / distance ** 3
+        return -r * k * self.CHARGE / distance ** 3
 
     def get_electrostatic_force_experienced(
         self,
@@ -165,7 +170,7 @@ class PointParticle:
         `vectors.ForceVector`
             The force exerted upon this particle by the electric field in newtons (N).
         """
-        return self.charge * electric_field
+        return self.CHARGE * electric_field
 
     def get_magnetic_field_exerted(
         self,
@@ -198,7 +203,7 @@ class PointParticle:
             return np.zeros(3, dtype=float)
 
         return (
-            scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
+            scipy.constants.mu_0 * self.CHARGE * np.cross(self.velocity, r)
             / (4 * np.pi * distance ** 3)
         )
 
@@ -224,11 +229,11 @@ class PointParticle:
             The force exerted upon this particle by the magnetic field in newtons (N).
         """
         return (
-            self.charge
+            self.CHARGE
             * np.cross(
                 self.velocity if velocity is None else velocity,
                 magnetic_field
-            )
+            ).astype(float)
         )
 
     def get_force_experienced(
@@ -307,7 +312,7 @@ class PointParticle:
         `bool`
             Whether `value` is also a `PointParticle` with the same `id`.
         """
-        return isinstance(value, PointParticle) and self.id == value.id
+        return isinstance(value, PointParticle) and self.ID == value.ID
 
     @typing.override
     def __str__(self) -> str:
@@ -330,7 +335,7 @@ class PointParticle:
 
         return (
             f'Point Particle: r={position_string}, v={velocity_string}, '
-            f'a={acceleration_string}, m={self.mass}, q={self.charge}'
+            f'a={acceleration_string}, m={self.MASS}, q={self.CHARGE}'
         )
 
     @typing.override
@@ -347,5 +352,5 @@ class PointParticle:
         cls = self.__class__.__name__
         return (
             f'{cls}({self.position}, {self.velocity}, {self.acceleration}, '
-            f'{self.mass}, {self.charge})'
+            f'{self.MASS}, {self.CHARGE})'
         )

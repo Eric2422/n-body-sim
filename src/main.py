@@ -146,7 +146,7 @@ class Simulation():
 
             # Update the particle's acceleration.
             particle.acceleration = self.calculate_particle_force(
-                particle, barnes_hut_root) / particle.mass
+                particle, barnes_hut_root) / particle.MASS
 
             # Log after the current acceleration has been calculated.
             self.log_particle(particle)
@@ -161,7 +161,7 @@ class Simulation():
             print(f'a1: {a1}')
 
             a2 = self.calculate_particle_force(
-                particle, barnes_hut_root) / particle.mass
+                particle, barnes_hut_root) / particle.MASS
             v2 = particle.velocity + a1 * self.time_step_size / 2
             position = (particle.position
                         + v1 * self.time_step_size / 2
@@ -172,7 +172,7 @@ class Simulation():
             print(f'a2: {a2}')
 
             a3 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v2) / particle.mass
+                particle, barnes_hut_root, position, v2) / particle.MASS
             v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
                         + v2 * self.time_step_size / 2
@@ -183,7 +183,7 @@ class Simulation():
             print(f'a3: {a3}')
 
             a4 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v3) / particle.mass
+                particle, barnes_hut_root, position, v3) / particle.MASS
             v4 = particle.velocity + a3 * self.time_step_size
             position = (particle.position
                         + v3 * self.time_step_size
