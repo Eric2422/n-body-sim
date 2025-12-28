@@ -293,10 +293,31 @@ class PointParticle:
             + self.get_magnetic_force_experienced(magnetic_field)
         )
 
+    @typing.override
     def __eq__(self, value: object) -> bool:
+        """Return whether an `object` is equal to this `PointParticle`.
+        They are equal if and only if the `object` is also a `PointParticle` with the same `id`.
+
+        Parameters
+        ----------
+        `value` : `object`
+            The `object` to compare against this `PointParticle` for equality.
+
+        Returns
+        -------
+        `bool`
+            Whether `value` is also a `PointParticle` with the same `id`.
+        """
         return isinstance(value, PointParticle) and self.id == value.id
 
     def __str__(self) -> str:
+        """Return a `str` containing information about this particle's current state.
+
+        Returns
+        -------
+        `str`
+            Return a `str` containing information about this particle's current state.
+        """
         position_string = (
             f'({", ".join((str(dimension) for dimension in self.position))})'
         )
