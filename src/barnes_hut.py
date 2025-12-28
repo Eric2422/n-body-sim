@@ -256,7 +256,7 @@ class BarnesHutNode():
         self,
         point: vectors.PositionVector,
         theta: float = 0.0,
-        particle_id: int | None = None
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this node
         at a given point.
@@ -273,13 +273,18 @@ class BarnesHutNode():
             Given the distance between the point and the center of mass,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
-
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation, 
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
         `vectors.FieldVector`
-            The gravitational field produced by this node, measured in newtons per kg (N/kg).
+            The gravitational field produced by this node, 
+            measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.
         r = point - self.center_of_mass
@@ -313,7 +318,7 @@ class BarnesHutNode():
         self,
         point: vectors.PositionVector,
         theta: float = 0.0,
-        particle_id: int | None = None
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate electric field exerted by this node
         at a given point.
@@ -331,6 +336,11 @@ class BarnesHutNode():
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation, 
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
@@ -374,7 +384,7 @@ class BarnesHutNode():
         self,
         point: vectors.PositionVector,
         theta: float = 0.0,
-        particle_id: int | None = None
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this node at a
         given point.
@@ -392,6 +402,11 @@ class BarnesHutNode():
             it used to determine whether to return an approximate or exact
             value for the magnetic field.
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation, 
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
