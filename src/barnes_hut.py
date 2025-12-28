@@ -114,7 +114,6 @@ class BarnesHutNode():
         )
         """A two-element array containing the lower and upper y-bounds of this node."""
 
-
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given z bounds.
@@ -126,7 +125,6 @@ class BarnesHutNode():
             else z_bounds
         )
         """A two-element array containing the lower and upper z-bounds of this node."""
-
 
         centroid: npt.NDArray[np.float64]
         """The centroid of the Barnes Hut node"""
@@ -313,13 +311,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
-                force += child_node.get_gravitational_field_exerted(point)
+                force += child_node.get_gravitational_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.PARTICLES:
-                force += particle.get_gravitational_field_exerted(point)
+                if particle.ID != particle_id:
+                    force += particle.get_gravitational_field_exerted(point)
 
         return force
 
@@ -379,13 +379,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
-                force += child_node.get_electric_field_exerted(point=point)
+                force += child_node.get_electric_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.PARTICLES:
-                force += particle.get_electric_field_exerted(point=point)
+                if particle.ID != particle_id:
+                    force += particle.get_electric_field_exerted(point)
 
         return force
 
@@ -412,7 +414,7 @@ class BarnesHutNode():
             value for the magnetic field.
             When theta is 0.0, no approximation will occur.
         `particle_id` : `int`, optional
-            The ID of the particle to exclude from the force calculation, 
+            The ID of the particle to exclude from the force calculation,
             by default -1.
             When the value is -1, no particles will be excluded
             from the force calculation.
@@ -446,13 +448,15 @@ class BarnesHutNode():
         # and this node is internal, add the force from each node.
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
-                force += child_node.get_magnetic_field_exerted(point=point)
+                force += child_node.get_magnetic_field_exerted(
+                    point, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
             for particle in self.PARTICLES:
-                force += particle.get_magnetic_field_exerted(point=point)
+                if particle.ID != particle_id:
+                    force += particle.get_magnetic_field_exerted(point)
 
         return force
 

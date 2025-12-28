@@ -119,10 +119,12 @@ class Simulation():
         return (
             particle.get_force_experienced(
                 barnes_hut_root.get_gravitational_field_exerted(
-                    position
+                    position, particle.ID
                 ),
-                barnes_hut_root.get_electric_field_exerted(position),
-                barnes_hut_root.get_magnetic_field_exerted(position),
+                barnes_hut_root.get_electric_field_exerted(
+                    position, particle.ID),
+                barnes_hut_root.get_magnetic_field_exerted(
+                    position, particle.ID),
                 velocity
             )
             + particle.get_force_experienced(
