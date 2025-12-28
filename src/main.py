@@ -130,7 +130,8 @@ class Simulation():
             + particle.get_force_experienced(
                 self.gravitational_field,
                 self.electric_field,
-                self.magnetic_field, velocity=velocity
+                self.magnetic_field,
+                velocity
             )
         )
 
