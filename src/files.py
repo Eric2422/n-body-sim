@@ -12,9 +12,13 @@ class FileHandler:
     """Handles the creation, reading, and writing of files."""
 
     INPUT_DIR = pathlib.Path('./input')
+    """Represents the directory that contains the input files."""
     SCHEMA_DIR = pathlib.Path('./schemas')
+    """Represents the directory that contains the schema files used for JSON formatting."""
     OUTPUT_DIR = pathlib.Path('./output')
+    """Represents the directory that contains the output files."""
 
+    @typing.override
     def __init__(
         self,
         schema_file: str = 'main.json',
@@ -51,10 +55,11 @@ class FileHandler:
             (pathlib.Path(input_file).stem + '.txt')
         )
 
-        # Open the schema file and read it.
-        self.schema = json.load(
-            (FileHandler.SCHEMA_DIR / schema_file).open()
-        )
+        with open(FileHandler.SCHEMA_DIR / schema_file) as file:
+            # Open the schema file and read it.
+            self.schema = json.load(
+                file
+            )
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file.
@@ -95,7 +100,8 @@ class FileHandler:
         """
         # Try to open the input file
         try:
-            return json.load(self.input_file.open())
+            with open(self.input_file) as file:
+                return json.load(file)
 
         except OSError or FileNotFoundError:
             print('Please enter a valid input file.')
@@ -199,9 +205,10 @@ class FileHandler:
         # If the schema contains a subschema,
         # open and read it
         if '$ref' in schema_dict:
-            ref_schema = json.load(
-                (FileHandler.SCHEMA_DIR / schema_dict['$ref']).open()
-            )
+            with open(FileHandler.SCHEMA_DIR / schema_dict['$ref']) as file:
+                ref_schema = json.load(
+                    file
+                )
             return self.create_json_template(ref_schema)
 
         if 'default' in schema_dict:

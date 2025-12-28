@@ -1,17 +1,19 @@
-from __future__ import annotations
-
-import numpy as np
-import scipy.constants
-
 import vectors
+import scipy.constants
+import numpy as np
+import typing
+import warnings
+warnings.filterwarnings("error")
 
 
 class PointParticle:
     """A point particle with a specified position, charge, and mass."""
 
     current_id = 0
-    """Used to assign an identifier to each particle."""
+    """Used to assign an identifier to each particle.
+    Increments every time a new particle is created."""
 
+    @typing.override
     def __init__(
         self,
         position: vectors.PositionVector = np.array([0.0, 0.0, 0.0]),
@@ -84,13 +86,16 @@ class PointParticle:
             The gravitational field generated at `point` in newtons per kilogram (N/kg).
         """
         r = point - self.position
+        distance = np.linalg.norm(r)
+        print(f'r: {r}')
+
         # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
+        if distance == 0:
             return np.zeros(3, dtype=float)
 
-        distance = np.linalg.norm(r)
+        print(f'distance: {distance}')
 
-        return -r * scipy.constants.G * self.mass / (distance ** 3)
+        return -r * scipy.constants.G * self.mass / distance ** 3
 
     def get_gravitational_force_experienced(
         self,
@@ -132,21 +137,20 @@ class PointParticle:
             in newtons per coulomb (N/C).
         """
         r = point - self.position
-        # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
-            return np.zeros(3, dtype=float)
-
         distance = np.linalg.norm(r)
 
-        # The Coulomb constant
-        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+        # If the points are overlapping, there is no force.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
-        return - r * (k * self.charge) / (distance ** 3)
+        # The Coulomb constant
+        k = 1 / (4 * np.pi * scipy.constants.epsilon_0)
+
+        return -r * k * self.charge / distance ** 3
 
     def get_electrostatic_force_experienced(
         self,
-        electric_field:
-        vectors.FieldVector
+        electric_field: vectors.FieldVector
     ) -> vectors.ForceVector:
         """Calculate the force acting upon this particle by the
         given electric field.
@@ -187,11 +191,11 @@ class PointParticle:
         which only approximates magnetic fields for particles with a velocity << c.
         """
         r = point - self.position
-        # If the points are overlapping, there is no force.
-        if np.linalg.norm(r) == 0:
-            return np.zeros(3, dtype=float)
-
         distance = np.linalg.norm(r)
+
+        # If the points are overlapping, there is no force.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         return (
             scipy.constants.mu_0 * self.charge * np.cross(self.velocity, r)
@@ -200,7 +204,8 @@ class PointParticle:
 
     def get_magnetic_force_experienced(
         self,
-        magnetic_field: vectors.FieldVector
+        magnetic_field: vectors.FieldVector,
+        velocity: vectors.FieldVector | None = None
     ) -> vectors.ForceVector:
         """Calculate the magnetic force acting upon this particle by the
         given electric field.
@@ -209,19 +214,29 @@ class PointParticle:
         ----------
         `magnetic_field` : `vectors.FieldVector`
             The magnetic field acting upon this particle in teslas (T).
+        `velocity` : `vectors.FieldVector` | `None`
+            The velocity to use for the magnetic force calculations, 
+            by default `self.velocity`.
 
         Returns
         -------
         vectors.ForceVector
             The force exerted upon this particle by the magnetic field in newtons (N).
         """
-        return self.charge * np.cross(self.velocity, magnetic_field)
+        return (
+            self.charge
+            * np.cross(
+                self.velocity if velocity is None else velocity,
+                magnetic_field
+            )
+        )
 
     def get_force_experienced(
         self,
         gravitational_field: vectors.FieldVector = np.array((0, 0, 0)),
         electric_field: vectors.FieldVector = np.array((0, 0, 0)),
-        magnetic_field: vectors.FieldVector = np.array((0, 0, 0))
+        magnetic_field: vectors.FieldVector = np.array((0, 0, 0)),
+        velocity: vectors.FieldVector | None = None
     ) -> vectors.ForceVector:
         """Calculate the net force exerted on this particle as a result of
         gravitational, electric, and magnetic fields.
@@ -237,6 +252,9 @@ class PointParticle:
         `magnetic_field` : `vectors.FieldVector`, optional
             The magnetic field acting upon this particle,
             by default `np.array((0, 0, 0))`
+        `velocity` : `vectors.FieldVector` | `None`
+            The velocity to use for the magnetic force calculations, 
+            by default `self.velocity`.
 
         Returns
         -------
@@ -247,7 +265,7 @@ class PointParticle:
         return (
             self.get_gravitational_force_experienced(gravitational_field)
             + self.get_electrostatic_force_experienced(electric_field)
-            + self.get_magnetic_force_experienced(magnetic_field)
+            + self.get_magnetic_force_experienced(magnetic_field, velocity)
         )
 
     def apply_fields(
@@ -274,7 +292,32 @@ class PointParticle:
             + self.get_magnetic_force_experienced(magnetic_field)
         )
 
+    @typing.override
+    def __eq__(self, value: object) -> bool:
+        """Return whether an `object` is equal to this `PointParticle`.
+        They are equal if and only if the `object` is also a `PointParticle` with the same `id`.
+
+        Parameters
+        ----------
+        `value` : `object`
+            The `object` to compare against this `PointParticle` for equality.
+
+        Returns
+        -------
+        `bool`
+            Whether `value` is also a `PointParticle` with the same `id`.
+        """
+        return isinstance(value, PointParticle) and self.id == value.id
+
+    @typing.override
     def __str__(self) -> str:
+        """Return a `str` containing information about this particle's current state.
+
+        Returns
+        -------
+        `str`
+            Return a `str` containing information about this particle's current state.
+        """
         position_string = (
             f'({", ".join((str(dimension) for dimension in self.position))})'
         )
@@ -290,6 +333,7 @@ class PointParticle:
             f'a={acceleration_string}, m={self.mass}, q={self.charge}'
         )
 
+    @typing.override
     def __repr__(self) -> str:
         """Return a `str` containing all the arguments needed to instantiate
         another identical particle (aside from :const:`PointParticle.id`).

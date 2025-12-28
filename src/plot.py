@@ -1,3 +1,5 @@
+import typing
+
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,6 +7,9 @@ import pandas as pd
 
 
 class Plot():
+    "Creates and updates a Matplotlib plot."
+
+    @typing.override
     def __init__(
         self,
         data_frame: pd.DataFrame,
@@ -37,9 +42,10 @@ class Plot():
             marker="o"
         )
 
-        # Set dimensions of plot.
         # Scalar margin
         MARGIN = 1.25
+
+        # Set x limits.
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
         width = max_x - min_x
@@ -49,6 +55,7 @@ class Plot():
         )
         ax.set_xlabel('x (m)')
 
+        # Set y limits.
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
         length = max_y - min_y
@@ -58,6 +65,7 @@ class Plot():
         )
         ax.set_ylabel('y (m)')
 
+        # Set z limits.
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
         height = max_z - min_z
