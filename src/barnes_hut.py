@@ -312,7 +312,7 @@ class BarnesHutNode():
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_gravitational_field_exerted(
-                    point, particle_id)
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
@@ -320,9 +320,6 @@ class BarnesHutNode():
             for particle in self.PARTICLES:
                 if particle.ID != particle_id:
                     force += particle.get_gravitational_field_exerted(point)
-
-                else:
-                    print(f'Skip {particle_id}')
 
         return force
 
@@ -383,7 +380,7 @@ class BarnesHutNode():
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_electric_field_exerted(
-                    point, particle_id)
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
@@ -391,9 +388,6 @@ class BarnesHutNode():
             for particle in self.PARTICLES:
                 if particle.ID != particle_id:
                     force += particle.get_electric_field_exerted(point)
-
-                else:
-                    print(f'Skip {particle_id}')
 
         return force
 
@@ -455,7 +449,7 @@ class BarnesHutNode():
         elif len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_magnetic_field_exerted(
-                    point, particle_id)
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
@@ -463,9 +457,6 @@ class BarnesHutNode():
             for particle in self.PARTICLES:
                 if particle.ID != particle_id:
                     force += particle.get_magnetic_field_exerted(point)
-
-                else:
-                    print(f'Skip {particle_id}')
 
         return force
 

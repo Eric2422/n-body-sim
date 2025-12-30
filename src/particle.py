@@ -93,13 +93,10 @@ class PointParticle:
         """
         r = point - self.position
         distance = np.linalg.norm(r)
-        # print(f'r: {r}')
 
         # If the points are overlapping, there is no force.
         if distance == 0:
             return np.zeros(3, dtype=float)
-
-        # print(f'distance: {distance}')
 
         return -r * scipy.constants.G * self.MASS / distance ** 3
 
