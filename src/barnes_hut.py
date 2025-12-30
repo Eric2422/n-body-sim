@@ -321,6 +321,9 @@ class BarnesHutNode():
                 if particle.ID != particle_id:
                     force += particle.get_gravitational_field_exerted(point)
 
+                else:
+                    print(f'Skip {particle_id}')
+
         return force
 
     def get_electric_field_exerted(
@@ -388,6 +391,9 @@ class BarnesHutNode():
             for particle in self.PARTICLES:
                 if particle.ID != particle_id:
                     force += particle.get_electric_field_exerted(point)
+
+                else:
+                    print(f'Skip {particle_id}')
 
         return force
 
@@ -457,6 +463,9 @@ class BarnesHutNode():
             for particle in self.PARTICLES:
                 if particle.ID != particle_id:
                     force += particle.get_magnetic_field_exerted(point)
+
+                else:
+                    print(f'Skip {particle_id}')
 
         return force
 

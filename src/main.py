@@ -146,6 +146,7 @@ class Simulation():
         # Update particle positions and velocities before calculating the forces.
         for i in range(len(particles)):
             particle = particles[i]
+            print(f'{particle.ID}')
 
             # Update the particle's acceleration.
             particle.acceleration = self.calculate_particle_force(
@@ -158,10 +159,10 @@ class Simulation():
             v1 = particle.velocity
             a1 = particle.acceleration
 
-            print()
-            print(f'position: {particle.position}')
-            print(f'v1: {v1}')
-            print(f'a1: {a1}')
+            # print()
+            # print(f'position: {particle.position}')
+            # print(f'v1: {v1}')
+            # print(f'a1: {a1}')
 
             a2 = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
@@ -170,9 +171,9 @@ class Simulation():
                         + v1 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
 
-            print(f'position: {position}')
-            print(f'v2: {v2}')
-            print(f'a2: {a2}')
+            # print(f'position: {position}')
+            # print(f'v2: {v2}')
+            # print(f'a2: {a2}')
 
             a3 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v2) / particle.MASS
@@ -181,9 +182,9 @@ class Simulation():
                         + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
 
-            print(f'position: {position}')
-            print(f'v3: {v3}')
-            print(f'a3: {a3}')
+            # print(f'position: {position}')
+            # print(f'v3: {v3}')
+            # print(f'a3: {a3}')
 
             a4 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v3) / particle.MASS
@@ -192,9 +193,9 @@ class Simulation():
                         + v3 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
 
-            print(f'position: {position}')
-            print(f'v4: {v4}')
-            print(f'a4: {a4}')
+            # print(f'position: {position}')
+            # print(f'v4: {v4}')
+            # print(f'a4: {a4}')
 
             # Calculate the new velocity and position.
             new_data[i, 1] = (self.time_step_size / 6 *
@@ -211,6 +212,8 @@ class Simulation():
             # Acceleration has already been updated in the previous loop.
 
         self.current_time_step += 1
+
+        print()
 
     def run(
         self,
@@ -317,7 +320,7 @@ if __name__ == '__main__':
     simulation.run(
         num_time_steps=file_data['num time steps'],
         file_handler=file_handler,
-        print_progress=True
+        print_progress=False
     )
 
     # Plot the simulation
