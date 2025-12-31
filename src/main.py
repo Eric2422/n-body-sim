@@ -158,12 +158,23 @@ class Simulation():
             v1 = particle.velocity
             a1 = particle.acceleration
 
+            print()
+            print(f'Processing {particle.ID}')
+            print(f'position: {particle.position}')
+            print(f'v1: {v1}')
+            print(f'a1: {a1}')
+
             a2 = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
             v2 = particle.velocity + a1 * self.time_step_size / 2
             position = (particle.position
                         + v1 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
+
+            print()
+            print(f'position: {position}')
+            print(f'v2: {v2}')
+            print(f'a2: {a2}')
 
             a3 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v2) / particle.MASS
@@ -172,6 +183,11 @@ class Simulation():
                         + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
 
+            print()
+            print(f'position: {position}')
+            print(f'v3: {v3}')
+            print(f'a3: {a3}')
+
             a4 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v3) / particle.MASS
             v4 = particle.velocity + a3 * self.time_step_size
@@ -179,11 +195,18 @@ class Simulation():
                         + v3 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
 
+            print()
+            print(f'position: {position}')
+            print(f'v4: {v4}')
+            print(f'a4: {a4}')
+
             # Calculate the new velocity and position.
-            new_data[i, 1] = (self.time_step_size / 6 *
-                              (a1 + 2 * a2 * 2 * a3 + a4))
             new_data[i, 0] = (self.time_step_size / 6 *
                               (v1 + 2 * v2 * 2 * v3 + v4))
+            print(f'\nNew position: {new_data[i, 0]}')
+            new_data[i, 1] = (self.time_step_size / 6 *
+                              (a1 + 2 * a2 * 2 * a3 + a4))
+            print(f'New velocity: {new_data[i, 1]}')
 
         # Update the particle's position and velocity.
         for i in range(len(particles)):
