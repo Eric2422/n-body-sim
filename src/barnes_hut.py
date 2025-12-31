@@ -297,8 +297,6 @@ class BarnesHutNode():
         r = point - self.CENTER_OF_MASS
         distance = np.linalg.norm(r)
 
-        print(f'Calculating gravitational field.')
-
         # Prevent divide by 0 error.
         if distance == 0:
             return np.zeros(3, dtype=float)
@@ -362,8 +360,6 @@ class BarnesHutNode():
         # Calculate the displacement vector between the two points.
         r = point - self.CENTER_OF_CHARGE
         distance = np.linalg.norm(r)
-
-        print(f'Calculating electric field.')
 
         # If the distance is 0, return a 0 array to avoid divide by 0.
         if distance == 0:
@@ -433,8 +429,6 @@ class BarnesHutNode():
         r = point - self.CENTER_OF_CHARGE
         # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
-
-        print(f'Calculating magnetic field.')
 
         # If the distance is 0, return 0 vector to avoid divide by 0.
         if distance == 0:
