@@ -94,8 +94,6 @@ class PointParticle:
         r = point - self.position
         distance = np.linalg.norm(r)
 
-        print(f'Calculating gravitational field from {self.ID}')
-
         # If the points are overlapping, there is no force.
         if distance == 0:
             return np.zeros(3, dtype=float)
@@ -143,8 +141,6 @@ class PointParticle:
         """
         r = point - self.position
         distance = np.linalg.norm(r)
-
-        print(f'Calculating electric field from {self.ID}')
 
         # If the points are overlapping, there is no force.
         if distance == 0:
@@ -199,8 +195,6 @@ class PointParticle:
         """
         r = point - self.position
         distance = np.linalg.norm(r)
-
-        print(f'Calculating magnetic field from {self.ID}')
 
         # If the points are overlapping, there is no force.
         if distance == 0:

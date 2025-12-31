@@ -297,6 +297,8 @@ class BarnesHutNode():
         r = point - self.CENTER_OF_MASS
         distance = np.linalg.norm(r)
 
+        print(f'Calculating gravitational field.')
+
         # Prevent divide by 0 error.
         if distance == 0:
             return np.zeros(3, dtype=float)
@@ -309,7 +311,7 @@ class BarnesHutNode():
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.CHILD_NODES) > 0:
+        if len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_gravitational_field_exerted(
                     point, theta, particle_id)
@@ -361,6 +363,8 @@ class BarnesHutNode():
         r = point - self.CENTER_OF_CHARGE
         distance = np.linalg.norm(r)
 
+        print(f'Calculating electric field.')
+
         # If the distance is 0, return a 0 array to avoid divide by 0.
         if distance == 0:
             return np.zeros(3, dtype=float)
@@ -377,7 +381,7 @@ class BarnesHutNode():
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.CHILD_NODES) > 0:
+        if len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_electric_field_exerted(
                     point, theta, particle_id)
@@ -430,6 +434,8 @@ class BarnesHutNode():
         # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
 
+        print(f'Calculating magnetic field.')
+
         # If the distance is 0, return 0 vector to avoid divide by 0.
         if distance == 0:
             return np.zeros(3, dtype=float)
@@ -446,7 +452,7 @@ class BarnesHutNode():
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.CHILD_NODES) > 0:
+        if len(self.CHILD_NODES) > 0:
             for child_node in self.CHILD_NODES:
                 force += child_node.get_magnetic_field_exerted(
                     point, theta, particle_id)
