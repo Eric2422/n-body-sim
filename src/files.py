@@ -43,20 +43,20 @@ class FileHandler:
             The output file will have the same name
             but with the '.txt' file extension instead.
         """
-        self.input_file = pathlib.Path(
+        self.input_file_path = pathlib.Path(
             input_file if os.path.dirname(input_file) == 'input'
             else self.INPUT_DIR / input_file
         )
 
         # The output file has the same name as input_file
         # but with the '.txt' extension.
-        self.output_file = pathlib.Path(
+        self.output_file_path = pathlib.Path(
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_file).stem + '.txt')
         )
         """Stores the path of the output file."""
 
-        self.output_handler = None
+        self.output_io_wrapper = None
         """Stores the `TextIOWrapper` that handles writing to the output file."""
 
         # Open the schema file and read it.
@@ -64,10 +64,28 @@ class FileHandler:
             self.schema = json.load(file)
 
     def open_output_file(self) -> bool:
-        return False
+        """Open a `TextIOWrapper` for `self.output_file_path`.
+        Will be closed by :func:`self.clear_output_file(self)`
+
+        Returns
+        -------
+        bool
+            Whether the operation succeeded.
+        """
+        try:
+            self.output_io_wrapper = self.output_file_path.open()
+            return True
+
+        except OSError:
+            return False
 
     def append_to_output_file(self, output_string: str = '\n') -> bool:
         """Append the given string into the output file.
+        If the `self.output_file_path` has already been opened,
+        then the string will be append to it without closing.
+
+        Elsewise, it will open `self.output_file_path`, append to it,
+        then close it.
 
         Parameters
         ----------
@@ -75,8 +93,12 @@ class FileHandler:
             The string to be appended to the given file, by default '\n'.
         """
         try:
-            with self.output_file.open('a') as file:
-                file.write(output_string)
+            if self.output_io_wrapper == None:
+                with self.output_file_path.open('a') as file:
+                    file.write(output_string)
+
+            else:
+                self.output_io_wrapper.write(output_string)
 
             return True
 
@@ -85,9 +107,15 @@ class FileHandler:
             return False
 
     def clear_output_file(self) -> bool:
-        """Clear the output file."""
+        """Clear the output file.
+
+        Returns
+        -------
+        bool
+            Whether the operation succeeded.
+        """
         try:
-            self.output_file.write_text('')
+            self.output_file_path.write_text('')
             return True
 
         except OSError:
@@ -95,7 +123,28 @@ class FileHandler:
             return False
 
     def close_output_file(self) -> bool:
-        return False
+        """Close the output file.
+
+        Returns
+        -------
+        bool
+            Whether the operation succeeded.
+
+        Raises
+        ------
+        OSError
+            If the output file has not been opened by :py:method:`~FileHandler.open_output_file()`
+        """
+        try:
+            if self.output_io_wrapper == None:
+                raise OSError()
+
+            else:
+                self.output_io_wrapper.close()
+                return True
+
+        except OSError:
+            return False
 
     def read_input_file(self) -> dict:
         """Read the input JSON file, extract the data, and return it as a `dict`.
@@ -113,7 +162,7 @@ class FileHandler:
         """
         # Try to open the input file
         try:
-            with open(self.input_file) as file:
+            with open(self.input_file_path) as file:
                 return json.load(file)
 
         except OSError or FileNotFoundError:
@@ -192,7 +241,7 @@ class FileHandler:
         # Write the object as a JSON into the input file
         json.dump(
             input_dict,
-            self.input_file.open('w+'),
+            self.input_file_path.open('w+'),
             indent=4
         )
 
