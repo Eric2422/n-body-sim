@@ -54,14 +54,19 @@ class FileHandler:
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_file).stem + '.txt')
         )
+        """Stores the path of the output file."""
 
+        self.output_handler = None
+        """Stores the `TextIOWrapper` that handles writing to the output file."""
+
+        # Open the schema file and read it.
         with open(FileHandler.SCHEMA_DIR / schema_file) as file:
-            # Open the schema file and read it.
-            self.schema = json.load(
-                file
-            )
+            self.schema = json.load(file)
 
-    def append_to_output_file(self, output_string: str = '\n') -> None:
+    def open_output_file(self) -> bool:
+        return False
+
+    def append_to_output_file(self, output_string: str = '\n') -> bool:
         """Append the given string into the output file.
 
         Parameters
@@ -73,16 +78,24 @@ class FileHandler:
             with self.output_file.open('a') as file:
                 file.write(output_string)
 
+            return True
+
         except OSError:
             print('The output file could not be opened.')
+            return False
 
-    def clear_output_file(self) -> None:
+    def clear_output_file(self) -> bool:
         """Clear the output file."""
         try:
             self.output_file.write_text('')
+            return True
 
         except OSError:
             print('The output file could not be opened.')
+            return False
+
+    def close_output_file(self) -> bool:
+        return False
 
     def read_input_file(self) -> dict:
         """Read the input JSON file, extract the data, and return it as a `dict`.
