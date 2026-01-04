@@ -247,6 +247,7 @@ class Simulation():
         if file_handler is not None:
             # Clear the output
             file_handler.clear_output_file()
+            file_handler.open_output_file()
 
             # Print fields
             output_string += (
@@ -278,14 +279,14 @@ class Simulation():
 
             # If a `FileHandler` object is passed, output the results to a file.
             if file_handler is not None:
-                output_string += self.get_particle_string()
+                file_handler.append_to_output_file(self.get_particle_string())
 
         # Log final state.
         for particle in particles:
             self.log_particle(particle)
 
         if file_handler is not None:
-            file_handler.append_to_output_file(output_string)
+            file_handler.close_output_file()
 
         # If printing progress reports, add an extra line to account for the carriage returns.
         if print_progress:
