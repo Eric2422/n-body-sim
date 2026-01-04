@@ -286,6 +286,7 @@ class Simulation():
             self.log_particle(particle)
 
         if file_handler is not None:
+            file_handler.append_to_output_file(self.get_particle_string())
             file_handler.close_output_file()
 
         # If printing progress reports, add an extra line to account for the carriage returns.

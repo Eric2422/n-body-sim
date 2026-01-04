@@ -70,7 +70,7 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeded.
+            Whether the operation succeeds.
         """
         try:
             self.output_io_wrapper = self.output_file_path.open('a')
@@ -93,6 +93,7 @@ class FileHandler:
             The string to be appended to the given file, by default '\n'.
         """
         try:
+            # If the output file has already been used, use it.
             if self.output_io_wrapper == None:
                 with self.output_file_path.open('a') as file:
                     file.write(output_string)
@@ -111,9 +112,10 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeded.
+            Whether the operation succeeds.
         """
         try:
+            # If the output file has already been used, use it.
             if self.output_io_wrapper is None:
                 self.output_file_path.write_text('')
 
@@ -132,14 +134,11 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeded.
-
-        Raises
-        ------
-        OSError
-            If the output file has not been opened by :py:method:`~FileHandler.open_output_file()`
+            Whether the operation succeeds. 
+            Fails if the output file is not open in the first place.
         """
         try:
+            # Fails if the output error 
             if self.output_io_wrapper == None:
                 raise OSError()
 
