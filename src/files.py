@@ -73,7 +73,7 @@ class FileHandler:
             Whether the operation succeeded.
         """
         try:
-            self.output_io_wrapper = self.output_file_path.open()
+            self.output_io_wrapper = self.output_file_path.open('a')
             return True
 
         except OSError:
@@ -103,7 +103,6 @@ class FileHandler:
             return True
 
         except OSError:
-            print('The output file could not be opened.')
             return False
 
     def clear_output_file(self) -> bool:
@@ -115,11 +114,16 @@ class FileHandler:
             Whether the operation succeeded.
         """
         try:
-            self.output_file_path.write_text('')
+            if self.output_io_wrapper is None:
+                self.output_file_path.write_text('')
+
+            else:
+                self.output_io_wrapper.truncate(0)
+                pass
+
             return True
 
         except OSError:
-            print('The output file could not be opened.')
             return False
 
     def close_output_file(self) -> bool:

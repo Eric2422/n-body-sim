@@ -245,7 +245,7 @@ class Simulation():
         output_string = ''
 
         if file_handler is not None:
-            # Clear the output
+            # Clear the output and open it for further writing.
             file_handler.clear_output_file()
             file_handler.open_output_file()
 
@@ -259,7 +259,7 @@ class Simulation():
             output_string += '\n'
 
             # Log initial particle states
-            output_string += self.get_particle_string()
+            file_handler.append_to_output_file(self.get_particle_string())
 
         if print_progress:
             progress = 0.0
