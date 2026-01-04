@@ -50,13 +50,13 @@ class Simulation():
         """
         self.particles = particles
 
-        self.particle_positions_log = pd.DataFrame({
+        self.particles_data = pd.DataFrame({
             't': np.empty(0, dtype=float),
             'x': np.empty(0, dtype=float),
             'y': np.empty(0, dtype=float),
             'z': np.empty(0, dtype=float)
         })
-        """A log of all the particles' positions over the course of the simulation."""
+        """A record of all the particles' states over the course of the simulation."""
 
         # Constant, universal fields
         self.electric_field = electric_field
@@ -69,8 +69,8 @@ class Simulation():
         self.theta = theta
         """The Barnes-Hut approximation parameter."""
 
-    def log_particle(self, particle: PointParticle) -> None:
-        """Save the state of a particle to the particles log.
+    def record_particle_data(self, particle: PointParticle) -> None:
+        """Save the state of a particle to the particles data.
 
         Parameters
         ----------
@@ -84,10 +84,10 @@ class Simulation():
             'y': np.array((particle.position[1])),
             'z': np.array((particle.position[2]))
         }])
-        self.particle_positions_log = pd.concat(
-            [self.particle_positions_log, new_data], ignore_index=True)
+        self.particles_data = pd.concat(
+            [self.particles_data, new_data], ignore_index=True)
 
-    def get_particle_string(self) -> str:
+    def get_particles_string(self) -> str:
         """Return a string of the particles' current state.
 
         Returns
@@ -152,7 +152,7 @@ class Simulation():
                 particle, barnes_hut_root) / particle.MASS
 
             # Log after the current acceleration has been calculated.
-            self.log_particle(particle)
+            self.record_particle_data(particle)
 
             # Use Runge-Kutta method to to approximate velocity and position.
             v1 = particle.velocity
@@ -249,7 +249,8 @@ class Simulation():
             file_handler.clear_output_file()
             file_handler.open_output_file()
 
-            # Print fields
+            # Write constants to output file.
+            output_string += (f'theta={self.theta}')
             output_string += (
                 f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n')
             output_string += (
@@ -257,9 +258,10 @@ class Simulation():
             output_string += (
                 f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n')
             output_string += '\n'
+            file_handler.append_to_output_file(output_string)
 
-            # Log initial particle states
-            file_handler.append_to_output_file(self.get_particle_string())
+            # Write initial particle states.
+            file_handler.append_to_output_file(self.get_particles_string())
 
         if print_progress:
             progress = 0.0
@@ -277,16 +279,15 @@ class Simulation():
                 # Print the current progress and then return to the beginning of the line.
                 print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
-            # If a `FileHandler` object is passed, output the results to a file.
+            # If a FileHandler object is passed in, output the results to a file.
             if file_handler is not None:
-                file_handler.append_to_output_file(self.get_particle_string())
+                file_handler.append_to_output_file(self.get_particles_string())
 
         # Log final state.
         for particle in particles:
-            self.log_particle(particle)
+            self.record_particle_data(particle)
 
         if file_handler is not None:
-            file_handler.append_to_output_file(self.get_particle_string())
             file_handler.close_output_file()
 
         # If printing progress reports, add an extra line to account for the carriage returns.
@@ -332,7 +333,7 @@ if __name__ == '__main__':
 
     # Plot the simulation
     plot = Plot(
-        data_frame=simulation.particle_positions_log,
+        data_frame=simulation.particles_data,
         time_step_size=simulation.time_step_size
     )
 
