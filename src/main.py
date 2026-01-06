@@ -1,4 +1,5 @@
 import sys
+import typing
 
 import numpy as np
 import pandas as pd
@@ -7,7 +8,6 @@ from barnes_hut import BarnesHutNode
 from files import FileHandler
 from particle import PointParticle
 from plot import Plot
-from numerical_integration import NumericalIntegration
 import vectors
 
 
@@ -21,6 +21,7 @@ class Simulation():
     Keeps track of the previous positions of all the partices.
     """
 
+    @typing.override
     def __init__(
         self,
         theta: float = 0.5,
@@ -49,13 +50,13 @@ class Simulation():
         """
         self.particles = particles
 
-        self.particle_positions_log = pd.DataFrame({
+        self.particles_data = pd.DataFrame({
             't': np.empty(0, dtype=float),
             'x': np.empty(0, dtype=float),
             'y': np.empty(0, dtype=float),
             'z': np.empty(0, dtype=float)
         })
-        """A log of all the particles' positions over the course of the simulation."""
+        """A record of all the particles' states over the course of the simulation."""
 
         # Constant, universal fields
         self.electric_field = electric_field
@@ -68,13 +69,13 @@ class Simulation():
         self.theta = theta
         """The Barnes-Hut approximation parameter."""
 
-    def log_particle_position(self, particle: PointParticle) -> None:
-        """Save the position of a particle to the particle positions log.
+    def record_particle_data(self, particle: PointParticle) -> None:
+        """Save the state of a particle to the particles data.
 
         Parameters
         ----------
         `particle` : `PointParticle`
-            A particle to save the position of.
+            A particle to save the state of.
         """
         # Save particle position data
         new_data = pd.DataFrame([{
@@ -83,10 +84,10 @@ class Simulation():
             'y': np.array((particle.position[1])),
             'z': np.array((particle.position[2]))
         }])
-        self.particle_positions_log = pd.concat(
-            [self.particle_positions_log, new_data], ignore_index=True)
+        self.particles_data = pd.concat(
+            [self.particles_data, new_data], ignore_index=True)
 
-    def get_particle_positions_string(self) -> str:
+    def get_particles_string(self) -> str:
         """Return a string of the particles' current state.
 
         Returns
@@ -105,48 +106,91 @@ class Simulation():
 
         return output_string
 
+    def calculate_particle_force(
+        self,
+        particle: PointParticle,
+        barnes_hut_root: BarnesHutNode,
+        position: vectors.PositionVector | None = None,
+        velocity: vectors.VelocityVector | None = None
+    ):
+        if (position is None):
+            position = particle.position
+
+        return (
+            particle.get_force_experienced(
+                barnes_hut_root.get_gravitational_field_exerted(
+                    position, self.theta, particle.ID
+                ),
+                barnes_hut_root.get_electric_field_exerted(
+                    position, self.theta, particle.ID),
+                barnes_hut_root.get_magnetic_field_exerted(
+                    position, self.theta, particle.ID),
+                velocity
+            )
+            + particle.get_force_experienced(
+                self.gravitational_field,
+                self.electric_field,
+                self.magnetic_field,
+                velocity
+            )
+        )
+
     def time_step(self) -> None:
         """Run one time step of the simulation."""
-        # Generate the root node of the octree
-        barnes_hut_root = BarnesHutNode(particles=self.particles)
+        # Generate the root node of the octree.
+        barnes_hut_root = BarnesHutNode(self.particles)
 
-        new_data = np.zeros((len(particles), 3, 3))
+        # Stores the new positions and velocities.
+        new_data = np.zeros((len(particles), 2, 3))
 
         # Update particle positions and velocities before calculating the forces.
         for i in range(len(particles)):
             particle = particles[i]
 
-            self.log_particle_position(particle)
+            particle.acceleration = self.calculate_particle_force(
+                particle, barnes_hut_root) / particle.MASS
 
-            net_force = np.zeros(3, dtype=float)
+            # Record data after updating acceleration.
+            self.record_particle_data(particle)
 
-            # Use the Barnes-Hut algorithm to approximate the net force
-            # exerted on this particle.
-            net_force += particle.get_force_experienced(
-                barnes_hut_root.get_gravitational_field_exerted(
-                    particle.position
-                ),
-                barnes_hut_root.get_electric_field_exerted(particle.position),
-                barnes_hut_root.get_magnetic_field_exerted(particle.position)
-            )
+            # Use Runge-Kutta method to to approximate velocity and position.
+            v1 = particle.velocity
+            a1 = particle.acceleration
 
-            # Add the constant fields
-            net_force += particle.get_force_experienced(
-                self.electric_field, self.magnetic_field, self.gravitational_field)
+            a2 = self.calculate_particle_force(
+                particle, barnes_hut_root) / particle.MASS
+            v2 = particle.velocity + a1 * self.time_step_size / 2
+            position = (particle.position
+                        + v1 * self.time_step_size / 2
+                        + 1/2 * a1 * (self.time_step_size / 2) ** 2)
 
-            # Calculate the new acceleration, velocity, and position.
-            new_data[i, 2] = (net_force / particle.mass)
-            new_data[i, 1] = (particle.velocity
-                              + particle.acceleration * self.time_step_size)
+            a3 = self.calculate_particle_force(
+                particle, barnes_hut_root, position, v2) / particle.MASS
+            v3 = particle.velocity + a2 * self.time_step_size / 2
+            position = (particle.position
+                        + v2 * self.time_step_size / 2
+                        + 1/2 * a2 * (self.time_step_size / 2) ** 2)
+
+            a4 = self.calculate_particle_force(
+                particle, barnes_hut_root, position, v3) / particle.MASS
+            v4 = particle.velocity + a3 * self.time_step_size
+            position = (particle.position
+                        + v3 * self.time_step_size
+                        + 1/2 * a3 * self.time_step_size ** 2)
+
+            # Calculate the new velocity and position.
             new_data[i, 0] = (particle.position
-                              + particle.velocity * self.time_step_size
-                              + (1 / 2) * particle.acceleration * self.time_step_size ** 2)
+                              + self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4))
+            new_data[i, 1] = (particle.velocity
+                              + self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4))
 
-        # Update the particle's position, velocity, and acceleration.
+        # Update the particle's position and velocity.
         for i in range(len(particles)):
-            particles[i].acceleration = new_data[i, 2]
-            particles[i].velocity = new_data[i, 1]
-            particles[i].position = new_data[i, 0]
+            particle = particles[i]
+
+            # Update position, velocity, and acceleration.
+            particle.position = new_data[i, 0]
+            particle.velocity = new_data[i, 1]
 
         self.current_time_step += 1
 
@@ -175,10 +219,12 @@ class Simulation():
         output_string = ''
 
         if file_handler is not None:
-            # Clear the output
+            # Clear the output and open it for further writing.
             file_handler.clear_output_file()
+            file_handler.open_output_file()
 
-            # Print fields
+            # Write constants to output file.
+            output_string += (f'theta={self.theta}')
             output_string += (
                 f'g=<{", ".join((str(dimension) for dimension in self.gravitational_field))}>\n')
             output_string += (
@@ -186,36 +232,51 @@ class Simulation():
             output_string += (
                 f'B=<{", ".join((str(dimension) for dimension in self.magnetic_field))}>\n')
             output_string += '\n'
-
-            # Log initial particle states
-            output_string += self.get_particle_positions_string()
+            file_handler.append_to_output_file(output_string)
 
         if print_progress:
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
 
-        # Run the necessary number of time steps
-        for i in range(int(num_time_steps)):
-            self.time_step()
+        # If an error occurs in the middle for unknown reasons, close the output file.
+        try:
+            # Run the necessary number of time steps
+            for i in range(int(num_time_steps)):
+                # If a FileHandler object is passed in, output the results to a file.
+                if file_handler is not None:
+                    file_handler.append_to_output_file(
+                        self.get_particles_string())
 
-            if print_progress:
-                progress = (i + 1) / num_time_steps
+                self.time_step()
 
-                # Clear the previous line.
-                sys.stdout.write('\033[K')
-                # Print the current progress and then return to the beginning of the line.
-                print(f'Progress: {round(progress * 100, 1)}%', end='\r')
+                if print_progress:
+                    progress = (i + 1) / num_time_steps
 
-            # If a `FileHandler` object is passed, output the results to a file.
+                    # Clear the previous line.
+                    sys.stdout.write('\033[K')
+                    # Print the current progress and then return to the beginning of the line.
+                    print(f'Progress: {round(progress * 100, 1)}%', end='\r')
+
+        except:
             if file_handler is not None:
-                output_string += self.get_particle_positions_string()
+                file_handler.close_output_file()
 
-        # Log final state.
+        # Record final state of the particles.
         for particle in particles:
-            self.log_particle_position(particle)
+            # Generate the root node of the octree.
+            barnes_hut_root = BarnesHutNode(self.particles)
+
+            # Update the particle's final acceleration.
+            particle.acceleration = self.calculate_particle_force(
+                particle, barnes_hut_root) / particle.MASS
+
+            # Record data for the final time.
+            self.record_particle_data(particle)
 
         if file_handler is not None:
-            file_handler.append_to_output_file(output_string)
+            # Write final particle states.
+            file_handler.append_to_output_file(self.get_particles_string())
+            file_handler.close_output_file()
 
         # If printing progress reports, add an extra line to account for the carriage returns.
         if print_progress:
@@ -260,7 +321,7 @@ if __name__ == '__main__':
 
     # Plot the simulation
     plot = Plot(
-        data_frame=simulation.particle_positions_log,
+        data_frame=simulation.particles_data,
         time_step_size=simulation.time_step_size
     )
 

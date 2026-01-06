@@ -1,3 +1,5 @@
+import typing
+
 import numpy as np
 import numpy.typing as npt
 import scipy
@@ -63,12 +65,13 @@ class BarnesHutNode():
 
         return new_bounds, centroid, size
 
+    @typing.override
     def __init__(
         self,
+        particles: list[PointParticle] = [],
         x_bounds: npt.NDArray[np.float64] | None = None,
         y_bounds: npt.NDArray[np.float64] | None = None,
-        z_bounds: npt.NDArray[np.float64] | None = None,
-        particles: list[PointParticle] = [],
+        z_bounds: npt.NDArray[np.float64] | None = None
     ):
         """Construct a Barnes-Hut node and recursively create its child nodes.
 
@@ -78,91 +81,95 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        ``x_bounds`` : `npt.NDArray[np.float64]`, optional
+        `particles` : `list[PointParticle]`, optional
+            List of particles that are contained within this Barnes-Hut node, by default `[]`
+        `x_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper x bounds in that order, by default `None`
         `y_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper y bounds in that order, by default `None`
         `z_bounds` : `npt.NDArray[np.float64]`, optional
             A 2-element NumPy array that contains the lower and upper z bounds in that order, by default `None`
-        `particles` : `list[PointParticle]`, optional
-            List of particles that are contained within this Barnes-Hut node, by default `[]`
         """
         # If `x_bounds` is not given,
         # set it based on the minimum and maximum x positions of the particles.
         # Else, set it to the given x bounds.
-        self.x_bounds = (
+        self.X_BOUNDS = (
             np.array((
                 min(particles, key=lambda ele: ele.position[0]).position[0],
                 max(particles, key=lambda ele: ele.position[0]).position[0]
             )) if x_bounds is None
             else x_bounds
         )
+        """A two-element array containing the lower and upper x-bounds of this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given y bounds.
-        self.y_bounds = (
+        self.Y_BOUNDS = (
             np.array((
                 min(particles, key=lambda ele: ele.position[1]).position[1],
                 max(particles, key=lambda ele: ele.position[1]).position[1]
             )) if y_bounds is None
             else y_bounds
         )
+        """A two-element array containing the lower and upper y-bounds of this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
         # Else, set it to the given z bounds.
-        self.z_bounds = (
+        self.Z_BOUNDS = (
             np.array((
                 min(particles, key=lambda ele: ele.position[2]).position[2],
                 max(particles, key=lambda ele: ele.position[2]).position[2]
             )) if z_bounds is None
             else z_bounds
         )
+        """A two-element array containing the lower and upper z-bounds of this node."""
 
-        self.centroid: npt.NDArray[np.float64]
+        centroid: npt.NDArray[np.float64]
         """The centroid of the Barnes Hut node"""
 
-        self.size: float
+        self.SIZE: float
         """The distance from one side of the node to the other."""
 
         # Make the bounds cubical if they are not.
-        bounds, self.centroid, self.size = BarnesHutNode.cube_bounds(
-            self.x_bounds,
-            self.y_bounds,
-            self.z_bounds
+        bounds, centroid, self.SIZE = BarnesHutNode.cube_bounds(
+            self.X_BOUNDS,
+            self.Y_BOUNDS,
+            self.Z_BOUNDS
         )
 
-        self.x_bounds, self.y_bounds, self.z_bounds = bounds
+        self.X_BOUNDS, self.Y_BOUNDS, self.Z_BOUNDS = bounds
 
-        self.particles = [
+        self.PARTICLES = [
             particle for particle in particles if self.particle_within_bounds(particle)]
         """A list of all particle included in this node."""
 
-        self.total_mass = sum([particle.mass for particle in self.particles])
+        self.TOTAL_MASS = sum(particle.MASS for particle in self.PARTICLES)
         """Total mass of all particles in this node, measured in kilograms (kg)."""
         mass_moment = sum(
-            [particle.mass * particle.position for particle in self.particles])
+            particle.MASS * particle.position for particle in self.PARTICLES)
 
         # Divide the mass moment by center of mass to obtain the center of mass.
         # If mass is 0, return the centroid.
-        self.center_of_mass = (
-            mass_moment / self.total_mass if self.total_mass != 0
-            else self.centroid
+        self.CENTER_OF_MASS = (
+            mass_moment / self.TOTAL_MASS if self.TOTAL_MASS != 0
+            else centroid
         )
+        """The center of mass of this cell."""
 
-        self.total_charge = sum(
-            [particle.charge for particle in self.particles]
+        self.TOTAL_CHARGE = sum(
+            [particle.CHARGE for particle in self.PARTICLES]
         )
         """Total charge of all particles in this node, measured in coulombs (C)."""
         charge_moment = sum(
-            [particle.charge * particle.position for particle in self.particles]
+            particle.CHARGE * particle.position for particle in self.PARTICLES
         )
 
         # Divide the charge moment by center of charge to obtain the center of charge.
         # If charge is 0, return the centroid.
-        self.center_of_charge = (
-            charge_moment / self.total_charge if self.total_charge != 0
+        self.CENTER_OF_CHARGE = (
+            charge_moment / self.TOTAL_CHARGE if self.TOTAL_CHARGE != 0
             else np.zeros(3, dtype=float)
         )
 
@@ -170,11 +177,11 @@ class BarnesHutNode():
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current.
         current_moment = sum(
-            [particle.charge * particle.velocity for particle in self.particles]
+            particle.CHARGE * particle.velocity for particle in self.PARTICLES
         )
 
-        self.center_of_charge_velocity = (
-            current_moment / self.total_charge if self.total_charge != 0
+        self.CENTER_OF_CHARGE_VELOCITY = (
+            current_moment / self.TOTAL_CHARGE if self.TOTAL_CHARGE != 0
             else np.zeros(3, dtype=float)
         )
 
@@ -182,9 +189,9 @@ class BarnesHutNode():
         # (i.e., it has more than 1 particle).
         # Create no children if this is an external node
         # (i.e., it has only 0 or 1 particles).
-        self.child_nodes = (
-            self.create_child_nodes() if len(self.particles) > 1
-            else []
+        self.CHILD_NODES = (
+            self.create_child_nodes() if len(self.PARTICLES) > 1 and self.SIZE > 0
+            else tuple()
         )
 
     def create_child_nodes(self) -> list['BarnesHutNode']:
@@ -196,19 +203,21 @@ class BarnesHutNode():
             A list of child Barnes-Hut nodes, each representing an octant of this node.
         """
         # Size of child nodes.
-        child_size = self.size / 2
+        child_size = self.SIZE / 2
 
         # List of all the child BH nodes.
-        child_nodes = []
+        children = []
+
+        # Split each dimension in half.
 
         x_linspace = np.linspace(
-            self.x_bounds[0], self.x_bounds[1], num=2, endpoint=False
+            self.X_BOUNDS[0], self.X_BOUNDS[1], num=2, endpoint=False
         )
         y_linspace = np.linspace(
-            self.y_bounds[0], self.y_bounds[1], num=2, endpoint=False
+            self.Y_BOUNDS[0], self.Y_BOUNDS[1], num=2, endpoint=False
         )
         z_linspace = np.linspace(
-            self.z_bounds[0], self.z_bounds[1], num=2, endpoint=False
+            self.Z_BOUNDS[0], self.Z_BOUNDS[1], num=2, endpoint=False
         )
 
         # Loop eight times to create the octants.
@@ -219,11 +228,11 @@ class BarnesHutNode():
                         x_bounds=np.array((lower_x, lower_x + child_size)),
                         y_bounds=np.array((lower_y, lower_y + child_size)),
                         z_bounds=np.array((lower_z, lower_z + child_size)),
-                        particles=self.particles.copy(),
+                        particles=self.PARTICLES.copy(),
                     )
-                    child_nodes.append(child)
+                    children.append(child)
 
-        return child_nodes
+        return children
 
     def particle_within_bounds(self, particle: PointParticle) -> bool:
         """Return whether a given particle is within the bounds of this
@@ -242,18 +251,19 @@ class BarnesHutNode():
             `False` otherwise.
         """
         return (
-            particle.position[0] >= self.x_bounds[0]
-            and particle.position[0] <= self.x_bounds[1]
-            and particle.position[1] >= self.y_bounds[0]
-            and particle.position[1] <= self.y_bounds[1]
-            and particle.position[2] >= self.z_bounds[0]
-            and particle.position[2] <= self.z_bounds[1]
+            particle.position[0] >= self.X_BOUNDS[0]
+            and particle.position[0] <= self.X_BOUNDS[1]
+            and particle.position[1] >= self.Y_BOUNDS[0]
+            and particle.position[1] <= self.Y_BOUNDS[1]
+            and particle.position[2] >= self.Z_BOUNDS[0]
+            and particle.position[2] <= self.Z_BOUNDS[1]
         )
 
     def get_gravitational_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate gravitational field exerted by this node
         at a given point.
@@ -270,46 +280,54 @@ class BarnesHutNode():
             Given the distance between the point and the center of mass,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
-
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation, 
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
         `vectors.FieldVector`
-            The gravitational field produced by this node, measured in newtons per kg (N/kg).
+            The gravitational field produced by this node, 
+            measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.
-        r = point - self.center_of_mass
+        r = point - self.CENTER_OF_MASS
         distance = np.linalg.norm(r)
-        # Normalize the displacement vector.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
+
+        # Prevent divide by 0 error.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
 
-        # If the point is sufficiently far away, approximate the force
-        if self.size < theta * distance:
-            return r_hat * scipy.constants.G * self.total_mass / distance ** 2
+        # If the point is sufficiently far away, approximate the force.
+        if self.SIZE < theta * distance:
+            return -r * scipy.constants.G * self.TOTAL_MASS / distance ** 3
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.child_nodes) > 0:
-            for child_node in self.child_nodes:
+        if len(self.CHILD_NODES) > 0:
+            for child_node in self.CHILD_NODES:
                 force += child_node.get_gravitational_field_exerted(
-                    point=point
-                )
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
-            for particle in self.particles:
-                force += particle.get_gravitational_field_exerted(point=point)
+            for particle in self.PARTICLES:
+                if particle.ID != particle_id:
+                    force += particle.get_gravitational_field_exerted(point)
 
         return force
 
     def get_electric_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate electric field exerted by this node
         at a given point.
@@ -327,6 +345,11 @@ class BarnesHutNode():
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation, 
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
@@ -335,41 +358,44 @@ class BarnesHutNode():
             measured in newtons per coulomb (N/C).
         """
         # Calculate the displacement vector between the two points.
-        r = point - self.center_of_charge
+        r = point - self.CENTER_OF_CHARGE
         distance = np.linalg.norm(r)
-        # Normalize the displacement vector.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
 
-        # The Coulomb constant.
-        k = 1 / (4 * scipy.constants.pi * scipy.constants.epsilon_0)
+        # If the distance is 0, return a 0 array to avoid divide by 0.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
 
-        # If the point is sufficiently far away, approximate the force.
-        if self.size < theta * distance:
-            # The electrostatic force between the particles.
-            electric_field = (k * self.total_charge) / (distance ** 2)
+        # The Coulomb constant.
+        k = 1 / (4 * np.pi * scipy.constants.epsilon_0)
 
-            return -electric_field * r_hat
+        # If the point is sufficiently far away, approximate the force.
+        if self.SIZE < theta * distance:
+            # The electrostatic force between the particles.
+            return -r * k * self.TOTAL_CHARGE / distance ** 3
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.child_nodes) > 0:
-            for child_node in self.child_nodes:
-                force += child_node.get_electric_field_exerted(point=point)
+        if len(self.CHILD_NODES) > 0:
+            for child_node in self.CHILD_NODES:
+                force += child_node.get_electric_field_exerted(
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
-            for particle in self.particles:
-                force += particle.get_electric_field_exerted(point=point)
+            for particle in self.PARTICLES:
+                if particle.ID != particle_id:
+                    force += particle.get_electric_field_exerted(point)
 
         return force
 
     def get_magnetic_field_exerted(
         self,
         point: vectors.PositionVector,
-        theta: float = 0.0
+        theta: float = 0.0,
+        particle_id: int = -1
     ) -> vectors.FieldVector:
         """Calculate the approximate magnetic field exerted by this node at a
         given point.
@@ -387,6 +413,11 @@ class BarnesHutNode():
             it used to determine whether to return an approximate or exact
             value for the magnetic field.
             When theta is 0.0, no approximation will occur.
+        `particle_id` : `int`, optional
+            The ID of the particle to exclude from the force calculation,
+            by default -1.
+            When the value is -1, no particles will be excluded
+            from the force calculation.
 
         Returns
         -------
@@ -395,35 +426,37 @@ class BarnesHutNode():
             measured in teslas (T).
         """
         # The vector between the positions of the particles.
-        r = point - self.center_of_charge
+        r = point - self.CENTER_OF_CHARGE
         # The distance between the particle and center of charge.
         distance = np.linalg.norm(r)
-        # The unit vector of `r`.
-        r_hat = r / distance if distance != 0 else np.zeros(3)
+
+        # If the distance is 0, return 0 vector to avoid divide by 0.
+        if distance == 0:
+            return np.zeros(3, dtype=float)
 
         force = np.zeros(3)
 
         # If the point is sufficiently far away, approximate the force.
-        if self.size < theta * distance:
+        if self.SIZE < theta * distance:
             return (
-                scipy.constants.mu_0 * self.total_charge
-                * np.cross(
-                    self.center_of_charge_velocity,
-                    r_hat / (4 * np.pi * np.linalg.norm(r) ** 2)
-                )
+                scipy.constants.mu_0 * self.TOTAL_CHARGE
+                * np.cross(self.CENTER_OF_CHARGE_VELOCITY, r)
+                / (4 * np.pi * distance ** 3)
             )
 
         # If the point is not sufficiently far away,
         # and this node is internal, add the force from each node.
-        elif len(self.child_nodes) > 0:
-            for child_node in self.child_nodes:
-                force += child_node.get_magnetic_field_exerted(point=point)
+        if len(self.CHILD_NODES) > 0:
+            for child_node in self.CHILD_NODES:
+                force += child_node.get_magnetic_field_exerted(
+                    point, theta, particle_id)
 
         # If this the point is not sufficiently far away,
         # and this node is external, add the force from each particle.
         else:
-            for particle in self.particles:
-                force += particle.get_magnetic_field_exerted(point=point)
+            for particle in self.PARTICLES:
+                if particle.ID != particle_id:
+                    force += particle.get_magnetic_field_exerted(point)
 
         return force
 
@@ -438,26 +471,26 @@ class BarnesHutNode():
             If this node has no child nodes, it is a leaf node and its height is 0.
         """
         return (
-            0 if len(self.child_nodes) == 0
-            else 1 + max(child.get_height() for child in self.child_nodes)
+            0 if len(self.CHILD_NODES) == 0
+            else 1 + max(child.get_height() for child in self.CHILD_NODES)
         )
 
+    @typing.override
     def __str__(self):
         """Return information about the centroid, total mass, center of mass,
         total charge, center of charge, velocity of center of charge,
         particles, and child nodes.
         """
-        string = f'''x: {self.x_bounds}, y: {self.y_bounds}, z: {self.z_bounds}
-Centroid: {self.centroid}
-Total mass: {self.total_mass}
-Center of mass: {self.center_of_mass}
-Total charge: {self.total_charge}
-Center of charge: {self.center_of_charge}
-Velocity of center of charge: {self.center_of_charge_velocity}
-Particles ({len(self.particles)}): {self.particles}
-{len(self.child_nodes)} child node(s):'''
+        string = f'''x: {self.X_BOUNDS}, y: {self.Y_BOUNDS}, z: {self.Z_BOUNDS}
+Total mass: {self.TOTAL_MASS}
+Center of mass: {self.CENTER_OF_MASS}
+Total charge: {self.TOTAL_CHARGE}
+Center of charge: {self.CENTER_OF_CHARGE}
+Velocity of center of charge: {self.CENTER_OF_CHARGE_VELOCITY}
+Particles ({len(self.PARTICLES)}): {self.PARTICLES}
+{len(self.CHILD_NODES)} child node(s):'''
 
-        for child_node in self.child_nodes:
+        for child_node in self.CHILD_NODES:
             string += f'\n\t{child_node.__str__().replace('\n', '\n\t')}\n'
 
         return string
