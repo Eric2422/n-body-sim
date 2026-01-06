@@ -112,7 +112,29 @@ class Simulation():
         barnes_hut_root: BarnesHutNode,
         position: vectors.PositionVector | None = None,
         velocity: vectors.VelocityVector | None = None
-    ):
+    ) -> vectors.ForceVector:
+        """Calculate the force exerted on a particle by the fields and other particles.
+
+        Parameters
+        ----------
+        `particle` : `PointParticle`
+            The particle to calculate the force upon.
+        `barnes_hut_root` : `BarnesHutNode`
+            The Barnes-Hut tree that contains all the particles.
+        `position` : `vectors.PositionVector` | `None`, optional
+            A hypothetical position of the particle to calculate with,
+            possibly different from its current position,
+            by default `particle.position`
+        `velocity` : vectors.VelocityVector | `None`, optional
+            A hypothetical velocity of the particle to calculate with, 
+            possibly different from its current position,
+            by default `particle.velocity`
+
+        Returns
+        -------
+        `vectors.ForceVector`
+            The force exerted on a particle by the fields and other particles.
+        """
         if (position is None):
             position = particle.position
 
