@@ -137,7 +137,7 @@ class Simulation():
 
     def time_step(self) -> None:
         """Run one time step of the simulation."""
-        # Generate the root node of the octree
+        # Generate the root node of the octree.
         barnes_hut_root = BarnesHutNode(self.particles)
 
         # Stores the new positions and velocities.
@@ -151,18 +151,12 @@ class Simulation():
             particle.acceleration = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
 
-            # Log after the current acceleration has been calculated.
+            # Record data after the current acceleration has been calculated.
             self.record_particle_data(particle)
 
             # Use Runge-Kutta method to to approximate velocity and position.
             v1 = particle.velocity
             a1 = particle.acceleration
-
-            print()
-            print(f'Processing {particle.ID}')
-            print(f'position: {particle.position}')
-            print(f'v1: {v1}')
-            print(f'a1: {a1}')
 
             a2 = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
@@ -171,22 +165,12 @@ class Simulation():
                         + v1 * self.time_step_size / 2
                         + 1/2 * a1 * (self.time_step_size / 2) ** 2)
 
-            print()
-            print(f'position: {position}')
-            print(f'v2: {v2}')
-            print(f'a2: {a2}')
-
             a3 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v2) / particle.MASS
             v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
                         + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
-
-            print()
-            print(f'position: {position}')
-            print(f'v3: {v3}')
-            print(f'a3: {a3}')
 
             a4 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v3) / particle.MASS
@@ -195,18 +179,11 @@ class Simulation():
                         + v3 * self.time_step_size
                         + 1/2 * a3 * self.time_step_size ** 2)
 
-            print()
-            print(f'position: {position}')
-            print(f'v4: {v4}')
-            print(f'a4: {a4}')
-
             # Calculate the new velocity and position.
-            new_data[i, 0] = (self.time_step_size / 6 *
-                              (v1 + 2 * v2 * 2 * v3 + v4))
-            print(f'\nNew position: {new_data[i, 0]}')
-            new_data[i, 1] = (self.time_step_size / 6 *
-                              (a1 + 2 * a2 * 2 * a3 + a4))
-            print(f'New velocity: {new_data[i, 1]}')
+            new_data[i, 0] = (particle.position +
+                              self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4))
+            new_data[i, 1] = (particle.velocity +
+                              self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4))
 
         # Update the particle's position and velocity.
         for i in range(len(particles)):
@@ -217,8 +194,6 @@ class Simulation():
             # Acceleration has already been updated in the previous loop.
 
         self.current_time_step += 1
-
-        print()
 
     def run(
         self,
@@ -267,24 +242,37 @@ class Simulation():
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
 
-        # Run the necessary number of time steps
-        for i in range(int(num_time_steps)):
-            self.time_step()
+        # If the 
+        try:
+            # Run the necessary number of time steps
+            for i in range(int(num_time_steps)):
+                self.time_step()
 
-            if print_progress:
-                progress = (i + 1) / num_time_steps
+                if print_progress:
+                    progress = (i + 1) / num_time_steps
 
-                # Clear the previous line.
-                sys.stdout.write('\033[K')
-                # Print the current progress and then return to the beginning of the line.
-                print(f'Progress: {round(progress * 100, 1)}%', end='\r')
+                    # Clear the previous line.
+                    sys.stdout.write('\033[K')
+                    # Print the current progress and then return to the beginning of the line.
+                    print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
-            # If a FileHandler object is passed in, output the results to a file.
-            if file_handler is not None:
-                file_handler.append_to_output_file(self.get_particles_string())
+                # If a FileHandler object is passed in, output the results to a file.
+                if file_handler is not None:
+                    file_handler.append_to_output_file(self.get_particles_string())
 
-        # Log final state.
+        except:
+            pass
+
+        # Record final state of the particles.
         for particle in particles:
+            # Generate the root node of the octree.
+            barnes_hut_root = BarnesHutNode(self.particles)
+
+            # Update the particle's final acceleration.
+            particle.acceleration = self.calculate_particle_force(
+                particle, barnes_hut_root) / particle.MASS
+
+            # Record data for the final time.
             self.record_particle_data(particle)
 
         if file_handler is not None:
@@ -328,7 +316,7 @@ if __name__ == '__main__':
     simulation.run(
         num_time_steps=file_data['num time steps'],
         file_handler=file_handler,
-        print_progress=False
+        print_progress=True
     )
 
     # Plot the simulation

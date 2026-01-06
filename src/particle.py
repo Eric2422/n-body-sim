@@ -2,8 +2,6 @@ import vectors
 import scipy.constants
 import numpy as np
 import typing
-import warnings
-warnings.filterwarnings("error")
 
 
 class PointParticle:
