@@ -147,11 +147,10 @@ class Simulation():
         for i in range(len(particles)):
             particle = particles[i]
 
-            # Update the particle's acceleration.
             particle.acceleration = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
 
-            # Record data after the current acceleration has been calculated.
+            # Record data after updating acceleration.
             self.record_particle_data(particle)
 
             # Use Runge-Kutta method to to approximate velocity and position.
@@ -180,18 +179,18 @@ class Simulation():
                         + 1/2 * a3 * self.time_step_size ** 2)
 
             # Calculate the new velocity and position.
-            new_data[i, 0] = (particle.position +
-                              self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4))
-            new_data[i, 1] = (particle.velocity +
-                              self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4))
+            new_data[i, 0] = (particle.position
+                              + self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4))
+            new_data[i, 1] = (particle.velocity
+                              + self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4))
 
         # Update the particle's position and velocity.
         for i in range(len(particles)):
             particle = particles[i]
+
+            # Update position, velocity, and acceleration.
             particle.position = new_data[i, 0]
             particle.velocity = new_data[i, 1]
-
-            # Acceleration has already been updated in the previous loop.
 
         self.current_time_step += 1
 
@@ -235,17 +234,19 @@ class Simulation():
             output_string += '\n'
             file_handler.append_to_output_file(output_string)
 
-            # Write initial particle states.
-            file_handler.append_to_output_file(self.get_particles_string())
-
         if print_progress:
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
 
-        # If the 
+        # If the
         try:
             # Run the necessary number of time steps
             for i in range(int(num_time_steps)):
+                # If a FileHandler object is passed in, output the results to a file.
+                if file_handler is not None:
+                    file_handler.append_to_output_file(
+                        self.get_particles_string())
+
                 self.time_step()
 
                 if print_progress:
@@ -255,10 +256,6 @@ class Simulation():
                     sys.stdout.write('\033[K')
                     # Print the current progress and then return to the beginning of the line.
                     print(f'Progress: {round(progress * 100, 1)}%', end='\r')
-
-                # If a FileHandler object is passed in, output the results to a file.
-                if file_handler is not None:
-                    file_handler.append_to_output_file(self.get_particles_string())
 
         except:
             pass
@@ -276,6 +273,9 @@ class Simulation():
             self.record_particle_data(particle)
 
         if file_handler is not None:
+            # Write final particle states.
+            file_handler.append_to_output_file(self.get_particles_string())
+
             file_handler.close_output_file()
 
         # If printing progress reports, add an extra line to account for the carriage returns.
