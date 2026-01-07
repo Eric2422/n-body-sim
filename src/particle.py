@@ -39,9 +39,9 @@ class PointParticle:
             x is left/right, y is forward/backward, z is up/down.
 
             By default `np.array([0.0, 0.0, 0.0])`
-        mass : float, default = 1.0
+        mass : float, default=1.0
             The mass of the charged particle in kilograms (kg).
-        charge : float, default = 0.0
+        charge : float, default=0.0
             The charge of the particle in coulombs (C).
         """
         # Represented by arrays of (x, y, z).
@@ -66,7 +66,7 @@ class PointParticle:
 
         Parameters
         ----------
-        force : vectors.ForceVector, default = np.zeros(3)
+        force : vectors.ForceVector, default=np.zeros(3)
             The force applied upon this particle in newtons (N).
         """
         self.acceleration = force / self.MASS
@@ -244,15 +244,15 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational_field : vectors.FieldVector, optional
-            The gravitational field acting upon this particle,
-            by default `np.array((0, 0, 0))`
-        electric_field : vectors.FieldVector, optional
-            The electric field acting upon this particle,
-            by default `np.array((0, 0, 0))`
-        magnetic_field : vectors.FieldVector, optional
-            The magnetic field acting upon this particle,
-            by default `np.array((0, 0, 0))`
+        gravitational_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+            The gravitational field acting upon this particle.
+            
+        electric_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+            The electric field acting upon this particle.
+            
+        magnetic_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+            The magnetic field acting upon this particle.
+            
         velocity : vectors.FieldVector` | `None
             The velocity to use for the magnetic force calculations, 
             by default `self.velocity`.

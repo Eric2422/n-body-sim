@@ -22,7 +22,7 @@ class Plot():
         data_frame : pd.DataFrame
             A data frame with four columns: t, x, y, and z.
             Contains the time and position of particles.
-        time_step_size : float, default = 1.0
+        time_step_size : float, default=1.0
             The amount of time between each frame.
         """
         fig = plt.figure()
