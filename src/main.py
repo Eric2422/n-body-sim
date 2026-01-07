@@ -35,17 +35,17 @@ class Simulation():
 
         Parameters
         ----------
-        theta : float, default = 0.5
+        theta : float, default=0.5
             The Barnes-Hut approximation parameter
-        time_step_size : float, default = 1.0
+        time_step_size : float, default=1.0
             The time increment of the simulation in seconds (s)
-        gravitational_field : vectors.FieldVector, default = np.zeros(3, dtype=float)
+        gravitational_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
             A constant, uniform gravitational field.
-        electric_field : vectors.FieldVector, default = np.zeros(3, dtype=float)
+        electric_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
             A constant, uniform electric field.
-        magnetic_field : vectors.FieldVector, default = np.zeros(3, dtype=float)
+        magnetic_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
             A constant, uniform magnetic field.
-        particles : list[PointParticle], default = []
+        particles : list[PointParticle], default=[]
             A `list` of particles that are interacting with each other.
         """
         self.particles = particles
@@ -226,7 +226,7 @@ class Simulation():
 
         Parameters
         ----------
-        num_time_steps : int, default = 1
+        num_time_steps : int, default=1
             The number of time steps that the simulation runs by.
         file_handler : FileHandler, optional
             A `FileHandler` object to pass data into as the simulation runs.
