@@ -1,7 +1,9 @@
-import vectors
-import scipy.constants
-import numpy as np
 import typing
+
+import numpy as np
+import scipy.constants
+
+import vectors
 
 
 class PointParticle:
@@ -246,13 +248,10 @@ class PointParticle:
         ----------
         gravitational_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The gravitational field acting upon this particle.
-           
         electric_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The electric field acting upon this particle.
-           
         magnetic_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The magnetic field acting upon this particle.
-           
         velocity : vectors.FieldVector` | `None
             The velocity to use for the magnetic force calculations,
             by default `self.velocity`.

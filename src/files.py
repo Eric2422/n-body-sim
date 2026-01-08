@@ -171,19 +171,18 @@ class FileHandler:
             sys.exit()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
-        """Retrieve a `referencing.Resource` from the given URI,
-        representing a JSON as a Python object.
+        """Retrieve the contents of a given JSON file as a Python object..
 
         Parameters
         ----------
         uri : str
             The URI of the JSON file to read.
-            The file will automatically be assumed to under :py:const:`self.SCHEMA_DIR`.
+            The file will automatically be assumed to under :py:const:`SCHEMA_DIR`.
 
         Returns
         -------
         referencing.Resource
-            The `Resource` created from the contents of the JSON file.
+            The contents of the JSON file as a Python object.
         """
         pathlib.Path = self.SCHEMA_DIR / uri
         contents = json.loads(pathlib.Path.read_text())
@@ -201,13 +200,13 @@ class FileHandler:
         ----------
         input_dict : dict
             The `dict` that is being validated.
-        schema : dict` | `None, optional
-            The JSON schema or schema property to validate the other JSON `dict` with,
-            by `self.json_schema`.
+        schema : dict | optional
+            The JSON schema or schema property to validate the other JSON `dict` with.
+            If `None`, defaults to :py:const:`self.SCHEMA`.
 
         Raises
         ------
-        `ValidationError`
+        ValidationError
             If the given input `dict` does not conform to the JSON schema.
         """
         # If no schema is passed in,
