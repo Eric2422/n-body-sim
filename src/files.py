@@ -110,7 +110,7 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds. If :py:``
+            Whether the operation succeeds. If :py:attribute:`output_io_wrapper` is `None`,
         """
         try:
             # If the output file has already been used, use it.
@@ -131,7 +131,7 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds. 
+            Whether the operation succeeds.
             Fails if the output file is not open in the first place.
         """
         try:

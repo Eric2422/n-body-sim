@@ -297,7 +297,7 @@ class BarnesHutNode():
         Returns
         -------
         vectors.FieldVector
-            The gravitational field produced by this node, 
+            The gravitational field produced by this node,
             measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.

@@ -126,7 +126,7 @@ class Simulation():
             possibly different from its current position,
             by default `particle.position`
         velocity : vectors.VelocityVector | `None`, optional
-            A hypothetical velocity of the particle to calculate with, 
+            A hypothetical velocity of the particle to calculate with,
             possibly different from its current position,
             by default `particle.velocity`
 

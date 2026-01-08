@@ -216,7 +216,7 @@ class PointParticle:
         magnetic_field : vectors.FieldVector
             The magnetic field acting upon this particle in teslas (T).
         velocity : vectors.FieldVector` | `None
-            The velocity to use for the magnetic force calculations, 
+            The velocity to use for the magnetic force calculations,
             by default `self.velocity`.
 
         Returns
@@ -246,15 +246,15 @@ class PointParticle:
         ----------
         gravitational_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The gravitational field acting upon this particle.
-            
+           
         electric_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The electric field acting upon this particle.
-            
+           
         magnetic_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
             The magnetic field acting upon this particle.
-            
+           
         velocity : vectors.FieldVector` | `None
-            The velocity to use for the magnetic force calculations, 
+            The velocity to use for the magnetic force calculations,
             by default `self.velocity`.
 
         Returns
