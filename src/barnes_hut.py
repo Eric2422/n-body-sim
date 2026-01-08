@@ -77,7 +77,7 @@ class BarnesHutNode():
         """Construct a Barnes-Hut node and recursively create its child nodes.
 
         Will catch out of bounds particles.
-        If `x_bounds`, `y_bounds`, or `z_bounds` are `None`,
+        If `x_bounds`, `y_bounds`, or `z_bounds` are None,
         they will be automatically inferred based on the positions of the particles in the list.
 
         Parameters
@@ -86,15 +86,15 @@ class BarnesHutNode():
             List of particles that are contained within this Barnes-Hut node.
         x_bounds : npt.NDArray[np.float64], optional
             A 2-element NumPy array that contains the lower and upper x bounds in that order.
-            If the argument is `None`, the bounds will be automatically calculated
+            If the argument is None, the bounds will be automatically calculated
             to be the smallest possible that would contain all the particles.
         y_bounds : npt.NDArray[np.float64], optional
             A 2-element NumPy array that contains the lower and upper y bounds in that order.
-            If the argument is `None`, the bounds will be automatically calculated
+            If the argument is None, the bounds will be automatically calculated
             to be the smallest possible that would contain all the particles.
         z_bounds : npt.NDArray[np.float64], optional
             A 2-element NumPy array that contains the lower and upper z bounds in that order.
-            If the argument is `None`, the bounds will be automatically calculated
+            If the argument is None, the bounds will be automatically calculated
             to be the smallest possible that would contain all the particles.
         """
         # If `x_bounds` is not given,
@@ -252,9 +252,9 @@ class BarnesHutNode():
         Returns
         -------
         bool
-            `True` if the particle is within the bounds of this node.
+            True if the particle is within the bounds of this node.
 
-            `False` otherwise.
+            False otherwise.
         """
         return (
             particle.position[0] >= self.X_BOUNDS[0]

@@ -110,7 +110,7 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds. If :py:attribute:`output_io_wrapper` is `None`,
+            Whether the operation succeeds. If :py:attribute:`output_io_wrapper` is None,
         """
         try:
             # If the output file has already been used, use it.
@@ -202,7 +202,7 @@ class FileHandler:
             The `dict` that is being validated.
         schema : dict | optional
             The JSON schema or schema property to validate the other JSON `dict` with.
-            If `None`, defaults to :py:const:`self.SCHEMA`.
+            If None, defaults to :py:const:`self.SCHEMA`.
 
         Raises
         ------
@@ -254,7 +254,7 @@ class FileHandler:
         ----------
         schema : dict, optional
             The JSON schema or schema property to generate a `dict` with.
-            If the argument is `None`, the value of :`self.schema` will be assumed.
+            If the argument is None, the value of :`self.schema` will be assumed.
 
         Returns
         -------

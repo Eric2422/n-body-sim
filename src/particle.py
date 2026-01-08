@@ -26,21 +26,15 @@ class PointParticle:
 
         Parameters
         ----------
-        position : vectors.PositionVector, optional
+        position : vectors.PositionVector, default=np.array([0.0, 0.0, 0.0]).
             The initial position of the particle in meters (m).
             x is left/right, y is forward/backward, z is up/down.
-
-            By default `np.array([0.0, 0.0, 0.0])`.
-        velocity : vectors.VelocityVector, optional
+        velocity : vectors.VelocityVector, default=np.array([0.0, 0.0, 0.0]).
             The initial velocity of the particle in meters per second (m/s).
             x is left/right, y is forward/backward, z is up/down.
-
-            By default `np.array([0.0, 0.0, 0.0])`.
-        acceleration : vectors.AccelerationVector, optional
+        acceleration : vectors.AccelerationVector, default=np.array([0.0, 0.0, 0.0])
             The initial acceleration of the particle in meters per second squared (m/s^2).
             x is left/right, y is forward/backward, z is up/down.
-
-            By default `np.array([0.0, 0.0, 0.0])`
         mass : float, default=1.0
             The mass of the charged particle in kilograms (kg).
         charge : float, default=0.0
@@ -217,9 +211,9 @@ class PointParticle:
         ----------
         magnetic_field : vectors.FieldVector
             The magnetic field acting upon this particle in teslas (T).
-        velocity : vectors.FieldVector` | `None
-            The velocity to use for the magnetic force calculations,
-            by default `self.velocity`.
+        velocity : vectors.FieldVector | None, optional
+            The velocity to use for the magnetic force calculations.
+            If the argument is None, default to :py:attribute:`self.velocity`.
 
         Returns
         -------
@@ -246,15 +240,15 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+        gravitational_field : vectors.FieldVector, default=np.array((0, 0, 0))
             The gravitational field acting upon this particle.
-        electric_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+        electric_field : vectors.FieldVector, default=np.array((0, 0, 0))
             The electric field acting upon this particle.
-        magnetic_field : vectors.FieldVector, default=`np.array((0, 0, 0))`
+        magnetic_field : vectors.FieldVector, default=np.array((0, 0, 0))
             The magnetic field acting upon this particle.
-        velocity : vectors.FieldVector` | `None
+        velocity : vectors.FieldVector | None, optional.
             The velocity to use for the magnetic force calculations,
-            by default `self.velocity`.
+            If the argument is None, default to :py:attribute:`self.velocity`.
 
         Returns
         -------

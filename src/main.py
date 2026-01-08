@@ -121,14 +121,14 @@ class Simulation():
             The particle to calculate the force upon.
         barnes_hut_root : BarnesHutNode
             The Barnes-Hut tree that contains all the particles.
-        position : vectors.PositionVector` | `None, optional
+        position : vectors.PositionVector | None, optional
             A hypothetical position of the particle to calculate with,
-            possibly different from its current position,
-            by default `particle.position`
-        velocity : vectors.VelocityVector | `None`, optional
+            possibly different from its current position.
+            If argument is None, default to `particle.position`
+        velocity : vectors.VelocityVector | None, optional
             A hypothetical velocity of the particle to calculate with,
-            possibly different from its current position,
-            by default `particle.velocity`
+            possibly different from its current position.
+            If argument is None, default to `particle.velocity`
 
         Returns
         -------
@@ -229,13 +229,12 @@ class Simulation():
         num_time_steps : int, default=1
             The number of time steps that the simulation runs by.
         file_handler : FileHandler, optional
-            A `FileHandler` object to pass data into as the simulation runs.
-            Writes the data into a file,
-            so the data does not need to be looped through again afterward.
-            By default `None`
-        print_progress : bool, optional
+            A :py:class:`FileHandler` object,
+            which writes data into a text file as the simulation runs.
+            If the argument is None, do not write any data into a file.
+        print_progress : bool, default=False
             Whether to print a progress report on how much of the simulation
-            has been completed, by default `False`
+            has been completed.
         """
         # Stores the file output
         output_string = ''
