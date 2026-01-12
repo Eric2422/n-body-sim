@@ -10,10 +10,36 @@ class PointParticle:
     """
     A point particle with a specified position, charge, and mass.
 
+    Parameters
+    ----------
+    position : vectors.PositionVector, default=np.array([0.0, 0.0, 0.0]).
+        The initial position of the particle in meters (m).
+        x is left/right, y is forward/backward, z is up/down.
+    velocity : vectors.VelocityVector, default=np.array([0.0, 0.0, 0.0]).
+        The initial velocity of the particle in meters per second (m/s).
+        x is left/right, y is forward/backward, z is up/down.
+    acceleration : vectors.AccelerationVector, default=np.array([0.0, 0.0, 0.0])
+        The initial acceleration of the particle in meters per second squared (m/s^2).
+        x is left/right, y is forward/backward, z is up/down.
+    mass : float, default=1.0
+        The mass of the charged particle in kilograms (kg).
+    charge : float, default=0.0
+        The charge of the particle in coulombs (C).
+
     Attributes
     ----------
-    position : PositionVector
-    velocity : VelocityVector
+    position : vectors.PositionVector
+        The current position of the particle in meters (m).
+    velocity : vectors.VelocityVector
+        The current velocity of the particle in meters per second (m/s).
+    acceleration : vectors.AccelerationVector
+        The current acceleration of the particle in meters per second squared (m/s^2).
+    MASS : float
+        The mass of the particle in kilograms (kg), which should never change.
+    CHARGE : float
+        The charge of the particle in coulombs (C), which should never change.
+    ID : int
+        The unique ID identifying the particle, which should never change.
     """
 
     current_id = 0
@@ -29,39 +55,16 @@ class PointParticle:
         mass: float = 1.0,
         charge: float = 0.0
     ) -> None:
-        """Initialize a single point particle with a position, charge, and mass.
-
-        Parameters
-        ----------
-        position : vectors.PositionVector, default=np.array([0.0, 0.0, 0.0]).
-            The initial position of the particle in meters (m).
-            x is left/right, y is forward/backward, z is up/down.
-        velocity : vectors.VelocityVector, default=np.array([0.0, 0.0, 0.0]).
-            The initial velocity of the particle in meters per second (m/s).
-            x is left/right, y is forward/backward, z is up/down.
-        acceleration : vectors.AccelerationVector, default=np.array([0.0, 0.0, 0.0])
-            The initial acceleration of the particle in meters per second squared (m/s^2).
-            x is left/right, y is forward/backward, z is up/down.
-        mass : float, default=1.0
-            The mass of the charged particle in kilograms (kg).
-        charge : float, default=0.0
-            The charge of the particle in coulombs (C).
-        """
+        """Automatically increment :py:attribute:`current_id` by 1."""
         # Represented by arrays of (x, y, z).
         self.position = position
-        """The current position of this particle in meters (m)."""
         self.velocity = velocity
-        """The current velocity of this particle in meters per second (m/s)."""
         self.acceleration = acceleration
-        """The current acceleration of this particle in meters per second squared (m/s^2)."""
 
         self.MASS = mass
-        """The mass of this particle in kilograms (kg), which should never change."""
         self.CHARGE = charge
-        """The charge of this particle in coulombs (C), which should never change."""
 
         self.ID = PointParticle.current_id
-        """The unique ID identifying this particle, which should never change."""
         PointParticle.current_id += 1
 
     def apply_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
