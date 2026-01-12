@@ -1,8 +1,7 @@
 # *n*-Body Simulator
 
-A physics simulation for simulating the movement of point particles.
-It also simulates the effects of electromagnetic and gravitational fields.
-All numbers are in SI units.
+A physics simulator for the interactions of point particles in electromagnetic
+and gravitational fields. All numbers are in SI base units.
 
 ## Table of Contents
 
@@ -13,7 +12,6 @@ All numbers are in SI units.
   - [Running the Simulation](#running-the-simulation)
   - [Output Files](#output-files)
 - [References](#references)
-  - [Barnes-Hut Algorithm](#barnes-hut-algorithm)
 
 ## Installation
 
@@ -52,7 +50,7 @@ with default values.
 ### Running the Simulation
 
 To run the simulation, type `python src/main.py input/<input file name>`.
-The file name should contain the file extension(i.e. `.json`).
+The file name should contain the file extension (i.e. `.json`).
 
 ### Output Files
 
@@ -62,8 +60,6 @@ The output file will have the same base name as the input file but will have a
 file extension of `.txt` instead.
 
 ## References
-
-### Barnes-Hut Algorithm
 
 Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
 ArborJS. <https://arborjs.org/docs/barnes-hut>.
