@@ -35,18 +35,18 @@ class Simulation():
 
         Parameters
         ----------
-        `theta` : `float`, optional
-            The Barnes-Hut approximation parameter, by default 0.5
-        `time_step_size` : `float`, optional
-            The time increment of the simulation in seconds (s), by default 1.0
-        `gravitational_field` : `vectors.FieldVector`, optional
-            A constant, uniform gravitational field, by default `np.zeros(3, dtype=float)`
-        `electric_field` : `vectors.FieldVector`, optional
-            A constant, uniform electric field, `by default np.zeros(3, dtype=float)`
-        `magnetic_field` :` vectors.FieldVector`, optional
-            A constant, uniform magnetic field, `by default np.zeros(3, dtype=float)`
-        `particles` : `list[PointParticle]`, optional
-            A `list` of particles that are interacting with each other, by default `[]`
+        theta : float, default=0.5
+            The Barnes-Hut approximation parameter
+        time_step_size : float, default=1.0
+            The time increment of the simulation in seconds (s)
+        gravitational_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+            A constant, uniform gravitational field.
+        electric_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+            A constant, uniform electric field.
+        magnetic_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+            A constant, uniform magnetic field.
+        particles : list[PointParticle], default=[]
+            A `list` of particles that are interacting with each other.
         """
         self.particles = particles
 
@@ -74,7 +74,7 @@ class Simulation():
 
         Parameters
         ----------
-        `particle` : `PointParticle`
+        particle : PointParticle
             A particle to save the state of.
         """
         # Save particle position data
@@ -92,7 +92,7 @@ class Simulation():
 
         Returns
         -------
-        `str`
+        str
             A string describing the state of all particles.
         """
 
@@ -117,22 +117,22 @@ class Simulation():
 
         Parameters
         ----------
-        `particle` : `PointParticle`
+        particle : PointParticle
             The particle to calculate the force upon.
-        `barnes_hut_root` : `BarnesHutNode`
+        barnes_hut_root : BarnesHutNode
             The Barnes-Hut tree that contains all the particles.
-        `position` : `vectors.PositionVector` | `None`, optional
+        position : vectors.PositionVector | None, optional
             A hypothetical position of the particle to calculate with,
-            possibly different from its current position,
-            by default `particle.position`
-        `velocity` : vectors.VelocityVector | `None`, optional
-            A hypothetical velocity of the particle to calculate with, 
-            possibly different from its current position,
-            by default `particle.velocity`
+            possibly different from its current position.
+            If argument is None, default to `particle.position`
+        velocity : vectors.VelocityVector | None, optional
+            A hypothetical velocity of the particle to calculate with,
+            possibly different from its current position.
+            If argument is None, default to `particle.velocity`
 
         Returns
         -------
-        `vectors.ForceVector`
+        vectors.ForceVector
             The force exerted on a particle by the fields and other particles.
         """
         if (position is None):
@@ -226,16 +226,15 @@ class Simulation():
 
         Parameters
         ----------
-        `num_time_steps` : `int`, optional
-            The number of time steps that the simulation runs by, by default 1
-        `file_handler` : `FileHandler`, optional
-            A `FileHandler` object to pass data into as the simulation runs.
-            Writes the data into a file,
-            so the data does not need to be looped through again afterward.
-            By default `None`
-        `print_progress` : `bool`, optional
+        num_time_steps : int, default=1
+            The number of time steps that the simulation runs by.
+        file_handler : FileHandler, optional
+            A :py:class:`FileHandler` object,
+            which writes data into a text file as the simulation runs.
+            If the argument is None, do not write any data into a file.
+        print_progress : bool, default=False
             Whether to print a progress report on how much of the simulation
-            has been completed, by default `False`
+            has been completed.
         """
         # Stores the file output
         output_string = ''

@@ -28,29 +28,27 @@ class FileHandler:
 
         Parameters
         ----------
-        `schema_file`: `str`, optional
-            The name of the JSON schema file used for the input files,
-            by default 'schema.json'.
+        schema_file : str, default='schema.json'
+            The name of the JSON schema file used for the input files.
 
             Found in the `./input` directory but does not contain the directory.
-            Best to keep it to the default unless you want to write
-            an entire JSON schema.
-        `input_file` : `str`, optional
-            The file path of the input file, including file extension,
-            by default 'sample.csv'.
+            Best to keep it to the default unless you want to write an entire JSON schema.
+
+        input_file : str, default='sample.csv'
+            The file path of the input file, including file extension.
 
             Accepts both with and without the directory.
             The output file will have the same name
-            but with the '.txt' file extension instead.
+            but with the ".txt" file extension instead.
         """
-        self.input_file_path = pathlib.Path(
+        self.INPUT_FILE_PATH = pathlib.Path(
             input_file if os.path.dirname(input_file) == 'input'
             else self.INPUT_DIR / input_file
         )
 
         # The output file has the same name as input_file
         # but with the '.txt' extension.
-        self.output_file_path = pathlib.Path(
+        self.OUTPUT_FILE_PATH = pathlib.Path(
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_file).stem + '.txt')
         )
@@ -61,11 +59,11 @@ class FileHandler:
 
         # Open the schema file and read it.
         with open(FileHandler.SCHEMA_DIR / schema_file) as file:
-            self.schema = json.load(file)
+            self.SCHEMA = json.load(file)
 
     def open_output_file(self) -> bool:
-        """Open a `TextIOWrapper` for `self.output_file_path`.
-        Will be closed by :func:`self.clear_output_file(self)`
+        """Open a `TextIOWrapper` for `self.OUTPUT_FILE_PATH`.
+        Should be closed by :func:`clear_output_file()` after done writing to it.
 
         Returns
         -------
@@ -73,7 +71,7 @@ class FileHandler:
             Whether the operation succeeds.
         """
         try:
-            self.output_io_wrapper = self.output_file_path.open('a')
+            self.output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
             return True
 
         except OSError:
@@ -81,21 +79,21 @@ class FileHandler:
 
     def append_to_output_file(self, output_string: str = '\n') -> bool:
         """Append the given string into the output file.
-        If the `self.output_file_path` has already been opened,
+        If the `self.OUTPUT_FILE_PATH` has already been opened,
         then the string will be append to it without closing.
 
-        Elsewise, it will open `self.output_file_path`, append to it,
+        Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it,
         then close it.
 
         Parameters
         ----------
-        `output_string`: `str`, optional
-            The string to be appended to the given file, by default '\n'.
+        output_string : str, default='\n'
+            The string to be appended to the given file.
         """
         try:
             # If the output file has already been used, use it.
             if self.output_io_wrapper == None:
-                with self.output_file_path.open('a') as file:
+                with self.OUTPUT_FILE_PATH.open('a') as file:
                     file.write(output_string)
 
             else:
@@ -112,16 +110,15 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds.
+            Whether the operation succeeds. If :py:attribute:`output_io_wrapper` is None,
         """
         try:
             # If the output file has already been used, use it.
             if self.output_io_wrapper is None:
-                self.output_file_path.write_text('')
+                self.OUTPUT_FILE_PATH.write_text('')
 
             else:
                 self.output_io_wrapper.truncate(0)
-                pass
 
             return True
 
@@ -134,11 +131,12 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds. 
+            Whether the operation succeeds.
             Fails if the output file is not open in the first place.
         """
         try:
-            # Fails if the output error 
+            # Check if the TextIOWrapper exists.
+            # If not, the operation fails.
             if self.output_io_wrapper == None:
                 raise OSError()
 
@@ -154,7 +152,7 @@ class FileHandler:
 
         Returns
         -------
-        `dict`
+        dict
             A `dict` containing information about the initial state of the simulation.
             Stores a `list` of the particles.
 
@@ -163,9 +161,9 @@ class FileHandler:
         `FileNotFoundError`
             When the input file can not be found.
         """
-        # Try to open the input file
+        # Try to open the input file.
         try:
-            with open(self.input_file_path) as file:
+            with open(self.INPUT_FILE_PATH) as file:
                 return json.load(file)
 
         except OSError or FileNotFoundError:
@@ -173,17 +171,18 @@ class FileHandler:
             sys.exit()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
-        """Retrieve a `referencing.Resource` from the given URI.
+        """Retrieve the contents of a given JSON file as a Python object..
 
         Parameters
         ----------
-        `uri` : `str`
-            The URI of the file.
+        uri : str
+            The URI of the JSON file to read.
+            The file will automatically be assumed to under :py:const:`SCHEMA_DIR`.
 
         Returns
         -------
-        `referencing.Resource`
-            The `Resource` created from the contents of the file.
+        referencing.Resource
+            The contents of the JSON file as a Python object.
         """
         pathlib.Path = self.SCHEMA_DIR / uri
         contents = json.loads(pathlib.Path.read_text())
@@ -199,20 +198,20 @@ class FileHandler:
 
         Parameters
         ----------
-        `input_dict` : `dict`
+        input_dict : dict
             The `dict` that is being validated.
-        `schema` : `dict` | `None`, optional
-            The JSON schema or schema property to validate the other JSON `dict` with,
-            by `self.json_schema`.
+        schema : dict | optional
+            The JSON schema or schema property to validate the other JSON `dict` with.
+            If None, defaults to :py:const:`self.SCHEMA`.
 
         Raises
         ------
-        `ValidationError`
+        ValidationError
             If the given input `dict` does not conform to the JSON schema.
         """
         # If no schema is passed in,
         # default to `self.json_schema`
-        schema_dict = self.schema if schema is None else schema
+        schema_dict = self.SCHEMA if schema is None else schema
 
         # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
@@ -233,10 +232,9 @@ class FileHandler:
         If the file *does* exist, any pre-existing content will be overwritten.
         The file will have the same name as `self.input_file`.
 
-
         Parameters
         ----------
-        `input_dict` : `dict`
+        input_dict : dict
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -244,7 +242,7 @@ class FileHandler:
         # Write the object as a JSON into the input file
         json.dump(
             input_dict,
-            self.input_file_path.open('w+'),
+            self.INPUT_FILE_PATH.open('w+'),
             indent=4
         )
 
@@ -254,18 +252,18 @@ class FileHandler:
 
         Parameters
         ----------
-        `schema` : `dict`, optional
-            The JSON schema or schema property to generate a `dict` with,
-            by default `self.schema`.
+        schema : dict, optional
+            The JSON schema or schema property to generate a `dict` with.
+            If the argument is None, the value of :`self.schema` will be assumed.
 
         Returns
         -------
-        `dict`
+        dict
             A `dict` of default values that conforms to the schema.
         """
         # If no schema is passed in,
         # default to `self.json_schema`
-        schema_dict = self.schema if schema is None else schema
+        schema_dict = self.SCHEMA if schema is None else schema
 
         # If the schema contains a subschema,
         # open and read it

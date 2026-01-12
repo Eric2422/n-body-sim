@@ -24,16 +24,16 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        `x_bounds` : `npt.NDArray[np.float64]`
+        x_bounds : npt.NDArray[np.float64]
             The given x bounds to cube.
-        `y_bounds` : `npt.NDArray[np.float64]`
+        y_bounds : npt.NDArray[np.float64]
             The given y bounds to cube.
-        `z_bounds` : `npt.NDArray[np.float64]`
+        z_bounds : npt.NDArray[np.float64]
             The given z bounds to cube.
 
         Returns
         -------
-        `tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]`
+        tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
             The newly cubed bounds, the centroid, and the size of any dimension.
         """
         centroid = np.array(
@@ -48,6 +48,7 @@ class BarnesHutNode():
         width = x_bounds[1] - x_bounds[0]
         length = y_bounds[1] - y_bounds[0]
         height = z_bounds[1] - z_bounds[0]
+
         # Size of the largest dimension.
         size = max(width, length, height)
 
@@ -76,19 +77,25 @@ class BarnesHutNode():
         """Construct a Barnes-Hut node and recursively create its child nodes.
 
         Will catch out of bounds particles.
-        If `x_bounds`, `y_bounds`, or `z_bounds` are `None`,
+        If `x_bounds`, `y_bounds`, or `z_bounds` are None,
         they will be automatically inferred based on the positions of the particles in the list.
 
         Parameters
         ----------
-        `particles` : `list[PointParticle]`, optional
-            List of particles that are contained within this Barnes-Hut node, by default `[]`
-        `x_bounds` : `npt.NDArray[np.float64]`, optional
-            A 2-element NumPy array that contains the lower and upper x bounds in that order, by default `None`
-        `y_bounds` : `npt.NDArray[np.float64]`, optional
-            A 2-element NumPy array that contains the lower and upper y bounds in that order, by default `None`
-        `z_bounds` : `npt.NDArray[np.float64]`, optional
-            A 2-element NumPy array that contains the lower and upper z bounds in that order, by default `None`
+        particles : list[PointParticle], default=[]
+            List of particles that are contained within this Barnes-Hut node.
+        x_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper x bounds in that order.
+            If the argument is None, the bounds will be automatically calculated
+            to be the smallest possible that would contain all the particles.
+        y_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper y bounds in that order.
+            If the argument is None, the bounds will be automatically calculated
+            to be the smallest possible that would contain all the particles.
+        z_bounds : npt.NDArray[np.float64], optional
+            A 2-element NumPy array that contains the lower and upper z bounds in that order.
+            If the argument is None, the bounds will be automatically calculated
+            to be the smallest possible that would contain all the particles.
         """
         # If `x_bounds` is not given,
         # set it based on the minimum and maximum x positions of the particles.
@@ -126,8 +133,8 @@ class BarnesHutNode():
         )
         """A two-element array containing the lower and upper z-bounds of this node."""
 
+        # The centroid of the Barnes Hut node
         centroid: npt.NDArray[np.float64]
-        """The centroid of the Barnes Hut node"""
 
         self.SIZE: float
         """The distance from one side of the node to the other."""
@@ -159,7 +166,7 @@ class BarnesHutNode():
         """The center of mass of this cell."""
 
         self.TOTAL_CHARGE = sum(
-            [particle.CHARGE for particle in self.PARTICLES]
+            particle.CHARGE for particle in self.PARTICLES
         )
         """Total charge of all particles in this node, measured in coulombs (C)."""
         charge_moment = sum(
@@ -191,25 +198,24 @@ class BarnesHutNode():
         # (i.e., it has only 0 or 1 particles).
         self.CHILD_NODES = (
             self.create_child_nodes() if len(self.PARTICLES) > 1 and self.SIZE > 0
-            else tuple()
+            else ()
         )
 
-    def create_child_nodes(self) -> list['BarnesHutNode']:
+    def create_child_nodes(self) -> tuple[BarnesHutNode]:
         """Recursively create child nodes for this Barnes-Hut node.
 
         Returns
         -------
-        `list['BarnesHutNode']`
+        tuple[BarnesHutNode]
             A list of child Barnes-Hut nodes, each representing an octant of this node.
         """
         # Size of child nodes.
         child_size = self.SIZE / 2
 
-        # List of all the child BH nodes.
+        # List of all the child nodes.
         children = []
 
         # Split each dimension in half.
-
         x_linspace = np.linspace(
             self.X_BOUNDS[0], self.X_BOUNDS[1], num=2, endpoint=False
         )
@@ -232,7 +238,7 @@ class BarnesHutNode():
                     )
                     children.append(child)
 
-        return children
+        return tuple(children)
 
     def particle_within_bounds(self, particle: PointParticle) -> bool:
         """Return whether a given particle is within the bounds of this
@@ -240,15 +246,15 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        `particle` : `PointParticle`
+        particle : PointParticle
             The particle to check.
 
         Returns
         -------
-        `bool`
-            `True` if the particle is within the bounds of this node.
+        bool
+            True if the particle is within the bounds of this node.
 
-            `False` otherwise.
+            False otherwise.
         """
         return (
             particle.position[0] >= self.X_BOUNDS[0]
@@ -270,27 +276,28 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        `point` : `vectors.PositionVector`
+        point : vectors.PositionVector
             The position to calculate the gravitational field at,
             measured in meters (m).
-        `theta` : `float`, optional
-            The value of theta, the Barnes-Hut approximation parameter being used,
-            by default 0.0
+
+        theta : float, default=0.0
+            The value of theta, the Barnes-Hut approximation parameter being used.
 
             Given the distance between the point and the center of mass,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
             When theta is 0.0, no approximation will occur.
-        `particle_id` : `int`, optional
-            The ID of the particle to exclude from the force calculation, 
-            by default -1.
+
+        particle_id : int, default=-1
+            The ID of the particle to exclude from the force calculation.
+
             When the value is -1, no particles will be excluded
             from the force calculation.
 
         Returns
         -------
-        `vectors.FieldVector`
-            The gravitational field produced by this node, 
+        vectors.FieldVector
+            The gravitational field produced by this node,
             measured in newtons per kg (N/kg).
         """
         # Calculate the displacement vector between the two points.
@@ -334,26 +341,26 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        `point` : `vectors.PositionVector`
+        point : vectors.PositionVector
             The position to calculate the electric field at.
             Measured in meters (m).
-        `theta` : `float`, optional
-            The value of theta, the Barnes-Hut approximation parameter being used,
-            by default 0.0
-
+        theta : float, default=0.0
+            The value of theta, the Barnes-Hut approximation parameter being used.
             Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
+
             When theta is 0.0, no approximation will occur.
-        `particle_id` : `int`, optional
-            The ID of the particle to exclude from the force calculation, 
-            by default -1.
+
+        particle_id : int, default=-1
+            The ID of the particle to exclude from the force calculation.
+
             When the value is -1, no particles will be excluded
             from the force calculation.
 
         Returns
         -------
-        `vectors.FieldVector`
+        vectors.FieldVector
             The electric field vector produced by this node,
             measured in newtons per coulomb (N/C).
         """
@@ -402,26 +409,26 @@ class BarnesHutNode():
 
         Parameters
         ----------
-        `point` : vectors.PositionVector
+        point : vectors.PositionVector
             The point at which to calculate the magnetic field.
             Measured in meters (m).
-        `theta` : `float`, optional
-            The value of theta, the Barnes-Hut approximation parameter being used,
-            by default 0.0
+        theta : float, default=0.0
+            The value of theta, the Barnes-Hut approximation parameter being used.
+
 
             Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact
             value for the magnetic field.
             When theta is 0.0, no approximation will occur.
-        `particle_id` : `int`, optional
-            The ID of the particle to exclude from the force calculation,
-            by default -1.
+        particle_id : int, default=-1
+            The ID of the particle to exclude from the force calculation.
+
             When the value is -1, no particles will be excluded
             from the force calculation.
 
         Returns
         -------
-        `vectors.FieldVector`
+        vectors.FieldVector
             The magnetic field produced by this node,
             measured in teslas (T).
         """
@@ -466,7 +473,7 @@ class BarnesHutNode():
 
         Returns
         -------
-        `int`
+        int
             The height of the subtree under this Barnes-Hut node.
             If this node has no child nodes, it is a leaf node and its height is 0.
         """

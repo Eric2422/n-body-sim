@@ -19,11 +19,11 @@ class Plot():
 
         Parameters
         ----------
-        `data_frame` : `pd.DataFrame`
-            A data frame with four columns: t, x, y, z
+        data_frame : pd.DataFrame
+            A data frame with four columns: t, x, y, and z.
             Contains the time and position of particles.
-        `time_step_size` : `float`, optional
-            The amount of time between each frame, by default 1.0
+        time_step_size : float, default=1.0
+            The amount of time between each frame.
         """
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
@@ -32,8 +32,8 @@ class Plot():
 
         self.num_particles = len(data_frame[data_frame['t'] == 0])
 
+        # Plot initial data points, one for each particle.
         initial_data = data_frame[data_frame['t'] == 0]
-        # Plot points, one for each particle.
         self.plot, = ax.plot(
             initial_data.x,
             initial_data.y,
@@ -92,7 +92,7 @@ class Plot():
 
         Parameters
         ----------
-        `num` : `int`
+        num : int
             The number of intervals that have elapsed.
         """
         # The particles are flattened into a single data frame,
@@ -121,7 +121,7 @@ class Plot():
 
         Parameters
         ----------
-        `filename` : `str`
+        filename : str
             The name that the file will be saved with.
         """
         FFwriter = animation.FFMpegWriter(fps=self.fps)
