@@ -30,7 +30,8 @@ pip install -r requirements
 
 ### Schemas
 
-The [`./schemas`](./schemas/) directory contains the JSON schemas used to validate and generate input files.
+The [`./schemas`](./schemas/) directory contains the JSON schemas used to validate
+and generate input files.
 
 > [!Caution]
 > It is recommended that you do not edit the schemas.
@@ -41,10 +42,12 @@ The [`./schemas`](./schemas/) directory contains the JSON schemas used to valida
 The input files set up the simulation and are located in [`input/`](./input/).
 Each input file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
 
-The `num_time_steps` property of the input file dictates how many time steps the simulator runs.
+The `num_time_steps` property of the input file dictates how many time steps the
+simulator runs.
 If it is set to 0, only the initial state will be given.
 
-Running `python src/files.py <input file name>` will create a JSON object filled with default values.
+Running `python src/files.py <input file name>` will create a JSON object filled
+with default values.
 
 ### Running the Simulation
 
@@ -53,11 +56,14 @@ The file name should contain the file extension(i.e. `.json`).
 
 ### Output Files
 
-The output files, located in [`output/`](./output/), store records of the state of the particles over time.
-The output file will have the same base name as the input file but will have a file extension of `.txt` instead.
+The output files, located in [`output/`](./output/), store records of the state
+of the particles over time.
+The output file will have the same base name as the input file but will have a
+file extension of `.txt` instead.
 
 ## References
 
 ### Barnes-Hut Algorithm
 
-Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*. ArborJS. <https://arborjs.org/docs/barnes-hut>.
+Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
+ArborJS. <https://arborjs.org/docs/barnes-hut>.
