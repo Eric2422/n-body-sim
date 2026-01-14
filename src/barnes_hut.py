@@ -415,7 +415,6 @@ class BarnesHutNode():
         theta : float, default=0.0
             The value of theta, the Barnes-Hut approximation parameter being used.
 
-
             Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact
             value for the magnetic field.

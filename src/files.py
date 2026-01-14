@@ -33,7 +33,6 @@ class FileHandler:
 
             Found in the `./input` directory but does not contain the directory.
             Best to keep it to the default unless you want to write an entire JSON schema.
-
         input_file : str, default='sample.csv'
             The file path of the input file, including file extension.
 
@@ -81,14 +80,19 @@ class FileHandler:
         """Append the given string into the output file.
         If the `self.OUTPUT_FILE_PATH` has already been opened,
         then the string will be append to it without closing.
-
-        Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it,
+        
+        Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it, and
         then close it.
 
         Parameters
         ----------
         output_string : str, default='\n'
             The string to be appended to the given file.
+
+        Returns
+        -------
+        bool
+            Whether the operation succeeded.
         """
         try:
             # If the output file has already been used, use it.
@@ -110,7 +114,7 @@ class FileHandler:
         Returns
         -------
         bool
-            Whether the operation succeeds. If :py:attribute:`output_io_wrapper` is None,
+            Whether the operation succeeds. If `output_io_wrapper` is None,
         """
         try:
             # If the output file has already been used, use it.
