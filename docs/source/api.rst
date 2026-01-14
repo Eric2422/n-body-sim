@@ -1,8 +1,8 @@
-src
+API
 ===
 
-.. toctree::
-   :maxdepth: 4
+.. autosummary::
+   :toctree: generated
 
    barnes_hut
    files
