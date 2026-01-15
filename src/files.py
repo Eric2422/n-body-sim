@@ -151,7 +151,7 @@ class FileHandler:
         except OSError:
             return False
 
-    def read_input_file(self) -> dict:
+    def read_input_file(self) -> dict[str, typing.Any]:
         """Read the input JSON file, extract the data, and return it as a `dict`.
 
         Returns
