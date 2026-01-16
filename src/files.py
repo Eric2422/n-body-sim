@@ -80,7 +80,7 @@ class FileHandler:
         """Append the given string into the output file.
         If the `self.OUTPUT_FILE_PATH` has already been opened,
         then the string will be append to it without closing.
-        
+
         Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it, and
         then close it.
 
@@ -151,28 +151,25 @@ class FileHandler:
         except OSError:
             return False
 
-    def read_input_file(self) -> dict[str, typing.Any]:
+    def read_input_file(self) -> dict[str, typing.Any] | None:
         """Read the input JSON file, extract the data, and return it as a `dict`.
 
         Returns
         -------
-        dict
+        dict | None
             A `dict` containing information about the initial state of the simulation.
             Stores a `list` of the particles.
 
-        Raises
-        ------
-        `FileNotFoundError`
-            When the input file can not be found.
+            If the file is invalid, return `None` as an indicator of failure.
         """
         # Try to open the input file.
         try:
             with open(self.INPUT_FILE_PATH) as file:
                 return json.load(file)
 
-        except OSError or FileNotFoundError:
-            print('Please enter a valid input file.')
-            sys.exit()
+        # Return if it fails.
+        except OSError:
+            return None
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
         """Retrieve the contents of a given JSON file as a Python object..
@@ -197,7 +194,7 @@ class FileHandler:
         self,
         input_dict: dict,
         schema: dict | None = None
-    ) -> None:
+    ) -> bool:
         """Determine whether or not the given `dict` is valid by the schema.
 
         Parameters
@@ -208,10 +205,10 @@ class FileHandler:
             The JSON schema or schema property to validate the other JSON `dict` with.
             If None, defaults to :py:const:`self.SCHEMA`.
 
-        Raises
+        Return
         ------
-        ValidationError
-            If the given input `dict` does not conform to the JSON schema.
+        bool
+            Whether the given input `dict` conforms to the JSON schema.
         """
         # If no schema is passed in,
         # default to `self.json_schema`
@@ -224,7 +221,13 @@ class FileHandler:
         validator = jsonschema.Draft202012Validator(
             schema=schema_dict, registry=registry
         )
-        validator.validate(input_dict)
+
+        try:
+            validator.validate(input_dict)
+            return True
+
+        except jsonschema.ValidationError:
+            return False
 
     def write_input_file(self, input_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a input JSON file.

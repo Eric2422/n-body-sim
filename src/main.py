@@ -275,7 +275,8 @@ class Simulation():
 
                     # Clear the previous line.
                     sys.stdout.write('\033[K')
-                    # Print the current progress and then return to the beginning of the line.
+                    # Print the current progress 
+                    # and then return to the beginning of the line.
                     print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
         except:
@@ -299,7 +300,8 @@ class Simulation():
             file_handler.append_to_output_file(self.get_particles_string())
             file_handler.close_output_file()
 
-        # If printing progress reports, add an extra line to account for the carriage returns.
+        # If printing progress reports, 
+        # add an extra line to account for the carriage returns.
         if print_progress:
             print()
 
@@ -311,7 +313,21 @@ if __name__ == '__main__':
 
     # Read the input file data and create particles based on that data
     file_handler = FileHandler(input_file=sys.argv[1])
+
     file_data = file_handler.read_input_file()
+
+    # Attempt to read the file.
+    if file_data == None:
+        raise OSError(
+            'The input file does not exist or does not contain a properly '
+            'formatted JSON. Please correct it.'
+        )
+
+    if file_handler.validate_input_dict(file_data):
+        raise ValueError(
+            'The input file contains a properly formatted JSON, '
+            'but it does not conform to the JSON schema. Please correct it.'
+        )
 
     # Create a list of particles as described by the file data.
     particles = [
