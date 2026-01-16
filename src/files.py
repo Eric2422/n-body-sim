@@ -151,7 +151,7 @@ class FileHandler:
         except OSError:
             return False
 
-    def read_input_file(self) -> dict:
+    def read_input_file(self) -> dict[str, typing.Any]:
         """Read the input JSON file, extract the data, and return it as a `dict`.
 
         Returns
@@ -258,15 +258,14 @@ class FileHandler:
         ----------
         schema : dict, optional
             The JSON schema or schema property to generate a `dict` with.
-            If the argument is None, the value of :`self.schema` will be assumed.
+            If the argument is `None`, the value of `self.schema` will be assumed.
 
         Returns
         -------
         dict
             A `dict` of default values that conforms to the schema.
         """
-        # If no schema is passed in,
-        # default to `self.json_schema`
+        # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
 
         # If the schema contains a subschema,
