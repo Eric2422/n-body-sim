@@ -53,34 +53,29 @@ class FileHandler:
         )
         """Stores the path of the output file."""
 
-        self.output_io_wrapper = None
+        self.__output_io_wrapper = None
         """Stores the `TextIOWrapper` that handles writing to the output file."""
 
         # Open the schema file and read it.
         with open(FileHandler.SCHEMA_DIR / schema_file) as file:
             self.SCHEMA = json.load(file)
 
-    def open_output_file(self) -> bool:
+    def open_output_file(self) -> None:
         """Open a `TextIOWrapper` for `self.OUTPUT_FILE_PATH`.
         Should be closed by :func:`clear_output_file()` after done writing to it.
 
-        Returns
-        -------
-        bool
-            Whether the operation succeeds.
+        Raises
+        ------
+        OSError
+            If `OUTPUT_FILE_PATH` does not point to an accessible file.
         """
-        try:
-            self.output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
-            return True
+        self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
 
-        except OSError:
-            return False
-
-    def append_to_output_file(self, output_string: str = '\n') -> bool:
+    def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file.
         If the `self.OUTPUT_FILE_PATH` has already been opened,
         then the string will be append to it without closing.
-        
+
         Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it, and
         then close it.
 
@@ -89,67 +84,40 @@ class FileHandler:
         output_string : str, default='\n'
             The string to be appended to the given file.
 
-        Returns
-        -------
-        bool
-            Whether the operation succeeded.
+        Raises
+        ------
+        OSError
+            If the output file is not writeable.
         """
-        try:
-            # If the output file has already been used, use it.
-            if self.output_io_wrapper == None:
-                with self.OUTPUT_FILE_PATH.open('a') as file:
-                    file.write(output_string)
+        # If the output file has already been used, use it.
+        if self.__output_io_wrapper == None:
+            with self.OUTPUT_FILE_PATH.open('a') as file:
+                file.write(output_string)
 
-            else:
-                self.output_io_wrapper.write(output_string)
+        else:
+            self.__output_io_wrapper.write(output_string)
 
-            return True
-
-        except OSError:
-            return False
-
-    def clear_output_file(self) -> bool:
+    def clear_output_file(self) -> None:
         """Clear the output file.
 
-        Returns
-        -------
-        bool
-            Whether the operation succeeds. If `output_io_wrapper` is None,
+        Raises
+        ------
+        OSError
+            If the output file is not writeable.
         """
-        try:
-            # If the output file has already been used, use it.
-            if self.output_io_wrapper is None:
-                self.OUTPUT_FILE_PATH.write_text('')
+        # If the output file has already been used, use it.
+        if self.__output_io_wrapper is None:
+            self.OUTPUT_FILE_PATH.write_text('')
 
-            else:
-                self.output_io_wrapper.truncate(0)
+        else:
+            self.__output_io_wrapper.truncate(0)
 
-            return True
-
-        except OSError:
-            return False
-
-    def close_output_file(self) -> bool:
-        """Close the output file.
-
-        Returns
-        -------
-        bool
-            Whether the operation succeeds.
-            Fails if the output file is not open in the first place.
-        """
-        try:
-            # Check if the TextIOWrapper exists.
-            # If not, the operation fails.
-            if self.output_io_wrapper == None:
-                raise OSError()
-
-            else:
-                self.output_io_wrapper.close()
-                return True
-
-        except OSError:
-            return False
+    def close_output_file(self) -> None:
+        """Close the `__output_io_wrapper`. If it is not open, nothing happens."""
+        # Check if the TextIOWrapper exists.
+        # If not, the operation fails.
+        if self.__output_io_wrapper != None:
+            self.__output_io_wrapper.close()
 
     def read_input_file(self) -> dict[str, typing.Any]:
         """Read the input JSON file, extract the data, and return it as a `dict`.
@@ -159,20 +127,9 @@ class FileHandler:
         dict
             A `dict` containing information about the initial state of the simulation.
             Stores a `list` of the particles.
-
-        Raises
-        ------
-        `FileNotFoundError`
-            When the input file can not be found.
         """
-        # Try to open the input file.
-        try:
-            with open(self.INPUT_FILE_PATH) as file:
-                return json.load(file)
-
-        except OSError or FileNotFoundError:
-            print('Please enter a valid input file.')
-            sys.exit()
+        with open(self.INPUT_FILE_PATH) as file:
+            return json.load(file)
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
         """Retrieve the contents of a given JSON file as a Python object..
@@ -197,7 +154,7 @@ class FileHandler:
         self,
         input_dict: dict,
         schema: dict | None = None
-    ) -> None:
+    ) -> bool:
         """Determine whether or not the given `dict` is valid by the schema.
 
         Parameters
@@ -208,23 +165,27 @@ class FileHandler:
             The JSON schema or schema property to validate the other JSON `dict` with.
             If None, defaults to :py:const:`self.SCHEMA`.
 
-        Raises
-        ------
-        ValidationError
-            If the given input `dict` does not conform to the JSON schema.
+        Returns
+        -------
+            Whether the given dictionary conforms to `SCHEMA`.
         """
-        # If no schema is passed in,
-        # default to `self.json_schema`
+        # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
 
         # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
 
-        # Validate the input dict using the schema and registry
+        # Validate the input dict using the schema and registry.
         validator = jsonschema.Draft202012Validator(
             schema=schema_dict, registry=registry
         )
-        validator.validate(input_dict)
+
+        try:
+            validator.validate(input_dict)
+            return True
+
+        except jsonschema.ValidationError:
+            return False
 
     def write_input_file(self, input_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a input JSON file.

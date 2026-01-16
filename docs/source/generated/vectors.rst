@@ -3,11 +3,11 @@
 
 .. automodule:: vectors
 
-   
+  
    .. rubric:: Module Attributes
 
    .. autosummary::
-   
+  
       UnitVector
       PositionVector
       DisplacementVector

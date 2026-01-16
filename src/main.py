@@ -275,7 +275,8 @@ class Simulation():
 
                     # Clear the previous line.
                     sys.stdout.write('\033[K')
-                    # Print the current progress and then return to the beginning of the line.
+                    # Print the current progress
+                    # and then return to the beginning of the line.
                     print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
         except:
@@ -299,19 +300,36 @@ class Simulation():
             file_handler.append_to_output_file(self.get_particles_string())
             file_handler.close_output_file()
 
-        # If printing progress reports, add an extra line to account for the carriage returns.
+        # If printing progress reports,
+        # add an extra line to account for the carriage returns.
         if print_progress:
             print()
 
 
 if __name__ == '__main__':
-    # Check if the user supplied a input file
+    # Check if the user supplied a input file.
     if len(sys.argv) < 2:
         raise ValueError('Please enter the name of the input file.')
 
-    # Read the input file data and create particles based on that data
+    # Read the input file data and create particles based on it.
     file_handler = FileHandler(input_file=sys.argv[1])
-    file_data = file_handler.read_input_file()
+   
+    # Attempt to read the input file.
+    try:
+        file_data = file_handler.read_input_file()
+
+    except OSError:
+        raise OSError(
+            'The input file does not exist or does not contain a properly '
+            'formatted JSON. Please correct it.'
+        )
+
+    # Check if the input file conforms to the schema.
+    if not file_handler.validate_input_dict(file_data):
+        raise ValueError(
+            'The input file contains a properly formatted JSON, '
+            'but it does not conform to the JSON schema. Please correct it.'
+        )
 
     # Create a list of particles as described by the file data.
     particles = [
@@ -324,7 +342,7 @@ if __name__ == '__main__':
         for particle in file_data['particles']
     ]
 
-    # Create and run the simulation
+    # Create and run the simulation.
     simulation = Simulation(
         theta=file_data['theta'],
         time_step_size=file_data['time step size'],
@@ -333,14 +351,13 @@ if __name__ == '__main__':
         magnetic_field=np.array(file_data['magnetic field']),
         particles=particles
     )
-
     simulation.run(
         num_time_steps=file_data['num time steps'],
         file_handler=file_handler,
         print_progress=True
     )
 
-    # Plot the simulation
+    # Plot the simulation.
     plot = Plot(
         data_frame=simulation.particles_data,
         time_step_size=simulation.time_step_size
