@@ -169,14 +169,13 @@ class FileHandler:
         -------
             Whether the given dictionary conforms to `SCHEMA`.
         """
-        # If no schema is passed in,
-        # default to `self.json_schema`
+        # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
 
         # Create registry that retrieves all necessary files.
         registry = referencing.Registry(retrieve=self.retrieve_schema_file)
 
-        # Validate the input dict using the schema and registry
+        # Validate the input dict using the schema and registry.
         validator = jsonschema.Draft202012Validator(
             schema=schema_dict, registry=registry
         )
@@ -185,7 +184,7 @@ class FileHandler:
             validator.validate(input_dict)
             return True
 
-        except:
+        except jsonschema.ValidationError:
             return False
 
     def write_input_file(self, input_dict: dict) -> None:
