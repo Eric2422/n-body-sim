@@ -22,7 +22,7 @@ class FileHandler:
     def __init__(
         self,
         schema_file: str = 'main.json',
-        input_file: str = 'sample.json'
+        input_file_path: str = 'sample.json'
     ) -> None:
         """Initiate a file handler for reading and creating files.
 
@@ -40,16 +40,22 @@ class FileHandler:
             The output file will have the same name
             but with the ".txt" file extension instead.
         """
+
         self.INPUT_FILE_PATH = pathlib.Path(
-            input_file if os.path.dirname(input_file) == 'input'
-            else self.INPUT_DIR / input_file
+            input_file_path if os.path.dirname(input_file_path) == 'input'
+            else self.INPUT_DIR / input_file_path
         )
+
+        # If the file path does not include the input/, add it.
+        # Then read the data.
+        with open(self.INPUT_FILE_PATH) as file:
+            self.INPUT_DATA = json.load(file)
 
         # The output file has the same name as input_file
         # but with the '.txt' extension.
         self.OUTPUT_FILE_PATH = pathlib.Path(
             FileHandler.OUTPUT_DIR /
-            (pathlib.Path(input_file).stem + '.txt')
+            (pathlib.Path(input_file_path).stem + '.txt')
         )
         """Stores the path of the output file."""
 
@@ -118,18 +124,6 @@ class FileHandler:
         # If not, the operation fails.
         if self.__output_io_wrapper != None:
             self.__output_io_wrapper.close()
-
-    def read_input_file(self) -> dict[str, typing.Any]:
-        """Read the input JSON file, extract the data, and return it as a `dict`.
-
-        Returns
-        -------
-        dict
-            A `dict` containing information about the initial state of the simulation.
-            Stores a `list` of the particles.
-        """
-        with open(self.INPUT_FILE_PATH) as file:
-            return json.load(file)
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
         """Retrieve the contents of a given JSON file as a Python object..
@@ -205,11 +199,12 @@ class FileHandler:
         self.validate_input_dict(input_dict)
 
         # Write the object as a JSON into the input file
-        json.dump(
-            input_dict,
-            self.INPUT_FILE_PATH.open('w+'),
-            indent=4
-        )
+        with self.INPUT_FILE_PATH.open('w+') as file:
+            json.dump(
+                input_dict,
+                file,
+                indent=4
+            )
 
     def create_json_template(self, schema: dict | None = None) -> typing.Any:
         """Recursively loop through the provided schema
@@ -302,7 +297,7 @@ if __name__ == '__main__':
         )
 
     # Create a file handler using the given JSON schema
-    file_handler = FileHandler(input_file=sys.argv[1])
+    file_handler = FileHandler(input_file_path=sys.argv[1])
 
     template_dict = file_handler.create_json_template()
     file_handler.write_input_file(template_dict)

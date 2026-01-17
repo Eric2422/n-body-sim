@@ -312,11 +312,10 @@ if __name__ == '__main__':
         raise ValueError('Please enter the name of the input file.')
 
     # Read the input file data and create particles based on it.
-    file_handler = FileHandler(input_file=sys.argv[1])
-   
+
     # Attempt to read the input file.
     try:
-        file_data = file_handler.read_input_file()
+        file_handler = FileHandler(input_file_path=sys.argv[1])
 
     except OSError:
         raise OSError(
@@ -325,7 +324,7 @@ if __name__ == '__main__':
         )
 
     # Check if the input file conforms to the schema.
-    if not file_handler.validate_input_dict(file_data):
+    if not file_handler.validate_input_dict(file_handler.INPUT_DATA):
         raise ValueError(
             'The input file contains a properly formatted JSON, '
             'but it does not conform to the JSON schema. Please correct it.'
@@ -339,20 +338,20 @@ if __name__ == '__main__':
             mass=particle['mass'],
             charge=particle['charge']
         )
-        for particle in file_data['particles']
+        for particle in file_handler.INPUT_DATA['particles']
     ]
 
     # Create and run the simulation.
     simulation = Simulation(
-        theta=file_data['theta'],
-        time_step_size=file_data['time step size'],
-        gravitational_field=np.array(file_data['gravitational field']),
-        electric_field=np.array(file_data['electric field']),
-        magnetic_field=np.array(file_data['magnetic field']),
+        theta=file_handler.INPUT_DATA['theta'],
+        time_step_size=file_handler.INPUT_DATA['time step size'],
+        gravitational_field=np.array(file_handler.INPUT_DATA['gravitational field']),
+        electric_field=np.array(file_handler.INPUT_DATA['electric field']),
+        magnetic_field=np.array(file_handler.INPUT_DATA['magnetic field']),
         particles=particles
     )
     simulation.run(
-        num_time_steps=file_data['num time steps'],
+        num_time_steps=file_handler.INPUT_DATA['num time steps'],
         file_handler=file_handler,
         print_progress=True
     )
