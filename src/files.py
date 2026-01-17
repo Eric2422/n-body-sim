@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import pathlib
@@ -9,7 +10,36 @@ import referencing
 
 
 class FileHandler:
-    """Handles the creation, reading, and writing of files."""
+    """
+    Collection of attributes and methods to create, read, and write to files.
+
+    Parameters
+    ----------
+    schema_file : str, default='schema.json'
+        The name of the JSON schema file used for the input files.
+
+        Found in the `./input` directory but does not contain the directory.
+        Best to keep it to the default unless you want to write an entire JSON schema.
+    input_file : str, default='sample.csv'
+        The file path of the input file, including file extension.
+
+        Accepts both with and without the directory.
+        The output file will have the same name
+        but with the ".txt" file extension instead.
+
+    Attributes
+    ----------
+    INPUT_FILE_PATH : str
+        A string that stores the path of the input file.
+    OUTPUT_FILE_PATH : str
+        A string that stores the path of the output file.
+
+
+    Raises
+    ------
+    OSError
+        If the `schema_file` can not be read or its formatting is incorrect.
+    """
 
     INPUT_DIR = pathlib.Path('./input')
     """Represents the directory that contains the input files."""
@@ -24,45 +54,27 @@ class FileHandler:
         schema_file: str = 'main.json',
         input_file: str = 'sample.json'
     ) -> None:
-        """Initiate a file handler for reading and creating files.
-
-        Parameters
-        ----------
-        schema_file : str, default='schema.json'
-            The name of the JSON schema file used for the input files.
-
-            Found in the `./input` directory but does not contain the directory.
-            Best to keep it to the default unless you want to write an entire JSON schema.
-        input_file : str, default='sample.csv'
-            The file path of the input file, including file extension.
-
-            Accepts both with and without the directory.
-            The output file will have the same name
-            but with the ".txt" file extension instead.
-        """
         self.INPUT_FILE_PATH = pathlib.Path(
             input_file if os.path.dirname(input_file) == 'input'
             else self.INPUT_DIR / input_file
         )
 
-        # The output file has the same name as input_file
+        # The output file has the same name as INPUT_FILE_PATH
         # but with the '.txt' extension.
         self.OUTPUT_FILE_PATH = pathlib.Path(
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_file).stem + '.txt')
         )
-        """Stores the path of the output file."""
 
-        self.__output_io_wrapper = None
-        """Stores the `TextIOWrapper` that handles writing to the output file."""
+        self.__output_io_wrapper: io.TextIOWrapper | None = None
 
         # Open the schema file and read it.
         with open(FileHandler.SCHEMA_DIR / schema_file) as file:
             self.SCHEMA = json.load(file)
 
     def open_output_file(self) -> None:
-        """Open a `TextIOWrapper` for `self.OUTPUT_FILE_PATH`.
-        Should be closed by :func:`clear_output_file()` after done writing to it.
+        """Open a :obj:`TextIOWrapper` for `self.OUTPUT_FILE_PATH`.
+        Should be closed by: func: `clear_output_file()` after done writing to it.
 
         Raises
         ------
@@ -81,7 +93,7 @@ class FileHandler:
 
         Parameters
         ----------
-        output_string : str, default='\n'
+        output_string: str, default = '\n'
             The string to be appended to the given file.
 
         Raises
@@ -136,9 +148,9 @@ class FileHandler:
 
         Parameters
         ----------
-        uri : str
+        uri: str
             The URI of the JSON file to read.
-            The file will automatically be assumed to under :py:const:`SCHEMA_DIR`.
+            The file will automatically be assumed to under: py: const: `SCHEMA_DIR`.
 
         Returns
         -------
@@ -159,11 +171,11 @@ class FileHandler:
 
         Parameters
         ----------
-        input_dict : dict
+        input_dict: dict
             The `dict` that is being validated.
-        schema : dict | optional
-            The JSON schema or schema property to validate the other JSON `dict` with.
-            If None, defaults to :py:const:`self.SCHEMA`.
+        schema: dict | optional
+            The JSON schema or schema property to validate the other JSON `dict` with .
+            If None, defaults to: py: const: `self.SCHEMA`.
 
         Returns
         -------
@@ -194,12 +206,12 @@ class FileHandler:
         The `input_dict` must conform to the JSON schema in `self.schema_file`.
 
         If the file does not exist, a new file will be created.
-        If the file *does* exist, any pre-existing content will be overwritten.
+        If the file * does * exist, any pre-existing content will be overwritten.
         The file will have the same name as `self.input_file`.
 
         Parameters
         ----------
-        input_dict : dict
+        input_dict: dict
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -217,8 +229,8 @@ class FileHandler:
 
         Parameters
         ----------
-        schema : dict, optional
-            The JSON schema or schema property to generate a `dict` with.
+        schema: dict, optional
+            The JSON schema or schema property to generate a `dict` with .
             If the argument is `None`, the value of `self.schema` will be assumed.
 
         Returns
