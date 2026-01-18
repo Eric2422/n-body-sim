@@ -9,8 +9,8 @@
    .. autosummary::
    
       UnitVector
-      PositionVector
       DisplacementVector
+      PositionVector
       VelocityVector
       AccelerationVector
       FieldVector
