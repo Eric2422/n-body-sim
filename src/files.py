@@ -29,11 +29,13 @@ class FileHandler:
 
     Attributes
     ----------
+    INPUT_DIR : :obj:`Path`
+    SCHEMA_DIR : :obj:`Path`
+    OUTPUT_DIR : obj:`Path`
     INPUT_FILE_PATH : str
         A string that stores the path of the input file.
     OUTPUT_FILE_PATH : str
         A string that stores the path of the output file.
-
 
     Raises
     ------
