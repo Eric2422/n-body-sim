@@ -7,8 +7,7 @@ import vectors
 
 
 class PointParticle:
-    """
-    A point particle with a specified position, charge, and mass.
+    """A point particle in 3D space with a velocity, acceleration, charge, and mass.
 
     Parameters
     ----------

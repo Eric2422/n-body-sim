@@ -7,7 +7,16 @@ import pandas as pd
 
 
 class Plot():
-    "Creates and updates a Matplotlib plot."
+    """A `Matplotlib` plot of the movement of particles over time.
+
+    Parameters
+    ----------
+    data_frame : pd.DataFrame
+        A data frame with four columns: t, x, y, and z.
+        Contains the time and position of particles.
+    time_step_size : float, default=1.0
+        The amount of time between each frame.
+        """
 
     @typing.override
     def __init__(
@@ -17,13 +26,7 @@ class Plot():
     ) -> None:
         """Create a 3D NumPy plot.
 
-        Parameters
-        ----------
-        data_frame : pd.DataFrame
-            A data frame with four columns: t, x, y, and z.
-            Contains the time and position of particles.
-        time_step_size : float, default=1.0
-            The amount of time between each frame.
+
         """
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')

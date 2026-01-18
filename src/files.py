@@ -9,9 +9,16 @@ import jsonschema
 import referencing
 
 
+"""Module to simplify and manage creating, reading, and writing files.
+
+Routine Listings
+----------------
+FileHandler : class
+"""
+
+
 class FileHandler:
-    """
-    Collection of attributes and methods to create, read, and write to files.
+    """Class of attributes and methods to create, read, and write to files.
 
     Parameters
     ----------
@@ -30,8 +37,11 @@ class FileHandler:
     Attributes
     ----------
     INPUT_DIR : :obj:`Path`
+        Represents the directory that contains the input files.
     SCHEMA_DIR : :obj:`Path`
+        Represents the directory that contains the schema files used for JSON formatting.
     OUTPUT_DIR : obj:`Path`
+        Represents the directory that contains the output files.
     INPUT_FILE_PATH : str
         A string that stores the path of the input file.
     OUTPUT_FILE_PATH : str
@@ -42,13 +52,9 @@ class FileHandler:
     OSError
         If the `schema_file` can not be read or its formatting is incorrect.
     """
-
     INPUT_DIR = pathlib.Path('./input')
-    """Represents the directory that contains the input files."""
     SCHEMA_DIR = pathlib.Path('./schemas')
-    """Represents the directory that contains the schema files used for JSON formatting."""
     OUTPUT_DIR = pathlib.Path('./output')
-    """Represents the directory that contains the output files."""
 
     @typing.override
     def __init__(
