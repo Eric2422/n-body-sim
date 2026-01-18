@@ -6,6 +6,7 @@ gravitational and electromagnetic fields. All numbers are in SI base units.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Sphinx](#sphinx)
 - [Usage](#usage)
   - [Schemas](#schemas)
   - [Input Files](#input-files)
@@ -17,7 +18,7 @@ gravitational and electromagnetic fields. All numbers are in SI base units.
 
 1. If you have not installed Python already, [download it](https://www.python.org/downloads/).
 
-2. Go to your command line of choice and enter:
+2. Enter into your terminal:
 
 ```shell
 git clone https://github.com/Eric2422/n-body-sim.git
@@ -25,11 +26,32 @@ cd n-body-sim/
 pip install -r requirements.txt
 ```
 
+## Sphinx
+
+This project suppports Sphinx documentation. Currently there is no dedicated website
+for the documentation, but you can build the documentation yourself.
+
+After intalling, type into your terminal:
+
+```shell
+cd docs/
+sphinx-build -M html source/ build/
+```
+
+The resulting HTML files should now appear in [`docs/build/](docs/build/).
+
+Sometimes Sphinx will generate warnings about duplicate objects or documents not
+being included. If that happens, ignore it and and build again. If errors are still
+occurring, please [create a new issue](https://github.com/Eric2422/n-body-sim/issues/new).
+
+After the Sphinx documentation is built, open [`docs/build/html/index.html`](docs/build/html/index.html)
+in your browser of choice.
+
 ## Usage
 
 ### Schemas
 
-The [`./schemas`](./schemas/) directory contains the JSON schemas used to validate
+The [`schemas/`](schemas/) directory contains the JSON schemas used to validate
 and generate input files.
 
 > [!Caution]
@@ -49,9 +71,9 @@ with default values as specified in the [schemas](./schemas/).
 
 ### Output Files
 
-The output files, located in [`output/`](./output/), store records of the
-particle states over time. The output file will have the same base name as the
-input file but will have a file extension of `.txt` instead.
+The output files, located in [`output/`](./output/), store records of the particle
+states over time. The output file will have the same base name as the input file
+but will have a file extension of `.txt` instead.
 
 ### Running the Simulation
 
@@ -60,5 +82,5 @@ The file name should contain the file extension (i.e., `.json`).
 
 ## References
 
-Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
-ArborJS. <https://arborjs.org/docs/barnes-hut>.
+Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*. ArborJS.
+<https://arborjs.org/docs/barnes-hut>.
