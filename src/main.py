@@ -4,9 +4,8 @@ import typing
 import numpy as np
 import pandas as pd
 
-from barnes_hut import BarnesHutNode
 from files import FileHandler
-from particle import PointParticle
+from particle import BarnesHutNode, PointParticle
 from plot import Plot
 import vectors
 
