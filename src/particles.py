@@ -1,3 +1,8 @@
+"""Module of particles and pseudo-particles (i.e., collections of
+particles treated as a single particle).
+"""
+
+
 import typing
 
 import numpy as np
@@ -5,11 +10,6 @@ import numpy.typing as npt
 import scipy.constants
 
 import vectors
-
-
-"""Module of particles and pseudo-particles (i.e., collections of
-particles treated as a single particle).
-"""
 
 
 class PointParticle:

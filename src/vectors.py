@@ -1,11 +1,13 @@
-import numpy as np
-import numpy.typing as npt
-
 """Module containing type aliases for 1 × 3 NumPy arrays. Strictly
 speaking, they serve no actual purpose. They exist mainly to better
 specify what an array is *supposed* to be used for, essentially dimensional
 analysis.
 """
+
+
+import numpy as np
+import numpy.typing as npt
+
 
 # Direction.
 type UnitVector = npt.NDArray[np.float64]

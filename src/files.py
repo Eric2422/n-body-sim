@@ -1,3 +1,8 @@
+
+"""Module to simplify and manage file creation, reading, and writing.
+"""
+
+
 import io
 import json
 import os
@@ -7,10 +12,6 @@ import typing
 
 import jsonschema
 import referencing
-
-
-"""Module to simplify and manage file creation, reading, and writing.
-"""
 
 
 class FileHandler:
