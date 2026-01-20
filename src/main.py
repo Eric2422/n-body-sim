@@ -4,19 +4,19 @@ import typing
 import numpy as np
 import pandas as pd
 
-from barnes_hut import BarnesHutNode
 from files import FileHandler
-from particle import PointParticle
+from particles import BarnesHutNode, PointParticle
 from plot import Plot
 import vectors
 
 
-class Simulation():
-    """Represents one simulation with particles and fields.
+class Simulation:
+    """One simulation of a given initial conditions of particles and
+    fields.
 
-    Contains the theta; time step size; constant, uniform gravitational field;
-    constant, uniform electrical field; constant, uniform magnetic field;
-    and particles used in the simulation.
+    Contains the theta; time step size; constant, uniform gravitational
+    field; constant, uniform electrical field; constant, uniform magnetic
+    field; and particles used in the simulation.
 
     Keeps track of the previous positions of all the partices.
     """
@@ -124,11 +124,11 @@ class Simulation():
         position : vectors.PositionVector | None, optional
             A hypothetical position of the particle to calculate with,
             possibly different from its current position.
-            If argument is None, default to `particle.position`
+            If argument is `None`, defaults to `particle.position`.
         velocity : vectors.VelocityVector | None, optional
             A hypothetical velocity of the particle to calculate with,
             possibly different from its current position.
-            If argument is None, default to `particle.velocity`
+            If argument is `None`, defaults to `particle.velocity`.
 
         Returns
         -------

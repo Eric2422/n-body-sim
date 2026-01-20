@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-class Plot():
+class Plot:
     """A `Matplotlib` plot of the movement of particles over time.
 
     Parameters
@@ -16,7 +16,7 @@ class Plot():
         Contains the time and position of particles.
     time_step_size : float, default=1.0
         The amount of time between each frame.
-        """
+    """
 
     @typing.override
     def __init__(
@@ -24,10 +24,6 @@ class Plot():
         data_frame: pd.DataFrame,
         time_step_size: float = 1.0
     ) -> None:
-        """Create a 3D NumPy plot.
-
-
-        """
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
 
