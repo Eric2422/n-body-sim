@@ -6,6 +6,11 @@ import numpy as np
 import pandas as pd
 
 
+"""Module for plotting the results of simulations. See :py:class:`Plot`
+for more details.
+"""
+
+
 class Plot:
     """A `Matplotlib` plot of the movement of particles over time.
 

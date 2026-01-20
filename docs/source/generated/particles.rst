@@ -1,12 +1,13 @@
-﻿particle
-========
+﻿particles
+=========
 
-.. automodule:: particle
+.. automodule:: particles
 
    
    .. rubric:: Classes
 
    .. autosummary::
    
+      BarnesHutNode
       PointParticle
    

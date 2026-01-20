@@ -9,11 +9,7 @@ import jsonschema
 import referencing
 
 
-"""Module to simplify and manage creating, reading, and writing files.
-
-Routine Listings
-----------------
-FileHandler : class
+"""Module to simplify and manage file creation, reading, and writing.
 """
 
 
@@ -44,6 +40,7 @@ class FileHandler:
         Represents the directory that contains the output files.
     INPUT_FILE_PATH : str
         A string that stores the path of the input file.
+    INPUT_DATA : Any
     OUTPUT_FILE_PATH : str
         A string that stores the path of the output file.
 
