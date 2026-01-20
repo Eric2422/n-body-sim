@@ -7,6 +7,11 @@ import scipy.constants
 import vectors
 
 
+"""Module of particles and pseudo-particles (i.e., collections of
+particles treated as a single particle).
+"""
+
+
 class PointParticle:
     """A point particle in 3D space with a velocity, acceleration, charge, and mass.
 
@@ -354,19 +359,30 @@ class PointParticle:
             f'{self.MASS}, {self.CHARGE})'
         )
 
-class BarnesHutNode():
-    """Represents one node of a Barnes-Hut octree.
+
+class BarnesHutNode:
+    """A single node of a Barnes-Hut octree, which contains eight child
+    nodes. For brevity's sake, the mechanics of the Barnes-Hut algorithm
+    will not be explained here. See the `Wikipedia article`_ or this
+    `Arbor article`_ for a full explanation.
+    .. _Wikipedia article: https://en.wikipedia.org/wiki/Barnes-Hut_simulation
+    .. _Arbor article: https://arborjs.org/docs/barnes-hut
+
+    Assumes a center of charge rather than using a multipole expansion.
+
+    References
+    ----------
     """
 
-    @classmethod
+    @staticmethod
     def cube_bounds(
-        cls,
         x_bounds: npt.NDArray[np.float64],
         y_bounds: npt.NDArray[np.float64],
         z_bounds: npt.NDArray[np.float64]
     ) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]:
-        """Make the given bounds cube (i.e., all with the same length),
-        preserving the centroid.
+        """Make the given bounds cube (i.e., all with the same size), but
+        preserve the centroid. The smaller two dimensions will increased
+        to the same size as the largest dimension.
 
         Parameters
         ----------
@@ -380,7 +396,9 @@ class BarnesHutNode():
         Returns
         -------
         tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
-            The newly cubed bounds, the centroid, and the size of any dimension.
+            The newly cubed bounds, the centroid, and the new size of the
+            cube bounds (i.e., the previous maximum dimension),
+            respectively.
         """
         centroid = np.array(
             (

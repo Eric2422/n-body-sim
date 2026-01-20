@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-class Plot():
+class Plot:
     """A `Matplotlib` plot of the movement of particles over time.
 
     Parameters
