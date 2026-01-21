@@ -83,3 +83,5 @@ The file name should contain the file extension (i.e., `.json`).
 
 Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*. ArborJS.
 <https://arborjs.org/docs/barnes-hut>.
+
+Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow. <https://stackoverflow.com/a/62613202>
