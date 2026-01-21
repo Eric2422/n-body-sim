@@ -34,8 +34,7 @@ for the documentation, but you can build the documentation yourself.
 After intalling, type into your terminal:
 
 ```shell
-cd docs/
-sphinx-build -M html source/ build/
+sphinx-build -M html docs/source/ docs/build/
 ```
 
 The resulting HTML files should now appear in [`docs/build/](docs/build/).
