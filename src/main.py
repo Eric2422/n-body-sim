@@ -1,3 +1,8 @@
+"""Module to create and instantiate simulations.
+Can be run as ``__main__``.
+"""
+
+
 import sys
 import typing
 
@@ -46,7 +51,7 @@ class Simulation:
         magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform magnetic field.
         particles : list[PointParticle], default=[]
-            A `list` of particles that are interacting with each other.
+            A :class:`list` of particles that are interacting with each other.
         """
         self.particles = particles
 
@@ -125,11 +130,13 @@ class Simulation:
         position : :type:`vectors.PositionVector`, optional
             A hypothetical position of the particle to calculate with,
             possibly different from its current position.
-            If `None`, defaults to `particle.position`.
+            If ``None``, defaults to
+            :attr:`particle.position <particles.PointParticle.velocity>`.
         velocity : `vectors.VelocityVector`, optional
             A hypothetical velocity of the particle to calculate with,
             possibly different from its current position.
-            If `None`, defaults to `particle.velocity`.
+            If ``None``, defaults to
+            :attr:`particle.velocity <particles.PointParticle.velocity>`.
 
         Returns
         -------
@@ -241,10 +248,10 @@ class Simulation:
         ----------
         num_time_steps : int, default=1
             The number of time steps that the simulation runs by.
-        file_handler : FileHandler, optional
-            A :py:class:`FileHandler` object,
+        file_handler : :class:`FileHandler`, optional
+            A :class:`FileHandler` object,
             which writes data into a text file as the simulation runs.
-            If the argument is None, do not write any data into a file.
+            If ``None``, do not write any data into a file.
         print_progress : bool, default=False
             Whether to print a progress report on how much of the simulation
             has been completed.
