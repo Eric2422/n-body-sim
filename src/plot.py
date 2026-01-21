@@ -1,4 +1,4 @@
-"""Module for plotting the results of simulations. See :py:class:`Plot`
+"""Module for plotting the results of simulations. See :class:`Plot`
 for more details.
 """
 

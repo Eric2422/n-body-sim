@@ -1,5 +1,8 @@
 
 """Module to simplify and manage file creation, reading, and writing.
+
+If run as ``__main__``, will creeate a blank input file based on the
+default values in the schemas.
 """
 
 
@@ -100,16 +103,16 @@ class FileHandler:
         self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
-        """Append the given string into the output file.
-        If the :const:`OUTPUT_FILE_PATH` has already been opened,
-        then the string will be append to it without closing.
+        """Append the given string into the output file. If
+        :const:`OUTPUT_FILE_PATH` has already been opened, then the string
+        will be appended to it without closing.
 
-        Elsewise, it will open :const:`OUTPUT_FILE_PATH`, append to
-        it, and then close it.
+        Elsewise, it will open :const:`OUTPUT_FILE_PATH`, append to it,
+        and then close it.
 
         Parameters
         ----------
-        output_string : str, default = '\n'
+        output_string : str, default = '\\n'
             The string to be appended to the given file.
 
         Raises
@@ -141,7 +144,7 @@ class FileHandler:
             self.__output_io_wrapper.truncate(0)
 
     def close_output_file(self) -> None:
-        """Close the :attribute:`__output_io_wrapper`. If it is not open,
+        """Close the :attr:`__output_io_wrapper`. If it is not open,
         nothing happens.
         """
         # Check if the TextIOWrapper exists.
@@ -173,15 +176,15 @@ class FileHandler:
         input_dict: dict,
         schema: dict | None = None
     ) -> bool:
-        """Determine whether or not the given `dict` is valid by the schema.
+        """Determine whether or not the given :class:`dict` is valid by the schema.
 
         Parameters
         ----------
-        input_dict : dict
-            The `dict` that is being validated.
+        input_dict : :class:`dict`
+            The :class:`dict` that is being validated.
         schema : dict, optional
             The JSON schema or schema property to validate the other JSON
-            `dict` with. If `None`, defaults to :const:`SCHEMA`.
+            :class:`dict` with. If ``None``, defaults to :const:`SCHEMA`.
 
         Returns
         -------
@@ -210,16 +213,16 @@ class FileHandler:
 
         The file must be in :const:`INPUT_DIR`. The `input_dict` must
         conform to the JSON schema in
-        :attribute:`schema_file`.
+        :attr:`schema_file`.
 
         If the file does not exist, a new file will be created.
         If the file *does* exist, any pre-existing content will be
         overwritten. The file will have the same name as
-        :attribute:`input_file`.
+        :attr:`input_file`.
 
         Parameters
         ----------
-        input_dict : dict
+        input_dict : :class:`dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -239,20 +242,19 @@ class FileHandler:
         Parameters
         ----------
         schema : dict, optional
-            The JSON schema or schema property to generate a `dict` with.
-            If the argument is `None`, the value of :attribute:`schema` will be
+            The JSON schema or schema property to generate a :class:`dict` with.
+            If the ``None``, the value of ``schema`` will be
             assumed.
 
         Returns
         -------
-        dict
-            A `dict` of default values that conforms to the schema.
+        :class:`dict`
+            A :class:`dict` of default values that conforms to the schema.
         """
         # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
 
-        # If the schema contains a subschema,
-        # open and read it
+        # If the schema contains a subschema, open and read it.
         if '$ref' in schema_dict:
             with open(FileHandler.SCHEMA_DIR / schema_dict['$ref']) as file:
                 ref_schema = json.load(
@@ -263,11 +265,11 @@ class FileHandler:
         if 'default' in schema_dict:
             return schema_dict['default']
 
-        # Else, generate a value of the appropriate type
+        # Else, generate a value of the appropriate type.
         match schema_dict['type']:
             case 'object':
 
-                # Recurse through the properties of the object
+                # Recurse through the properties of the object.
                 return {
                     property: self.create_json_template(
                         schema_dict['properties'][property]
@@ -276,7 +278,7 @@ class FileHandler:
                 }
 
             case 'array':
-                # Create the array element to be copied
+                # Create the array element to be copied.
                 array_element = self.create_json_template(schema_dict['items'])
 
                 # Add the minimum number of elements necessary.
