@@ -11,17 +11,17 @@ import numpy.typing as npt
 
 # Direction.
 type UnitVector = npt.NDArray[np.float64]
-"""A 3D unit vector that represents a direction in 3D space."""
+"""A 3D unit vector that represents a direction."""
 type DisplacementVector = npt.NDArray[np.float64]
 """A 3D vector that represents the displacement between two points."""
 
 # Position and its derivatives.
 type PositionVector = npt.NDArray[np.float64]
-"""A 3D vector that represents a point in 3D space."""
+"""A 3D vector that represents a point."""
 type VelocityVector = npt.NDArray[np.float64]
-"""A 3D vector that represents a velocity in 3D space."""
+"""A 3D vector that represents a velocity."""
 type AccelerationVector = npt.NDArray[np.float64]
-"""A 3D vector that represents an acceleration in 3D space."""
+"""A 3D vector that represents an acceleration."""
 
 # Fields and forces.
 type FieldVector = npt.NDArray[np.float64]

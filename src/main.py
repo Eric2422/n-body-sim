@@ -41,7 +41,7 @@ class Simulation:
         Parameters
         ----------
         theta : float, default=0.5
-            The Barnes-Hut approximation parameter
+            The Barnes-Hut approximation parameter.
         time_step_size : float, default=1.0
             The time increment of the simulation in seconds (s)
         gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
@@ -131,8 +131,8 @@ class Simulation:
             A hypothetical position of the particle to calculate with,
             possibly different from its current position.
             If ``None``, defaults to
-            :attr:`particle.position <particles.PointParticle.velocity>`.
-        velocity : `vectors.VelocityVector`, optional
+            :attr:`particle.position <particles.PointParticle.position>`.
+        velocity : :type:`vectors.VelocityVector`, optional
             A hypothetical velocity of the particle to calculate with,
             possibly different from its current position.
             If ``None``, defaults to
@@ -248,15 +248,15 @@ class Simulation:
         ----------
         num_time_steps : int, default=1
             The number of time steps that the simulation runs by.
-        file_handler : :class:`FileHandler`, optional
-            A :class:`FileHandler` object,
+        file_handler : :class:`files.FileHandler`, optional
+            A :class:`files.FileHandler` object,
             which writes data into a text file as the simulation runs.
             If ``None``, do not write any data into a file.
         print_progress : bool, default=False
             Whether to print a progress report on how much of the simulation
             has been completed.
         """
-        # Stores the file output
+        # Stores the file output.
         output_string = ''
 
         if file_handler is not None:
