@@ -39,11 +39,11 @@ class Simulation:
             The Barnes-Hut approximation parameter
         time_step_size : float, default=1.0
             The time increment of the simulation in seconds (s)
-        gravitational_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform gravitational field.
-        electric_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        electric_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform electric field.
-        magnetic_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform magnetic field.
         particles : list[PointParticle], default=[]
             A `list` of particles that are interacting with each other.
@@ -122,18 +122,18 @@ class Simulation:
             The particle to calculate the force upon.
         barnes_hut_root : BarnesHutNode
             The Barnes-Hut tree that contains all the particles.
-        position : vectors.PositionVector | None, optional
+        position : :type:`vectors.PositionVector`, optional
             A hypothetical position of the particle to calculate with,
             possibly different from its current position.
-            If argument is `None`, defaults to `particle.position`.
-        velocity : vectors.VelocityVector | None, optional
+            If `None`, defaults to `particle.position`.
+        velocity : `vectors.VelocityVector`, optional
             A hypothetical velocity of the particle to calculate with,
             possibly different from its current position.
-            If argument is `None`, defaults to `particle.velocity`.
+            If `None`, defaults to `particle.velocity`.
 
         Returns
         -------
-        vectors.ForceVector
+        :type:`vectors.ForceVector`
             The force exerted on a particle by the fields and other
             particles.
         """

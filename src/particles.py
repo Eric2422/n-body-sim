@@ -18,16 +18,13 @@ class PointParticle:
 
     Parameters
     ----------
-    position : vectors.PositionVector, default=np.array([0.0, 0.0, 0.0]).
+    position : :type:`vectors.PositionVector`, default=np.array([0.0, 0.0, 0.0]).
         The initial position of the particle in meters (m).
-        x is left/right, y is forward/backward, z is up/down.
-    velocity : vectors.VelocityVector, default=np.array([0.0, 0.0, 0.0]).
+    velocity : :type:`vectors.VelocityVector`, default=np.array([0.0, 0.0, 0.0]).
         The initial velocity of the particle in meters per second (m/s).
-        x is left/right, y is forward/backward, z is up/down.
-    acceleration : vectors.AccelerationVector, default=np.array([0.0, 0.0, 0.0])
+    acceleration : :type:`vectors.AccelerationVector`, default=np.array([0.0, 0.0, 0.0])
         The initial acceleration of the particle in meters per second
         squared (m/s^2).
-        x is left/right, y is forward/backward, z is up/down.
     mass : float, default=1.0
         The mass of the charged particle in kilograms (kg).
     charge : float, default=0.0
@@ -35,11 +32,11 @@ class PointParticle:
 
     Attributes
     ----------
-    position : vectors.PositionVector
+    position : :type:`vectors.PositionVector`
         The current position of the particle in meters (m).
-    velocity : vectors.VelocityVector
+    velocity : :type:`vectors.VelocityVector`
         The current velocity of the particle in meters per second (m/s).
-    acceleration : vectors.AccelerationVector
+    acceleration : :type:`vectors.AccelerationVector`
         The current acceleration of the particle in meters per second
         squared (m/s^2).
     MASS : float
@@ -65,7 +62,7 @@ class PointParticle:
         mass: float = 1.0,
         charge: float = 0.0
     ) -> None:
-        """Automatically increment :py:attribute:`current_id` by 1."""
+        """Automatically increment :attribute:`current_id` by 1."""
         # Represented by arrays of (x, y, z).
         self.position = position
         self.velocity = velocity
@@ -82,7 +79,7 @@ class PointParticle:
 
         Parameters
         ----------
-        force : vectors.ForceVector, default=np.zeros(3)
+        force : :type:`vectors.ForceVector`, default=np.zeros(3)
             The force applied upon this particle in newtons (N).
         """
         self.acceleration = force / self.MASS
@@ -96,13 +93,13 @@ class PointParticle:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The coordinates of the point that this particle is exerting a
             gravitational field upon, in meters (m).
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The gravitational field generated at `point` in newtons per
             kilogram (N/kg).
         """
@@ -124,13 +121,13 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational_field : vectors.FieldVector
+        gravitational_field : :type:`vectors.FieldVector`
             The gravitational field acting upon this particle,
             in newtons per kilogram (N/kg).
 
         Returns
         -------
-        vectors.ForceVector
+        :type:`vectors.ForceVector`
             The force acting upon this particle as a result of the
             gravitational field, in newtons (N).
         """
@@ -145,13 +142,13 @@ class PointParticle:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The point to calculate electric field at
             in meters (m).
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The electric field that this particle creates at the given
             point in newtons per coulomb (N/C).
         """
@@ -176,13 +173,13 @@ class PointParticle:
 
         Parameters
         ----------
-        electric_field : vectors.FieldVector
+        electric_field : :type:`vectors.FieldVector`
             The electric field acting upon this particle in newtons per
             coulomb (N/C).
 
         Returns
         -------
-        vectors.ForceVector
+        :type:`vectors.ForceVector`
             The force exerted upon this particle by the electric field in
             newtons (N).
         """
@@ -197,13 +194,13 @@ class PointParticle:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The point at which to calculate the magnetic field in 
             meters (m).
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The magnetic field exerted by this particle at the given point
             in teslas (T).
 
@@ -235,15 +232,15 @@ class PointParticle:
 
         Parameters
         ----------
-        magnetic_field : vectors.FieldVector
+        magnetic_field : :type:`vectors.FieldVector`
             The magnetic field acting upon this particle in teslas (T).
-        velocity : vectors.FieldVector | None, optional
+        velocity : :type:`vectors.FieldVector`, optional
             The velocity to use for the magnetic force calculations.
-            If the argument is None, default to :py:attribute:`self.velocity`.
+            If `None`, defaults to :attribute:`velocity`.
 
         Returns
         -------
-        vectors.ForceVector
+        :type:`vectors.ForceVector`
             The force exerted upon this particle by the magnetic field in
             newtons (N).
         """
@@ -267,20 +264,19 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational_field : vectors.FieldVector, default=np.array((0, 0, 0))
+        gravitational_field : :type:`vectors.FieldVector`, default=np.array((0, 0, 0))
             The gravitational field acting upon this particle.
-        electric_field : vectors.FieldVector, default=np.array((0, 0, 0))
+        electric_field : :type:`vectors.FieldVector`, default=np.array((0, 0, 0))
             The electric field acting upon this particle.
-        magnetic_field : vectors.FieldVector, default=np.array((0, 0, 0))
+        magnetic_field : :type:`vectors.FieldVector`, default=np.array((0, 0, 0))
             The magnetic field acting upon this particle.
-        velocity : vectors.FieldVector | None, optional.
+        velocity : type:`vectors.VelocityVector`, optional.
             The velocity to use for the magnetic force calculations,
-            If the argument is None, default to 
-            :py:attribute:`self.velocity`.
+            If `None`, default to :py:attribute:`self.velocity`.
 
         Returns
         -------
-        vectors.ForceVector
+        :type:`vectors.ForceVector`
             The net force exerted upon this particle as a result
             of gravitational, electric, and magnetic fields.
         """
@@ -301,12 +297,14 @@ class PointParticle:
 
         Parameters
         ----------
-        gravitational_field : vectors.FieldVector
-            The gravitational field acting upon this particle in N/kg.
-        electric_field : vectors.FieldVector
-            The electric field acting upon this particle in N/C.
-        magnetic_field : vectors.FieldVector
-            The magnetic field acting upon this particle in T.
+        gravitational_field : :type:`vectors.FieldVector`
+            The gravitational field acting upon this particle in
+            newtons per kilogram (N/kg).
+        electric_field : :type:`vectors.FieldVector`
+            The electric field acting upon this particle in
+            newtons per coulomb (N/C).
+        magnetic_field : :type:`vectors.FieldVector`
+            The magnetic field acting upon this particle in teslas (T).
         """
         self.apply_force(
             self.get_gravitational_force_experienced(gravitational_field)
@@ -318,7 +316,7 @@ class PointParticle:
     def __eq__(self, value: object) -> bool:
         """Return whether an `object` is equal to this `PointParticle`.
         They are equal if and only if the `object` is also a
-        `PointParticle` with the same `ID`.
+        :class:`PointParticle` with the same `ID`.
 
         Parameters
         ----------
@@ -669,7 +667,7 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The position to calculate the gravitational field at,
             measured in meters (m).
 
@@ -690,7 +688,7 @@ class BarnesHutNode:
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The gravitational field produced by this node measured in
             newtons per kg (N/kg).
         """
@@ -735,7 +733,7 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The position to calculate the electric field at.
             Measured in meters (m).
         theta : float, default=0.0
@@ -753,7 +751,7 @@ class BarnesHutNode:
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The electric field vector produced by this node measured in
             newtons per coulomb (N/C).
         """
@@ -802,7 +800,7 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        point : vectors.PositionVector
+        point : :type:`vectors.PositionVector`
             The point at which to calculate the magnetic field.
             Measured in meters (m).
         theta : float, default=0.0
@@ -821,7 +819,7 @@ class BarnesHutNode:
 
         Returns
         -------
-        vectors.FieldVector
+        :type:`vectors.FieldVector`
             The magnetic field produced by this node,
             measured in teslas (T).
         """
