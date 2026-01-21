@@ -12,11 +12,13 @@ import pandas as pd
 
 
 class Plot:
-    """A `Matplotlib` plot of the movement of particles over time.
+    """A Matplotlib plot of the movement of particles over time. The plot
+    will be run in real-time (i.e., each second of the simulation will be
+    displayed as a second of animation).
 
     Parameters
     ----------
-    data_frame : pd.DataFrame
+    data_frame : :class:`pandas.DataFrame`
         A data frame with four columns: t, x, y, and z.
         Contains the time and position of particles.
     time_step_size : float, default=1.0

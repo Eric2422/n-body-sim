@@ -15,15 +15,17 @@ import referencing
 
 
 class FileHandler:
-    """Class of attributes and methods to create, read, and write to files.
+    """Class of attributes and methods to create, read, and write to
+    files.
 
     Parameters
     ----------
     schema_file : str, default='schema.json'
         The name of the JSON schema file used for the input files.
 
-        Found in the `./input` directory but does not contain the directory.
-        Best to keep it to the default unless you want to write an entire JSON schema.
+        Found in the ``./input`` directory but does not contain the
+        directory. Best to keep it to the default unless you want to write
+        an entire JSON schema.
     input_file : str, default='sample.csv'
         The file path of the input file, including file extension.
 
@@ -33,11 +35,12 @@ class FileHandler:
 
     Attributes
     ----------
-    INPUT_DIR : :obj:`Path`
+    INPUT_DIR : :class:`pathlib.Path`
         Represents the directory that contains the input files.
-    SCHEMA_DIR : :obj:`Path`
-        Represents the directory that contains the schema files used for JSON formatting.
-    OUTPUT_DIR : obj:`Path`
+    SCHEMA_DIR : :class:`pathlib.Path`
+        Represents the directory that contains the schema files used for
+        JSON formatting.
+    OUTPUT_DIR : :class:`pathlib.Path`
         Represents the directory that contains the output files.
     INPUT_FILE_PATH : str
         A string that stores the path of the input file.
@@ -48,7 +51,7 @@ class FileHandler:
     Raises
     ------
     OSError
-        If the `schema_file` can not be read or its formatting is incorrect.
+        If `schema_file` can not be read or its formatting is incorrect.
     """
     INPUT_DIR = pathlib.Path('./input')
     SCHEMA_DIR = pathlib.Path('./schemas')
@@ -67,14 +70,15 @@ class FileHandler:
         schema_file : str, default='schema.json'
             The name of the JSON schema file used for the input files.
 
-            Found in the `./input` directory but does not contain the directory.
-            Best to keep it to the default unless you want to write an entire JSON schema.
+            Found in the ``./input`` directory but does not contain the
+            directory. Best to keep it to the default unless you want to
+            write an entire JSON schema.
         input_file : str, default='sample.csv'
             The file path of the input file, including file extension.
 
             Accepts both with and without the directory.
-            The output file will have the same name
-            but with the ".txt" file extension instead.
+            The output file will have the same name but with the ".txt"
+            file extension instead.
         """
 
         self.INPUT_FILE_PATH = pathlib.Path(
@@ -101,8 +105,9 @@ class FileHandler:
             self.SCHEMA = json.load(file)
 
     def open_output_file(self) -> None:
-        """Open a :obj:`TextIOWrapper` for `self.OUTPUT_FILE_PATH`.
-        Should be closed by: func: `clear_output_file()` after done writing to it.
+        """Open a :class:`TextIOWrapper` for :const:`self.OUTPUT_FILE_PATH`.
+        Should be closed by :meth:`clear_output_file()` after done writing
+        to it.
 
         Raises
         ------
@@ -113,11 +118,11 @@ class FileHandler:
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file.
-        If the `self.OUTPUT_FILE_PATH` has already been opened,
+        If the :const:`self.OUTPUT_FILE_PATH` has already been opened,
         then the string will be append to it without closing.
 
-        Elsewise, it will open `self.OUTPUT_FILE_PATH`, append to it, and
-        then close it.
+        Elsewise, it will open :const:`self.OUTPUT_FILE_PATH`, append to
+        it, and then close it.
 
         Parameters
         ----------
@@ -153,20 +158,22 @@ class FileHandler:
             self.__output_io_wrapper.truncate(0)
 
     def close_output_file(self) -> None:
-        """Close the `__output_io_wrapper`. If it is not open, nothing happens."""
+        """Close the :attribute:`__output_io_wrapper`. If it is not open,
+        nothing happens.
+        """
         # Check if the TextIOWrapper exists.
         # If not, the operation fails.
         if self.__output_io_wrapper != None:
             self.__output_io_wrapper.close()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
-        """Retrieve the contents of a given JSON file as a Python object..
+        """Retrieve the contents of a given JSON file as a Python object.
 
         Parameters
         ----------
         uri: str
-            The URI of the JSON file to read.
-            The file will automatically be assumed to under: py: const: `SCHEMA_DIR`.
+            The URI of the JSON file to read. The file will be assumed to
+            be under :py:const:`self.SCHEMA_DIR`.
 
         Returns
         -------
@@ -189,9 +196,9 @@ class FileHandler:
         ----------
         input_dict: dict
             The `dict` that is being validated.
-        schema: dict | optional
-            The JSON schema or schema property to validate the other JSON `dict` with .
-            If None, defaults to: py: const: `self.SCHEMA`.
+        schema: dict, optional
+            The JSON schema or schema property to validate the other JSON
+            `dict` with. If `None`, defaults to :py:const:`self.SCHEMA`.
 
         Returns
         -------
@@ -222,8 +229,8 @@ class FileHandler:
         The `input_dict` must conform to the JSON schema in `self.schema_file`.
 
         If the file does not exist, a new file will be created.
-        If the file * does * exist, any pre-existing content will be overwritten.
-        The file will have the same name as `self.input_file`.
+        If the file * does * exist, any pre-existing content will be
+        overwritten. The file will have the same name as `self.input_file`.
 
         Parameters
         ----------
@@ -247,8 +254,9 @@ class FileHandler:
         Parameters
         ----------
         schema: dict, optional
-            The JSON schema or schema property to generate a `dict` with .
-            If the argument is `None`, the value of `self.schema` will be assumed.
+            The JSON schema or schema property to generate a `dict` with.
+            If the argument is `None`, the value of `self.schema` will be
+            assumed.
 
         Returns
         -------
