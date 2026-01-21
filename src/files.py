@@ -91,7 +91,7 @@ class FileHandler:
             self.SCHEMA = json.load(file)
 
     def open_output_file(self) -> None:
-        """Open a :class:`TextIOWrapper` for :const:`OUTPUT_FILE_PATH`.
+        """Open an :class:`io.TextIOWrapper` for :const:`OUTPUT_FILE_PATH`.
         Should be closed by :meth:`clear_output_file()` after done writing
         to it.
 
@@ -212,13 +212,12 @@ class FileHandler:
         """Write a schema-valid Python dictionary into a input JSON file.
 
         The file must be in :const:`INPUT_DIR`. The `input_dict` must
-        conform to the JSON schema in
-        :attr:`schema_file`.
+        conform to the JSON schemas in :const:`SCHEMA_DIR`.
 
         If the file does not exist, a new file will be created.
         If the file *does* exist, any pre-existing content will be
         overwritten. The file will have the same name as
-        :attr:`input_file`.
+        :const:`INPUT_FILE_PATH`.
 
         Parameters
         ----------
@@ -243,7 +242,7 @@ class FileHandler:
         ----------
         schema : dict, optional
             The JSON schema or schema property to generate a :class:`dict` with.
-            If the ``None``, the value of ``schema`` will be
+            If ``None``, the value of ``schema`` will be
             assumed.
 
         Returns
