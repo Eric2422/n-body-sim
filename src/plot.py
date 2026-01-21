@@ -1,14 +1,14 @@
+"""Module for plotting the results of simulations. See :py:class:`Plot`
+for more details.
+"""
+
+
 import typing
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
-
-"""Module for plotting the results of simulations. See :py:class:`Plot`
-for more details.
-"""
 
 
 class Plot:
