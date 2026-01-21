@@ -1,8 +1,3 @@
-.. n-Body Simulator documentation master file, created by
-   sphinx-quickstart on Mon Jan 12 18:05:30 2026.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 n-Body Simulator documentation
 ==============================
 

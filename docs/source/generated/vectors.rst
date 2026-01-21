@@ -2,11 +2,13 @@
 =======
 
 .. automodule:: vectors
-
+  
+   
    
    .. rubric:: Module Attributes
 
    .. autosummary::
+      :toctree:
    
       UnitVector
       DisplacementVector
@@ -16,3 +18,20 @@
       FieldVector
       ForceVector
    
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+

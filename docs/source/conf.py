@@ -20,10 +20,18 @@ release = '0.1'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.napoleon',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.napoleon',
 ]
+
+autosummary_generate = True  # Turn on sphinx.ext.autosummary
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/dev', None)
+}
 
 templates_path = ['_templates']
 exclude_patterns = []

@@ -39,11 +39,11 @@ class Simulation:
             The Barnes-Hut approximation parameter
         time_step_size : float, default=1.0
             The time increment of the simulation in seconds (s)
-        gravitational_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform gravitational field.
-        electric_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        electric_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform electric field.
-        magnetic_field : vectors.FieldVector, default=np.zeros(3, dtype=float)
+        magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
             A constant, uniform magnetic field.
         particles : list[PointParticle], default=[]
             A `list` of particles that are interacting with each other.
@@ -113,7 +113,8 @@ class Simulation:
         position: vectors.PositionVector | None = None,
         velocity: vectors.VelocityVector | None = None
     ) -> vectors.ForceVector:
-        """Calculate the force exerted on a particle by the fields and other particles.
+        """Calculate the force exerted on a particle by the fields and
+        other particles.
 
         Parameters
         ----------
@@ -121,19 +122,20 @@ class Simulation:
             The particle to calculate the force upon.
         barnes_hut_root : BarnesHutNode
             The Barnes-Hut tree that contains all the particles.
-        position : vectors.PositionVector | None, optional
+        position : :type:`vectors.PositionVector`, optional
             A hypothetical position of the particle to calculate with,
             possibly different from its current position.
-            If argument is `None`, defaults to `particle.position`.
-        velocity : vectors.VelocityVector | None, optional
+            If `None`, defaults to `particle.position`.
+        velocity : `vectors.VelocityVector`, optional
             A hypothetical velocity of the particle to calculate with,
             possibly different from its current position.
-            If argument is `None`, defaults to `particle.velocity`.
+            If `None`, defaults to `particle.velocity`.
 
         Returns
         -------
-        vectors.ForceVector
-            The force exerted on a particle by the fields and other particles.
+        :type:`vectors.ForceVector`
+            The force exerted on a particle by the fields and other
+            particles.
         """
         if (position is None):
             position = particle.position
@@ -180,31 +182,42 @@ class Simulation:
             a1 = particle.acceleration
 
             a2 = self.calculate_particle_force(
-                particle, barnes_hut_root) / particle.MASS
+                particle, barnes_hut_root
+            ) / particle.MASS
             v2 = particle.velocity + a1 * self.time_step_size / 2
-            position = (particle.position
-                        + v1 * self.time_step_size / 2
-                        + 1/2 * a1 * (self.time_step_size / 2) ** 2)
+            position = (
+                particle.position
+                + v1 * self.time_step_size / 2
+                + 1/2 * a1 * (self.time_step_size / 2) ** 2
+            )
 
             a3 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v2) / particle.MASS
+                particle, barnes_hut_root, position, v2
+            ) / particle.MASS
             v3 = particle.velocity + a2 * self.time_step_size / 2
             position = (particle.position
                         + v2 * self.time_step_size / 2
                         + 1/2 * a2 * (self.time_step_size / 2) ** 2)
 
             a4 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v3) / particle.MASS
+                particle, barnes_hut_root, position, v3
+            ) / particle.MASS
             v4 = particle.velocity + a3 * self.time_step_size
-            position = (particle.position
-                        + v3 * self.time_step_size
-                        + 1/2 * a3 * self.time_step_size ** 2)
+            position = (
+                particle.position
+                + v3 * self.time_step_size
+                + 1/2 * a3 * self.time_step_size ** 2
+            )
 
             # Calculate the new velocity and position.
-            new_data[i, 0] = (particle.position
-                              + self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4))
-            new_data[i, 1] = (particle.velocity
-                              + self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4))
+            new_data[i, 0] = (
+                particle.position
+                + self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4)
+            )
+            new_data[i, 1] = (
+                particle.velocity
+                + self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4)
+            )
 
         # Update the particle's position and velocity.
         for i in range(len(particles)):
@@ -345,7 +358,8 @@ if __name__ == '__main__':
     simulation = Simulation(
         theta=file_handler.INPUT_DATA['theta'],
         time_step_size=file_handler.INPUT_DATA['time step size'],
-        gravitational_field=np.array(file_handler.INPUT_DATA['gravitational field']),
+        gravitational_field=np.array(
+            file_handler.INPUT_DATA['gravitational field']),
         electric_field=np.array(file_handler.INPUT_DATA['electric field']),
         magnetic_field=np.array(file_handler.INPUT_DATA['magnetic field']),
         particles=particles
