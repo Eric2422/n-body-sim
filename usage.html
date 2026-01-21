@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Usage &#8212; n-Body Simulator 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="n-Body Simulator documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="schemas">
+<h2>Schemas<a class="headerlink" href="#schemas" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">schemas/</span></code> directory contains the JSON schemas used to validate
+and generate input files.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is recommended that you do not edit the schemas.
+Doing so may prevent the program from properly running.</p>
+</div>
+</div>
+<div class="section" id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+<p>The input files set up the simulation and are located in <code class="docutils literal notranslate"><span class="pre">input/</span></code>.
+Each input file is a JSON file validated using the schema in <code class="docutils literal notranslate"><span class="pre">main.json</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">num_time_steps</span></code> property of the input file dictates how many time steps the
+simulator runs. If it is set to 0, only the initial state will be given.</p>
+<p>Running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/files.py</span> <span class="pre">&lt;input</span> <span class="pre">file</span> <span class="pre">name&gt;</span></code> will create a JSON object filled
+with default values as specified in the schemas.</p>
+</div>
+<div class="section" id="output-files">
+<h2>Output Files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h2>
+<p>The output files, located in <code class="docutils literal notranslate"><span class="pre">output/</span></code>, store records of the particle
+states over time. The output file will have the same base name as the input file
+but will have a file extension of <code class="docutils literal notranslate"><span class="pre">.txt</span></code> instead.</p>
+</div>
+<div class="section" id="running-the-simulation">
+<h2>Running the Simulation<a class="headerlink" href="#running-the-simulation" title="Permalink to this headline">¶</a></h2>
+<p>To run the simulation, type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/main.py</span> <span class="pre">input/&lt;input</span> <span class="pre">file</span> <span class="pre">name&gt;</span></code>.
+The file name should contain the file extension (i.e., <code class="docutils literal notranslate"><span class="pre">.json</span></code>).</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">n-Body Simulator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#schemas">Schemas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input-files">Input Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-files">Output Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-simulation">Running the Simulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">n-Body Simulator documentation</a></li>
+      <li>Next: <a href="api.html" title="next chapter">API</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2026, Eric Zhang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
