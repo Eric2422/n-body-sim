@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 from files import FileHandler
-from particles import BarnesHutNode, PointParticle
+import particles
 from plot import Plot
 import vectors
 
@@ -24,6 +24,43 @@ class Simulation:
     field; and particles used in the simulation.
 
     Keeps track of the previous positions of all the partices.
+
+    Parameters
+    ----------
+    theta : float, default=0.5
+        The Barnes-Hut approximation parameter.
+    time_step_size : float, default=1.0
+        The time increment of the simulation in seconds (s).
+    gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+        A constant, uniform gravitational field.
+    electric_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+        A constant, uniform electric field.
+    magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+        A constant, uniform magnetic field.
+    particles_list : list[:type:`particles.PointParticle], default=[]
+        A :class:`list` of particles that are interacting with each other
+        in the simulation.
+
+    Attributes
+    ----------
+    particles_list : list[PointParticle]
+        A :class:`list` of particles that are interacting with each other
+        in the simulation.
+    particles_data : :class:`pd.DataFrame`
+        A record of all the particles' states over the course of the simulation.
+    gravitational_field : :class:`fields.FieldVector`
+        A constant, uniform gravitational field.
+    electric_field : :class:`fields.FieldVector`
+        A constant, uniform electric field.
+    magnetic_field : :class:`fields.FieldVector`
+        A constant, uniform magnetic field.
+    current_time_step : int
+        The number of time steps that have passed since the beginning of
+        the simulation.
+    time_step_size : float
+        The time increment of the simulation in seconds (s).
+    theta : float
+        The Barnes-Hut approximation parameter.
     """
 
     @typing.override
@@ -34,26 +71,9 @@ class Simulation:
         gravitational_field: vectors.FieldVector = np.zeros(3, dtype=float),
         electric_field: vectors.FieldVector = np.zeros(3, dtype=float),
         magnetic_field: vectors.FieldVector = np.zeros(3, dtype=float),
-        particles: list[PointParticle] = []
+        particles_list: list[particles.PointParticle] = []
     ) -> None:
-        """Initialize a simulation.
-
-        Parameters
-        ----------
-        theta : float, default=0.5
-            The Barnes-Hut approximation parameter.
-        time_step_size : float, default=1.0
-            The time increment of the simulation in seconds (s)
-        gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
-            A constant, uniform gravitational field.
-        electric_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
-            A constant, uniform electric field.
-        magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
-            A constant, uniform magnetic field.
-        particles : list[PointParticle], default=[]
-            A :class:`list` of particles that are interacting with each other.
-        """
-        self.particles = particles
+        self.particles_list = particles_list
 
         self.particles_data = pd.DataFrame({
             't': np.empty(0, dtype=float),
@@ -61,25 +81,23 @@ class Simulation:
             'y': np.empty(0, dtype=float),
             'z': np.empty(0, dtype=float)
         })
-        """A record of all the particles' states over the course of the simulation."""
 
-        # Constant, universal fields
+        # Constant, universal fields.
+        self.gravitational_field = gravitational_field
         self.electric_field = electric_field
         self.magnetic_field = magnetic_field
-        self.gravitational_field = gravitational_field
 
-        self.current_time_step = 0.0
+        self.current_time_step = 0
         self.time_step_size = time_step_size
 
         self.theta = theta
-        """The Barnes-Hut approximation parameter."""
 
-    def record_particle_data(self, particle: PointParticle) -> None:
+    def record_particle_data(self, particle: particles.PointParticle) -> None:
         """Save the state of a particle to the particles data.
 
         Parameters
         ----------
-        particle : PointParticle
+        particle : :class:`particles.PointParticle`
             A particle to save the state of.
         """
         # Save particle position data
@@ -104,7 +122,7 @@ class Simulation:
         # Add the initial time and particle data to the file
         output_string = f't={self.current_time_step * self.time_step_size}\n'
 
-        for particle in self.particles:
+        for particle in self.particles_list:
             output_string += particle.__str__() + '\n'
 
         output_string += '\n'
@@ -113,8 +131,8 @@ class Simulation:
 
     def calculate_particle_force(
         self,
-        particle: PointParticle,
-        barnes_hut_root: BarnesHutNode,
+        particle: particles.PointParticle,
+        barnes_hut_root: particles.BarnesHutNode,
         position: vectors.PositionVector | None = None,
         velocity: vectors.VelocityVector | None = None
     ) -> vectors.ForceVector:
@@ -123,7 +141,7 @@ class Simulation:
 
         Parameters
         ----------
-        particle : PointParticle
+        particle : :class:`particles.PointParticle`
             The particle to calculate the force upon.
         barnes_hut_root : BarnesHutNode
             The Barnes-Hut tree that contains all the particles.
@@ -169,14 +187,14 @@ class Simulation:
     def time_step(self) -> None:
         """Run one time step of the simulation."""
         # Generate the root node of the octree.
-        barnes_hut_root = BarnesHutNode(self.particles)
+        barnes_hut_root = particles.BarnesHutNode(self.particles_list)
 
         # Stores the new positions and velocities.
-        new_data = np.zeros((len(particles), 2, 3))
+        new_data = np.zeros((len(particles_list), 2, 3))
 
         # Update particle positions and velocities before calculating the forces.
-        for i in range(len(particles)):
-            particle = particles[i]
+        for i in range(len(particles_list)):
+            particle = particles_list[i]
 
             particle.acceleration = self.calculate_particle_force(
                 particle, barnes_hut_root) / particle.MASS
@@ -227,8 +245,8 @@ class Simulation:
             )
 
         # Update the particle's position and velocity.
-        for i in range(len(particles)):
-            particle = particles[i]
+        for i in range(len(particles_list)):
+            particle = particles_list[i]
 
             # Update position, velocity, and acceleration.
             particle.position = new_data[i, 0]
@@ -304,9 +322,9 @@ class Simulation:
                 file_handler.close_output_file()
 
         # Record final state of the particles.
-        for particle in particles:
+        for particle in particles_list:
             # Generate the root node of the octree.
-            barnes_hut_root = BarnesHutNode(self.particles)
+            barnes_hut_root = particles.BarnesHutNode(self.particles_list)
 
             # Update the particle's final acceleration.
             particle.acceleration = self.calculate_particle_force(
@@ -351,8 +369,8 @@ if __name__ == '__main__':
         )
 
     # Create a list of particles as described by the file data.
-    particles = [
-        PointParticle(
+    particles_list = [
+        particles.PointParticle(
             position=np.array(particle['position']),
             velocity=np.array(particle['velocity']),
             mass=particle['mass'],
@@ -369,7 +387,7 @@ if __name__ == '__main__':
             file_handler.INPUT_DATA['gravitational field']),
         electric_field=np.array(file_handler.INPUT_DATA['electric field']),
         magnetic_field=np.array(file_handler.INPUT_DATA['magnetic field']),
-        particles=particles
+        particles_list=particles_list
     )
     simulation.run(
         num_time_steps=file_handler.INPUT_DATA['num time steps'],

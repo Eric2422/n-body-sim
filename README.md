@@ -28,8 +28,9 @@ pip install -r requirements.txt
 
 ## Sphinx
 
-This project suppports Sphinx documentation. Currently there is no dedicated website
-for the documentation, but you can build the documentation yourself.
+This project suppports Sphinx documentation. There is a website for hosting the
+documentation, but it is currently broken, so you should build the documentation
+yourself.
 
 After intalling, type into your terminal:
 
