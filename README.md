@@ -38,7 +38,7 @@ After intalling, type into your terminal:
 sphinx-build -M html docs/source/ docs/build/
 ```
 
-The resulting HTML files should now appear in [`docs/build/](docs/build/).
+The resulting HTML files should now appear in [`docs/build/`](docs/build/).
 
 After the Sphinx documentation is built, open [`docs/build/html/index.html`](docs/build/html/index.html)
 in your browser of choice.
