@@ -203,6 +203,9 @@ class Simulation:
             self.record_particle_data(particle)
 
             # Use Runge-Kutta method to to approximate velocity and position.
+            rk_velocities = np.zeros(4)
+            rk_accelerations = np.zeros(4)
+
             v1 = particle.velocity
             a1 = particle.acceleration
 
@@ -220,9 +223,11 @@ class Simulation:
                 particle, barnes_hut_root, position, v2
             ) / particle.MASS
             v3 = particle.velocity + a2 * self.time_step_size / 2
-            position = (particle.position
-                        + v2 * self.time_step_size / 2
-                        + 1/2 * a2 * (self.time_step_size / 2) ** 2)
+            position = (
+                particle.position
+                + v2 * self.time_step_size / 2
+                + 1/2 * a2 * (self.time_step_size / 2) ** 2
+            )
 
             a4 = self.calculate_particle_force(
                 particle, barnes_hut_root, position, v3
