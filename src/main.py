@@ -196,57 +196,73 @@ class Simulation:
         for i in range(len(particles_list)):
             particle = particles_list[i]
 
+            # Update particle acceleration.
             particle.acceleration = self.calculate_particle_force(
-                particle, barnes_hut_root) / particle.MASS
+                particle, barnes_hut_root
+            ) / particle.MASS
 
             # Record data after updating acceleration.
             self.record_particle_data(particle)
 
-            # Use Runge-Kutta method to to approximate velocity and position.
-            rk_velocities = np.zeros(4)
-            rk_accelerations = np.zeros(4)
+            # Use the classic Runge-Kutta method to to approximate velocity and position.
+            rk4_accelerations = np.zeros(4)
+            rk4_velocities = np.zeros(4)
 
-            v1 = particle.velocity
-            a1 = particle.acceleration
+            rk4_accelerations[0] = particle.acceleration
+            rk4_velocities[0] = particle.velocity
 
-            a2 = self.calculate_particle_force(
+            rk4_accelerations[1] = self.calculate_particle_force(
                 particle, barnes_hut_root
             ) / particle.MASS
-            v2 = particle.velocity + a1 * self.time_step_size / 2
-            position = (
-                particle.position
-                + v1 * self.time_step_size / 2
-                + 1/2 * a1 * (self.time_step_size / 2) ** 2
-            )
+            rk4_velocities[1] = (particle.velocity
+                                 + rk4_accelerations[0] * self.time_step_size / 2)
+            position = (particle.position
+                        + rk4_velocities[0] * self.time_step_size / 2
+                        + 1/2 * rk4_accelerations[0] *
+                        (self.time_step_size / 2) ** 2
+                        )
 
-            a3 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v2
+            rk4_accelerations[2] = self.calculate_particle_force(
+                particle, barnes_hut_root, position, rk4_velocities[1]
             ) / particle.MASS
-            v3 = particle.velocity + a2 * self.time_step_size / 2
-            position = (
-                particle.position
-                + v2 * self.time_step_size / 2
-                + 1/2 * a2 * (self.time_step_size / 2) ** 2
-            )
+            rk4_velocities[2] = (particle.velocity
+                                 + rk4_accelerations[1] * self.time_step_size / 2)
+            position = (particle.position
+                        + rk4_velocities[1] * self.time_step_size / 2
+                        + 1/2 * rk4_accelerations[1]
+                        * (self.time_step_size / 2) ** 2
+                        )
 
-            a4 = self.calculate_particle_force(
-                particle, barnes_hut_root, position, v3
+            rk4_accelerations[3] = self.calculate_particle_force(
+                particle, barnes_hut_root, position, rk4_velocities[2]
             ) / particle.MASS
-            v4 = particle.velocity + a3 * self.time_step_size
-            position = (
-                particle.position
-                + v3 * self.time_step_size
-                + 1/2 * a3 * self.time_step_size ** 2
-            )
+            rk4_velocities[3] = (particle.velocity
+                                 + rk4_accelerations[2] * self.time_step_size)
+            position = (particle.position
+                        + rk4_velocities[2] * self.time_step_size
+                        + 1/2 * rk4_accelerations[2] * self.time_step_size ** 2
+                        )
 
             # Calculate the new velocity and position.
             new_data[i, 0] = (
                 particle.position
-                + self.time_step_size / 6 * (v1 + 2 * v2 * 2 * v3 + v4)
+                + self.time_step_size / 6
+                * (
+                    rk4_velocities[0]
+                    + 2 * rk4_velocities[1]
+                    + 2 * rk4_velocities[2]
+                    + rk4_velocities[3]
+                )
             )
             new_data[i, 1] = (
                 particle.velocity
-                + self.time_step_size / 6 * (a1 + 2 * a2 * 2 * a3 + a4)
+                + self.time_step_size / 6
+                * (
+                    rk4_accelerations[0]
+                    + 2 * rk4_accelerations[1]
+                    + 2 * rk4_accelerations[2]
+                    + rk4_accelerations[3]
+                )
             )
 
         # Update the particle's position and velocity.
