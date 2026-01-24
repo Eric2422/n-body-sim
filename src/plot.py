@@ -54,32 +54,32 @@ class Plot:
         # Set x limits.
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
-        width = max_x - min_x
+        plot_width = (max_x - min_x) * MARGIN
         ax.set_xlim(
-            min_x - (width * MARGIN),
-            max_x + (width * MARGIN)
+            min_x - plot_width,
+            max_x + plot_width
         )
         ax.set_xlabel('x (m)')
 
         # Set y limits.
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
-        length = max_y - min_y
+        plot_width = (max_y - min_y) * MARGIN
         ax.set_ylim(
-            min_y - (length * MARGIN),
-            max_y + (length * MARGIN)
+            min_y - plot_width,
+            max_y + plot_width
         )
         ax.set_ylabel('y (m)')
 
         # Set z limits.
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
-        height = max_z - min_z
+        plot_height = (max_z - min_z) * MARGIN
         ax.set_zlim(
-            min_z - (height * MARGIN),
-            max_z + (height * MARGIN)
+            min_z - plot_height,
+            max_z + plot_height
         )
-        ax.set_zlabel('z (m)')  # type: ignore
+        ax.set_zlabel('z (m)')
 
         self.fps = round(1 / time_step_size)
 
