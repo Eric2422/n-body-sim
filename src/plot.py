@@ -75,11 +75,11 @@ class Plot:
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
         plot_height = (max_z - min_z) * MARGIN
-        ax.set_zlim(
+        ax.set_zlim( # type: ignore
             min_z - plot_height,
             max_z + plot_height
         )
-        ax.set_zlabel('z (m)')
+        ax.set_zlabel('z (m)') # type: ignore
 
         self.fps = round(1 / time_step_size)
 
