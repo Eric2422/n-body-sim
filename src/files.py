@@ -67,15 +67,20 @@ class FileHandler:
         input_file_path: str = 'sample.json'
     ) -> None:
 
+        # If the file path does not include input/, add it.
         self.INPUT_FILE_PATH = pathlib.Path(
             input_file_path if os.path.dirname(input_file_path) == 'input'
             else self.INPUT_DIR / input_file_path
         )
 
-        # If the file path does not include the input/, add it.
-        # Then read the data.
-        with open(self.INPUT_FILE_PATH) as file:
-            self.INPUT_DATA = json.load(file)
+        # Try to read the file data.
+        # If it fails to read, temporarily store an empty dict.
+        try:
+            with open(self.INPUT_FILE_PATH) as file:
+                self.INPUT_DATA = json.load(file)
+
+        except FileNotFoundError:
+            self.INPUT_DATA = {}
 
         # The output file has the same name as input_file
         # but with the '.txt' extension.
