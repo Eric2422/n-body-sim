@@ -318,7 +318,6 @@ class Simulation:
             progress = 0.0
             print(f'Progress: {progress}%', end='\r')
 
-        # If an error occurs in the middle for unknown reasons, close the output file.
         try:
             # Run the necessary number of time steps
             for i in range(int(num_time_steps)):
@@ -339,25 +338,27 @@ class Simulation:
                     print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
         except:
+            # If an error occurs in the middle for unknown reasons, close the output file.
             if file_handler is not None:
                 file_handler.close_output_file()
 
-        # Record final state of the particles.
-        for particle in particles_list:
-            # Generate the root node of the octree.
-            barnes_hut_root = particles.BarnesHutNode(self.particles_list)
+        else:
+            # Record final state of the particles.
+            for particle in particles_list:
+                # Generate the root node of the octree.
+                barnes_hut_root = particles.BarnesHutNode(self.particles_list)
 
-            # Update the particle's final acceleration.
-            particle.acceleration = self.calculate_particle_force(
-                particle, barnes_hut_root) / particle.MASS
+                # Update the particle's final acceleration.
+                particle.acceleration = self.calculate_particle_force(
+                    particle, barnes_hut_root) / particle.MASS
 
-            # Record data for the final time.
-            self.record_particle_data(particle)
+                # Record data for the final time.
+                self.record_particle_data(particle)
 
-        if file_handler is not None:
-            # Write final particle states.
-            file_handler.append_to_output_file(self.get_particles_string())
-            file_handler.close_output_file()
+            if file_handler is not None:
+                # Write final particle states.
+                file_handler.append_to_output_file(self.get_particles_string())
+                file_handler.close_output_file()
 
         # If printing progress reports,
         # add an extra line to account for the carriage returns.

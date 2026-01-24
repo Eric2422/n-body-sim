@@ -56,8 +56,8 @@ class Plot:
         max_x = np.max(np.array(data_frame['x'].values))
         width = max_x - min_x
         ax.set_xlim(
-            left=min_x - (width * MARGIN),
-            right=max_x + (width * MARGIN)
+            min_x - (width * MARGIN),
+            max_x + (width * MARGIN)
         )
         ax.set_xlabel('x (m)')
 
@@ -66,8 +66,8 @@ class Plot:
         max_y = np.max(np.array(data_frame['y'].values))
         length = max_y - min_y
         ax.set_ylim(
-            bottom=min_y - (length * MARGIN),
-            top=max_y + (length * MARGIN)
+            min_y - (length * MARGIN),
+            max_y + (length * MARGIN)
         )
         ax.set_ylabel('y (m)')
 
@@ -75,7 +75,7 @@ class Plot:
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
         height = max_z - min_z
-        ax.set_zlim(  # type: ignore
+        ax.set_zlim(
             min_z - (height * MARGIN),
             max_z + (height * MARGIN)
         )
