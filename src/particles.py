@@ -856,8 +856,9 @@ class BarnesHutNode:
         return force
 
     def get_height(self) -> int:
-        """Return the height of the tree under this Barnes-Hut node.
-        The root node (i.e., this node) has a height of 0.
+        """Return the height of the subtree under this Barnes-Hut node. 
+        If this node has no child nodes, it is a leaf node and its
+        height is 0.
 
         Returns
         -------

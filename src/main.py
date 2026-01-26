@@ -377,7 +377,7 @@ if __name__ == '__main__':
 
     # Attempt to read the input file.
     try:
-        file_handler = FileHandler(input_file_path=sys.argv[1])
+        file_handler = FileHandler(input_filepath=sys.argv[1])
 
     except OSError:
         raise OSError(
@@ -425,5 +425,9 @@ if __name__ == '__main__':
         time_step_size=simulation.time_step_size
     )
 
-    # plot.save_plot_to_file()
-    plot.show()
+    # plot.show()
+
+    print('Saving plot to a GIF file...', end='')
+    plot.save_to_file(file_handler.OUTPUT_FILE_PATH.stem)
+    # Clear and overwrite.
+    print('\033[K\rPlot successfully saved.')

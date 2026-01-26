@@ -2,13 +2,15 @@
 for more details.
 """
 
-
+import pathlib
 import typing
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+import files
 
 
 class Plot:
@@ -133,13 +135,26 @@ class Plot:
         """Display this plot and run the animation."""
         plt.show()
 
-    def save_plot_to_file(self, filename: str) -> None:
-        """Save the plot as a GIF file.
+    def save_to_file(self, filename: str) -> None:
+        """Save the plot as a GIF file with the given name. The filename
+        will be resolved using :const:`files.FileHandler.OUTPUT_DIR`,
+        i.e., the GIF will be saved under the same directory as the text
+        files.
 
         Parameters
         ----------
         filename : str
-            The name that the file will be saved with.
+            The filename that the GIF will be saved to. It does not matter
+            if it includes a file extension or what file extension is
+            used. Any file extension will be removed and replaced with
+            ``.gif``.
         """
-        FFwriter = animation.FFMpegWriter(fps=self.fps)
-        self.plot_animation.save(filename, writer=FFwriter)
+        # Strip the file extension.
+        file_stem = filename[0: filename.find('.') + 1]
+        print(file_stem)
+
+        self.plot_animation.save(
+            'test.gif',
+            writer='pillow',
+            fps=self.fps
+        )
