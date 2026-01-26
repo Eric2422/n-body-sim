@@ -23,13 +23,24 @@ class Plot:
         Contains the time and position of particles.
     time_step_size : float, default=1.0
         The amount of time between each frame.
+    margin : float, default=1.25
+        The amount of extra space in each dimension as a factor of its
+        size.
+
+        For example, if the x dimension has a range of [-1.0, 1.0], a
+        margin of 1.25 means that plot will have an x range of 
+        [-1.5, 1.5].
+    min : float, default=1.0
+        The minimum size of each dimension.
     """
 
     @typing.override
     def __init__(
         self,
         data_frame: pd.DataFrame,
-        time_step_size: float = 1.0
+        time_step_size: float = 1.0,
+        margin: float = 1.25,
+        min: float = 1.0
     ) -> None:
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
@@ -49,12 +60,12 @@ class Plot:
         )
 
         # Scalar margin
-        MARGIN = 1.25
+        margin = 1.25
 
         # Set x limits.
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
-        plot_width = (max_x - min_x) * MARGIN
+        plot_width = max((max_x - min_x) * margin, min)
         ax.set_xlim(
             min_x - plot_width,
             max_x + plot_width
@@ -64,7 +75,7 @@ class Plot:
         # Set y limits.
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
-        plot_width = (max_y - min_y) * MARGIN
+        plot_width = max((max_y - min_y) * margin, min)
         ax.set_ylim(
             min_y - plot_width,
             max_y + plot_width
@@ -74,12 +85,12 @@ class Plot:
         # Set z limits.
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
-        plot_height = (max_z - min_z) * MARGIN
-        ax.set_zlim( # type: ignore
+        plot_height = max((max_z - min_z) * margin, min)
+        ax.set_zlim(  # type: ignore
             min_z - plot_height,
             max_z + plot_height
         )
-        ax.set_zlabel('z (m)') # type: ignore
+        ax.set_zlabel('z (m)')  # type: ignore
 
         self.fps = round(1 / time_step_size)
 
