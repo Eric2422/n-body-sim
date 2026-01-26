@@ -30,7 +30,7 @@ class FileHandler:
         directory. Best to keep it to the default unless you want to
         write an entire JSON schema.
     input_file : str, default='sample.csv'
-        The file path of the input file, including file extension.
+        The filepath of the input file, including file extension.
 
         Accepts both with and without the directory.
         The output file will have the same name
@@ -64,13 +64,13 @@ class FileHandler:
     def __init__(
         self,
         schema_file: str = 'main.json',
-        input_file_path: str = 'sample.json'
+        input_filepath: str = 'sample.json'
     ) -> None:
 
-        # If the file path does not include input/, add it.
+        # If the filepath does not include input/, add it.
         self.INPUT_FILE_PATH = pathlib.Path(
-            input_file_path if os.path.dirname(input_file_path) == 'input'
-            else self.INPUT_DIR / input_file_path
+            input_filepath if os.path.dirname(input_filepath) == 'input'
+            else self.INPUT_DIR / input_filepath
         )
 
         # Try to read the file data.
@@ -86,7 +86,7 @@ class FileHandler:
         # but with the '.txt' extension.
         self.OUTPUT_FILE_PATH = pathlib.Path(
             FileHandler.OUTPUT_DIR /
-            (pathlib.Path(input_file_path).stem + '.txt')
+            (pathlib.Path(input_filepath).stem + '.txt')
         )
 
         self.__output_io_wrapper: io.TextIOWrapper | None = None
@@ -330,7 +330,7 @@ if __name__ == '__main__':
         )
 
     # Create a file handler using the given JSON schema
-    file_handler = FileHandler(input_file_path=sys.argv[1])
+    file_handler = FileHandler(input_filepath=sys.argv[1])
 
     template_dict = file_handler.create_json_template()
     file_handler.write_input_file(template_dict)

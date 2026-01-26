@@ -377,7 +377,7 @@ if __name__ == '__main__':
 
     # Attempt to read the input file.
     try:
-        file_handler = FileHandler(input_file_path=sys.argv[1])
+        file_handler = FileHandler(input_filepath=sys.argv[1])
 
     except OSError:
         raise OSError(
