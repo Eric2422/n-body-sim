@@ -205,8 +205,8 @@ class Simulation:
             self.record_particle_data(particle)
 
             # Use the classic Runge-Kutta method to to approximate velocity and position.
-            rk4_accelerations = np.zeros(4)
-            rk4_velocities = np.zeros(4)
+            rk4_accelerations = np.zeros((4, 3))
+            rk4_velocities = np.zeros((4, 3))
 
             rk4_accelerations[0] = particle.acceleration
             rk4_velocities[0] = particle.velocity
@@ -337,10 +337,12 @@ class Simulation:
                     # and then return to the beginning of the line.
                     print(f'Progress: {round(progress * 100, 1)}%', end='\r')
 
-        except:
+        except Exception as exception:
             # If an error occurs in the middle for unknown reasons, close the output file.
             if file_handler is not None:
                 file_handler.close_output_file()
+
+            raise exception
 
         else:
             # Record final state of the particles.
