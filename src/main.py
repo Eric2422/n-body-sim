@@ -9,9 +9,9 @@ import typing
 import numpy as np
 import pandas as pd
 
-from files import FileHandler
+import files
 import particles
-from plot import Plot
+import plot
 import vectors
 
 
@@ -278,7 +278,7 @@ class Simulation:
     def run(
         self,
         num_time_steps: int = 1,
-        file_handler: FileHandler | None = None,
+        file_handler: files.FileHandler | None = None,
         print_progress: bool = False
     ) -> None:
         """Run the simulation for a given number of time steps.
@@ -377,7 +377,7 @@ if __name__ == '__main__':
 
     # Attempt to read the input file.
     try:
-        file_handler = FileHandler(input_file_path=sys.argv[1])
+        file_handler = files.FileHandler(input_filepath=sys.argv[1])
 
     except OSError:
         raise OSError(
@@ -420,7 +420,7 @@ if __name__ == '__main__':
     )
 
     # Plot the simulation.
-    plot = Plot(
+    plot = plot.Plot(
         data_frame=simulation.particles_data,
         time_step_size=simulation.time_step_size
     )
