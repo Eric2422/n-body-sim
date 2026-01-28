@@ -140,17 +140,22 @@ class Plot:
         return self.PLOT,
 
     def show(self) -> None:
-        """Display the plot for the user to see.
-        """
+        """Display this plot and run the animation."""
         plt.show()
 
     def save_to_file(self, filename: str) -> None:
-        """Save the plot as a GIF file.
+        """Save the plot as a GIF file with the given name. The filename
+        will be resolved using :const:`files.FileHandler.OUTPUT_DIR`,
+        i.e., the GIF will be saved under the same directory as the text
+        files.
 
         Parameters
         ----------
         filename : str
-            The name that the file will be saved with.
+            The filename that the GIF will be saved to. It does not matter
+            if it includes a file extension or what file extension is
+            used. Any file extension will be removed and replaced with
+            ``.gif``.
         """
         ff_writer = animation.FFMpegWriter(fps=self.FPS)
         self.PLOT_ANIMATION.save(filename, writer=ff_writer)
