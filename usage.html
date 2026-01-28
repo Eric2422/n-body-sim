@@ -50,7 +50,7 @@ Doing so may prevent the program from properly running.</p>
 Each input file is a JSON file validated using the schema in <code class="docutils literal notranslate"><span class="pre">main.json</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">num_time_steps</span></code> property of the input file dictates how many time steps the
 simulator runs. If it is set to 0, only the initial state will be given.</p>
-<p>Running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/files.py</span> <span class="pre">&lt;input</span> <span class="pre">file</span> <span class="pre">name&gt;</span></code> will create a JSON object filled
+<p>Running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/files.py</span> <span class="pre">&lt;input</span> <span class="pre">filename&gt;</span></code> will create a JSON object filled
 with default values as specified in the schemas.</p>
 </div>
 <div class="section" id="output-files">
@@ -61,8 +61,8 @@ but will have a file extension of <code class="docutils literal notranslate"><sp
 </div>
 <div class="section" id="running-the-simulation">
 <h2>Running the Simulation<a class="headerlink" href="#running-the-simulation" title="Permalink to this headline">¶</a></h2>
-<p>To run the simulation, type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/main.py</span> <span class="pre">input/&lt;input</span> <span class="pre">file</span> <span class="pre">name&gt;</span></code>.
-The file name should contain the file extension (i.e., <code class="docutils literal notranslate"><span class="pre">.json</span></code>).</p>
+<p>To run the simulation, type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/main.py</span> <span class="pre">input/&lt;input</span> <span class="pre">filename&gt;</span></code>.
+The filename should contain the file extension (i.e., <code class="docutils literal notranslate"><span class="pre">.json</span></code>).</p>
 </div>
 </div>
 
