@@ -140,6 +140,8 @@ class Plot:
         return self.PLOT,
 
     def show(self) -> None:
+        """Display the plot for the user to see.
+        """
         plt.show()
 
     def save_to_file(self, filename: str) -> None:
