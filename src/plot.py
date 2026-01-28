@@ -150,5 +150,5 @@ class Plot:
         filename : str
             The name that the file will be saved with.
         """
-        FFwriter = animation.FFMpegWriter(fps=self.FPS)
-        self.PLOT_ANIMATION.save(filename, writer=FFwriter)
+        ff_writer = animation.FFMpegWriter(fps=self.FPS)
+        self.PLOT_ANIMATION.save(filename, writer=ff_writer)
