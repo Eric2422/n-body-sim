@@ -34,7 +34,7 @@ class FileHandler:
 
         Accepts both with and without the directory.
         The output file will have the same name
-        but with the ".txt" file extension instead.
+        but with the ``.txt`` file extension instead.
 
     Attributes
     ----------

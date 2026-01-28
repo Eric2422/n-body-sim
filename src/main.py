@@ -425,5 +425,9 @@ if __name__ == '__main__':
         time_step_size=simulation.time_step_size
     )
 
-    # plot.save_plot_to_file()
-    plot.show()
+    # plot.show()
+
+    print('Saving plot to a GIF file...', end='')
+    plot.save_to_file(file_handler.OUTPUT_FILE_PATH.stem)
+    # Clear and overwrite.
+    print('\033[K\rPlot successfully saved.')
