@@ -37,7 +37,7 @@ class Simulation:
         A constant, uniform electric field.
     magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
         A constant, uniform magnetic field.
-    particles_list : list[:type:`particles.PointParticle], default=[]
+    particles_list : list[:class:`particles.PointParticle`], default=[]
         A :class:`list` of particles that are interacting with each other
         in the simulation.
 
@@ -46,7 +46,7 @@ class Simulation:
     particles_list : list[PointParticle]
         A :class:`list` of particles that are interacting with each other
         in the simulation.
-    particles_data : :class:`pd.DataFrame`
+    particles_data : :class:`pandas.DataFrame`
         A record of all the particles' states over the course of the simulation.
     gravitational_field : :class:`fields.FieldVector`
         A constant, uniform gravitational field.

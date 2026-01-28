@@ -1,4 +1,4 @@
-plot.Plot
+﻿plot.Plot
 =========
 
 .. currentmodule:: plot
@@ -17,7 +17,7 @@ plot.Plot
    .. autosummary::
    
       ~Plot.__init__
-      ~Plot.save_plot_to_file
+      ~Plot.save_to_file
       ~Plot.show
       ~Plot.update
    
