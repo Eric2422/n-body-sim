@@ -1,4 +1,4 @@
-﻿main.Simulation
+main.Simulation
 ===============
 
 .. currentmodule:: main
@@ -26,5 +26,12 @@
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Simulation.particles_data
+      ~Simulation.theta
    
    

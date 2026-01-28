@@ -2,6 +2,7 @@
 for more details.
 """
 
+
 import typing
 
 import matplotlib.animation as animation
@@ -142,25 +143,12 @@ class Plot:
         plt.show()
 
     def save_to_file(self, filename: str) -> None:
-        """Save the plot as a GIF file with the given name. The filename
-        will be resolved using :const:`files.FileHandler.OUTPUT_DIR`,
-        i.e., the GIF will be saved under the same directory as the text
-        files.
+        """Save the plot as a GIF file.
 
         Parameters
         ----------
         filename : str
-            The filename that the GIF will be saved to. It does not matter
-            if it includes a file extension or what file extension is
-            used. Any file extension will be removed and replaced with
-            ``.gif``.
+            The name that the file will be saved with.
         """
-        # Strip the file extension.
-        file_stem = filename[0: filename.find('.') + 1]
-        print(file_stem)
-
-        self.PLOT_ANIMATION.save(
-            'test.gif',
-            writer='pillow',
-            fps=self.FPS
-        )
+        FFwriter = animation.FFMpegWriter(fps=self.FPS)
+        self.PLOT_ANIMATION.save(filename, writer=FFwriter)

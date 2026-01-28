@@ -62,7 +62,7 @@ Each input file is a JSON file validated using the schema in [`main.json`](./sch
 The `num_time_steps` property of the input file dictates how many time steps the
 simulator runs. If it is set to 0, only the initial state will be given.
 
-Running `python src/files.py <input filename>` will create a JSON object filled
+Running `python src/files.py <input file name>` will create a JSON object filled
 with default values as specified in the [schemas](./schemas/).
 
 ### Output Files
@@ -73,8 +73,8 @@ but will have a file extension of `.txt` instead.
 
 ### Running the Simulation
 
-To run the simulation, type `python src/main.py input/<input filename>`.
-The filename should contain the file extension (i.e., `.json`).
+To run the simulation, type `python src/main.py input/<input file name>`.
+The file name should contain the file extension (i.e., `.json`).
 
 ## References
 
