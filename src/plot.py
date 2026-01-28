@@ -19,7 +19,7 @@ class Plot:
 
     Parameters
     ----------
-    data_frame : :class:`pandas.DataFrame`
+    data_frame : :class:`~pandas.DataFrame`
         A data frame with four columns: t, x, y, and z.
         Contains the time and position of particles.
     time_step_size : float, default=1.0
@@ -37,7 +37,14 @@ class Plot:
 
     Attributes
     ----------
-
+    DATA_FRAME : :class:`~pandas.DataFrame`
+        The data frame that the plot will read and display as an animation.
+    PLOT : :class:`~matplotlib.lines.Line2D`
+        The plot created internally.
+    FPS : int
+        The number of frames per second that the animation runs at.
+    PLOT_ANIMATION : :class:`~matplotlib.lines.Line2D`
+        The animation of :const:`PLOT`.
     """
 
     @typing.override
@@ -110,7 +117,7 @@ class Plot:
 
     def update(self, num: int) -> tuple[matplotlib.lines.Line2D]:
         """Update the plot points of the scatter. Passed into the ``func``
-        parameter of:class:`animation.FuncAnimation`. See there for more
+        parameter of:class:`~animation.FuncAnimation`. See there for more
         details.
 
         Parameters
@@ -120,7 +127,7 @@ class Plot:
 
         Returns
         -------
-        tuple[:class:`matplotlib.lines.Line2D`]
+        tuple[:class:`~matplotlib.lines.Line2D`]
             A tuple containing the artists used to update the plot.
         """
         # The particles are flattened into a single data frame,
@@ -145,7 +152,7 @@ class Plot:
 
     def save_to_file(self, filename: str) -> None:
         """Save the plot as a GIF file with the given name. The filename
-        will be resolved using :const:`files.FileHandler.OUTPUT_DIR`,
+        will be resolved using :const:`~files.FileHandler.OUTPUT_DIR`,
         i.e., the GIF will be saved under the same directory as the text
         files.
 
