@@ -357,7 +357,7 @@ class PointParticle:
         )
 
         return (
-            f'Point Particle: r={position_string}, v={velocity_string}, '
+            f'r={position_string}, v={velocity_string}, '
             f'a={acceleration_string}, m={self.MASS}, q={self.CHARGE}'
         )
 
@@ -877,7 +877,7 @@ class BarnesHutNode:
         mass, total charge, center of charge, velocity of center of
         charge, particles, and child nodes.
         """
-        string = f'''x: {self.X_BOUNDS}, y: {self.Y_BOUNDS}, z: {self.Z_BOUNDS}
+        string = f'''[{self.X_BOUNDS}, {self.Y_BOUNDS}, {self.Z_BOUNDS}]
 Total mass: {self.TOTAL_MASS}
 Center of mass: {self.CENTER_OF_MASS}
 Total charge: {self.TOTAL_CHARGE}
