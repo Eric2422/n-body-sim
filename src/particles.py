@@ -384,32 +384,63 @@ class PointParticle:
 class BarnesHutNode:
     """A single node of a Barnes-Hut octree, which contains eight child
     nodes. For brevity's sake, the mechanics of the Barnes-Hut algorithm
-    will not be explained here. See the `Wikipedia article`_ or this
-    `Arbor article`_ for a full explanation.
-    .. _Wikipedia article: https://en.wikipedia.org/wiki/Barnes-Hut_simulation
-    .. _Arbor article: https://arborjs.org/docs/barnes-hut
+    will not be explained here. See the
+    `Wikipedia article <https://en.wikipedia.org/wiki/Barnes-Hut_simulation>`__
+    or this `Arbor article <https://arborjs.org/docs/barnes-hut>`__ for a
+    full explanation.
 
     Assumes a center of charge rather than using a multipole expansion.
 
     Parameters
     ----------
-    particles : list[PointParticle], default=[]
+    particles : list[:class:`particles.PointParticle`], default=[]
         List of particles that are contained within this Barnes-Hut node.
-    x_bounds : npt.NDArray[np.float64], optional
+    x_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`], optional
         A 2-element NumPy array that contains the lower and upper x
         bounds in that order. If ``None``, the bounds will be
         automatically calculated to be the smallest possible that
         would contain all the particles.
-    y_bounds : npt.NDArray[np.float64], optional
+    y_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`], optional
         A 2-element NumPy array that contains the lower and upper y
         bounds in that order. If ``None``, the bounds will be
         automatically calculated to be the smallest possible that
         would contain all the particles.
-    z_bounds : npt.NDArray[np.float64], optional
+    z_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`], optional
         A 2-element NumPy array that contains the lower and upper z
         bounds in that order. If ``None``, the bounds will be
         automatically calculated to be the smallest possible that
         would contain all the particles.
+
+    Attributes
+    ----------
+    X_BOUNDS : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's x dimensions.
+    Y_BOUNDS : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's y dimensions.
+    Z_BOUNDS : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's z dimensions.
+    SIZE : float
+        The distance from one side of the node to the other.
+    PARTICLES : list[:class:`~particles.PointParticle`]
+        A list of all particles included in this node.
+    TOTAL_MASS : float
+        Total mass of all particles in this node in kilograms (kg).
+    CENTER_OF_MASS : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        The center of mass of this node in meters (m).
+    TOTAL_CHARGE : float
+        Total charge of all particles in this node in coulombs (C).
+    CENTER_OF_CHARGE : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        The center of charge of this node in meters (m).
+    CENTER_OF_CHARGE_VELOCITY : :class:`numpy.ndarray`[:class:`numpy.float64`]
+        The velocity of the center of charge. In other words, a
+        charge-weighted average of the velocities of particles in this
+        node. Measured in meters per second (m/s).
+    CHILD_NODES : list[:class:`~particles.BarnesHutNode`]
+        The child nodes of this node. If this node is exterior, then the
+        list will be empty. Otherwise, it will have eight children.
 
     References
     ----------
@@ -427,16 +458,16 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        x_bounds : npt.NDArray[np.float64]
+        x_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`]
             The given x bounds to cube.
-        y_bounds : npt.NDArray[np.float64]
+        y_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`]
             The given y bounds to cube.
-        z_bounds : npt.NDArray[np.float64]
+        z_bounds : :class:`numpy.ndarray`[:class:`numpy.float64`]
             The given z bounds to cube.
 
         Returns
         -------
-        tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], float]
+        tuple[:class:`numpy.ndarray`[:class:`numpy.float64`], :class:`numpy.ndarray`[:class:`numpy.float64`], float]
             The newly cubed bounds, the centroid, and the new size of the
             cube bounds (i.e., the previous maximum dimension),
             respectively.
@@ -489,8 +520,6 @@ class BarnesHutNode:
             )) if x_bounds is None
             else x_bounds
         )
-        """A two-element array containing the lower and upper x bounds of
-        this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
@@ -502,8 +531,6 @@ class BarnesHutNode:
             )) if y_bounds is None
             else y_bounds
         )
-        """A two-element array containing the lower and upper y bounds of
-        this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
@@ -515,14 +542,11 @@ class BarnesHutNode:
             )) if z_bounds is None
             else z_bounds
         )
-        """A two-element array containing the lower and upper z bounds of
-        this node."""
 
         # The centroid of the Barnes Hut node
         centroid: npt.NDArray[np.float64]
 
         self.SIZE: float
-        """The distance from one side of the node to the other."""
 
         # Make the bounds cubical if they are not.
         bounds, centroid, self.SIZE = BarnesHutNode.cube_bounds(
@@ -535,11 +559,8 @@ class BarnesHutNode:
 
         self.PARTICLES = [
             particle for particle in particles if self.particle_within_bounds(particle)]
-        """A list of all particle included in this node."""
 
         self.TOTAL_MASS = sum(particle.MASS for particle in self.PARTICLES)
-        """Total mass of all particles in this node, measured in 
-        kilograms (kg)."""
         mass_moment = sum(
             particle.MASS * particle.position for particle in self.PARTICLES)
 
@@ -549,13 +570,10 @@ class BarnesHutNode:
             mass_moment / self.TOTAL_MASS if self.TOTAL_MASS != 0
             else centroid
         )
-        """The center of mass of this cell."""
 
         self.TOTAL_CHARGE = sum(
             particle.CHARGE for particle in self.PARTICLES
         )
-        """Total charge of all particles in this node, measured in
-        coulombs (C)."""
         charge_moment = sum(
             particle.CHARGE * particle.position for particle in self.PARTICLES
         )
@@ -566,7 +584,6 @@ class BarnesHutNode:
             charge_moment / self.TOTAL_CHARGE if self.TOTAL_CHARGE != 0
             else np.zeros(3, dtype=float)
         )
-
         # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current.
