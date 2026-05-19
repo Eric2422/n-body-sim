@@ -71,9 +71,8 @@ with default values as specified in the [schemas](./schemas/).
 ### Output Files
 
 The output files, located in [`output/`](./output/), store records of the
-particle states over time.
-The output file will have the same base name as the input file but will have a
-file extension of `.txt` instead.
+particle states over time. The output file will have the same base name as the
+input file but will have a file extension of `.txt` instead.
 
 ### Running the Simulation
 
@@ -83,7 +82,8 @@ The filename should contain the file extension (i.e., `.json`).
 ## References
 
 Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
-ArborJS. <https://arborjs.org/docs/barnes-hut>.
+ArborJS.
+<https://arborjs.org/docs/barnes-hut>.
 
 Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
 <https://stackoverflow.com/a/62613202>

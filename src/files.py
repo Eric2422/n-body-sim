@@ -1,4 +1,3 @@
-
 """Module to simplify and manage file creation, reading, and writing.
 
 If run as ``__main__``, will creeate a blank input file based on the
@@ -18,39 +17,37 @@ import referencing
 
 
 class FileHandler:
-    """Class of attributes and methods to create, read, and write to
-    files.
+    """Class of attributes and methods to create, read, and write to files.
 
     Parameters
     ----------
-    schema_file : str, default='schema.json'
+    ``schema_file`` : :py:`str`, default=``"schema.json"``
         The name of the JSON schema file used for the input files.
 
-        Found in :const:`INPUT_DIR` but does not contain the
-        directory. Best to keep it to the default unless you want to
-        write an entire JSON schema.
-    input_file : str, default='sample.csv'
+        Found in :attr:`INPUT_DIR` but does not contain the directory. Best to
+        keep it to the default unless you want to write an entire custom JSON
+        schema.
+    ``input_file`` : `str`, default=``"sample.csv"``
         The filepath of the input file, including file extension.
 
-        Accepts both with and without the directory.
-        The output file will have the same name
-        but with the ".txt" file extension instead.
+        Accepts both with and without the directory. The output file will have
+        the same name but with the ".txt" file extension instead.
 
     Attributes
     ----------
-    INPUT_DIR : :class:`pathlib.Path`
+    ``INPUT_DIR`` : :class:`pathlib.Path`
         Represents the directory that contains the input files.
-    SCHEMA_DIR : :class:`pathlib.Path`
-        Represents the directory that contains the schema files used for
-        JSON formatting.
-    OUTPUT_DIR : :class:`pathlib.Path`
+    ``SCHEMA_DIR`` : :class:`pathlib.Path`
+        Represents the directory that contains the schema files used for JSON
+        formatting.
+    ``OUTPUT_DIR`` : :class:`pathlib.Path`
         Represents the directory that contains the output files.
-    INPUT_FILE_PATH : str
+    ``INPUT_FILE_PATH`` : `str`
         A string that stores the path of the input file.
-    INPUT_DATA : Any
+    ``INPUT_DATA`` : Any
         The object that is stored in the file specified by
-        :const:`INPUT_FILE_PATH`.
-    OUTPUT_FILE_PATH : str
+        :attr:`INPUT_FILE_PATH`.
+    ``OUTPUT_FILE_PATH`` : `str`
         A string that stores the path of the output file.
 
     Raises
@@ -98,28 +95,27 @@ class FileHandler:
             self.SCHEMA = json.load(file)
 
     def open_output_file(self) -> None:
-        """Open an :class:`io.TextIOWrapper` for :const:`OUTPUT_FILE_PATH`.
-        Should be closed by :meth:`clear_output_file()` after done writing
-        to it.
+        """Open an :class:`io.TextIOWrapper` for :attr:`OUTPUT_FILE_PATH`.
+        Should be closed by :meth:`clear_output_file` after done writing to it.
 
         Raises
         ------
-        OSError
-            If :const:`OUTPUT_FILE_PATH` does not point to an accessible file.
+        :type:`OSError`
+            If :attr:`OUTPUT_FILE_PATH` does not point to an accessible file.
         """
         self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file. If
-        :const:`OUTPUT_FILE_PATH` has already been opened, then the string
-        will be appended to it without closing.
+        :attr:`OUTPUT_FILE_PATH` has already been opened, then the string will
+        be appended to it without closing.
 
-        Elsewise, it will open :const:`OUTPUT_FILE_PATH`, append to it,
-        and then close it.
+        Elsewise, it will open :attr:`OUTPUT_FILE_PATH`, append to it, and then
+        close it.
 
         Parameters
         ----------
-        output_string : str, default = '\\n'
+        ``output_string`` : str, default = '\n'
             The string to be appended to the given file.
 
         Raises
@@ -140,7 +136,7 @@ class FileHandler:
 
         Raises
         ------
-        OSError
+        :type:`OSError`
             If the output file is not writeable.
         """
         # If the output file has already been used, use it.
@@ -151,7 +147,7 @@ class FileHandler:
             self.__output_io_wrapper.truncate(0)
 
     def close_output_file(self) -> None:
-        """Close the :attr:`__output_io_wrapper`. If it is not open,
+        """Close the attribute :attr:`__output_io_wrapper`. If it is not open,
         nothing happens.
         """
         # Check if the TextIOWrapper exists.
@@ -164,13 +160,13 @@ class FileHandler:
 
         Parameters
         ----------
-        uri : str
+        ``uri`` : `str`
             The URI of the JSON file to read. The file will be assumed to
-            be under :const:`SCHEMA_DIR`.
+            be under :attr:`SCHEMA_DIR`.
 
         Returns
         -------
-        referencing.Resource
+        :class:`referencing.Resource`
             The contents of the JSON file as a Python object.
         """
         pathlib.Path = self.SCHEMA_DIR / uri
@@ -183,19 +179,20 @@ class FileHandler:
         input_dict: dict,
         schema: dict | None = None
     ) -> bool:
-        """Determine whether or not the given :class:`dict` is valid by the schema.
+        """Determine whether or not the given :type:`dict` is valid by the
+        schema.
 
         Parameters
         ----------
-        input_dict : :class:`dict`
+        ``input_dict`` : :type:`dict`
             The :class:`dict` that is being validated.
-        schema : dict, optional
+        ``schema`` : :type:`dict`, optional
             The JSON schema or schema property to validate the other JSON
-            :class:`dict` with. If ``None``, defaults to :const:`SCHEMA`.
+            :class:`dict` with. If ``None``, defaults to :attr:`SCHEMA`.
 
         Returns
         -------
-            Whether the given dictionary conforms to :const:`SCHEMA`.
+            Whether the given dictionary conforms to :attr:`SCHEMA`.
         """
         # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
@@ -218,17 +215,16 @@ class FileHandler:
     def write_input_file(self, input_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a input JSON file.
 
-        The file must be in :const:`INPUT_DIR`. The `input_dict` must
-        conform to the JSON schemas in :const:`SCHEMA_DIR`.
+        The file must be in :attr:`INPUT_DIR`. The ``input_dict`` must
+        conform to the JSON schemas in :attr:`SCHEMA_DIR`.
 
-        If the file does not exist, a new file will be created.
-        If the file *does* exist, any pre-existing content will be
-        overwritten. The file will have the same name as
-        :const:`INPUT_FILE_PATH`.
+        If the file does *not* exist, a new file will be created. If the file
+        *does* exist, any pre-existing content will be overwritten. The file
+        will have the same name as :attr:`INPUT_FILE_PATH`.
 
         Parameters
         ----------
-        input_dict : :class:`dict`
+        ``input_dict`` : :type:`dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -242,15 +238,14 @@ class FileHandler:
             )
 
     def create_json_template(self, schema: dict | None = None) -> typing.Any:
-        """Recursively loop through the provided schema
-        and generate a schema-valid dictionary of default values.
+        """Recursively loop through the provided schema and generate a
+        schema-valid dictionary of default values.
 
         Parameters
         ----------
-        schema : dict, optional
-            The JSON schema or schema property to generate a :class:`dict` with.
-            If ``None``, the value of ``schema`` will be
-            assumed.
+        ``schema`` : :type:`dict`, optional
+            The JSON schema or schema property to generate a :type:`dict` with.
+            If ``None``, the value of ``schema`` will be assumed.
 
         Returns
         -------

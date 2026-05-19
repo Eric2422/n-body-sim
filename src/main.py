@@ -16,50 +16,49 @@ import vectors
 
 
 class Simulation:
-    """One simulation of a given initial conditions of particles and
-    fields.
+    """One simulation of a given initial conditions of particles and fields.
 
-    Contains the theta; time step size; constant, uniform gravitational
-    field; constant, uniform electrical field; constant, uniform magnetic
-    field; and particles used in the simulation.
+    Contains the Barnes-Hut approximation parameter; time step size; constant,
+    uniform gravitational field; constant, uniform electrical field; constant,
+    uniform magnetic field; and particles used in the simulation.
 
     Keeps track of the previous positions of all the partices.
 
     Parameters
     ----------
-    theta : float, default=0.5
+    ``theta`` : `float`, default=0.5
         The Barnes-Hut approximation parameter.
-    time_step_size : float, default=1.0
+    ``time_step_size`` : `float`, default=1.0
         The time increment of the simulation in seconds (s).
-    gravitational_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+    ``gravitational_field`` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
         A constant, uniform gravitational field.
-    electric_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+    ``electric_field`` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
         A constant, uniform electric field.
-    magnetic_field : :type:`vectors.FieldVector`, default=np.zeros(3, dtype=float)
+    ``magnetic_field`` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
         A constant, uniform magnetic field.
-    particles_list : list[:class:`particles.PointParticle`], default=[]
+    ``particles_list`` : list[:class:`particles.PointParticle`], default=``[]``
         A :class:`list` of particles that are interacting with each other
         in the simulation.
 
     Attributes
     ----------
-    particles_list : list[PointParticle]
-        A :class:`list` of particles that are interacting with each other
-        in the simulation.
-    particles_data : :class:`pandas.DataFrame`
+    ``particles_list`` : list[:class:`particles.PointParticle`]
+        A :class:`list` of particles that are interacting with each other in the
+        simulation.
+    ``particles_data`` : :class:`pandas.DataFrame`
         A record of all the particles' states over the course of the simulation.
-    gravitational_field : :class:`fields.FieldVector`
+    ``gravitational_field`` : :class:`vectors.FieldVector`
         A constant, uniform gravitational field.
-    electric_field : :class:`fields.FieldVector`
+    ``electric_field`` : :class:`vectors.FieldVector`
         A constant, uniform electric field.
-    magnetic_field : :class:`fields.FieldVector`
+    ``magnetic_field`` : :class:`vectors.FieldVector`
         A constant, uniform magnetic field.
-    current_time_step : int
-        The number of time steps that have passed since the beginning of
-        the simulation.
-    time_step_size : float
+    ``current_time_step`` : `int`
+        The number of time steps that have passed since the beginning of the
+        simulation.
+    ``time_step_size`` : `float`
         The time increment of the simulation in seconds (s).
-    theta : float
+    ``theta`` : `float`
         The Barnes-Hut approximation parameter.
     """
 
@@ -97,7 +96,7 @@ class Simulation:
 
         Parameters
         ----------
-        particle : :class:`particles.PointParticle`
+        ``particle`` : :class:`particles.PointParticle`
             A particle to save the state of.
         """
         # Save particle position data
@@ -115,12 +114,12 @@ class Simulation:
 
         Returns
         -------
-        str
+        :py:class:`str`
             A string describing the state of all particles.
         """
 
         # Add the initial time and particle data to the file
-        output_string = f't={self.current_time_step * self.time_step_size}\n'
+        output_string = f"t={self.current_time_step * self.time_step_size}\n"
 
         for particle in self.particles_list:
             output_string += particle.__str__() + '\n'
@@ -136,31 +135,28 @@ class Simulation:
         position: vectors.PositionVector | None = None,
         velocity: vectors.VelocityVector | None = None
     ) -> vectors.ForceVector:
-        """Calculate the force exerted on a particle by the fields and
-        other particles.
+        """Calculate the force exerted on a particle by the fields and other
+        particles.
 
         Parameters
         ----------
-        particle : :class:`particles.PointParticle`
+        ``particle`` : :class:`particles.PointParticle`
             The particle to calculate the force upon.
-        barnes_hut_root : BarnesHutNode
+        ``barnes_hut_root`` : :class:`particles.BarnesHutNode`
             The Barnes-Hut tree that contains all the particles.
-        position : :type:`vectors.PositionVector`, optional
-            A hypothetical position of the particle to calculate with,
-            possibly different from its current position.
-            If ``None``, defaults to
+        ``position`` : :class:`vectors.PositionVector`, optional
+            A hypothetical position of the particle to calculate with, possibly
+            different from its current position. If ``None``, defaults to
             :attr:`particle.position <particles.PointParticle.position>`.
-        velocity : :type:`vectors.VelocityVector`, optional
-            A hypothetical velocity of the particle to calculate with,
-            possibly different from its current position.
-            If ``None``, defaults to
+        ``velocity`` : :class:`vectors.VelocityVector`, optional
+            A hypothetical velocity of the particle to calculate with, possibly
+            different from its current position. If ``None``, defaults to
             :attr:`particle.velocity <particles.PointParticle.velocity>`.
 
         Returns
         -------
-        :type:`vectors.ForceVector`
-            The force exerted on a particle by the fields and other
-            particles.
+        :class:`vectors.ForceVector`
+            The force exerted on a particle by the fields and other particles.
         """
         if (position is None):
             position = particle.position
@@ -285,13 +281,13 @@ class Simulation:
 
         Parameters
         ----------
-        num_time_steps : int, default=1
+        ``num_time_steps`` : :py:class:`int`, default=1
             The number of time steps that the simulation runs by.
-        file_handler : :class:`files.FileHandler`, optional
-            A :class:`files.FileHandler` object,
+        ``file_handler`` : :class:`files.FileHandler`, optional
+            A :class:`~files.FileHandler` object,
             which writes data into a text file as the simulation runs.
             If ``None``, do not write any data into a file.
-        print_progress : bool, default=False
+        ``print_progress`` : `bool`, default=``False``
             Whether to print a progress report on how much of the simulation
             has been completed.
         """
