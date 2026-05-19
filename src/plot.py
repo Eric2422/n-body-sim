@@ -13,38 +13,36 @@ import pandas as pd
 
 
 class Plot:
-    """A Matplotlib plot of the movement of particles over time. The plot
-    will be run in real-time (i.e., each second of the simulation will be
-    displayed as a second of animation).
+    """A Matplotlib plot of the movement of particles over time. The plot will
+    be run in real-time (i.e., each second of the simulation will be displayed
+    as a second of animation).
 
     Parameters
     ----------
-    data_frame : :class:`~pandas.DataFrame`
+    ``data_frame`` : :class:`pandas.DataFrame`
         A data frame with four columns: t, x, y, and z.
         Contains the time and position of particles.
-    time_step_size : float, default=1.0
+    ``time_step_size`` : `float`, default=1.0
         The amount of time between each frame.
-    margin : float, default=1.25
-        The amount of extra space in each dimension as a factor of its
-        size.
+    ``margin`` : `float`, default=1.25
+        The amount of extra space in each dimension as a factor of its size.
 
-        For example, if the x dimension has a range of [-1.0, 1.0], a
-        margin of 1.25 means that plot will have an x range of 
-        [-1.5, 1.5].
-    min : float, default=1.0
+        For example, if the x dimension has a range of [-1.0, 1.0], a margin of
+        1.25 means that plot will have an x range of  [-1.5, 1.5].
+    ``min`` : `float`, default=1.0
         The minimum size of each dimension.
 
 
     Attributes
     ----------
-    DATA_FRAME : :class:`~pandas.DataFrame`
+    ``DATA_FRAME`` : :class:`pandas.DataFrame`
         The data frame that the plot will read and display as an animation.
-    PLOT : :class:`~matplotlib.lines.Line2D`
+    ``PLOT`` : :class:`matplotlib.lines.Line2D`
         The plot created internally.
-    FPS : int
+    ``FPS`` : `int`
         The number of frames per second that the animation runs at.
-    PLOT_ANIMATION : :class:`~matplotlib.lines.Line2D`
-        The animation of :const:`PLOT`.
+    ``PLOT_ANIMATION`` : :class:`matplotlib.lines.Line2D`
+        The animation of :attr:`PLOT`.
     """
 
     @typing.override
@@ -117,17 +115,17 @@ class Plot:
 
     def update(self, num: int) -> tuple[matplotlib.lines.Line2D]:
         """Update the plot points of the scatter. Passed into the ``func``
-        parameter of:class:`~animation.FuncAnimation`. See there for more
+        parameter of:class:`animation.FuncAnimation`. See there for more
         details.
 
         Parameters
         ----------
-        num : int
+        ``num`` : `int`
             The number of intervals that have elapsed.
 
         Returns
         -------
-        tuple[:class:`~matplotlib.lines.Line2D`]
+        tuple[:class:`matplotlib.lines.Line2D`]
             A tuple containing the artists used to update the plot.
         """
         # The particles are flattened into a single data frame,
@@ -152,17 +150,16 @@ class Plot:
 
     def save_to_file(self, filename: str) -> None:
         """Save the plot as a GIF file with the given name. The filename
-        will be resolved using :const:`~files.FileHandler.OUTPUT_DIR`,
+        will be resolved using :attr:`files.FileHandler.OUTPUT_DIR`,
         i.e., the GIF will be saved under the same directory as the text
         files.
 
         Parameters
         ----------
         filename : str
-            The filename that the GIF will be saved to. It does not matter
-            if it includes a file extension or what file extension is
-            used. Any file extension will be removed and replaced with
-            ``.gif``.
+            The filename that the GIF will be saved to. It does not matter if it
+            includes a file extension or what file extension is used. Any file
+            extension will be removed and replaced with ``.gif``.
         """
         ff_writer = animation.FFMpegWriter(fps=self.FPS)
         self.PLOT_ANIMATION.save(filename, writer=ff_writer)

@@ -16,7 +16,8 @@ gravitational and electromagnetic fields. All numbers are in SI base units.
 
 ## Installation
 
-1. If you have not installed Python already, [download it](https://www.python.org/downloads/).
+1. If you have not installed Python already,
+   [download it](https://www.python.org/downloads/).
 
 2. Enter into your terminal:
 
@@ -40,8 +41,9 @@ sphinx-build -M html docs/source/ docs/build/
 
 The resulting HTML files should now appear in [`docs/build/`](docs/build/).
 
-After the Sphinx documentation is built, open [`docs/build/html/index.html`](docs/build/html/index.html)
-in your browser of choice.
+After the Sphinx documentation is built, open
+[`docs/build/html/index.html`](docs/build/html/index.html) in your browser of
+choice.
 
 ## Usage
 
@@ -57,7 +59,8 @@ and generate input files.
 ### Input Files
 
 The input files set up the simulation and are located in [`input/`](./input/).
-Each input file is a JSON file validated using the schema in [`main.json`](./schemas/main.json).
+Each input file is a JSON file validated using the schema in
+[`main.json`](./schemas/main.json).
 
 The `num_time_steps` property of the input file dictates how many time steps the
 simulator runs. If it is set to 0, only the initial state will be given.
@@ -67,9 +70,9 @@ with default values as specified in the [schemas](./schemas/).
 
 ### Output Files
 
-The output files, located in [`output/`](./output/), store records of the particle
-states over time. The output file will have the same base name as the input file
-but will have a file extension of `.txt` instead.
+The output files, located in [`output/`](./output/), store records of the
+particle states over time. The output file will have the same base name as the
+input file but will have a file extension of `.txt` instead.
 
 ### Running the Simulation
 
@@ -78,7 +81,9 @@ The filename should contain the file extension (i.e., `.json`).
 
 ## References
 
-Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*. ArborJS.
+Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
+ArborJS.
 <https://arborjs.org/docs/barnes-hut>.
 
-Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow. <https://stackoverflow.com/a/62613202>
+Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
+<https://stackoverflow.com/a/62613202>
