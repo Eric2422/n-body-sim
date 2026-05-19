@@ -387,7 +387,7 @@ class BarnesHutNode:
 
     Parameters
     ----------
-    ``particles`` : :type:`list[PointParticle]`, default=``[]``
+    ``particles`` : :type:`list`[:class:`particles.PointParticle`], default=``[]``
         List of particles that are contained within this Barnes-Hut node.
     ``x_bounds`` : :type:`npt.NDArray[np.float64]`, optional
         A two-element NumPy array that contains the lower and upper x bounds in
@@ -401,6 +401,37 @@ class BarnesHutNode:
         A two-element NumPy array that contains the lower and upper z bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
+
+    Attributes
+    ----------
+    ``X_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's x dimensions.
+    ``Y_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's y dimensions.
+    ``Z_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        A 2 × 1 array containing the lower and upper limits, respectively,
+        of this node's z dimensions.
+    ``SIZE`` : float
+        The distance from one side of the node to the other.
+    ``PARTICLES`` : list[:class:`particles.PointParticle`]
+        A list of all particles included in this node.
+    ``TOTAL_MASS`` : float
+        Total mass of all particles in this node in kilograms (kg).
+    ``CENTER_OF_MASS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        The center of mass of this node in meters (m).
+    ``TOTAL_CHARGE`` : float
+        Total charge of all particles in this node in coulombs (C).
+    ``CENTER_OF_CHARGE`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        The center of charge of this node in meters (m).
+    ``CENTER_OF_CHARGE_VELOCITY`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+        The velocity of the center of charge. In other words, a
+        charge-weighted average of the velocities of particles in this
+        node. Measured in meters per second (m/s).
+    ``CHILD_NODES`` : list[:class:`particles.BarnesHutNode`]
+        The child nodes of this node. If this node is exterior, then the
+        list will be empty. Otherwise, it will have eight children.
 
     References
     ----------
@@ -479,8 +510,6 @@ class BarnesHutNode:
             )) if x_bounds is None
             else x_bounds
         )
-        """A two-element array containing the lower and upper x bounds of
-        this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
@@ -492,8 +521,6 @@ class BarnesHutNode:
             )) if y_bounds is None
             else y_bounds
         )
-        """A two-element array containing the lower and upper y bounds of
-        this node."""
 
         # If `y_bounds` is not given,
         # set it based on the minimum and maximum y positions of the particles.
@@ -505,14 +532,11 @@ class BarnesHutNode:
             )) if z_bounds is None
             else z_bounds
         )
-        """A two-element array containing the lower and upper z bounds of
-        this node."""
 
         # The centroid of the Barnes Hut node
         centroid: npt.NDArray[np.float64]
 
         self.SIZE: float
-        """The distance from one side of the node to the other."""
 
         # Make the bounds cubical if they are not.
         bounds, centroid, self.SIZE = BarnesHutNode.cube_bounds(
@@ -525,11 +549,8 @@ class BarnesHutNode:
 
         self.PARTICLES = [
             particle for particle in particles if self.particle_within_bounds(particle)]
-        """A list of all particle included in this node."""
 
         self.TOTAL_MASS = sum(particle.MASS for particle in self.PARTICLES)
-        """Total mass of all particles in this node, measured in 
-        kilograms (kg)."""
         mass_moment = sum(
             particle.MASS * particle.position for particle in self.PARTICLES)
 
@@ -539,13 +560,10 @@ class BarnesHutNode:
             mass_moment / self.TOTAL_MASS if self.TOTAL_MASS != 0
             else centroid
         )
-        """The center of mass of this cell."""
 
         self.TOTAL_CHARGE = sum(
             particle.CHARGE for particle in self.PARTICLES
         )
-        """Total charge of all particles in this node, measured in
-        coulombs (C)."""
         charge_moment = sum(
             particle.CHARGE * particle.position for particle in self.PARTICLES
         )
@@ -556,7 +574,6 @@ class BarnesHutNode:
             charge_moment / self.TOTAL_CHARGE if self.TOTAL_CHARGE != 0
             else np.zeros(3, dtype=float)
         )
-
         # Completely made-up name.
         # q * v = q * d / t = q / t * d = I * d
         # Thus, moment of current.
