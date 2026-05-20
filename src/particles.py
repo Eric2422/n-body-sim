@@ -26,28 +26,28 @@ class PointParticle:
     ``acceleration`` : :class:`vectors.AccelerationVector`, default=np.array([0.0, 0.0, 0.0])
         The initial acceleration of the particle in meters per second squared
         (m/s^2).
-    ``mass`` : float, default=1.0
+    ``mass`` : `float`, default=1.0
         The mass of the charged particle in kilograms (kg).
-    ``charge`` : float, default=0.0
+    ``charge`` : `float`, default=0.0
         The charge of the particle in coulombs (C).
 
     Attributes
     ----------
-    :attr:`current_id` : int
+    current_id : `int`
         The ID number that will be assigned to :attr:`ID` of the next object
         instantiated, increasing by one (1) every time.
-    :attr:`position` : :class:`vectors.PositionVector`
+    position : :class:`vectors.PositionVector`
         The current position of the particle in meters (m).
-    :attr:`velocity` : :class:`vectors.VelocityVector`
+    velocity : :class:`vectors.VelocityVector`
         The current velocity of the particle in meters per second (m/s).
-    :attr:`acceleration` : :class:`vectors.AccelerationVector`
+    acceleration : :class:`vectors.AccelerationVector`
         The current acceleration of the particle in meters per second
         squared (m/s^2).
-    :attr:`MASS` : `float`
+    MASS : `float`
         The mass of the particle in kilograms (kg), which should never change.
-    :attr:`CHARGE` : `float`
+    CHARGE : `float`
         The charge of the particle in coulombs (C), which should never change.
-    :attr:`ID` : `int`
+    ID : `int`
         The unique ID identifying the particle, which should never change.
     """
 
@@ -91,7 +91,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``force`` : :class:`vectors.ForceVector`, default=``np.zeros(3)``
+        ``force`` : :class:`vectors.ForceVector`, default=np.zeros(3)
             The force applied upon this particle in newtons (N).
         """
         self.acceleration = force / self.MASS
@@ -417,13 +417,13 @@ class BarnesHutNode:
 
     Attributes
     ----------
-    ``X_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``X_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's x dimensions.
-    ``Y_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``Y_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's y dimensions.
-    ``Z_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``Z_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's z dimensions.
     ``SIZE`` : float
@@ -432,13 +432,13 @@ class BarnesHutNode:
         A list of all particles included in this node.
     ``TOTAL_MASS`` : float
         Total mass of all particles in this node in kilograms (kg).
-    ``CENTER_OF_MASS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_MASS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The center of mass of this node in meters (m).
     ``TOTAL_CHARGE`` : float
         Total charge of all particles in this node in coulombs (C).
-    ``CENTER_OF_CHARGE`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_CHARGE`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The center of charge of this node in meters (m).
-    ``CENTER_OF_CHARGE_VELOCITY`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_CHARGE_VELOCITY`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The velocity of the center of charge. In other words, a
         charge-weighted average of the velocities of particles in this
         node. Measured in meters per second (m/s).
@@ -760,7 +760,7 @@ class BarnesHutNode:
 
             When 0.0, no approximation will occur.
 
-        particle_id : int, default=-1
+        ``particle_id`` : `int`, default=-1
             The ID of the particle to exclude from the force calculation.
 
             When -1, no particles will be excluded from the force calculation.
@@ -826,7 +826,7 @@ class BarnesHutNode:
             Given the distance between the point and the center of charge, it
             used to determine whether to return an approximate or exact value
             for the magnetic field. When 0.0, no approximation will occur.
-        ``particle_id`` : `int`, default=-1
+        ``particle_id`` : int, default=-1
             The ID of the particle to exclude from the force calculation.
 
             When  -1, no particles will be excluded from the force calculation.
