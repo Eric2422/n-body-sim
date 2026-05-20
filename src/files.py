@@ -21,13 +21,13 @@ class FileHandler:
 
     Parameters
     ----------
-    ``schema_file`` : :py:`str`, default=``"schema.json"``
+    ``schema_file`` : `str`, default="schema.json"
         The name of the JSON schema file used for the input files.
 
-        Found in :attr:`INPUT_DIR` but does not contain the directory. Best to
+        Found in :attr:`FileHandler.INPUT_DIR` but does not contain the directory. Best to
         keep it to the default unless you want to write an entire custom JSON
         schema.
-    ``input_file`` : `str`, default=``"sample.csv"``
+    ``input_file`` : `str`, default="sample.csv"
         The filepath of the input file, including file extension.
 
         Accepts both with and without the directory. The output file will have
@@ -52,12 +52,18 @@ class FileHandler:
 
     Raises
     ------
-    OSError
-        If `schema_file` can not be read or its formatting is incorrect.
+    :exc:`OSError`
+        If ``schema_file`` can not be read or its formatting is incorrect.
     """
+
     INPUT_DIR = pathlib.Path('./input')
+    """Represents the directory that contains the input files."""
     SCHEMA_DIR = pathlib.Path('./schemas')
+    """Represents the directory that contains the schema files used for JSON
+    formatting.
+    """
     OUTPUT_DIR = pathlib.Path('./output')
+    """Represents the directory that contains the output files."""
 
     @typing.override
     def __init__(
@@ -81,8 +87,8 @@ class FileHandler:
         except FileNotFoundError:
             self.INPUT_DATA = {}
 
-        # The output file has the same name as input_file
-        # but with the '.txt' extension.
+        # The output file has the same name as input_file but with the '.txt'
+        # extension.
         self.OUTPUT_FILE_PATH = pathlib.Path(
             FileHandler.OUTPUT_DIR /
             (pathlib.Path(input_filepath).stem + '.txt')
@@ -100,7 +106,7 @@ class FileHandler:
 
         Raises
         ------
-        :type:`OSError`
+        :exc:`OSError`
             If :attr:`OUTPUT_FILE_PATH` does not point to an accessible file.
         """
         self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
@@ -120,7 +126,7 @@ class FileHandler:
 
         Raises
         ------
-        OSError
+        :exc:`OSError`
             If the output file is not writeable.
         """
         # If the output file has already been used, use it.
@@ -136,7 +142,7 @@ class FileHandler:
 
         Raises
         ------
-        :type:`OSError`
+        :exc:`OSError`
             If the output file is not writeable.
         """
         # If the output file has already been used, use it.

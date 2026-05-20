@@ -19,13 +19,13 @@ class PointParticle:
 
     Parameters
     ----------
-    ``position`` : :class:`vectors.PositionVector`, default=``np.array(([0.0, 0.0, 0.0]))``.
+    ``position`` : :class:`vectors.PositionVector`, default=np.array(([0.0, 0.0, 0.0]))
         The initial position of the particle in meters (m).
-    ``velocity`` : :class:`vectors.VelocityVector`, default=``np.array([0.0, 0.0, 0.0])``.
+    ``velocity`` : :class:`vectors.VelocityVector`, default=np.array([0.0, 0.0, 0.0])
         The initial velocity of the particle in meters per second (m/s).
-    ``acceleration`` : :class:`vectors.AccelerationVector`, default=``np.array([0.0, 0.0, 0.0])``
-        The initial acceleration of the particle in meters per second
-        squared (m/s^2).
+    ``acceleration`` : :class:`vectors.AccelerationVector`, default=np.array([0.0, 0.0, 0.0])
+        The initial acceleration of the particle in meters per second squared
+        (m/s^2).
     ``mass`` : float, default=1.0
         The mass of the charged particle in kilograms (kg).
     ``charge`` : float, default=0.0
@@ -35,7 +35,7 @@ class PointParticle:
     ----------
     :attr:`current_id` : int
         The ID number that will be assigned to :attr:`ID` of the next object
-        instantiated, increasing by one (1) everytime.
+        instantiated, increasing by one (1) every time.
     :attr:`position` : :class:`vectors.PositionVector`
         The current position of the particle in meters (m).
     :attr:`velocity` : :class:`vectors.VelocityVector`
@@ -52,6 +52,9 @@ class PointParticle:
     """
 
     current_id = 0
+    """The ID number that will be assigned to :attr:`ID` of the next object
+    instantiated, increasing by one (1) every time.
+    """
 
     @typing.override
     def __init__(
@@ -65,13 +68,22 @@ class PointParticle:
         """Automatically increment :attr:`current_id` by 1."""
         # Represented by arrays of (x, y, z).
         self.position = position
+        """The initial position of the particle in meters (m)."""
         self.velocity = velocity
+        """The initial velocity of the particle in meters per second (m/s)."""
         self.acceleration = acceleration
+        """The initial acceleration of the particle in meters per second squared
+        (m/s^2)."""
 
         self.MASS = mass
+        """The mass of the particle in kilograms (kg), which should never change.
+        """
         self.CHARGE = charge
+        """The charge of the particle in coulombs (C), which should never change.
+        """
 
         self.ID = PointParticle.current_id
+        """The unique ID identifying the particle, which should never change."""
         PointParticle.current_id += 1
 
     def apply_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:
@@ -380,6 +392,7 @@ class BarnesHutNode:
     For brevity's sake, the mechanics of the Barnes-Hut algorithm will not be
     explained here. See the `Wikipedia article`_ or this `Arbor article`_ for a
     full explanation.
+
     .. _Wikipedia article: https://en.wikipedia.org/wiki/Barnes-Hut_simulation
     .. _Arbor article: https://arborjs.org/docs/barnes-hut
 
@@ -387,30 +400,30 @@ class BarnesHutNode:
 
     Parameters
     ----------
-    ``particles`` : :type:`list`[:class:`particles.PointParticle`], default=``[]``
+    ``particles`` : list[:class:`particles.PointParticle`], default=[]
         List of particles that are contained within this Barnes-Hut node.
-    ``x_bounds`` : :type:`npt.NDArray[np.float64]`, optional
+    ``x_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper x bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    ``y_bounds`` : :type:`npt.NDArray[np.float64]`, optional
+    ``y_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper y bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    ``z_bounds`` : :type:`npt.NDArray[np.float64]`, optional
+    ``z_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper z bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
 
     Attributes
     ----------
-    ``X_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``X_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's x dimensions.
-    ``Y_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``Y_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's y dimensions.
-    ``Z_BOUNDS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``Z_BOUNDS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's z dimensions.
     ``SIZE`` : float
@@ -419,13 +432,13 @@ class BarnesHutNode:
         A list of all particles included in this node.
     ``TOTAL_MASS`` : float
         Total mass of all particles in this node in kilograms (kg).
-    ``CENTER_OF_MASS`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_MASS`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         The center of mass of this node in meters (m).
     ``TOTAL_CHARGE`` : float
         Total charge of all particles in this node in coulombs (C).
-    ``CENTER_OF_CHARGE`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_CHARGE`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         The center of charge of this node in meters (m).
-    ``CENTER_OF_CHARGE_VELOCITY`` : :type:`npt.NDArray`[:class:`numpy.float64`]
+    ``CENTER_OF_CHARGE_VELOCITY`` : :class:`numpy.typing.NDArray`[:class:`numpy.float64`]
         The velocity of the center of charge. In other words, a
         charge-weighted average of the velocities of particles in this
         node. Measured in meters per second (m/s).
@@ -449,11 +462,11 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``x_bounds`` : :type:`npt.NDArray[np.float64]`
+        ``x_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
             The given x bounds to cube.
-        ``y_bounds`` : :type:`npt.NDArray[np.float64]`
+        ``y_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
             The given y bounds to cube.
-        ``z_bounds`` : :type:`npt.NDArray[np.float64]`
+        ``z_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
             The given z bounds to cube.
 
         Returns
@@ -744,7 +757,7 @@ class BarnesHutNode:
             used. Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value
             for the gravitational field.
-            
+
             When 0.0, no approximation will occur.
 
         particle_id : int, default=-1
