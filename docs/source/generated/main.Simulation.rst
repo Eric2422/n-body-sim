@@ -1,4 +1,4 @@
-﻿main.Simulation
+main.Simulation
 ===============
 
 .. currentmodule:: main
