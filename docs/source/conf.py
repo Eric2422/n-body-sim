@@ -28,6 +28,8 @@ extensions = [
 ]
 
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
+# napoleon_use_ivar = True
+nitpicky = True
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),

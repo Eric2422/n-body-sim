@@ -1,4 +1,4 @@
-particles.BarnesHutNode
+﻿particles.BarnesHutNode
 =======================
 
 .. currentmodule:: particles
@@ -28,18 +28,5 @@ particles.BarnesHutNode
    
 
    
-   
-   .. rubric:: Attributes
-
-   .. autosummary::
-   
-      ~BarnesHutNode.X_BOUNDS
-      ~BarnesHutNode.Y_BOUNDS
-      ~BarnesHutNode.Z_BOUNDS
-      ~BarnesHutNode.SIZE
-      ~BarnesHutNode.PARTICLES
-      ~BarnesHutNode.TOTAL_MASS
-      ~BarnesHutNode.CENTER_OF_MASS
-      ~BarnesHutNode.TOTAL_CHARGE
    
    

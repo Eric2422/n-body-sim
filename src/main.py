@@ -30,7 +30,7 @@ class Simulation:
         The Barnes-Hut approximation parameter.
     ``time_step_size`` : `float`, default=1.0
         The time increment of the simulation in seconds (s).
-    ``gravitational_field`` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
+    ``gravitational_field`` : :class:`vectors.FieldVector`, default=:numpy:func:`np.zeros(3, dtype=float) <numpy.zeros>`
         A constant, uniform gravitational field.
     ``electric_field`` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
         A constant, uniform electric field.
