@@ -1,4 +1,4 @@
-particles.PointParticle
+﻿particles.PointParticle
 =======================
 
 .. currentmodule:: particles
@@ -36,5 +36,11 @@ particles.PointParticle
    .. autosummary::
    
       ~PointParticle.current_id
+      ~PointParticle.position
+      ~PointParticle.velocity
+      ~PointParticle.acceleration
+      ~PointParticle.MASS
+      ~PointParticle.CHARGE
+      ~PointParticle.ID
    
    
