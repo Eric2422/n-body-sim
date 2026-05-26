@@ -204,8 +204,8 @@ class PointParticle:
         Notes
         -----
         It uses the "Biot-Savart Law for point charges", technically a misnomer,
-        which only approximates magnetic fields for particles with a
-        $$velocity << c$$.
+        which only approximates magnetic fields for particles with
+        non-relativistic velocity.
         """
         r = point - self.position
         distance = np.linalg.norm(r)
