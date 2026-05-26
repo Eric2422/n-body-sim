@@ -8,25 +8,10 @@
    :show-inheritance:
    :inherited-members:
 
+
+   Methods
    
+
    .. automethod:: __init__
 
-   
-   .. rubric:: Methods
-
-   .. autosummary::
-   
-      ~BarnesHutNode.__init__
-      ~BarnesHutNode.create_child_nodes
-      ~BarnesHutNode.cube_bounds
-      ~BarnesHutNode.get_electric_field_exerted
-      ~BarnesHutNode.get_gravitational_field_exerted
-      ~BarnesHutNode.get_height
-      ~BarnesHutNode.get_magnetic_field_exerted
-      ~BarnesHutNode.particle_within_bounds
-   
-   
-
-   
-   
    
