@@ -118,7 +118,7 @@ class FileHandler:
 
         Parameters
         ----------
-        `output_string` : str, default = '\\n'
+        `output_string` : str, default = '\\\\n'
             The string to be appended to the given file.
 
         Raises
