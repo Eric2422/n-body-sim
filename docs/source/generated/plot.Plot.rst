@@ -8,21 +8,10 @@
    :show-inheritance:
    :inherited-members:
 
+
+   Methods
    
+
    .. automethod:: __init__
 
-   
-   .. rubric:: Methods
-
-   .. autosummary::
-   
-      ~Plot.__init__
-      ~Plot.save_to_file
-      ~Plot.show
-      ~Plot.update
-   
-   
-
-   
-   
    
