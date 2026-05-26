@@ -32,9 +32,10 @@ pip install -r requirements.txt
 
 ## Sphinx
 
-This project suppports Sphinx documentation. There is a website for hosting the
-documentation, but it is currently broken, so you should build the documentation
-yourself.
+This project suppports Sphinx documentation. There is a
+[documentation page](https://eric2422.github.io/n-body-sim/), but it is
+currently broken (see [Issue #108](/../../issues/108)), so you should build the
+documentation yourself.
 
 After intalling, type into your terminal:
 
