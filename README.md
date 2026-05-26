@@ -1,8 +1,8 @@
 # *n*-Body Simulator
 
-A physics simulator for the interactions of charged point particles in constant,
-uniform gravitational and electromagnetic fields. However, this simulator does
-not account for relativistic or quantum effects.
+A physics simulator for the interactions of charged point particles
+in constant, uniform gravitational and electromagnetic fields.
+However, this simulator does not account for relativistic or quantum effects.
 
 All values are in SI units.
 
@@ -32,9 +32,11 @@ pip install -r requirements.txt
 
 ## Sphinx
 
-This project suppports Sphinx documentation. There is a website for hosting the
-documentation, but it is currently broken, so you should build the documentation
-yourself.
+This project suppports Sphinx documentation. There is a
+[documentation page](https://eric2422.github.io/n-body-sim/),
+but it is currently broken
+(see [Issue #108](https://github.com/Eric2422/n-body-sim/issues/108)),
+so you should build the documentation yourself.
 
 After intalling, type into your terminal:
 
@@ -44,9 +46,9 @@ sphinx-build -M html docs/source/ docs/build/
 
 The resulting HTML files should now appear in [`docs/build/`](docs/build/).
 
-After the Sphinx documentation is built, open
-[`docs/build/html/index.html`](docs/build/html/index.html) in your browser of
-choice.
+After the Sphinx documentation is built,
+open [`docs/build/html/index.html`](docs/build/html/index.html)
+in your browser of choice.
 
 ## Usage
 
@@ -66,16 +68,18 @@ Each input file is a JSON file validated using the schema in
 [`main.json`](./schemas/main.json).
 
 The `num_time_steps` property of the input file dictates how many time steps the
-simulator runs. If it is set to 0, only the initial state will be given.
+simulator runs.
+If it is set to 0, only the initial state will be given.
 
 Running `python src/files.py <input filename>` will create a JSON object filled
 with default values as specified in the [schemas](./schemas/).
 
 ### Output Files
 
-The output files, located in [`output/`](./output/), store records of the
-particle states over time. The output file will have the same base name as the
-input file but will have a file extension of `.txt` instead.
+The output files, located in [`output/`](./output/),
+store records of the particle states over time.
+The output file will have the same base name as the input file
+but will have a file extension of `.txt` instead.
 
 ### Running the Simulation
 
