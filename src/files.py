@@ -24,9 +24,11 @@ class FileHandler:
     `schema_file` : `str`, default="schema.json"
         The name of the JSON schema file used for the input files.
 
-        Found in :attr:`FileHandler.INPUT_DIR` but does not contain the directory. Best to
-        keep it to the default unless you want to write an entire custom JSON
-        schema.
+        The file name will automatically be resolved with respect to
+        :attr:`FileHandler.INPUT_DIR`, so it should not include the directory at
+        the beginning.
+        Best to keep it to the default unless you want to write an entire custom
+        JSON schema.
     `input_file` : `str`, default="sample.csv"
         The filepath of the input file, including file extension.
 
