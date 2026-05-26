@@ -19,16 +19,16 @@ class PointParticle:
 
     Parameters
     ----------
-    ``position`` : :class:`vectors.PositionVector`, default=np.array(([0.0, 0.0, 0.0]))
+    `position` : :class:`vectors.PositionVector`, default=np.array(([0.0, 0.0, 0.0]))
         The initial position of the particle in meters (m).
-    ``velocity`` : :class:`vectors.VelocityVector`, default=np.array([0.0, 0.0, 0.0])
+    `velocity` : :class:`vectors.VelocityVector`, default=np.array([0.0, 0.0, 0.0])
         The initial velocity of the particle in meters per second (m/s).
-    ``acceleration`` : :class:`vectors.AccelerationVector`, default=np.array([0.0, 0.0, 0.0])
+    `acceleration` : :class:`vectors.AccelerationVector`, default=np.array([0.0, 0.0, 0.0])
         The initial acceleration of the particle in meters per second squared
         (m/s^2).
-    ``mass`` : `float`, default=1.0
+    `mass` : `float`, default=1.0
         The mass of the charged particle in kilograms (kg).
-    ``charge`` : `float`, default=0.0
+    `charge` : `float`, default=0.0
         The charge of the particle in coulombs (C).
 
     Attributes
@@ -79,7 +79,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``force`` : :class:`vectors.ForceVector`, default=np.zeros(3)
+        `force` : :class:`vectors.ForceVector`, default=np.zeros(3)
             The force applied upon this particle in newtons (N).
         """
         self.acceleration = force / self.MASS
@@ -93,7 +93,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The coordinates of the point that this particle is exerting a
             gravitational field upon, in meters (m).
 
@@ -121,7 +121,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``gravitational_field`` : :class:`vectors.FieldVector`
+        `gravitational_field` : :class:`vectors.FieldVector`
             The gravitational field acting upon this particle,
             in newtons per kilogram (N/kg).
 
@@ -141,7 +141,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The point to calculate the electric field at in meters (m).
 
         Returns
@@ -171,7 +171,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``electric_field`` : :class:`vectors.FieldVector`
+        `electric_field` : :class:`vectors.FieldVector`
             The electric field acting upon this particle in newtons per
             coulomb (N/C).
 
@@ -192,7 +192,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The point at which to calculate the magnetic field in meters (m).
 
         Returns
@@ -229,9 +229,9 @@ class PointParticle:
 
         Parameters
         ----------
-        ``magnetic_field`` : :class:`vectors.FieldVector`
+        `magnetic_field` : :class:`vectors.FieldVector`
             The magnetic field acting upon this particle in teslas (T).
-        ``velocity`` : :class:`vectors.FieldVector`, optional
+        `velocity` : :class:`vectors.FieldVector`, optional
             The velocity to use for the magnetic force calculations. If
             ``None``, defaults to :attr:`velocity`.
 
@@ -261,13 +261,13 @@ class PointParticle:
 
         Parameters
         ----------
-        ``gravitational_field`` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `gravitational_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
             The gravitational field acting upon this particle.
-        ``electric_field`` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `electric_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
             The electric field acting upon this particle.
-        ``magnetic_field`` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `magnetic_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
             The magnetic field acting upon this particle.
-        ``velocity`` : :class:`vectors.VelocityVector`, optional.
+        `velocity` : :class:`vectors.VelocityVector`, optional.
             The velocity to use for the magnetic force calculations,
             which may differ from :attr:`velocity`. If ``None``, default to
             :attr:`velocity`.
@@ -295,13 +295,13 @@ class PointParticle:
 
         Parameters
         ----------
-        ``gravitational_field`` : :class:`vectors.FieldVector`
+        `gravitational_field` : :class:`vectors.FieldVector`
             The gravitational field acting upon this particle in newtons per
             kilogram (N/kg).
-        ``electric_field`` : :class:`vectors.FieldVector`
+        `electric_field` : :class:`vectors.FieldVector`
             The electric field acting upon this particle in newtons per
             coulomb (N/C).
-        ``magnetic_field`` : :class:`vectors.FieldVector`
+        `magnetic_field` : :class:`vectors.FieldVector`
             The magnetic field acting upon this particle in teslas (T).
         """
         self.apply_force(
@@ -319,7 +319,7 @@ class PointParticle:
 
         Parameters
         ----------
-        ``value`` : :class:`object`
+        `value` : :class:`object`
             The :class:`object` to compare against this :class:`PointParticle`
             for equality.
 
@@ -388,49 +388,49 @@ class BarnesHutNode:
 
     Parameters
     ----------
-    ``particles`` : list[:class:`particles.PointParticle`], default=[]
+    `particles` : list[:class:`particles.PointParticle`], default=[]
         List of particles that are contained within this Barnes-Hut node.
-    ``x_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `x_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper x bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    ``y_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `y_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper y bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    ``z_bounds`` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `z_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
         A two-element NumPy array that contains the lower and upper z bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
 
     Attributes
     ----------
-    ``X_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `X_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's x dimensions.
-    ``Y_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `Y_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's y dimensions.
-    ``Z_BOUNDS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `Z_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's z dimensions.
-    ``SIZE`` : float
+    `SIZE` : float
         The distance from one side of the node to the other.
-    ``PARTICLES`` : list[:class:`particles.PointParticle`]
+    `PARTICLES` : list[:class:`particles.PointParticle`]
         A list of all particles included in this node.
-    ``TOTAL_MASS`` : float
+    `TOTAL_MASS` : float
         Total mass of all particles in this node in kilograms (kg).
-    ``CENTER_OF_MASS`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `CENTER_OF_MASS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The center of mass of this node in meters (m).
-    ``TOTAL_CHARGE`` : float
+    `TOTAL_CHARGE` : float
         Total charge of all particles in this node in coulombs (C).
-    ``CENTER_OF_CHARGE`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `CENTER_OF_CHARGE` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The center of charge of this node in meters (m).
-    ``CENTER_OF_CHARGE_VELOCITY`` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `CENTER_OF_CHARGE_VELOCITY` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
         The velocity of the center of charge. In other words, a
         charge-weighted average of the velocities of particles in this
         node. Measured in meters per second (m/s).
-    ``CHILD_NODES`` : list[:class:`particles.BarnesHutNode`]
+    `CHILD_NODES` : list[:class:`particles.BarnesHutNode`]
         The child nodes of this node. If this node is exterior, then the
         list will be empty. Otherwise, it will have eight children.
 
@@ -450,11 +450,11 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``x_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
+        `x_bounds` : :class:`numpy.typing.NDArray[np.float64]`
             The given x bounds to cube.
-        ``y_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
+        `y_bounds` : :class:`numpy.typing.NDArray[np.float64]`
             The given y bounds to cube.
-        ``z_bounds`` : :class:`numpy.typing.NDArray[np.float64]`
+        `z_bounds` : :class:`numpy.typing.NDArray[np.float64]`
             The given z bounds to cube.
 
         Returns
@@ -642,7 +642,7 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``particle`` : :class:`PointParticle`
+        `particle` : :class:`PointParticle`
             The particle to check.
 
         Returns
@@ -672,11 +672,11 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The position to calculate the gravitational field at measured in
             meters (m).
 
-        ``theta`` : `float`, default=0.0
+        `theta` : `float`, default=0.0
             The value of theta, the Barnes-Hut approximation parameter being
             used.
 
@@ -684,7 +684,7 @@ class BarnesHutNode:
             to determine whether to return an approximate or exact value for the
             gravitational field. When 0.0, no approximation will occur.
 
-        ``particle_id`` : `int`, default=-1
+        `particle_id` : `int`, default=-1
             The ID of the particle to exclude from the force calculation.
 
             When the value is -1, no particles will be excluded from the force
@@ -737,10 +737,10 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The position to calculate the electric field at.
             Measured in meters (m).
-        ``theta`` : `float`, default=0.0
+        `theta` : `float`, default=0.0
             The value of theta, the Barnes-Hut approximation parameter being
             used. Given the distance between the point and the center of charge,
             it used to determine whether to return an approximate or exact value
@@ -748,7 +748,7 @@ class BarnesHutNode:
 
             When 0.0, no approximation will occur.
 
-        ``particle_id`` : `int`, default=-1
+        `particle_id` : `int`, default=-1
             The ID of the particle to exclude from the force calculation.
 
             When -1, no particles will be excluded from the force calculation.
@@ -804,17 +804,17 @@ class BarnesHutNode:
 
         Parameters
         ----------
-        ``point`` : :class:`vectors.PositionVector`
+        `point` : :class:`vectors.PositionVector`
             The point at which to calculate the magnetic field. Measured in
             meters (m).
-        ``theta`` : `float`, default=0.0
+        `theta` : `float`, default=0.0
             The value of theta, the Barnes-Hut approximation parameter being
             used.
 
             Given the distance between the point and the center of charge, it
             used to determine whether to return an approximate or exact value
             for the magnetic field. When 0.0, no approximation will occur.
-        ``particle_id`` : int, default=-1
+        `particle_id` : int, default=-1
             The ID of the particle to exclude from the force calculation.
 
             When  -1, no particles will be excluded from the force calculation.

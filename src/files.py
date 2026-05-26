@@ -37,19 +37,19 @@ class FileHandler:
 
     Attributes
     ----------
-    INPUT_DIR : :class:`pathlib.Path`
-        Represents the directory that contains the input files.
-    SCHEMA_DIR : :class:`pathlib.Path`
-        Represents the directory that contains the schema files used for JSON
-        formatting.
-    OUTPUT_DIR : :class:`pathlib.Path`
-        Represents the directory that contains the output files.
-    INPUT_FILE_PATH : `str`
+    `INPUT_DIR` : :class:`pathlib.Path`
+        Static path represting the directory that contains the input files.
+    `SCHEMA_DIR` : :class:`pathlib.Path`
+        Static path representing the directory that contains the schema files
+        used for JSON formatting.
+    `OUTPUT_DIR` : :class:`pathlib.Path`
+        Static path representing the directory that contains the output files.
+    `INPUT_FILE_PATH` : `str`
         A string that stores the path of the input file.
-    INPUT_DATA : Any
+    `INPUT_DATA` : Any
         The object that is stored in the file specified by
         :attr:`INPUT_FILE_PATH`.
-    OUTPUT_FILE_PATH : `str`
+    `OUTPUT_FILE_PATH` : `str`
         A string that stores the path of the output file.
 
     Raises
@@ -118,7 +118,7 @@ class FileHandler:
 
         Parameters
         ----------
-        ``output_string`` : str, default = '\n'
+        `output_string` : str, default = '\\n'
             The string to be appended to the given file.
 
         Raises
@@ -163,7 +163,7 @@ class FileHandler:
 
         Parameters
         ----------
-        ``uri`` : `str`
+        `uri` : `str`
             The URI of the JSON file to read. The file will be assumed to
             be under :attr:`SCHEMA_DIR`.
 
@@ -187,9 +187,9 @@ class FileHandler:
 
         Parameters
         ----------
-        ``input_dict`` : :type:`dict`
+        `input_dict` : :type:`dict`
             The :class:`dict` that is being validated.
-        ``schema`` : :type:`dict`, optional
+        `schema` : :type:`dict`, optional
             The JSON schema or schema property to validate the other JSON
             :class:`dict` with. If ``None``, defaults to :attr:`SCHEMA`.
 
@@ -227,7 +227,7 @@ class FileHandler:
 
         Parameters
         ----------
-        ``input_dict`` : :type:`dict`
+        `input_dict` : :type:`dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -246,7 +246,7 @@ class FileHandler:
 
         Parameters
         ----------
-        ``schema`` : :type:`dict`, optional
+        `schema` : :type:`dict`, optional
             The JSON schema or schema property to generate a :type:`dict` with.
             If ``None``, the value of ``schema`` will be assumed.
 

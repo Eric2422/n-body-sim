@@ -19,29 +19,29 @@ class Plot:
 
     Parameters
     ----------
-    ``data_frame`` : :class:`pandas.DataFrame`
+    `data_frame` : :class:`pandas.DataFrame`
         A data frame with four columns: t, x, y, and z.
         Contains the time and position of particles.
-    ``time_step_size`` : `float`, default=1.0
+    `time_step_size` : `float`, default=1.0
         The amount of time between each frame.
-    ``margin`` : `float`, default=1.25
+    `margin` : `float`, default=1.25
         The amount of extra space in each dimension as a factor of its size.
 
         For example, if the x dimension has a range of [-1.0, 1.0], a margin of
         1.25 means that plot will have an x range of  [-1.5, 1.5].
-    ``min`` : `float`, default=1.0
+    `min` : `float`, default=1.0
         The minimum size of each dimension.
 
 
     Attributes
     ----------
-    ``DATA_FRAME`` : :class:`pandas.DataFrame`
+    `DATA_FRAME` : :class:`pandas.DataFrame`
         The data frame that the plot will read and display as an animation.
-    ``PLOT`` : :class:`matplotlib.lines.Line2D`
+    `PLOT` : :class:`matplotlib.lines.Line2D`
         The plot created internally.
-    ``FPS`` : `int`
+    `FPS` : `int`
         The number of frames per second that the animation runs at.
-    ``PLOT_ANIMATION`` : :class:`matplotlib.lines.Line2D`
+    `PLOT_ANIMATION` : :class:`matplotlib.lines.Line2D`
         The animation of :attr:`PLOT`.
     """
 
@@ -120,7 +120,7 @@ class Plot:
 
         Parameters
         ----------
-        ``num`` : `int`
+        `num` : `int`
             The number of intervals that have elapsed.
 
         Returns
