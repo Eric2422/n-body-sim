@@ -1,7 +1,10 @@
 # *n*-Body Simulator
 
-A physics simulator for the interactions of point particles in constant, uniform
-gravitational and electromagnetic fields. All numbers are in SI base units.
+A physics simulator for the interactions of charged point particles in constant,
+uniform gravitational and electromagnetic fields. However, this simulator does
+not account for relativistic or quantum effects.
+
+All values are in SI units.
 
 ## Table of Contents
 
