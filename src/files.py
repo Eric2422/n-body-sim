@@ -21,13 +21,13 @@ class FileHandler:
 
     Parameters
     ----------
-    ``schema_file`` : `str`, default="schema.json"
+    `schema_file` : `str`, default="schema.json"
         The name of the JSON schema file used for the input files.
 
         Found in :attr:`FileHandler.INPUT_DIR` but does not contain the directory. Best to
         keep it to the default unless you want to write an entire custom JSON
         schema.
-    ``input_file`` : `str`, default="sample.csv"
+    `input_file` : `str`, default="sample.csv"
         The filepath of the input file, including file extension.
 
         Accepts both with and without the directory. The output file will have
@@ -35,19 +35,19 @@ class FileHandler:
 
     Attributes
     ----------
-    ``INPUT_DIR`` : :class:`pathlib.Path`
+    INPUT_DIR : :class:`pathlib.Path`
         Represents the directory that contains the input files.
-    ``SCHEMA_DIR`` : :class:`pathlib.Path`
+    SCHEMA_DIR : :class:`pathlib.Path`
         Represents the directory that contains the schema files used for JSON
         formatting.
-    ``OUTPUT_DIR`` : :class:`pathlib.Path`
+    OUTPUT_DIR : :class:`pathlib.Path`
         Represents the directory that contains the output files.
-    ``INPUT_FILE_PATH`` : `str`
+    INPUT_FILE_PATH : `str`
         A string that stores the path of the input file.
-    ``INPUT_DATA`` : Any
+    INPUT_DATA : Any
         The object that is stored in the file specified by
         :attr:`INPUT_FILE_PATH`.
-    ``OUTPUT_FILE_PATH`` : `str`
+    OUTPUT_FILE_PATH : `str`
         A string that stores the path of the output file.
 
     Raises
@@ -57,13 +57,8 @@ class FileHandler:
     """
 
     INPUT_DIR = pathlib.Path('./input')
-    """Represents the directory that contains the input files."""
     SCHEMA_DIR = pathlib.Path('./schemas')
-    """Represents the directory that contains the schema files used for JSON
-    formatting.
-    """
     OUTPUT_DIR = pathlib.Path('./output')
-    """Represents the directory that contains the output files."""
 
     @typing.override
     def __init__(

@@ -34,8 +34,8 @@ class PointParticle:
     Attributes
     ----------
     current_id : `int`
-        The ID number that will be assigned to :attr:`ID` of the next object
-        instantiated, increasing by one (1) every time.
+        The static ID number that will be assigned to :attr:`ID` of the next
+        object instantiated, increasing by one (1) every time.
     position : :class:`vectors.PositionVector`
         The current position of the particle in meters (m).
     velocity : :class:`vectors.VelocityVector`
@@ -52,9 +52,6 @@ class PointParticle:
     """
 
     current_id = 0
-    """The ID number that will be assigned to :attr:`ID` of the next object
-    instantiated, increasing by one (1) every time.
-    """
 
     @typing.override
     def __init__(
@@ -68,22 +65,13 @@ class PointParticle:
         """Automatically increment :attr:`current_id` by 1."""
         # Represented by arrays of (x, y, z).
         self.position = position
-        """The initial position of the particle in meters (m)."""
         self.velocity = velocity
-        """The initial velocity of the particle in meters per second (m/s)."""
         self.acceleration = acceleration
-        """The initial acceleration of the particle in meters per second squared
-        (m/s^2)."""
 
         self.MASS = mass
-        """The mass of the particle in kilograms (kg), which should never change.
-        """
         self.CHARGE = charge
-        """The charge of the particle in coulombs (C), which should never change.
-        """
 
         self.ID = PointParticle.current_id
-        """The unique ID identifying the particle, which should never change."""
         PointParticle.current_id += 1
 
     def apply_force(self, force: vectors.ForceVector = np.zeros(3)) -> None:

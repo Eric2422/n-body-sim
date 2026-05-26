@@ -1,4 +1,4 @@
-main.Simulation
+﻿main.Simulation
 ===============
 
 .. currentmodule:: main
@@ -8,23 +8,10 @@ main.Simulation
    :show-inheritance:
    :inherited-members:
 
+
+   Methods
    
+
    .. automethod:: __init__
 
-   
-   .. rubric:: Methods
-
-   .. autosummary::
-   
-      ~Simulation.__init__
-      ~Simulation.calculate_particle_force
-      ~Simulation.get_particles_string
-      ~Simulation.record_particle_data
-      ~Simulation.run
-      ~Simulation.time_step
-   
-   
-
-   
-   
    
