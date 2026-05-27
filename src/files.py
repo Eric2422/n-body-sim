@@ -25,15 +25,16 @@ class FileHandler:
         The name of the JSON schema file used for the input files.
 
         The file name will automatically be resolved with respect to
-        :attr:`FileHandler.INPUT_DIR`, so it should not include the directory at
-        the beginning.
+        :attr:`FileHandler.INPUT_DIR`,
+        so it should not include the directory at the beginning.
         Best to keep it to the default unless you want to write an entire custom
         JSON schema.
     `input_file` : `str`, default="sample.csv"
         The filepath of the input file, including file extension.
 
-        Accepts both with and without the directory. The output file will have
-        the same name but with the ".txt" file extension instead.
+        Accepts both with and without the directory.
+        The output file will have the same name
+        but with the ".txt" file extension instead.
 
     Attributes
     ----------
@@ -46,7 +47,7 @@ class FileHandler:
         Static path representing the directory that contains the output files.
     `INPUT_FILE_PATH` : `str`
         A string that stores the path of the input file.
-    `INPUT_DATA` : Any
+    `INPUT_DATA` : `Any`
         The object that is stored in the file specified by
         :attr:`INPUT_FILE_PATH`.
     `OUTPUT_FILE_PATH` : `str`
@@ -109,17 +110,18 @@ class FileHandler:
         self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
 
     def append_to_output_file(self, output_string: str = '\n') -> None:
-        """Append the given string into the output file. If
-        :attr:`OUTPUT_FILE_PATH` has already been opened, then the string will
-        be appended to it without closing.
+        """Append the given string into the output file.
+        If :attr:`OUTPUT_FILE_PATH` has already been opened,
+        then the string will be appended to it without closing.
 
-        Elsewise, it will open :attr:`OUTPUT_FILE_PATH`, append to it, and then
+        Elsewise, it will open :attr:`OUTPUT_FILE_PATH`, append to it, and
         close it.
 
         Parameters
         ----------
-        `output_string` : str, default = '\\\\n'
-            The string to be appended to the given file.
+        `output_string` : `str`, default = '\\\\n'
+            The string to be appended to the given file, by default a newline
+            ('\\\\n').
 
         Raises
         ------
@@ -150,8 +152,8 @@ class FileHandler:
             self.__output_io_wrapper.truncate(0)
 
     def close_output_file(self) -> None:
-        """Close the attribute :attr:`__output_io_wrapper`. If it is not open,
-        nothing happens.
+        """Close the attribute :attr:`__output_io_wrapper`.
+        If it is not open, nothing happens.
         """
         # Check if the TextIOWrapper exists.
         # If not, the operation fails.
@@ -164,8 +166,8 @@ class FileHandler:
         Parameters
         ----------
         `uri` : `str`
-            The URI of the JSON file to read. The file will be assumed to
-            be under :attr:`SCHEMA_DIR`.
+            The URI of the JSON file to read.
+            The file will be assumed to be under :attr:`SCHEMA_DIR`.
 
         Returns
         -------
@@ -182,16 +184,15 @@ class FileHandler:
         input_dict: dict,
         schema: dict | None = None
     ) -> bool:
-        """Determine whether or not the given :type:`dict` is valid by the
-        schema.
+        """Determine whether or not the given `dict` is valid by the schema.
 
         Parameters
         ----------
-        `input_dict` : :type:`dict`
-            The :class:`dict` that is being validated.
-        `schema` : :type:`dict`, optional
+        `input_dict` : `dict`
+            The `dict` that is being validated.
+        `schema` : `dict`, optional
             The JSON schema or schema property to validate the other JSON
-            :class:`dict` with. If ``None``, defaults to :attr:`SCHEMA`.
+            `dict` with. If ``None``, defaults to :attr:`SCHEMA`.
 
         Returns
         -------
@@ -218,7 +219,7 @@ class FileHandler:
     def write_input_file(self, input_dict: dict) -> None:
         """Write a schema-valid Python dictionary into a input JSON file.
 
-        The file must be in :attr:`INPUT_DIR`. The ``input_dict`` must
+        The file must be in :attr:`INPUT_DIR`. The `input_dict` must
         conform to the JSON schemas in :attr:`SCHEMA_DIR`.
 
         If the file does *not* exist, a new file will be created. If the file
@@ -227,7 +228,7 @@ class FileHandler:
 
         Parameters
         ----------
-        `input_dict` : :type:`dict`
+        `input_dict` : `dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -246,14 +247,14 @@ class FileHandler:
 
         Parameters
         ----------
-        `schema` : :type:`dict`, optional
-            The JSON schema or schema property to generate a :type:`dict` with.
-            If ``None``, the value of ``schema`` will be assumed.
+        `schema` : `dict`, optional
+            The JSON schema or schema property to generate a `dict` with.
+            If ``None``, the value of `schema` will be assumed.
 
         Returns
         -------
-        :class:`dict`
-            A :class:`dict` of default values that conforms to the schema.
+        `dict`
+            A `dict` of default values that conforms to the schema.
         """
         # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema
