@@ -88,9 +88,12 @@ The filename should contain the file extension (i.e., `.json`).
 
 ## References
 
+Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
+<https://stackoverflow.com/a/62613202>
+
+Sphinx developers. (2025). *Appendix: Deploying a Sphinx project online*.
+<https://www.sphinx-doc.org/en/master/tutorial/deploying.html>
+
 Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
 ArborJS.
 <https://arborjs.org/docs/barnes-hut>.
-
-Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
-<https://stackoverflow.com/a/62613202>
