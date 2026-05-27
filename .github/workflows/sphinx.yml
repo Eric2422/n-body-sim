@@ -13,10 +13,9 @@ jobs:
       with:
         persist-credentials: false
     - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
+      run: pip install -r requirements.txt
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
+      run: sphinx-build -M html docs/source/ docs/build/
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
