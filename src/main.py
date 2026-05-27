@@ -42,23 +42,23 @@ class Simulation:
 
     Attributes
     ----------
-    ``particles_list`` : list[:class:`particles.PointParticle`]
+    `particles_list` : list[:class:`particles.PointParticle`]
         A :class:`list` of particles that are interacting with each other in the
         simulation.
-    ``particles_data`` : :class:`pandas.DataFrame`
+    `particles_data` : :class:`pandas.DataFrame`
         A record of all the particles' states over the course of the simulation.
-    ``gravitational_field`` : :class:`vectors.FieldVector`
+    `gravitational_field` : :class:`vectors.FieldVector`
         A constant, uniform gravitational field.
-    ``electric_field`` : :class:`vectors.FieldVector`
+    `electric_field` : :class:`vectors.FieldVector`
         A constant, uniform electric field.
-    ``magnetic_field`` : :class:`vectors.FieldVector`
+    `magnetic_field` : :class:`vectors.FieldVector`
         A constant, uniform magnetic field.
-    ``current_time_step`` : `int`
+    `current_time_step` : `int`
         The number of time steps that have passed since the beginning of the
         simulation.
-    ``time_step_size`` : `float`
+    `time_step_size` : `float`
         The time increment of the simulation in seconds (s).
-    ``theta`` : `float`
+    `theta` : `float`
         The Barnes-Hut approximation parameter.
     """
 
@@ -96,7 +96,7 @@ class Simulation:
 
         Parameters
         ----------
-        ``particle`` : :class:`particles.PointParticle`
+        `particle` : :class:`particles.PointParticle`
             A particle to save the state of.
         """
         # Save particle position data
@@ -140,15 +140,15 @@ class Simulation:
 
         Parameters
         ----------
-        ``particle`` : :class:`particles.PointParticle`
+        `particle` : :class:`particles.PointParticle`
             The particle to calculate the force upon.
-        ``barnes_hut_root`` : :class:`particles.BarnesHutNode`
+        `barnes_hut_root` : :class:`particles.BarnesHutNode`
             The Barnes-Hut tree that contains all the particles.
-        ``position`` : :class:`vectors.PositionVector`, optional
+        `position` : :class:`vectors.PositionVector`, optional
             A hypothetical position of the particle to calculate with, possibly
             different from its current position. If ``None``, defaults to
             :attr:`particle.position <particles.PointParticle.position>`.
-        ``velocity`` : :class:`vectors.VelocityVector`, optional
+        `velocity` : :class:`vectors.VelocityVector`, optional
             A hypothetical velocity of the particle to calculate with, possibly
             different from its current position. If ``None``, defaults to
             :attr:`particle.velocity <particles.PointParticle.velocity>`.
@@ -281,13 +281,13 @@ class Simulation:
 
         Parameters
         ----------
-        ``num_time_steps`` : :py:class:`int`, default=1
+        `num_time_steps` : :py:class:`int`, default=1
             The number of time steps that the simulation runs by.
-        ``file_handler`` : :class:`files.FileHandler`, optional
+        `file_handler` : :class:`files.FileHandler`, optional
             A :class:`~files.FileHandler` object,
             which writes data into a text file as the simulation runs.
             If ``None``, do not write any data into a file.
-        ``print_progress`` : `bool`, default=``False``
+        `print_progress` : `bool`, default=``False``
             Whether to print a progress report on how much of the simulation
             has been completed.
         """

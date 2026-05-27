@@ -7,8 +7,10 @@
    :show-inheritance:
    :inherited-members:
 
-
+   #######
    Methods
+   #######
+
    {% block methods %}
 
    .. automethod:: __init__

@@ -8,8 +8,10 @@
    :show-inheritance:
    :inherited-members:
 
-
+   #######
    Methods
+   #######
+
    
 
    .. automethod:: __init__
