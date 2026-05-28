@@ -26,7 +26,7 @@ jobs:
                   pip install -r docs/requirements.txt
 
             - name: Build HTML
-              uses: ammaraskar/sphinx-action@master
+              uses: sphinx-build -M html docs/source/ docs/build/
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
