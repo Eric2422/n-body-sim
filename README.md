@@ -88,11 +88,22 @@ The filename should contain the file extension (i.e., `.json`).
 
 ## References
 
+<sup>1</sup> T. Komiya, *Appendix: Deploying a Sphinx project online*,
+<https://www.sphinx-doc.org/en/master/tutorial/deploying.html>,
+(2025).
+
+<sup>2</sup> E. Sciple *et al.*, `checkout`, v6.0.2,
+<https://github.com/actions/checkout> (GitHub Inc., San Franciso, 2026).
+
+<sup>3</sup> I. Zosimov *et al.*, `setup-python`, v6.2.0,
+<https://github.com/actions/setup-python> (GitHub Inc., San Franciso, 2026).
+
+<sup>4</sup> S. Ueda *et al.*, `actions-gh-pages`, v.4.1.0,
+<https://github.com/peaceiris/actions-gh-pages> (GitHub Inc., San Franciso,
+2026).
+
 Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
 <https://stackoverflow.com/a/62613202>
-
-Sphinx developers. (2025). *Appendix: Deploying a Sphinx project online*.
-<https://www.sphinx-doc.org/en/master/tutorial/deploying.html>
 
 Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
 ArborJS.
