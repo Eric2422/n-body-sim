@@ -1,17 +1,17 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>Usage &#8212; n-Body Simulator 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API" href="api.html" />
@@ -19,8 +19,9 @@
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -32,10 +33,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="schemas">
-<h2>Schemas<a class="headerlink" href="#schemas" title="Permalink to this headline">¶</a></h2>
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
+<section id="schemas">
+<h2>Schemas<a class="headerlink" href="#schemas" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">schemas/</span></code> directory contains the JSON schemas used to validate
 and generate input files.</p>
 <div class="admonition caution">
@@ -43,35 +44,35 @@ and generate input files.</p>
 <p>It is recommended that you do not edit the schemas.
 Doing so may prevent the program from properly running.</p>
 </div>
-</div>
-<div class="section" id="input-files">
-<h2>Input Files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Link to this heading">¶</a></h2>
 <p>The input files set up the simulation and are located in <code class="docutils literal notranslate"><span class="pre">input/</span></code>.
 Each input file is a JSON file validated using the schema in <code class="docutils literal notranslate"><span class="pre">main.json</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">num_time_steps</span></code> property of the input file dictates how many time steps the
 simulator runs. If it is set to 0, only the initial state will be given.</p>
 <p>Running <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/files.py</span> <span class="pre">&lt;input</span> <span class="pre">filename&gt;</span></code> will create a JSON object filled
 with default values as specified in the schemas.</p>
-</div>
-<div class="section" id="output-files">
-<h2>Output Files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="output-files">
+<h2>Output Files<a class="headerlink" href="#output-files" title="Link to this heading">¶</a></h2>
 <p>The output files, located in <code class="docutils literal notranslate"><span class="pre">output/</span></code>, store records of the particle
 states over time. The output file will have the same base name as the input file
 but will have a file extension of <code class="docutils literal notranslate"><span class="pre">.txt</span></code> instead.</p>
-</div>
-<div class="section" id="running-the-simulation">
-<h2>Running the Simulation<a class="headerlink" href="#running-the-simulation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="running-the-simulation">
+<h2>Running the Simulation<a class="headerlink" href="#running-the-simulation" title="Link to this heading">¶</a></h2>
 <p>To run the simulation, type <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">src/main.py</span> <span class="pre">input/&lt;input</span> <span class="pre">filename&gt;</span></code>.
 The filename should contain the file extension (i.e., <code class="docutils literal notranslate"><span class="pre">.json</span></code>).</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="index.html">n-Body Simulator</a></h1>
 
@@ -82,7 +83,16 @@ The filename should contain the file extension (i.e., <code class="docutils lite
 
 
 
-<h3>Navigation</h3>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#schemas">Schemas</a></li>
@@ -103,16 +113,6 @@ The filename should contain the file extension (i.e., <code class="docutils lite
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
 
 
 
@@ -126,11 +126,11 @@ The filename should contain the file extension (i.e., <code class="docutils lite
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2026, Eric Zhang.
+      &#169;2026, Eric Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="_sources/usage.rst.txt"

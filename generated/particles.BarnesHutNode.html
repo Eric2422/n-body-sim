@@ -1,24 +1,27 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>particles.BarnesHutNode &#8212; n-Body Simulator 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="particles.PointParticle" href="particles.PointParticle.html" />
+    <link rel="prev" title="particles" href="particles.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -30,16 +33,373 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="particles-barneshutnode">
-<h1>particles.BarnesHutNode<a class="headerlink" href="#particles-barneshutnode" title="Permalink to this headline">¶</a></h1>
-</div>
+  <section id="particles-barneshutnode">
+<h1>particles.BarnesHutNode<a class="headerlink" href="#particles-barneshutnode" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="particles.BarnesHutNode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">particles.</span></span><span class="sig-name descname"><span class="pre">BarnesHutNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#particles.BarnesHutNode" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A single node of a Barnes-Hut octree, which contains eight child nodes.
+For brevity's sake, the mechanics of the Barnes-Hut algorithm will not be
+explained here. See the <a class="reference external" href="https://en.wikipedia.org/wiki/Barnes-Hut_simulation">Wikipedia article</a> or this <a class="reference external" href="https://arborjs.org/docs/barnes-hut">Arbor article</a> for a
+full explanation.</p>
+<p>Assumes a center of charge rather than using a multipole expansion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>particles</strong> (list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>], default=[]) -- List of particles that are contained within this Barnes-Hut node.</p>
+</dd>
+</dl>
+<dl>
+<dt>:param <cite>x_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper x bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper x bounds in
+that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl>
+<dt>:param <cite>y_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper y bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper y bounds in
+that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl>
+<dt>:param <cite>z_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper z bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper z bounds in
+that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
+be the smallest possible that would contain all the particles.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`X_BOUNDS`</span></span></dt>
+<dd><p>A 2 × 1 array containing the lower and upper limits, respectively,
+of this node's x dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`Y_BOUNDS`</span></span></dt>
+<dd><p>A 2 × 1 array containing the lower and upper limits, respectively,
+of this node's y dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`Z_BOUNDS`</span></span></dt>
+<dd><p>A 2 × 1 array containing the lower and upper limits, respectively,
+of this node's z dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`SIZE`</span></span></dt>
+<dd><p>The distance from one side of the node to the other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`PARTICLES`</span></span></dt>
+<dd><p>A list of all particles included in this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`TOTAL_MASS`</span></span></dt>
+<dd><p>Total mass of all particles in this node in kilograms (kg).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`CENTER_OF_MASS`</span></span></dt>
+<dd><p>The center of mass of this node in meters (m).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`TOTAL_CHARGE`</span></span></dt>
+<dd><p>Total charge of all particles in this node in coulombs (C).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`CENTER_OF_CHARGE`</span></span></dt>
+<dd><p>The center of charge of this node in meters (m).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`CENTER_OF_CHARGE_VELOCITY`</span></span></dt>
+<dd><p>The velocity of the center of charge. In other words, a
+charge-weighted average of the velocities of particles in this
+node. Measured in meters per second (m/s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray`[:type:`numpy.float64</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`CHILD_NODES`</span></span></dt>
+<dd><p>The child nodes of this node. If this node is exterior, then the
+list will be empty. Otherwise, it will have eight children.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#particles.BarnesHutNode" title="particles.BarnesHutNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.BarnesHutNode</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">References</p>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">¶</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#particles.BarnesHutNode.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.create_child_nodes">
+<span class="sig-name descname"><span class="pre">create_child_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#particles.BarnesHutNode" title="particles.BarnesHutNode"><span class="pre">BarnesHutNode</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#particles.BarnesHutNode.create_child_nodes" title="Link to this definition">¶</a></dt>
+<dd><p>Recursively create child nodes for this Barnes-Hut node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of child Barnes-Hut nodes, each representing an octant
+of this node.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">tuple[BarnesHutNode]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.cube_bounds">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">cube_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#particles.BarnesHutNode.cube_bounds" title="Link to this definition">¶</a></dt>
+<dd><p>Make the given bounds cube (i.e., all with the same size), but
+preserve the centroid. The smaller two dimensions will increased to the
+same size as the largest dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>) -- The given x bounds to cube.</p></li>
+<li><p><strong>y_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>) -- The given y bounds to cube.</p></li>
+<li><p><strong>z_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>) -- The given z bounds to cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The newly cubed bounds, the centroid, and the new size of the
+cube bounds (i.e., the previous maximum dimension), respectively.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">tuple[npt.NDArray[np.float64],</span> <span class="pre">npt.NDArray[np.float64],</span> <span class="pre">float]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.get_electric_field_exerted">
+<span class="sig-name descname"><span class="pre">get_electric_field_exerted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><span class="pre">PositionVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span></span><a class="headerlink" href="#particles.BarnesHutNode.get_electric_field_exerted" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the approximate electric field exerted by this node at a
+given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.PositionVector</span></code></a>) -- The position to calculate the electric field at.
+Measured in meters (m).</p></li>
+<li><p><strong>theta</strong> (<cite>float</cite>, default=0.0) -- <p>The value of theta, the Barnes-Hut approximation parameter being
+used. Given the distance between the point and the center of charge,
+it used to determine whether to return an approximate or exact value
+for the gravitational field.</p>
+<p>When 0.0, no approximation will occur.</p>
+</p></li>
+<li><p><strong>particle_id</strong> (<cite>int</cite>, default=-1) -- <p>The ID of the particle to exclude from the force calculation.</p>
+<p>When -1, no particles will be excluded from the force calculation.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The electric field vector produced by this node measured in newtons
+per coulomb (N/C).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.get_gravitational_field_exerted">
+<span class="sig-name descname"><span class="pre">get_gravitational_field_exerted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><span class="pre">PositionVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span></span><a class="headerlink" href="#particles.BarnesHutNode.get_gravitational_field_exerted" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the approximate gravitational field exerted by this node at
+a given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.PositionVector</span></code></a>) -- The position to calculate the gravitational field at measured in
+meters (m).</p></li>
+<li><p><strong>theta</strong> (<cite>float</cite>, default=0.0) -- <p>The value of theta, the Barnes-Hut approximation parameter being
+used.</p>
+<p>Given the distance between the point and the center of mass, it used
+to determine whether to return an approximate or exact value for the
+gravitational field. When 0.0, no approximation will occur.</p>
+</p></li>
+<li><p><strong>particle_id</strong> (<cite>int</cite>, default=-1) -- <p>The ID of the particle to exclude from the force calculation.</p>
+<p>When the value is -1, no particles will be excluded from the force
+calculation.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The gravitational field produced by this node measured in
+newtons per kg (N/kg).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.get_height">
+<span class="sig-name descname"><span class="pre">get_height</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#particles.BarnesHutNode.get_height" title="Link to this definition">¶</a></dt>
+<dd><p>Return the height of the tree under this Barnes-Hut node.
+The root node (i.e., this node) has a height of 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The height of the subtree under this Barnes-Hut node.
+If this node has no child nodes, it is a leaf node and its
+height is 0.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>int</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.get_magnetic_field_exerted">
+<span class="sig-name descname"><span class="pre">get_magnetic_field_exerted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><span class="pre">PositionVector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particle_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span></span><a class="headerlink" href="#particles.BarnesHutNode.get_magnetic_field_exerted" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the approximate magnetic field exerted by this node at a
+given point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.PositionVector</span></code></a>) -- The point at which to calculate the magnetic field. Measured in
+meters (m).</p></li>
+<li><p><strong>theta</strong> (<cite>float</cite>, default=0.0) -- <p>The value of theta, the Barnes-Hut approximation parameter being
+used.</p>
+<p>Given the distance between the point and the center of charge, it
+used to determine whether to return an approximate or exact value
+for the magnetic field. When 0.0, no approximation will occur.</p>
+</p></li>
+<li><p><strong>particle_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>default=-1</em>) -- <p>The ID of the particle to exclude from the force calculation.</p>
+<p>When  -1, no particles will be excluded from the force calculation.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The magnetic field produced by this node, measured in teslas (T).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="particles.BarnesHutNode.particle_within_bounds">
+<span class="sig-name descname"><span class="pre">particle_within_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#particles.BarnesHutNode.particle_within_bounds" title="Link to this definition">¶</a></dt>
+<dd><p>Return whether a given particle is within the bounds of this
+Barnes-Hut node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>particle</strong> (<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">PointParticle</span></code></a>) -- The particle to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the particle is within the bounds of this node.</p>
+<p><code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
 
 
           </div>
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">n-Body Simulator</a></h1>
 
@@ -50,29 +410,58 @@
 
 
 
-<h3>Navigation</h3>
-<ul>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="files.html">files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="particles.html">particles</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">particles.BarnesHutNode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#particles.BarnesHutNode"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.__init__"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.__init__()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.create_child_nodes"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.create_child_nodes()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.cube_bounds"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.cube_bounds()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.get_electric_field_exerted"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.get_electric_field_exerted()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.get_gravitational_field_exerted"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.get_gravitational_field_exerted()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.get_height"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.get_height()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.get_magnetic_field_exerted"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.get_magnetic_field_exerted()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.BarnesHutNode.particle_within_bounds"><code class="docutils literal notranslate"><span class="pre">BarnesHutNode.particle_within_bounds()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="particles.PointParticle.html">particles.PointParticle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plot.html">plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vectors.html">vectors</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">API</a><ul>
+  <li><a href="particles.html">particles</a><ul>
+      <li>Previous: <a href="particles.html" title="previous chapter">particles</a></li>
+      <li>Next: <a href="particles.PointParticle.html" title="next chapter">particles.PointParticle</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
 
 
 
@@ -86,11 +475,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2026, Eric Zhang.
+      &#169;2026, Eric Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="../_sources/generated/particles.BarnesHutNode.rst.txt"

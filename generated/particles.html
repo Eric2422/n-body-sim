@@ -1,24 +1,27 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>particles &#8212; n-Body Simulator 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="particles.BarnesHutNode" href="particles.BarnesHutNode.html" />
+    <link rel="prev" title="main.Simulation" href="main.Simulation.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -30,16 +33,29 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="particles">
-<h1>particles<a class="headerlink" href="#particles" title="Permalink to this headline">¶</a></h1>
-</div>
+  <section id="module-particles">
+<span id="particles"></span><h1>particles<a class="headerlink" href="#module-particles" title="Link to this heading">¶</a></h1>
+<p>Module of particles and pseudo-particles (i.e., collections of
+particles treated as a single particle).</p>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="particles.BarnesHutNode.html#particles.BarnesHutNode" title="particles.BarnesHutNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BarnesHutNode</span></code></a>([particles, x_bounds, ...])</p></td>
+<td><p>A single node of a Barnes-Hut octree, which contains eight child nodes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PointParticle</span></code></a>([position, velocity, ...])</p></td>
+<td><p>A point particle in 3D space with a velocity, acceleration, charge, and mass.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 
 
           </div>
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">n-Body Simulator</a></h1>
 
@@ -50,29 +66,43 @@
 
 
 
-<h3>Navigation</h3>
-<ul>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="files.html">files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">particles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="particles.BarnesHutNode.html">particles.BarnesHutNode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="particles.PointParticle.html">particles.PointParticle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plot.html">plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vectors.html">vectors</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">API</a><ul>
+      <li>Previous: <a href="main.Simulation.html" title="previous chapter">main.Simulation</a></li>
+      <li>Next: <a href="particles.BarnesHutNode.html" title="next chapter">particles.BarnesHutNode</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
 
 
 
@@ -86,11 +116,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2026, Eric Zhang.
+      &#169;2026, Eric Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="../_sources/generated/particles.rst.txt"

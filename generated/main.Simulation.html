@@ -1,24 +1,27 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>main.Simulation &#8212; n-Body Simulator 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="particles" href="particles.html" />
+    <link rel="prev" title="main" href="main.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -30,16 +33,222 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="main-simulation">
-<h1>main.Simulation<a class="headerlink" href="#main-simulation" title="Permalink to this headline">¶</a></h1>
-</div>
+  <section id="main-simulation">
+<h1>main.Simulation<a class="headerlink" href="#main-simulation" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="main.Simulation">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravitational_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electric_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnetic_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#main.Simulation" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>One simulation of a given initial conditions of particles and fields.</p>
+<p>Contains the Barnes-Hut approximation parameter; time step size; constant,
+uniform gravitational field; constant, uniform electrical field; constant,
+uniform magnetic field; and particles used in the simulation.</p>
+<p>Keeps track of the previous positions of all the partices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<cite>float</cite>, default=0.5) -- The Barnes-Hut approximation parameter.</p></li>
+<li><p><strong>time_step_size</strong> (<cite>float</cite>, default=1.0) -- The time increment of the simulation in seconds (s).</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param <cite>gravitational_field</cite> : <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>: A constant, uniform gravitational field.
+:param default=:numpy:func:<cite>np.zeros(3: A constant, uniform gravitational field.
+:param dtype=float) &lt;numpy.zeros&gt;</cite>: A constant, uniform gravitational field.
+:param <cite>electric_field</cite>: A constant, uniform electric field.
+:type <cite>electric_field</cite>: <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``np.zeros(3, dtype=float)``
+:param <cite>magnetic_field</cite>: A constant, uniform magnetic field.
+:type <cite>magnetic_field</cite>: <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``np.zeros(3, dtype=float)``
+:param <cite>particles_list</cite>: A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of particles that are interacting with each other</p>
+<blockquote>
+<div><p>in the simulation.</p>
+</div></blockquote>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`particles_list`</span></span></dt>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of particles that are interacting with each other in the
+simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`particles_data`</span></span></dt>
+<dd><p>A record of all the particles' states over the course of the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="http://pandas.pydata.org/pandas-docs/dev/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.1.0.dev0+974.ge652ee88a5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`gravitational_field`</span></span></dt>
+<dd><p>A constant, uniform gravitational field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`electric_field`</span></span></dt>
+<dd><p>A constant, uniform electric field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`magnetic_field`</span></span></dt>
+<dd><p>A constant, uniform magnetic field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`current_time_step`</span></span></dt>
+<dd><p>The number of time steps that have passed since the beginning of the
+simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>int</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`time_step_size`</span></span></dt>
+<dd><p>The time increment of the simulation in seconds (s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>float</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">`theta`</span></span></dt>
+<dd><p>The Barnes-Hut approximation parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>float</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">¶</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravitational_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electric_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magnetic_field</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><span class="pre">FieldVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#main.Simulation.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.calculate_particle_force">
+<span class="sig-name descname"><span class="pre">calculate_particle_force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">barnes_hut_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="particles.BarnesHutNode.html#particles.BarnesHutNode" title="particles.BarnesHutNode"><span class="pre">BarnesHutNode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><span class="pre">PositionVector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.VelocityVector.html#vectors.VelocityVector" title="vectors.VelocityVector"><span class="pre">VelocityVector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="vectors.ForceVector.html#vectors.ForceVector" title="vectors.ForceVector"><span class="pre">ForceVector</span></a></span></span><a class="headerlink" href="#main.Simulation.calculate_particle_force" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate the force exerted on a particle by the fields and other
+particles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particle</strong> (<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>) -- The particle to calculate the force upon.</p></li>
+<li><p><strong>barnes_hut_root</strong> (<a class="reference internal" href="particles.BarnesHutNode.html#particles.BarnesHutNode" title="particles.BarnesHutNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.BarnesHutNode</span></code></a>) -- The Barnes-Hut tree that contains all the particles.</p></li>
+<li><p><strong>position</strong> (<a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.PositionVector</span></code></a>, optional) -- A hypothetical position of the particle to calculate with, possibly
+different from its current position. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to
+<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle.position" title="particles.PointParticle.position"><code class="xref py py-attr docutils literal notranslate"><span class="pre">particle.position</span></code></a>.</p></li>
+<li><p><strong>velocity</strong> (<a class="reference internal" href="vectors.VelocityVector.html#vectors.VelocityVector" title="vectors.VelocityVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.VelocityVector</span></code></a>, optional) -- A hypothetical velocity of the particle to calculate with, possibly
+different from its current position. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to
+<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle.velocity" title="particles.PointParticle.velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">particle.velocity</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The force exerted on a particle by the fields and other particles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="vectors.ForceVector.html#vectors.ForceVector" title="vectors.ForceVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.ForceVector</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.get_particles_string">
+<span class="sig-name descname"><span class="pre">get_particles_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#main.Simulation.get_particles_string" title="Link to this definition">¶</a></dt>
+<dd><p>Return a string of the particles' current state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A string describing the state of all particles.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.record_particle_data">
+<span class="sig-name descname"><span class="pre">record_particle_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><span class="pre">PointParticle</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#main.Simulation.record_particle_data" title="Link to this definition">¶</a></dt>
+<dd><p>Save the state of a particle to the particles data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>particle</strong> (<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>) -- A particle to save the state of.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_time_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="files.FileHandler.html#files.FileHandler" title="files.FileHandler"><span class="pre">FileHandler</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_progress</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#main.Simulation.run" title="Link to this definition">¶</a></dt>
+<dd><p>Run the simulation for a given number of time steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_time_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, default=1) -- The number of time steps that the simulation runs by.</p></li>
+<li><p><strong>file_handler</strong> (<a class="reference internal" href="files.FileHandler.html#files.FileHandler" title="files.FileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">files.FileHandler</span></code></a>, optional) -- A <a class="reference internal" href="files.FileHandler.html#files.FileHandler" title="files.FileHandler"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileHandler</span></code></a> object,
+which writes data into a text file as the simulation runs.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code>, do not write any data into a file.</p></li>
+<li><p><strong>print_progress</strong> (<cite>bool</cite>, default=``False``) -- Whether to print a progress report on how much of the simulation
+has been completed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="main.Simulation.time_step">
+<span class="sig-name descname"><span class="pre">time_step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#main.Simulation.time_step" title="Link to this definition">¶</a></dt>
+<dd><p>Run one time step of the simulation.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
 
 
           </div>
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../index.html">n-Body Simulator</a></h1>
 
@@ -50,29 +259,55 @@
 
 
 
-<h3>Navigation</h3>
-<ul>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="files.html">files</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="main.html">main</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">main.Simulation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main.Simulation"><code class="docutils literal notranslate"><span class="pre">Simulation</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.__init__"><code class="docutils literal notranslate"><span class="pre">Simulation.__init__()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.calculate_particle_force"><code class="docutils literal notranslate"><span class="pre">Simulation.calculate_particle_force()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.get_particles_string"><code class="docutils literal notranslate"><span class="pre">Simulation.get_particles_string()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.record_particle_data"><code class="docutils literal notranslate"><span class="pre">Simulation.record_particle_data()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.run"><code class="docutils literal notranslate"><span class="pre">Simulation.run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#main.Simulation.time_step"><code class="docutils literal notranslate"><span class="pre">Simulation.time_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="particles.html">particles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot.html">plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vectors.html">vectors</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../api.html">API</a><ul>
+  <li><a href="main.html">main</a><ul>
+      <li>Previous: <a href="main.html" title="previous chapter">main</a></li>
+      <li>Next: <a href="particles.html" title="next chapter">particles</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
 
 
 
@@ -86,11 +321,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2026, Eric Zhang.
+      &#169;2026, Eric Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="../_sources/generated/main.Simulation.rst.txt"
