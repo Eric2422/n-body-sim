@@ -184,15 +184,15 @@ class FileHandler:
         input_dict: dict,
         schema: dict | None = None
     ) -> bool:
-        """Determine whether or not the given `dict` is valid by the schema.
+        """Determine whether or not the given :py:class:`dict` is valid by the schema.
 
         Parameters
         ----------
-        `input_dict` : `dict`
-            The `dict` that is being validated.
-        `schema` : `dict`, optional
+        `input_dict` : :py:class:`dict`
+            The :py:class:`dict` that is being validated.
+        `schema` : :py:class:`dict`, optional
             The JSON schema or schema property to validate the other JSON
-            `dict` with. If ``None``, defaults to :attr:`SCHEMA`.
+            :py:class:`dict` with. If ``None``, defaults to :attr:`SCHEMA`.
 
         Returns
         -------
@@ -228,7 +228,7 @@ class FileHandler:
 
         Parameters
         ----------
-        `input_dict` : `dict`
+        `input_dict` : :py:class:`dict`
             An object to write into the file as a JSON.
         """
         self.validate_input_dict(input_dict)
@@ -247,14 +247,14 @@ class FileHandler:
 
         Parameters
         ----------
-        `schema` : `dict`, optional
-            The JSON schema or schema property to generate a `dict` with.
+        `schema` : :py:class:`dict`, optional
+            The JSON schema or schema property to generate a :py:class:`dict` with.
             If ``None``, the value of `schema` will be assumed.
 
         Returns
         -------
-        `dict`
-            A `dict` of default values that conforms to the schema.
+        :py:class:`dict`
+            A :py:class:`dict` of default values that conforms to the schema.
         """
         # If no schema is passed in, default to self.json_schema.
         schema_dict = self.SCHEMA if schema is None else schema

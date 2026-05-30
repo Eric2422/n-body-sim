@@ -388,17 +388,17 @@ class BarnesHutNode:
 
     Parameters
     ----------
-    `particles` : list[:class:`particles.PointParticle`], default=[]
+    `particles` : `list` [:class:`particles.PointParticle`], default=[]
         List of particles that are contained within this Barnes-Hut node.
-    `x_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `x_bounds` : :class:`numpy.typing.NDArray` [np.float64], optional
         A two-element NumPy array that contains the lower and upper x bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    `y_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `y_bounds` : :class:`numpy.typing.NDArray` [np.float64] optional
         A two-element NumPy array that contains the lower and upper y bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    `z_bounds` : :class:`numpy.typing.NDArray[np.float64] <numpy.typing.NDArray>`, optional
+    `z_bounds` : :class:`numpy.typing.NDArray` [np.float64] optional
         A two-element NumPy array that contains the lower and upper z bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
@@ -416,8 +416,8 @@ class BarnesHutNode:
         of this node's z dimensions.
     `SIZE` : float
         The distance from one side of the node to the other.
-    `PARTICLES` : list[:class:`particles.PointParticle`]
-        A list of all particles included in this node.
+    `PARTICLES` : :class:`list` [:class:`particles.PointParticle`]
+        A :class:`list` of all particles included in this node.
     `TOTAL_MASS` : float
         Total mass of all particles in this node in kilograms (kg).
     `CENTER_OF_MASS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
@@ -432,7 +432,7 @@ class BarnesHutNode:
         node. Measured in meters per second (m/s).
     `CHILD_NODES` : list[:class:`particles.BarnesHutNode`]
         The child nodes of this node. If this node is exterior, then the
-        list will be empty. Otherwise, it will have eight children.
+        :class:`list` will be empty. Otherwise, it will have eight children.
 
     References
     ----------
