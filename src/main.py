@@ -30,19 +30,19 @@ class Simulation:
         The Barnes-Hut approximation parameter.
     `time_step_size` : `float`, default=1.0
         The time increment of the simulation in seconds (s).
-    `gravitational_field` : :class:`vectors.FieldVector`, default=:numpy:func:`np.zeros(3, dtype=float) <numpy.zeros>`
+    `gravitational_field` : :class:`vectors.FieldVector`, default = :func:`numpy.zeros` (3, dtype=float)
         A constant, uniform gravitational field.
-    `electric_field` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
+    `electric_field` : :class:`vectors.FieldVector`, default = :func:`numpy.zeros` (3, dtype=float)
         A constant, uniform electric field.
-    `magnetic_field` : :class:`vectors.FieldVector`, default=``np.zeros(3, dtype=float)``
+    `magnetic_field` : :class:`vectors.FieldVector`, default = :func:`numpy.zeros` (3, dtype=float)
         A constant, uniform magnetic field.
-    `particles_list` : list[:class:`particles.PointParticle`], default=``[]``
-        A :class:`list` of particles that are interacting with each other
-        in the simulation.
+    `particles_list` : :class:`list` [:class:`particles.PointParticle`], default = ``[]``
+        A :class:`list` of particles that are interacting with each other in the
+        simulation.
 
     Attributes
     ----------
-    `particles_list` : list[:class:`particles.PointParticle`]
+    `particles_list` : :class:`list` [:class:`particles.PointParticle`]
         A :class:`list` of particles that are interacting with each other in the
         simulation.
     `particles_data` : :class:`pandas.DataFrame`
