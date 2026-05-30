@@ -46,43 +46,18 @@ full explanation.</p>
 <p>Assumes a center of charge rather than using a multipole expansion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>particles</strong> (list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>], default=[]) -- List of particles that are contained within this Barnes-Hut node.</p>
-</dd>
-</dl>
-<dl>
-<dt>:param <cite>x_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper x bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper x bounds in
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>particles</strong> (<cite>list</cite> [<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>], default=[]) -- List of particles that are contained within this Barnes-Hut node.</p></li>
+<li><p><strong>x_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray</span></code> [np.float64], optional) -- A two-element NumPy array that contains the lower and upper x bounds in
 that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
-</dd>
-</dl>
-<dl>
-<dt>:param <cite>y_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper y bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper y bounds in
+be the smallest possible that would contain all the particles.</p></li>
+<li><p><strong>y_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray</span></code> [np.float64] optional) -- A two-element NumPy array that contains the lower and upper y bounds in
 that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
-</dd>
-</dl>
-<dl>
-<dt>:param <cite>z_bounds</cite><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray[np.float64]</span></code>: A two-element NumPy array that contains the lower and upper z bounds in</span></dt><dd><p>that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>optional</strong> -- A two-element NumPy array that contains the lower and upper z bounds in
+be the smallest possible that would contain all the particles.</p></li>
+<li><p><strong>z_bounds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.typing.NDArray</span></code> [np.float64] optional) -- A two-element NumPy array that contains the lower and upper z bounds in
 that order. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the bounds will be automatically calculated to
-be the smallest possible that would contain all the particles.</p>
+be the smallest possible that would contain all the particles.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -135,10 +110,10 @@ of this node's z dimensions.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">`PARTICLES`</span></span></dt>
-<dd><p>A list of all particles included in this node.</p>
+<dd><p>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of all particles included in this node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> [<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,7 +179,7 @@ node. Measured in meters per second (m/s).</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">`CHILD_NODES`</span></span></dt>
 <dd><p>The child nodes of this node. If this node is exterior, then the
-list will be empty. Otherwise, it will have eight children.</p>
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> will be empty. Otherwise, it will have eight children.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#particles.BarnesHutNode" title="particles.BarnesHutNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.BarnesHutNode</span></code></a>]</p>

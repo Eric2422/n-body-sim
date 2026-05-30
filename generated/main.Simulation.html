@@ -49,21 +49,13 @@ uniform magnetic field; and particles used in the simulation.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>theta</strong> (<cite>float</cite>, default=0.5) -- The Barnes-Hut approximation parameter.</p></li>
 <li><p><strong>time_step_size</strong> (<cite>float</cite>, default=1.0) -- The time increment of the simulation in seconds (s).</p></li>
+<li><p><strong>gravitational_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default = <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros()</span></code> (3, dtype=float)) -- A constant, uniform gravitational field.</p></li>
+<li><p><strong>electric_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default = <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros()</span></code> (3, dtype=float)) -- A constant, uniform electric field.</p></li>
+<li><p><strong>magnetic_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default = <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.zeros()</span></code> (3, dtype=float)) -- A constant, uniform magnetic field.</p></li>
+<li><p><strong>particles_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> [<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>], default = <code class="docutils literal notranslate"><span class="pre">[]</span></code>) -- A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of particles that are interacting with each other in the
+simulation.</p></li>
 </ul>
 </dd>
-</dl>
-<p>:param <cite>gravitational_field</cite> : <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>: A constant, uniform gravitational field.
-:param default=:numpy:func:<cite>np.zeros(3: A constant, uniform gravitational field.
-:param dtype=float) &lt;numpy.zeros&gt;</cite>: A constant, uniform gravitational field.
-:param <cite>electric_field</cite>: A constant, uniform electric field.
-:type <cite>electric_field</cite>: <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``np.zeros(3, dtype=float)``
-:param <cite>magnetic_field</cite>: A constant, uniform magnetic field.
-:type <cite>magnetic_field</cite>: <a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``np.zeros(3, dtype=float)``
-:param <cite>particles_list</cite>: A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of particles that are interacting with each other</p>
-<blockquote>
-<div><p>in the simulation.</p>
-</div></blockquote>
-<dl class="field-list simple">
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py">
@@ -72,7 +64,7 @@ uniform magnetic field; and particles used in the simulation.</p>
 simulation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> [<a class="reference internal" href="particles.PointParticle.html#particles.PointParticle" title="particles.PointParticle"><code class="xref py py-class docutils literal notranslate"><span class="pre">particles.PointParticle</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
