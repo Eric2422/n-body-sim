@@ -102,9 +102,10 @@ The filename should contain the file extension (i.e., `.json`).
 <https://github.com/peaceiris/actions-gh-pages> (GitHub Inc., San Franciso,
 2026).
 
-Leedham, J. (2021, January 13). [Online Forum Post]. Stack Overflow.
-<https://stackoverflow.com/a/62613202>
+<sup>5</sup>
+J. Leedham, *Automatically document all modules recursively with Sphinx autodoc*,
+<https://stackoverflow.com/a/62613202>, (2021).
 
-Ventimiglia, T., & Wayne, K. (2011, January 15). *The Barnes-Hut Algorithm*.
-ArborJS.
-<https://arborjs.org/docs/barnes-hut>.
+<sup>6</sup>
+T. Ventimiglia and K. Wayne, The Barnes-Hut Algorithm,
+<https://arborjs.org/docs/barnes-hut>, (2011).

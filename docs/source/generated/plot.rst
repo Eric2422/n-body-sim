@@ -1,4 +1,5 @@
-﻿plot
+﻿..  ^5
+plot
 ====
 
 .. automodule:: plot

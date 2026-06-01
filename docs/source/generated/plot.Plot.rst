@@ -1,4 +1,4 @@
-﻿plot.Plot
+plot.Plot
 =========
 
 .. currentmodule:: plot

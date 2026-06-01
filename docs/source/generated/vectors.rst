@@ -1,4 +1,5 @@
-﻿vectors
+﻿..  ^5
+vectors
 =======
 
 .. automodule:: vectors

@@ -16,3 +16,4 @@
    .. automethod:: __init__
 
    {% endblock %}
+..  ^5

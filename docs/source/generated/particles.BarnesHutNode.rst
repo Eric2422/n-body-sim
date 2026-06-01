@@ -1,4 +1,4 @@
-﻿particles.BarnesHutNode
+particles.BarnesHutNode
 =======================
 
 .. currentmodule:: particles

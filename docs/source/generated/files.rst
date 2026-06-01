@@ -1,4 +1,5 @@
-﻿files
+﻿..  ^5
+files
 =====
 
 .. automodule:: files

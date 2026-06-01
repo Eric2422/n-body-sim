@@ -1,4 +1,4 @@
-﻿files.FileHandler
+files.FileHandler
 =================
 
 .. currentmodule:: files
