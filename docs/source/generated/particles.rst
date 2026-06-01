@@ -1,6 +1,4 @@
-﻿..
-   [5]
-particles
+﻿particles
 =========
 
 .. automodule:: particles
@@ -33,3 +31,5 @@ particles
 
 
 
+..
+   [5]

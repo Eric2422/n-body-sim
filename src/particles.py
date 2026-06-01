@@ -261,11 +261,11 @@ class PointParticle:
 
         Parameters
         ----------
-        `gravitational_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `gravitational_field` : :class:`vectors.FieldVector`, default=``numpy.array((0, 0, 0))``
             The gravitational field acting upon this particle.
-        `electric_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `electric_field` : :class:`vectors.FieldVector`, default=``numpy.array((0, 0, 0))``
             The electric field acting upon this particle.
-        `magnetic_field` : :class:`vectors.FieldVector`, default=``np.array((0, 0, 0))``
+        `magnetic_field` : :class:`vectors.FieldVector`, default=``numpy.array((0, 0, 0))``
             The magnetic field acting upon this particle.
         `velocity` : :class:`vectors.VelocityVector`, optional.
             The velocity to use for the magnetic force calculations,
@@ -383,35 +383,35 @@ class BarnesHutNode:
     -----
     The implementation of the Barnes-Hut algorithm is taken from [1]_.
     
-    .. [1] T. Ventimiglia and K. Wayne, The Barnes-Hut Algorithm,
-    <https://arborjs.org/docs/barnes-hut>, (2011).
+    .. [1] T. Ventimiglia and K. Wayne, *The Barnes-Hut Algorithm*,
+       https://arborjs.org/docs/barnes-hut, (2011).
 
     Parameters
     ----------
     `particles` : `list` [:class:`particles.PointParticle`], default=[]
         List of particles that are contained within this Barnes-Hut node.
-    `x_bounds` : :class:`numpy.typing.NDArray` [np.float64], optional
+    `x_bounds` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`], optional
         A two-element NumPy array that contains the lower and upper x bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    `y_bounds` : :class:`numpy.typing.NDArray` [np.float64] optional
+    `y_bounds` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`], optional
         A two-element NumPy array that contains the lower and upper y bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
-    `z_bounds` : :class:`numpy.typing.NDArray` [np.float64] optional
+    `z_bounds` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`], optional
         A two-element NumPy array that contains the lower and upper z bounds in
         that order. If ``None``, the bounds will be automatically calculated to
         be the smallest possible that would contain all the particles.
 
     Attributes
     ----------
-    `X_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `X_BOUNDS` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's x dimensions.
-    `Y_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `Y_BOUNDS` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's y dimensions.
-    `Z_BOUNDS` : :class:`numpy.typing.NDArray`[:type:`numpy.float64`]
+    `Z_BOUNDS` : :class:`numpy.typing.NDArray` [:type:`numpy.float64`]
         A 2 × 1 array containing the lower and upper limits, respectively,
         of this node's z dimensions.
     `SIZE` : float

@@ -1,6 +1,4 @@
-﻿..
-   [5]
-files
+﻿files
 =====
 
 .. automodule:: files
@@ -32,3 +30,5 @@ files
 
 
 
+..
+   [5]
