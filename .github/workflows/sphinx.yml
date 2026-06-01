@@ -1,4 +1,4 @@
-name: "Sphinx: Render docs" # ^1
+name: "Sphinx: Render docs" # [1]
 
 on: push
 
@@ -11,12 +11,12 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4 # ^2
+              uses: actions/checkout@v4 # [2]
               with:
                   persist-credentials: false
 
             - name: Set up Python
-              uses: actions/setup-python@v6 # ^3
+              uses: actions/setup-python@v6 # [3]
               with:
                   python-version: "3.14"
 
@@ -35,7 +35,7 @@ jobs:
                   path: docs/build/html/
 
             - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3 # ^4
+              uses: peaceiris/actions-gh-pages@v3 # [4]
               if: github.ref == 'refs/heads/main'
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -377,14 +377,14 @@ class PointParticle:
 
 class BarnesHutNode:
     """A single node of a Barnes-Hut octree, which contains eight child nodes.
-    For brevity's sake, the mechanics of the Barnes-Hut algorithm will not be
-    explained here. See the `Wikipedia article`_ or this `Arbor article`_ for a
-    full explanation.
-
-    .. _Wikipedia article: https://en.wikipedia.org/wiki/Barnes-Hut_simulation
-    .. _Arbor article: https://arborjs.org/docs/barnes-hut
-
     Assumes a center of charge rather than using a multipole expansion.
+    
+    Notes
+    -----
+    The implementation of the Barnes-Hut algorithm is taken from [1]_.
+    
+    .. [1] T. Ventimiglia and K. Wayne, The Barnes-Hut Algorithm,
+    <https://arborjs.org/docs/barnes-hut>, (2011).
 
     Parameters
     ----------
