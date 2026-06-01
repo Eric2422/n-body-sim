@@ -17,3 +17,5 @@ particles.BarnesHutNode
    .. automethod:: __init__
 
    
+..
+   [5]

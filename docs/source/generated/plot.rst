@@ -1,6 +1,4 @@
-﻿..
-   [5]
-plot
+﻿plot
 ====
 
 .. automodule:: plot
@@ -32,3 +30,5 @@ plot
 
 
 
+..
+   [5]

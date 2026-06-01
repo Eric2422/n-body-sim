@@ -1,6 +1,4 @@
-﻿..
-   [5]
-main
+﻿main
 ====
 
 .. automodule:: main
@@ -32,3 +30,5 @@ main
 
 
 
+..
+   [5]

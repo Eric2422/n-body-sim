@@ -17,3 +17,5 @@ plot.Plot
    .. automethod:: __init__
 
    
+..
+   [5]

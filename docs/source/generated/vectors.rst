@@ -1,6 +1,4 @@
-﻿..
-   [5]
-vectors
+﻿vectors
 =======
 
 .. automodule:: vectors
@@ -37,3 +35,5 @@ vectors
 
 
 
+..
+   [5]

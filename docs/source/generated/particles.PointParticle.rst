@@ -17,3 +17,5 @@ particles.PointParticle
    .. automethod:: __init__
 
    
+..
+   [5]
