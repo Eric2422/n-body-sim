@@ -1,4 +1,4 @@
-﻿main.Simulation
+main.Simulation
 ===============
 
 .. currentmodule:: main
@@ -17,3 +17,4 @@
    .. automethod:: __init__
 
    
+..  ^5

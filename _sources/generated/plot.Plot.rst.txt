@@ -1,4 +1,4 @@
-﻿plot.Plot
+plot.Plot
 =========
 
 .. currentmodule:: plot
@@ -17,3 +17,4 @@
    .. automethod:: __init__
 
    
+..  ^5

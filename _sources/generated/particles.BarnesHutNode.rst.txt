@@ -1,4 +1,4 @@
-﻿particles.BarnesHutNode
+particles.BarnesHutNode
 =======================
 
 .. currentmodule:: particles
@@ -17,3 +17,4 @@
    .. automethod:: __init__
 
    
+..  ^5

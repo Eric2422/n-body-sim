@@ -1,4 +1,4 @@
-﻿files.FileHandler
+files.FileHandler
 =================
 
 .. currentmodule:: files
@@ -17,3 +17,4 @@
    .. automethod:: __init__
 
    
+..  ^5
