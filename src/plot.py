@@ -156,7 +156,7 @@ class Plot:
 
         Parameters
         ----------
-        filename : str
+        `filename` : str
             The filename that the GIF will be saved to. It does not matter if it
             includes a file extension or what file extension is used. Any file
             extension will be removed and replaced with ``.gif``.
