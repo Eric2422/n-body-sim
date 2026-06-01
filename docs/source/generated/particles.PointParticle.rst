@@ -1,4 +1,4 @@
-﻿particles.PointParticle
+particles.PointParticle
 =======================
 
 .. currentmodule:: particles

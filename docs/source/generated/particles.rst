@@ -1,4 +1,5 @@
-﻿particles
+﻿..  ^5
+particles
 =========
 
 .. automodule:: particles

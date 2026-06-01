@@ -1,5 +1,4 @@
-# ^1
-name: "Sphinx: Render docs"
+name: "Sphinx: Render docs" # ^1
 
 on: push
 
