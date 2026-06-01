@@ -102,10 +102,11 @@ The filename should contain the file extension (i.e., `.json`).
 <https://github.com/peaceiris/actions-gh-pages> (GitHub Inc., San Franciso,
 2026).
 
-<sup>5</sup>
-J. Leedham, *Automatically document all modules recursively with Sphinx autodoc*,
+<sup>5</sup> GitHub, `gitignore`, <https://github.com/github/gitignore>, (2026).
+
+<sup>6</sup> J. Leedham,
+*Automatically document all modules recursively with Sphinx autodoc*,
 <https://stackoverflow.com/a/62613202>, (2021).
 
-<sup>6</sup>
-T. Ventimiglia and K. Wayne, The Barnes-Hut Algorithm,
+<sup>7</sup> T. Ventimiglia and K. Wayne, The Barnes-Hut Algorithm,
 <https://arborjs.org/docs/barnes-hut>, (2011).
