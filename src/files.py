@@ -109,6 +109,15 @@ class FileHandler:
         """
         self.__output_io_wrapper = self.OUTPUT_FILE_PATH.open('a')
 
+    def close_output_file(self) -> None:
+        """Close the attribute the internal file for :attr:`OUTPUT_FILE_PATH`.
+        If it is not open, nothing happens.
+        """
+        # Check if the TextIOWrapper exists.
+        # If not, the operation fails.
+        if self.__output_io_wrapper != None:
+            self.__output_io_wrapper.close()
+
     def append_to_output_file(self, output_string: str = '\n') -> None:
         """Append the given string into the output file.
         If :attr:`OUTPUT_FILE_PATH` has already been opened,
@@ -150,15 +159,6 @@ class FileHandler:
 
         else:
             self.__output_io_wrapper.truncate(0)
-
-    def close_output_file(self) -> None:
-        """Close the attribute :attr:`__output_io_wrapper`.
-        If it is not open, nothing happens.
-        """
-        # Check if the TextIOWrapper exists.
-        # If not, the operation fails.
-        if self.__output_io_wrapper != None:
-            self.__output_io_wrapper.close()
 
     def retrieve_schema_file(self, uri: str) -> referencing.Resource:
         """Retrieve the contents of a given JSON file as a Python object.
