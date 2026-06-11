@@ -382,9 +382,6 @@ class BarnesHutNode:
     Notes
     -----
     The implementation of the Barnes-Hut algorithm is taken from [1]_.
-    
-    .. [1] T. Ventimiglia and K. Wayne, *The Barnes-Hut Algorithm*,
-       https://arborjs.org/docs/barnes-hut, (2011).
 
     Parameters
     ----------
@@ -436,6 +433,8 @@ class BarnesHutNode:
 
     References
     ----------
+    .. [1] T. Ventimiglia and K. Wayne, *The Barnes-Hut Algorithm*,
+       https://arborjs.org/docs/barnes-hut, (2011).
     """
 
     @staticmethod
