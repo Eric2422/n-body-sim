@@ -32,7 +32,6 @@ class Plot:
     `min` : `float`, default=1.0
         The minimum size of each dimension.
 
-
     Attributes
     ----------
     `DATA_FRAME` : :class:`pandas.DataFrame`

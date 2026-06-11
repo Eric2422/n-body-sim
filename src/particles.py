@@ -33,21 +33,21 @@ class PointParticle:
 
     Attributes
     ----------
-    current_id : `int`
+    `current_id` : `int`
         The static ID number that will be assigned to :attr:`ID` of the next
         object instantiated, increasing by one (1) every time.
-    position : :class:`vectors.PositionVector`
+    `position` : :class:`vectors.PositionVector`
         The current position of the particle in meters (m).
-    velocity : :class:`vectors.VelocityVector`
+    `velocity` : :class:`vectors.VelocityVector`
         The current velocity of the particle in meters per second (m/s).
-    acceleration : :class:`vectors.AccelerationVector`
+    `acceleration` : :class:`vectors.AccelerationVector`
         The current acceleration of the particle in meters per second
         squared (m/s^2).
-    MASS : `float`
+    `MASS` : `float`
         The mass of the particle in kilograms (kg), which should never change.
-    CHARGE : `float`
+    `CHARGE` : `float`
         The charge of the particle in coulombs (C), which should never change.
-    ID : `int`
+    `ID` : `int`
         The unique ID identifying the particle, which should never change.
     """
 
