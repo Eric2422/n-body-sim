@@ -54,9 +54,9 @@ mass.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`current_id`</span></span></dt>
-<dd><p>The static ID number that will be assigned to <code class="xref py py-attr docutils literal notranslate"><span class="pre">ID</span></code> of the next
+<dt class="sig sig-object py" id="particles.PointParticle.current_id">
+<span class="sig-name descname"><span class="pre">current_id</span></span><a class="headerlink" href="#particles.PointParticle.current_id" title="Link to this definition">¶</a></dt>
+<dd><p>The static ID number that will be assigned to <a class="reference internal" href="#particles.PointParticle.ID" title="particles.PointParticle.ID"><code class="xref py py-attr docutils literal notranslate"><span class="pre">ID</span></code></a> of the next
 object instantiated, increasing by one (1) every time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -66,8 +66,8 @@ object instantiated, increasing by one (1) every time.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`position`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#particles.PointParticle.position" title="Link to this definition">¶</a></dt>
 <dd><p>The current position of the particle in meters (m).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -77,8 +77,8 @@ object instantiated, increasing by one (1) every time.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`velocity`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.velocity">
+<span class="sig-name descname"><span class="pre">velocity</span></span><a class="headerlink" href="#particles.PointParticle.velocity" title="Link to this definition">¶</a></dt>
 <dd><p>The current velocity of the particle in meters per second (m/s).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -88,8 +88,8 @@ object instantiated, increasing by one (1) every time.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`acceleration`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.acceleration">
+<span class="sig-name descname"><span class="pre">acceleration</span></span><a class="headerlink" href="#particles.PointParticle.acceleration" title="Link to this definition">¶</a></dt>
 <dd><p>The current acceleration of the particle in meters per second
 squared (m/s^2).</p>
 <dl class="field-list simple">
@@ -100,8 +100,8 @@ squared (m/s^2).</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`MASS`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.MASS">
+<span class="sig-name descname"><span class="pre">MASS</span></span><a class="headerlink" href="#particles.PointParticle.MASS" title="Link to this definition">¶</a></dt>
 <dd><p>The mass of the particle in kilograms (kg), which should never change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -111,8 +111,8 @@ squared (m/s^2).</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`CHARGE`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.CHARGE">
+<span class="sig-name descname"><span class="pre">CHARGE</span></span><a class="headerlink" href="#particles.PointParticle.CHARGE" title="Link to this definition">¶</a></dt>
 <dd><p>The charge of the particle in coulombs (C), which should never change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -122,8 +122,8 @@ squared (m/s^2).</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">`ID`</span></span></dt>
+<dt class="sig sig-object py" id="particles.PointParticle.ID">
+<span class="sig-name descname"><span class="pre">ID</span></span><a class="headerlink" href="#particles.PointParticle.ID" title="Link to this definition">¶</a></dt>
 <dd><p>The unique ID identifying the particle, which should never change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -137,7 +137,7 @@ squared (m/s^2).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="particles.PointParticle.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.PositionVector.html#vectors.PositionVector" title="vectors.PositionVector"><span class="pre">PositionVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.VelocityVector.html#vectors.VelocityVector" title="vectors.VelocityVector"><span class="pre">VelocityVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acceleration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="vectors.AccelerationVector.html#vectors.AccelerationVector" title="vectors.AccelerationVector"><span class="pre">AccelerationVector</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">array([0.,</span> <span class="pre">0.,</span> <span class="pre">0.])</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#particles.PointParticle.__init__" title="Link to this definition">¶</a></dt>
-<dd><p>Automatically increment <code class="xref py py-attr docutils literal notranslate"><span class="pre">current_id</span></code> by 1.</p>
+<dd><p>Automatically increment <a class="reference internal" href="#particles.PointParticle.current_id" title="particles.PointParticle.current_id"><code class="xref py py-attr docutils literal notranslate"><span class="pre">current_id</span></code></a> by 1.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -219,8 +219,8 @@ gravitational, electric, and magnetic fields.</p>
 <li><p><strong>electric_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``numpy.array((0, 0, 0))``) -- The electric field acting upon this particle.</p></li>
 <li><p><strong>magnetic_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, default=``numpy.array((0, 0, 0))``) -- The magnetic field acting upon this particle.</p></li>
 <li><p><strong>velocity</strong> (<a class="reference internal" href="vectors.VelocityVector.html#vectors.VelocityVector" title="vectors.VelocityVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.VelocityVector</span></code></a>, optional.) -- The velocity to use for the magnetic force calculations,
-which may differ from <code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, default to
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code>.</p></li>
+which may differ from <a class="reference internal" href="#particles.PointParticle.velocity" title="particles.PointParticle.velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code></a>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, default to
+<a class="reference internal" href="#particles.PointParticle.velocity" title="particles.PointParticle.velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -306,7 +306,7 @@ electric field.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>magnetic_field</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>) -- The magnetic field acting upon this particle in teslas (T).</p></li>
 <li><p><strong>velocity</strong> (<a class="reference internal" href="vectors.FieldVector.html#vectors.FieldVector" title="vectors.FieldVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">vectors.FieldVector</span></code></a>, optional) -- The velocity to use for the magnetic force calculations. If
-<code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <a class="reference internal" href="#particles.PointParticle.velocity" title="particles.PointParticle.velocity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">velocity</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -359,6 +359,13 @@ newtons (N).</p>
 <li class="toctree-l3"><a class="reference internal" href="particles.BarnesHutNode.html">particles.BarnesHutNode</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">particles.PointParticle</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#particles.PointParticle"><code class="docutils literal notranslate"><span class="pre">PointParticle</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.current_id"><code class="docutils literal notranslate"><span class="pre">PointParticle.current_id</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.position"><code class="docutils literal notranslate"><span class="pre">PointParticle.position</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.velocity"><code class="docutils literal notranslate"><span class="pre">PointParticle.velocity</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.acceleration"><code class="docutils literal notranslate"><span class="pre">PointParticle.acceleration</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.MASS"><code class="docutils literal notranslate"><span class="pre">PointParticle.MASS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.CHARGE"><code class="docutils literal notranslate"><span class="pre">PointParticle.CHARGE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.ID"><code class="docutils literal notranslate"><span class="pre">PointParticle.ID</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.__init__"><code class="docutils literal notranslate"><span class="pre">PointParticle.__init__()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.apply_fields"><code class="docutils literal notranslate"><span class="pre">PointParticle.apply_fields()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="#particles.PointParticle.apply_force"><code class="docutils literal notranslate"><span class="pre">PointParticle.apply_force()</span></code></a></li>
