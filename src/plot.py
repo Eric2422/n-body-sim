@@ -28,10 +28,9 @@ class Plot:
         The amount of extra space in each dimension as a factor of its size.
 
         For example, if the x dimension has a range of [-1.0, 1.0], a margin of
-        1.25 means that plot will have an x range of  [-1.5, 1.5].
+        1.25 means that the plot will have an x range of [-1.25, 1.25].
     `min` : `float`, default=1.0
         The minimum size of each dimension.
-
 
     Attributes
     ----------
@@ -74,6 +73,7 @@ class Plot:
         # Set x limits.
         min_x = np.min(np.array(data_frame['x'].values))
         max_x = np.max(np.array(data_frame['x'].values))
+        # Prevent issues from 0 width graphs.
         plot_width = max((max_x - min_x) * margin, min)
         ax.set_xlim(
             min_x - plot_width,
@@ -84,16 +84,18 @@ class Plot:
         # Set y limits.
         min_y = np.min(np.array(data_frame['y'].values))
         max_y = np.max(np.array(data_frame['y'].values))
-        plot_width = max((max_y - min_y) * margin, min)
+        # Prevent issues from 0 width graphs.
+        plot_length = max((max_y - min_y) * margin, min)
         ax.set_ylim(
-            min_y - plot_width,
-            max_y + plot_width
+            min_y - plot_length,
+            max_y + plot_length
         )
         ax.set_ylabel('y (m)')
 
         # Set z limits.
         min_z = np.min(np.array(data_frame['z'].values))
         max_z = np.max(np.array(data_frame['z'].values))
+        # Prevent issues from 0 width graphs.
         plot_height = max((max_z - min_z) * margin, min)
         ax.set_zlim(  # type: ignore
             min_z - plot_height,
