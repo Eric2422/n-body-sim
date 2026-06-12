@@ -218,5 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-
 # [5]
+
+# References
+# 
+# <sup>5</sup> GitHub, `gitignore`, <https://github.com/github/gitignore>, (2026).

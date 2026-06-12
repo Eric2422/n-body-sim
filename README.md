@@ -88,25 +88,30 @@ The filename should contain the file extension (i.e., `.json`).
 
 ## References
 
-<sup>1</sup> T. Komiya, *Appendix: Deploying a Sphinx project online*,
+References are given in the files where they are relevant,
+which each file maintaining its own numbering, but here is an overall list.
+Since it is ambiguous which files come first,
+the following list is sorted alphabetically.
+
+GitHub, `gitignore`, <https://github.com/github/gitignore>, (2026).
+
+T. Komiya, *Appendix: Deploying a Sphinx project online*,
 <https://www.sphinx-doc.org/en/master/tutorial/deploying.html>,
 (2025).
 
-<sup>2</sup> E. Sciple *et al.*, `checkout`, v6.0.2,
-<https://github.com/actions/checkout> (GitHub Inc., San Franciso, 2026).
-
-<sup>3</sup> I. Zosimov *et al.*, `setup-python`, v6.2.0,
-<https://github.com/actions/setup-python> (GitHub Inc., San Franciso, 2026).
-
-<sup>4</sup> S. Ueda *et al.*, `actions-gh-pages`, v.4.1.0,
-<https://github.com/peaceiris/actions-gh-pages> (GitHub Inc., San Franciso,
-2026).
-
-<sup>5</sup> GitHub, `gitignore`, <https://github.com/github/gitignore>, (2026).
-
-<sup>6</sup> J. Leedham,
+J. Leedham,
 *Automatically document all modules recursively with Sphinx autodoc*,
 <https://stackoverflow.com/a/62613202>, (2021).
 
-<sup>7</sup> T. Ventimiglia and K. Wayne, *The Barnes-Hut Algorithm*,
+E. Sciple *et al.*, `checkout`, v6.0.2,
+<https://github.com/actions/checkout> (GitHub Inc., San Franciso, 2026).
+
+S. Ueda *et al.*, `actions-gh-pages`, v.4.1.0,
+<https://github.com/peaceiris/actions-gh-pages> (GitHub Inc., San Franciso,
+2026).
+
+T. Ventimiglia and K. Wayne, *The Barnes-Hut Algorithm*,
 <https://arborjs.org/docs/barnes-hut>, (2011).
+
+I. Zosimov *et al.*, `setup-python`, v6.2.0,
+<https://github.com/actions/setup-python> (GitHub Inc., San Franciso, 2026).
