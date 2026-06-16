@@ -10,19 +10,19 @@
             "type": "number",
             "default": 0.5
         },
-        "time step size": {
+        "time_step_size": {
             "description": "The time increment of the simulation, measured in seconds(s).",
             "type": "number",
             "exclusiveMinimum": 0.0,
             "default": 1
         },
-        "num time steps": {
+        "num_time_steps": {
             "description": "The duration of the simulation as measured in time steps.",
             "type": "integer",
             "minimum": 0,
             "default": 600
         },
-        "gravitational field": {
+        "gravitational_field": {
             "description": "The constant gravitational field as 3D vector, measured in newtons per kilogram(N/kg).",
             "type": "array",
             "items": {
@@ -31,7 +31,7 @@
             "minItems": 3,
             "maxItems": 3
         },
-        "electric field": {
+        "electric_field": {
             "description": "The constant electric field as a 3D vector, measured in newtons per coulomb(N/C).",
             "type": "array",
             "items": {
@@ -40,7 +40,7 @@
             "minItems": 3,
             "maxItems": 3
         },
-        "magnetic field": {
+        "magnetic_field": {
             "description": "The constant magnetic field as 3D vector, measured in teslas(T).",
             "type": "array",
             "items": {

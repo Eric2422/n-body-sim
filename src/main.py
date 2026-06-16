@@ -402,15 +402,15 @@ if __name__ == '__main__':
     # Create and run the simulation.
     simulation = Simulation(
         theta=file_handler.INPUT_DATA['theta'],
-        time_step_size=file_handler.INPUT_DATA['time step size'],
+        time_step_size=file_handler.INPUT_DATA['time_step_size'],
         gravitational_field=np.array(
-            file_handler.INPUT_DATA['gravitational field']),
-        electric_field=np.array(file_handler.INPUT_DATA['electric field']),
-        magnetic_field=np.array(file_handler.INPUT_DATA['magnetic field']),
+            file_handler.INPUT_DATA['gravitational_field']),
+        electric_field=np.array(file_handler.INPUT_DATA['electric_field']),
+        magnetic_field=np.array(file_handler.INPUT_DATA['magnetic_field']),
         particles_list=particles_list
     )
     simulation.run(
-        num_time_steps=file_handler.INPUT_DATA['num time steps'],
+        num_time_steps=file_handler.INPUT_DATA['num_time_steps'],
         file_handler=file_handler,
         print_progress=True
     )
