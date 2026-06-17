@@ -2,6 +2,7 @@
 for more details.
 """
 
+import math
 from pathlib import Path
 import typing
 
@@ -113,7 +114,10 @@ class Plot:
             interval=time_step_size / 1000,
             blit=True,
             cache_frame_data=False,
-            save_count=1000
+            # Remove duplicate times from the number of frames.
+            save_count=math.floor(
+                data_frame['t'].size / data_frame[data_frame['t'] == 0].size
+            )
         )
 
     def update(self, num: int) -> tuple[matplotlib.lines.Line2D]:
