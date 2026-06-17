@@ -3,6 +3,7 @@ Can be run as ``__main__``.
 """
 
 
+from pathlib import Path
 import sys
 import typing
 
@@ -421,5 +422,6 @@ if __name__ == '__main__':
         time_step_size=simulation.time_step_size
     )
 
-    # plot.save_plot_to_file()
+    input_path = Path(sys.argv[1])
+    plot.save_to_file(files.FileHandler.OUTPUT_DIR / (input_path.stem + ".gif"))
     plot.show()

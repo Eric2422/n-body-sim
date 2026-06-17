@@ -2,7 +2,7 @@
 for more details.
 """
 
-
+from pathlib import Path
 import typing
 
 import matplotlib.animation as animation
@@ -112,7 +112,8 @@ class Plot:
             # Convert from seconds to milliseconds.
             interval=time_step_size / 1000,
             blit=True,
-            cache_frame_data=False
+            cache_frame_data=False,
+            save_count=1000
         )
 
     def update(self, num: int) -> tuple[matplotlib.lines.Line2D]:
@@ -150,7 +151,7 @@ class Plot:
         """Display this plot and run the animation."""
         plt.show()
 
-    def save_to_file(self, filename: str) -> None:
+    def save_to_file(self, file: str | Path) -> None:
         """Save the plot as a GIF file with the given name. The filename
         will be resolved using :attr:`files.FileHandler.OUTPUT_DIR`,
         i.e., the GIF will be saved under the same directory as the text
@@ -158,10 +159,17 @@ class Plot:
 
         Parameters
         ----------
-        `filename` : str
-            The filename that the GIF will be saved to. It does not matter if it
-            includes a file extension or what file extension is used. Any file
-            extension will be removed and replaced with ``.gif``.
+        `filename` : `str` | `pathlib.Path`
+            The filename that the GIF will be saved to.
+
+        Raises
+        ------
+        ValueError
+            If the file filepath does not end with ``.gif``.
         """
-        ff_writer = animation.FFMpegWriter(fps=self.FPS)
-        self.PLOT_ANIMATION.save(filename, writer=ff_writer)
+        filepath = Path(file) if type(file) != Path else file
+
+        if filepath.suffix != ".gif":
+            raise ValueError("Currently only GIFs are supported.")
+
+        self.PLOT_ANIMATION.save(file, writer="pillow")
