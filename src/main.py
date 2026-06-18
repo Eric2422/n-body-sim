@@ -423,5 +423,6 @@ if __name__ == '__main__':
     )
 
     input_path = Path(sys.argv[1])
-    plot.save_to_file(files.FileHandler.OUTPUT_DIR / (input_path.stem + ".gif"))
+    plot.save_to_file(files.FileHandler.OUTPUT_DIR /
+                      (input_path.stem + ".gif"))
     plot.show()

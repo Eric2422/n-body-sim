@@ -378,7 +378,7 @@ class PointParticle:
 class BarnesHutNode:
     """A single node of a Barnes-Hut octree, which contains eight child nodes.
     Assumes a center of charge rather than using a multipole expansion.
-    
+
     Notes
     -----
     The implementation of the Barnes-Hut algorithm is taken from [1]_.
