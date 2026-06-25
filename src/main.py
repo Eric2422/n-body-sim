@@ -344,18 +344,10 @@ class Simulation:
         else:
             # Record final state of the particles.
             for particle in particles_list:
-                # Generate the root node of the octree.
-                barnes_hut_root = particles.BarnesHutNode(self.particles_list)
-
-                # Update the particle's final acceleration.
-                particle.acceleration = self.calculate_particle_force(
-                    particle, barnes_hut_root) / particle.MASS
-
-                # Record data for the final time.
                 self.record_particle_data(particle)
 
+            # Write final particle states.
             if file_handler is not None:
-                # Write final particle states.
                 file_handler.append_to_output_file(self.get_particles_string())
                 file_handler.close_output_file()
 
